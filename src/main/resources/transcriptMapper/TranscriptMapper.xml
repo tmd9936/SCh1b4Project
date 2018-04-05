@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 회원정보 처리 SQL -->
+<mapper namespace="com.h1b4.www.transcript.dao.TranscriptMapper">
+	
+	<!-- <insert id="insertT" parameterType="transcript">
+		<selectKey keyProperty="ts_num" resultType="int" order="BEFORE">
+			select transcript_seq.nextval from dual
+		</selectKey>
+	
+		insert into
+					ts
+					(
+					contents_num
+					,ts_num
+					,ts_start
+					,ts_dur
+					,ts_text
+					)values (
+					#{contents_num}
+					,#{ts_num}
+					,#{ts_start}
+					,#{ts_dur}
+					,#{ts_text}
+					
+					)
+		
+	</insert> -->
+	
+	
+	<insert id="insertTsList" parameterType="java.util.List">
+   	INSERT ALL  
+   	 <foreach collection="list" item="transcript" index="index" >
+   	  INTO transcript (
+					contents_num
+					,ts_num
+					,ts_start
+					,ts_dur
+					,ts_text
+					) values(
+					#{transcript.contents_num}
+					, #{transcript.ts_num}
+					,#{transcript.ts_start}
+					,#{transcript.ts_dur}
+					,#{transcript.ts_text}
+					
+					) 
+   	 </foreach>
+ 	  SELECT * FROM dual
+ </insert>
+	
+	
+	
+	
+	<select id="selectT" resultType="transcript">
+	
+	
+	
+	</select>
+	
+	
+	
+</mapper>
