@@ -87,6 +87,7 @@ public class YoutubeDownService {
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			return -1;
 		}
 		
 		System.out.println(contentsDAO.insertContents(con));
@@ -102,9 +103,11 @@ public class YoutubeDownService {
 		} catch (MalformedURLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			return -1;
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			return -1;
 		}
 		
 		//있으면 xml받아서 바로 테이터베이스에 넣고 리턴
