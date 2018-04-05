@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	
+ 	<typeAliases>
+		<typeAlias type="com.h1b4.www.vo.Transcript" alias="transcript" />
+		<typeAlias type="com.h1b4.www.vo.Contents" alias="contents"/>
+		<typeAlias type="com.h1b4.www.vo.Member" alias="member"/>
+		<typeAlias type="com.h1b4.www.vo.Teacher" alias="teacher"/>
+		<typeAlias type="com.h1b4.www.vo.Emotion" alias="emotion"/>
+		<typeAlias type="com.h1b4.www.vo.ContentsReply" alias="contentsreply"/>
+		<typeAlias type="com.h1b4.www.vo.Bookmark" alias="bookmark"/>
+	</typeAliases>
+	
+	<mappers>
+		
+		<mapper resource="transcriptMapper/ContentsMapper.xml" />
+		<mapper resource="transcriptMapper/TranscriptMapper.xml" />
+	</mappers>
+</configuration>
