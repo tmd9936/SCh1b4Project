@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+  
+  <mapper namespace="com.h1b4.www.member.dao.MemberMapper">
+  	
+  	<!--회원정보 등록  -->
+	<insert id="joinMember" parameterType="member">
+	insert into Member(
+		member_id
+		,member_password
+		,member_name
+		,nation
+		,point
+	)values(
+		#{member_id}
+		,#{member_password}
+		,#{member_name}
+		,#{nation}
+		,#{point}
+	)
+  </insert>
+  
+  <!-- 가입자 정보를 가져옴  -->
+	<select id="searchMemberOne" parameterType="java.lang.String" resultType="member">
+		select
+			member_id
+			,member_password
+			,member_name
+			,nation
+			,point
+		from
+			member
+		where
+			member_id = #{member_id}
+	
+	</select>
+  	
+  </mapper>

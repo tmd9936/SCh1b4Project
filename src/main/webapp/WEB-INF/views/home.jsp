@@ -28,9 +28,11 @@
 		주소 : <input type="text" name="youtube" id="youtube">
 		<input type="submit" value="완료">
 	</form>
-	 <p>ㅎㅎ</p>
 	<input type="button" id="subtitle" value="자막얻기">
 	
+	<div>
+	<a href="member/joinForm">회원가입 이동</a>
+	</div>
 </body>
 </html>
 

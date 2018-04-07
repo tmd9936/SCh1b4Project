@@ -15,7 +15,7 @@
 	</typeAliases>
 	
 	<mappers>
-		
+		<mapper resource="memberMapper/MemberMapper.xml"/>
 		<mapper resource="transcriptMapper/ContentsMapper.xml" />
 		<mapper resource="transcriptMapper/TranscriptMapper.xml" />
 	</mappers>
