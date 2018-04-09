@@ -42,4 +42,19 @@ public class MemberDAO {
 		
 	}
 	
+	//회원정보 수정
+	public int updateMember(Member member){
+		
+		MemberMapper mapper = sqlsession.getMapper(MemberMapper.class);
+		
+		int result = 0;
+		
+		try {
+			result = mapper.updateMember(member);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;		
+	}
 }

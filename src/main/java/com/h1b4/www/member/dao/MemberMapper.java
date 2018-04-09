@@ -7,5 +7,6 @@ public interface MemberMapper {
 	public int joinMember(Member member);
 	//특정 회원 검색
 	public Member searchMemberOne(String member_id); 
-	//
+	//회원정보 수정
+	public int updateMember(Member member);
 }

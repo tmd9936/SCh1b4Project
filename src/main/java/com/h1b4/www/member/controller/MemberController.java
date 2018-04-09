@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.google.instrumentation.trace.Status;
 import com.h1b4.www.member.service.MemberService;
 import com.h1b4.www.vo.Member;
 
@@ -29,6 +31,15 @@ public class MemberController {
 	
 	
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+	
+	
+	//메인페이지 이동
+	@RequestMapping(value="user_home_test" , method = RequestMethod.GET)
+	public String mainpage(){
+		
+		return "member/user_home_test";
+	}
+	
 	
 	//회원가입 페이지 이동
 	@RequestMapping(value="joinForm" , method = RequestMethod.GET)
@@ -61,7 +72,7 @@ public class MemberController {
 		int result = service.joinComplete(member); 
 		
 		logger.info("회원 등록 종료");
-		return "home";
+		return "member/user_home_test";
 	}
 	
 	
@@ -95,4 +106,37 @@ public class MemberController {
 		
 		return"redirect:/";
 	}
+	//로그아웃
+	@RequestMapping(value="logout", method = RequestMethod.GET)
+	public String logout(HttpSession session){
+		session.removeAttribute("loginId");
+		session.removeAttribute("loginName");
+		session.removeAttribute("point");
+		logger.info("로그아웃");
+		return"redirect:/";
+	}
+	
+	//수정할 계정 체크
+	@RequestMapping(value="updateForm", method = RequestMethod.GET)
+	public String updateMember(Member member, Model model){
+		logger.info("업데이트 시작");
+
+		member = service.membercheck(member);
+		System.out.println(member);
+		model.addAttribute(member);
+		return "member/updateForm";
+	}
+	
+	//비밀번호 업데이트
+	@RequestMapping(value="update", method = RequestMethod.POST)
+	public String update(Member member,Model model){
+		boolean updateFlag = service.update(member);
+		
+		if(!updateFlag){
+			return "member/updateForm"; 
+		}
+		return "redirect:/";
+	}
+	
+	
 }

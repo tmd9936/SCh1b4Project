@@ -38,5 +38,14 @@
 			member_id = #{member_id}
 	
 	</select>
+  	<!-- 회원정보 수정 -->
+  	<update id="updateMember" parameterType="member">
+	update
+		member
+	set
+		member_password = #{member_password}
+	where
+		member_id = #{member_id}
+	</update>
   	
   </mapper>

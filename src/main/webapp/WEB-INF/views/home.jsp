@@ -24,28 +24,7 @@
 </head>
 <body>
 	<h1>하이</h1>
-	<c:choose>
-	<c:when test="${sessionScope.loginId == null }">
-	<p>Guest 환영합니다.</p>
-		<form action="ytDown" method="get">
-			주소 : <input type="text" name="youtube" id="youtube">
-		<input type="submit" value="완료">
-		</form>
-		<input type="button" id="subtitle" value="자막얻기">
-		
-		<ul>
-			<li><a href="member/joinForm">회원가입 이동</a></li>
-			<li><a href="member/loginForm">로그인</a></li>
-		</ul>
-	</c:when>
-	<c:otherwise>
-		<p>${sessionScope.loginName }(${sessionScope.loginId })님 환영합니다.</p>
-		<p>포인트 : ${sessionScope.point }</p>
-			<ul>
-				
-			</ul>
-		</c:otherwise>
-	</c:choose>
+	<p><a href="member/user_home_test">홈페이지]</a>  </p>
 	
 	
 </body>

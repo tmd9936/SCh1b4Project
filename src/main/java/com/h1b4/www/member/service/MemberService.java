@@ -66,4 +66,27 @@ public class MemberService {
 		return result;
 	}
 	
+	//비밀번호 수정할 계정 확인
+	public Member updatecheck(HttpSession session){
+		logger.info("계정  확인 시작");
+		
+		String loginId = (String) session.getAttribute("loginId");
+		
+		Member member = dao.searchMemberOne(loginId);
+		
+		return member;
+	}
+	
+	//비밀번호 수정
+	 public boolean update(Member member){
+		 logger.info("비밀번호 수정 시작");
+		 int result = dao.updateMember(member);
+		 
+		 if(result != 1){
+			 logger.info("수정 실패");
+			 return false;
+		 }
+		 return true;
+	 }
+	
 }

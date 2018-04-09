@@ -27,12 +27,11 @@
 </style>
 </head>
 
-<header id="head">
-	<h2>[로그인]</h2>
-</header>
-
-
 <body>
+
+
+<jsp:include page="../navi_side_bar.jsp"></jsp:include>
+
 
 <div id = "main">
 <form action="login", method="post" onsubmit="return formCheck()">
@@ -56,5 +55,5 @@
 </form>
 <p>${msg}</p>
 </div>
-</body>
-</html>
+
+<jsp:include page="../navi_side_bar_bot.jsp"></jsp:include>
