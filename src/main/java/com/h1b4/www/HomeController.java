@@ -50,4 +50,9 @@ public class HomeController {
 		return "test";
 	}*/
 	
+	@RequestMapping(value="webSpeechTest", method=RequestMethod.GET)
+	public String goSpeechTest(){
+		return "education/rokuon";
+	}
+	
 }
