@@ -21,7 +21,6 @@
 	#main {
 		margin: 5% auto;
 		width: 50%;
-		background-color: aqua; 
 	}
 	
 	#t {
@@ -31,7 +30,6 @@
 	}
 	body{
 		background-size : contain;
-		background-color: aqua;
 	}
 
 </style>

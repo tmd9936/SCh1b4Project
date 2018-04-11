@@ -32,7 +32,6 @@ public class MemberController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
-	
 	//메인페이지 이동
 	@RequestMapping(value="user_home_test" , method = RequestMethod.GET)
 	public String mainpage(){
@@ -103,7 +102,7 @@ public class MemberController {
 		session.setAttribute("loginId", member.getMember_id());
 		session.setAttribute("loginName", member.getMember_name());
 		session.setAttribute("point", member.getPoint());
-		
+		logger.info("로그인 완료");
 		return"redirect:/";
 	}
 	//로그아웃

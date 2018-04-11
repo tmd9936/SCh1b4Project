@@ -2,58 +2,70 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>  
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet"
+	href="https://code.getmdl.io/1.3.0/material.cyan-blue.min.css" />
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<script type="text/javascript"
+	src="<c:url value="/resources/js/jquery.js"></c:url>"></script>
+
+
+<title>[ 회원가입 ]</title>
 <style type="text/css">
-#head{
+body {
 	text-align: center;
-	}
-	#main {
-		
-		margin: 5% auto;
-		width: 50%
-	}
+}
+.location{
+	width: 300px;
+	height: 50px;
+}
+.locationDiv{
+	height: 100px;
+}
+#sub{
+	width: 300px;
+	height: 50px;
+	font-size: 20px;
+	font-weight: bold;
 	
-	#t {
-		margin: 5% auto;
-		background-color: #E7DCEF;
-	}
-	body{
-	
-	}
+}
 </style>
+
 </head>
+
+<header>
+	<br><br><br>
+	<img src="<c:url value="/resources/images/2_Flat_logo_on_transparent_248x68.png" />" class="demo-avatar">
+	<br><br><br>
+</header>
 
 <body>
 
 
-<jsp:include page="../navi_side_bar.jsp"></jsp:include>
-
-
-<div id = "main">
-<form action="login", method="post" onsubmit="return formCheck()">
-<table border="1" id="t">
-	<tr>
-		<th>ID</th>
-		<td>
-			<input type="text" name="member_id">
-		</td>
-	</tr>
-	<tr>
-		<th>password</th>
-		<td>
-			<input type="password" name="member_password">
-		</td>
-	</tr>
-</table>
-<div align="center">
-	<input type="submit" value="로그인">
-</div>
-</form>
-<p>${msg}</p>
-</div>
-
-<jsp:include page="../navi_side_bar_bot.jsp"></jsp:include>
+	<div id = "main">
+		<form action="login", method="post" onsubmit="return formCheck()">
+		<div class="mdl-textfield mdl-js-textfield">
+			<input class="mdl-textfield__input" type="text" id="id" name="member_id"> <label
+				class="mdl-textfield__label" for="id">아이디</label>
+			<div id="idText"></div>
+		</div>
+		<br>
+		<div class="mdl-textfield mdl-js-textfield">
+			<input class="mdl-textfield__input" type="password" id="password1" name="member_password">
+			<label class="mdl-textfield__label" for="password1">비밀번호</label>
+		</div>
+		<br>
+		<div align="center">
+			<input type="submit" value="로그인">
+		</div>
+		</form>
+		<p>${msg}</p>
+	</div>
+</body>	
+</html>
+	

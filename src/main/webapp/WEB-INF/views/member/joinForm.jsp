@@ -159,11 +159,14 @@ body {
 	//지역
 </script>
 </head>
+
+<header>
+	<br><br><br>
+	<img src="<c:url value="/resources/images/2_Flat_logo_on_transparent_248x68.png" />" class="demo-avatar">
+	<br><br><br>
+</header>
+
 <body>
-
-<jsp:include page="../navi_side_bar.jsp"></jsp:include>
-
-	<h1>회원가입</h1>
 	<div class="main">
 		<form action="join" method="post" id="joinForm">
 			<div class="mdl-textfield mdl-js-textfield">
@@ -209,7 +212,6 @@ body {
 		</form>
 
 	</div>
-	
-	
-<jsp:include page="../navi_side_bar_bot.jsp"></jsp:include>
+</body>	
+</html>
 	
