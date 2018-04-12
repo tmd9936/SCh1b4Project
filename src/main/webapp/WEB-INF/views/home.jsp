@@ -3,11 +3,10 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-<script type="text/javascript"
-	src="<c:url value="/resources/jquery/jquery-3.1.1.js"></c:url>"></script>
+<script type="text/javascript" src="<c:url value="/resources/jquery/jquery-3.1.1.js"></c:url>"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript">
+<script type="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
 	$(function(){
 		$("#subtitle").on("click",function(){
 			$.ajax({
@@ -20,6 +19,14 @@
 		    });
 		});
 	});
+	
+
+</script>
+<script type="text/javascript">
+function goSpeechTest() {
+	location.href = "webSpeechTest";
+}
+
 </script>
 </head>
 <body>
@@ -30,6 +37,9 @@
 	</form>
 	 <p>ㅎㅎ</p>
 	<input type="button" id="subtitle" value="자막얻기">
+	
+	<input type="button" value="goVoiceRecording" onclick="goSpeechTest()">
+	
 	
 </body>
 </html>
