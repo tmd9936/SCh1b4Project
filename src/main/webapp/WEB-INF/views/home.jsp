@@ -40,7 +40,7 @@ function goSpeechTest() {
 	
 	<input type="button" value="goVoiceRecording" onclick="goSpeechTest()">
 	
-	
+	<a href="transcript/goEditSpace">editSpace</a> 
 </body>
 </html>
 

@@ -237,5 +237,13 @@ public class TranscriptController {
 		}
 
 	}
+	
+	@RequestMapping(value="goEditSpace", method = RequestMethod.GET)
+	public String goEditSpace(){
+		
+		
+		return "publish/editSpace";
+	}
+	
 
 }

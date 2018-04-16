@@ -85,39 +85,60 @@
  #YouTube-player-progress {
  	margin-left : 50%;
  	width: 6000px;
- 	background-color: orange;
  	height:100px; 
  	position : absolute;
+ 	background-color: yellow;
+ 	opacity: 50;
  	
  }
  .playRow {
  	width : 100%;
  	height : 260px;
-	position : absolute;
  	overflow : hidden;
  }
  .genSubtitle{
  
  }
 
-#playerSection {
-	position : rel
+#playerSection player{
+	z-index: -1;
 }
 
 
-.video-stream html5-main-video {
-	z-index: 0;
+
+
+.transcript-float-video{
+	z-index : 999;
+	background-color: gray;
+	opacity: 10;
 	position: absolute;
+	color: white;
+	text-align: center;
+	margin-left: 10%;
+	margin-top: 250px;
+	display: inline;
+}
+
+#timeLineMarker{
+	background: #FC0D1B;
+    content: "";
+    display: block;
+    height: 65px;
+    left: 50%;
+    position: absolute;
+    width: 1px;
+    z-index: 54;
+    
+
 	
 }
 
-.transcript-float-video{
-	z-index : 2;
-	background-color: gray;
-	opacity: 50;
+#playRow{
+	background-color: GRAY;
+	height: 65px;
+	position: absolute;
+	
 }
-
-
 </style>
 </head>
 <body>
@@ -127,7 +148,70 @@
 		
 		<b>Keyboard controls</b> 
 		
-		    <div class="framed">
+		    <p> Tab : 재생/정지 </p>
+		     <p> Shift + Tab : 재생/정지 (구현예정) </p>
+		
+		
+		</div>
+		<div class="mdl-cell mdl-cell--4-col" id="playerSection">
+			<div class="transcript-float-video">
+					자막 삽입 구간
+			</div>
+			
+			<div id="YouTube-player">
+			</div>
+			
+			
+	        <span class="nowrap margin-left-m margin-right-m">
+	          <input id="YouTube-video-id" type="hidden" value="xGbxsiBZGPI" size="12" pattern="[_\-0-9A-Za-z]{11}" onchange="youTubePlayerChangeVideoId();">
+				       
+	        </span>
+			
+	     <!--    <span class="nowrap">
+	          <button onclick="youTubePlayerPlay();">Play</button>
+	          <button onclick="youTubePlayerPause();">Pause</button>
+	          <button onclick="youTubePlayerStop();">Stop</button>
+	        </span> -->
+	        
+	
+		</div>
+		<div class="mdl-cell mdl-cell--4-col">
+			 <div>
+		        <input id="YouTube-player-volume" type="range" value="50" min="0" max="100" onchange="youTubePlayerVolumeChange(this.value);">
+		        <label for="YouTube-player-volume">volume</label>
+		        
+		        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Publish!</button>
+	    	  </div>
+    	</div>
+
+  
+		
+      </div>
+
+	<div id="playRow" class="mdl-grid mdl-cell--12-col">
+	 	<div id="playDiv">
+			<!-- <input id="YouTube-player-progress" type="range" value="0" min="0" max="100" onchange="youTubePlayerCurrentTimeChange(this.value);" oninput="youTubePlayerCurrentTimeSlide();"> -->	
+			<div id="timeLineMarker"></div>
+			<div id="YouTube-player-progress">
+				<canvas id="timeViewer"></canvas>
+			</div>
+		</div>
+	 	
+	 	<div id="timeLineMarker" class="mdl-cell--middle"></div>
+        	
+	
+		
+	</div>
+	
+	<div id="editRow" class="mdl-grid">
+		<div id="transcripts" class="mdl-cell mdl-cell--4-col">
+		
+		</div>
+		<div id="insert" class="mdl-cell mdl-cell--4-col">
+			<div id="genSubtitle"> + New subtitle </div>
+		</div>
+		<div id="notes" class="mdl-cell mdl-cell--4-col">
+			<div class="framed">
 		       <div id="YouTube-player-infos"></div>
 		       <div id="YouTube-player-errors"></div>
 		       <div id="YouTube-player-fixed-infos"></div>
@@ -142,62 +226,10 @@
 		
 		
 		</div>
-		<div class="mdl-cell mdl-cell--4-col" id="playerSection">
-			
-			
-			<div id="YouTube-player">
-			<div class="transcript-float-video">
-					test
-			</div>
-			
-			</div>
-			
-	        <span class="nowrap margin-left-m margin-right-m">
-	          <label for="YouTube-video-id">videoId</label>:
-	          <input id="YouTube-video-id" type="text" value="i0p1bmr0EmE" size="12" pattern="[_\-0-9A-Za-z]{11}" onchange="youTubePlayerChangeVideoId();">
-	        </span>
-			
-	        <span class="nowrap">
-	          <button onclick="youTubePlayerPlay();">Play</button>
-	          <button onclick="youTubePlayerPause();">Pause</button>
-	          <button onclick="youTubePlayerStop();">Stop</button>
-	        </span>
-	        
-	
-		</div>
-		<div class="mdl-cell mdl-cell--4-col">
-			 <div>
-		        <input id="YouTube-player-volume" type="range" value="50" min="0" max="100" onchange="youTubePlayerVolumeChange(this.value);">
-		        <label for="YouTube-player-volume">volume</label>
-	    	  </div>
-    	</div>
-
-  
-		
-      </div>
-
-	<div id="playRow" class="mdl-grid">
-	 
-        <label for="YouTube-player-progress">duration</label>
-	
-		<div id="playDiv">
-			<input id="YouTube-player-progress" type="range" value="0" min="0" max="100" onchange="youTubePlayerCurrentTimeChange(this.value);" oninput="youTubePlayerCurrentTimeSlide();">	
-		</div>
-	</div>
-	<div id="editRow" class="mdl-grid">
-		<div id="transcripts" class="mdl-cell mdl-cell--4-col">
-		
-		</div>
-		<div id="insert" class="mdl-cell mdl-cell--4-col">
-			<div id="genSubtitle"> + New subtitle </div>
-		</div>
-		<div id="notes" class="mdl-cell mdl-cell--4-col">
-		
-		</div>
 	</div>
 
 <script type="text/javascript">
-
+/* 
 $('#genSubtitle').on('click', function(){
 	
 	$.ajax({
@@ -224,12 +256,9 @@ $('#genSubtitle').on('click', function(){
 				
 			
 			$('#replyDiv').html(str);
-	
-	
-	
-	
-});
-
+		});
+		}
+	}); */
 
 </script>
 
@@ -246,8 +275,6 @@ $('#genSubtitle').on('click', function(){
  * YT.Player initialized by onYouTubeIframeAPIReady().
  */
 var youTubePlayer;
-
-
 
 /**
  * Function called by https://www.youtube.com/iframe_api
@@ -286,7 +313,6 @@ function onYouTubeIframeAPIReady() {
         youTubePlayerDisplayFixedInfos();
     }
 
-
     function onStateChange(event) {
         var volume = Math.round(event.target.getVolume());
         var volumeItem = document.getElementById(youTubePlayerVolumeItemId);
@@ -296,13 +322,13 @@ function onYouTubeIframeAPIReady() {
         }
     }
 
-
     youTubePlayer = new YT.Player('YouTube-player',
                                   {videoId: videoId,
                                    height: height,
                                    width: width,
-                                   playerVars: { 'wmode' : "transparent",
-	                                		   'autohide': 0,
+                                   playerVars: { 
+                                	   			'wmode' : "transparent",
+	                                		    'autohide': 0,
                                                 'cc_load_policy': 0,
                                                 'controls': 2,
                                                 'disablekb': 1,
@@ -311,7 +337,6 @@ function onYouTubeIframeAPIReady() {
                                                 'rel': 0,
                                                 'showinfo': 0,
                                                 'start': 3
-                                               
                                                },
                                    events: {'onError': onError,
                                             'onReady': onReady,
@@ -322,44 +347,14 @@ function onYouTubeIframeAPIReady() {
     // Add private data to the YouTube object
     youTubePlayer.personalPlayer = {'currentTimeSliding': false,
                                     'errors': []};
-    
-    
-    $('iframe').each(function(){
-        var url = $(this).attr("src");
-        var char = "?";
-        if(url.indexOf("?") != -1){
-                var char = "&";
-         }
-       
-        $(this).attr("src",url+char+"wmode=transparent");
-  });
- 
-    
-    $('#player').css("z-index","0");
-    
-    var str = '';
-	
-		str += '<div class="mdl-cell" style="{z-index : 2; position : relative}">';
-		str += '안녕하세요'
-		str += '</div>';
-
-	
-	
-	$('#YouTube-player').html(str);
-
-    
-    
-    
-    
+  
 }
-
 
 /**
  * :return: true if the player is active, else false
  */
 function youTubePlayerActive() {
     'use strict';
-
     return youTubePlayer && youTubePlayer.hasOwnProperty('getPlayerState');
 }
 
@@ -395,6 +390,7 @@ function youTubePlayerCurrentTimeChange(currentTime) {
     youTubePlayer.personalPlayer.currentTimeSliding = false;
     if (youTubePlayerActive()) {
         youTubePlayer.seekTo(currentTime*youTubePlayer.getDuration()/100, true);
+        
     }
 }
 
@@ -404,7 +400,7 @@ function youTubePlayerCurrentTimeChange(currentTime) {
  */
 function youTubePlayerCurrentTimeSlide() {
     'use strict';
-
+	  
     youTubePlayer.personalPlayer.currentTimeSliding = true;
 }
 
@@ -444,18 +440,39 @@ function youTubePlayerDisplayInfos() {
     if (youTubePlayerActive()) {
         var state = youTubePlayer.getPlayerState();
 
+        //시간 정보 (현재 백분율 -> 밀리초 단위로 변경 예정)
+        
         var current = youTubePlayer.getCurrentTime();
         var duration = youTubePlayer.getDuration();
         var currentPercent = (current && duration
                               ? current*100/duration
                               : 0);
-
+        //div 움직이기
+        if(state === 1){
+        	$("#YouTube-player-progress").animate({left:-current*50+"px"},5);	
+        }
+        
+       
+       
+        //div로 재생 구간 조정하기
+     /*    $('editRow').createElement("button", {
+        	
+        } */
+        
+        
+        
+        
+        
+        
         var fraction = (youTubePlayer.hasOwnProperty('getVideoLoadedFraction')
                         ? youTubePlayer.getVideoLoadedFraction()
                         : 0);
 
         var url = youTubePlayer.getVideoUrl();
 
+
+        
+        
         if (!current) {
             current = 0;
         }
@@ -569,6 +586,28 @@ function youTubePlayerVolumeChange(volume) {
 
 
 /**
+ * div 위에 눈금 표시하기
+ * 
+ */
+
+   var x = youTubePlayer.getCurrentTime(); 
+		
+		
+		function drawIt(x) {
+		    var canvas = document.getElementById('timeViewer');
+		    var c = canvas.getContext('2d'); 
+		    c.font= x
+		    var pat = c.createPattern();
+		    c.rect(0,0,150,100);
+		    c.fillstyle = pat;
+		    c.fill();
+		}
+	 
+	
+
+
+
+/**
  * Main
  */
 (function () {
@@ -583,10 +622,15 @@ function youTubePlayerVolumeChange(volume) {
         var first_script_tag = document.getElementsByTagName('script')[0];
 
         first_script_tag.parentNode.insertBefore(tag, first_script_tag);
-
-
+    	
+        //drawIt();
+      
+        var x = youTubePlayer.getCurrentTime(); 
+        drawIt(x);
+        
         // Set timer to display infos
-        setInterval(youTubePlayerDisplayInfos, 100);
+        setInterval(youTubePlayerDisplayInfos, 50);
+        
     }
 
 
@@ -616,6 +660,15 @@ function youTubePlayerVolumeChange(volume) {
 			  $("#playDiv").animate({right:"+=5"},"fast");
 			  console.log(e.which);
 	  }
+		  if(e.which == 9){
+			  if(youTubePlayer.getPlayerState() === 1){
+				  youTubePlayerPause();  
+			  }else {
+				  youTubePlayerPlay();
+			  }
+			  
+		  }
+		  
 	});
 
 
