@@ -6,6 +6,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Web Audio API を使用した録音、及びWAVファイル出力のデモ - iroha Soft</title>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script type="text/javascript"
+	src="<c:url value="/resources/js/jquery-3.2.1.js"></c:url>"></script>
+<script type="text/javascript">
+
+
+</script>
+
 <style type='text/css'>
 ul {
 	list-style: none;
@@ -15,12 +23,17 @@ ul {
 	display: block;
 	margin-bottom: 10px;
 }
+
+.pitchContainer{
+	height: 20%;
+	width: : 50%;
+}
 </style>
 </head>
 <body>
 	<input type="hidden" name="contents_num" value="223" id="contents_num">
-	<input type="hidden" name="start" value="5" id="start">
-	<input type="hidden" name="dur" value="2" id="dur">
+	<input type="hidden" name="start" value="12" id="start">
+	<input type="hidden" name="dur" value="4" id="dur">
 	
 	<h2>Web Audio API を使用した録音、及びWAVファイル出力のデモ</h2>
 
@@ -34,7 +47,7 @@ ul {
 	<h3>録音ファイル</h3>
 	<ul id="recordingslist"></ul>
 
-	<h3>ステータス</h3>
+	<h3>로그</h3>
 	<pre id="log"></pre>
 	
 	<input type="hidden" id="streamVoice" name="voice">
@@ -44,12 +57,96 @@ ul {
 		enctype="multipart/form-data"> 
 		<input type="submit" value="가즈아">
 	</form>
+	
+	<div id="ytPitch" style="height: 250px; width: 40%;" class="pitchContainer"></div>
+	
+	<div id="memPitch" style="height: 250px; width: 40%;" class="pitchContainer"></div>
 
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script>
+	<script>	
 		function __log(e, data) {
 			log.innerHTML += e + " " + (data || '') + '\n';
+		}
+		
+		
+		
+		/* function draw(canvas,arr){
+			var WIDTH = arr.length*1.5;
+			var HEIGHT = 300;
+			var canvasCtx = canvas.getContext('2d');
+			canvasCtx.fillStyle = 'rgb(200,200,200)';
+			canvasCtx.fillRect(0,0,WIDTH,HEIGHT);
+			
+			canvasCtx.linewidth = 2;
+			canvasCtx.strokeStyle = 'rgb(0,0,0)';
+			
+			canvasCtx.beginPath();
+			
+			var sliceWidth = WIDTH *1.0 / arr.length;
+			var x = 0;
+			var chk = true;
+			
+			for(var i=0; i<arr.length; i++){	
+				var v = arr[i]/128.0;
+				var y = v*HEIGHT/2-75;
+				//var y = arr[i];
+				
+				if(i==0){
+					canvasCtx.moveTo(x,y);
+				}else{
+					if(arr[i] != 0){
+						if(chk)
+							canvasCtx.lineTo(x,y);
+						else
+							canvasCtx.moveTo(x,y);
+						chk = true;
+					}
+					else{
+						chk = false;
+					}
+				}
+				
+				x += sliceWidth
+			}
+			
+			canvasCtx.lineTo(canvas.width, canvas.height/2);
+			canvasCtx.stroke();
+		} */
+		function Pitch(x,y){
+			this.x = x;
+			this.y = y;
+		}
+		
+		
+		function draw(arr,container,title){
+			var pitchArr = [];
+			
+			for(var i = 0; i<arr.length; i++){
+				pitchArr.push({x : i, y: arr[i]});
+			}
+			
+			
+			var chart = new CanvasJS.Chart(container,{
+				animationEnabled : true,
+			title : {
+				title
+			},
+			axisY: {
+				title : "",
+				valueFormatString :"#0.",
+				suffix:"pi",
+				prefix : ""
+			},
+			data: [{
+				type : "splineArea",
+				color : "rgba(54,158,173,.7)",
+				xValueFormatString: "##0",
+				yValueFormatString: "$#,##0.##",
+				makerSize : 5,
+				dataPoints: pitchArr
+			}]
+			});
+			
+			chart.render();
 		}
 
 		var audio_context;
@@ -108,8 +205,11 @@ ul {
 						data : fd,
 						processData : false,
 						contentType : false,
-						success:function(data){	
+						success:function(data){
 							console.log(data);
+							draw(data.ytArr,ytPitch,'youtube');
+							draw(data.memArr,memPitch,'member');
+							
 						},
 						error: function(e){			
 							console.log(e);

@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
@@ -84,11 +85,11 @@ public class TranscriptController {
 
 	@RequestMapping(value = "streamOnMic", method = RequestMethod.POST)
 	@ResponseBody
-	public String streamOnMic(@RequestBody String base64data) {
+	public HashMap<String, Object> streamOnMic(@RequestBody String base64data) {
 
 		// 세션에서 멤버아이디 가져와야됨
 		String member_id = "h1b4";
-		String ytFileName = "mzvXkRNRHvLk";
+		String ytFileName = "mG68_hkc29po";
 		double per = 0;
 		
 		try {
@@ -202,7 +203,12 @@ public class TranscriptController {
 			}
 			
 			per = ((ok*1.0)/(cnt*1.0))*100;
-			return per+"";
+			HashMap<String, Object> resultMap = new HashMap<>();
+			resultMap.put("per", per);
+			resultMap.put("ytArr", ytArr);
+			resultMap.put("memArr",memArr);
+			
+			return resultMap;
 		} catch (Exception e) {
 			e.printStackTrace();
 			// TODO: handle exception
@@ -210,10 +216,11 @@ public class TranscriptController {
 
 		System.out.println("로그");
 		if (!base64data.equals("")) {
-			return "no";
+			
+			return null;
 
 		}
-		return "no";
+		return null;
 	}
 
 	class AudioFile {
