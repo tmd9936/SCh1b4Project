@@ -3,8 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-<script type="text/javascript"
-	src="<c:url value="/resources/jquery/jquery-3.1.1.js"></c:url>"></script>
+<script src="<c:url value="/resources/jquery-3.3.1.js"/>"> </script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
@@ -31,6 +30,26 @@
 	 <p>ㅎㅎ</p>
 	<input type="button" id="subtitle" value="자막얻기">
 	
+	<input type="button" value="문제만들기테스트" onclick="javascript:gotoTest()">
+	
+	
+	<input type="button" value="javatest" onclick="loation.href='transcript/javaTest'">
+	
+	
+	
+	<!-- 작업시간이 30초이상 걸려서 이 방법은 봉인
+	
+	<form action="transcript/javaTest" method="post">
+	<input type="submit" value="gogo">
+	</form>
+	
+	  -->
+	  
+	<script type="text/javascript">
+	function gotoTest() {
+		location.href='transcript/listTest';
+	}
+	</script>
 </body>
 </html>
 
