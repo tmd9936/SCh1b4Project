@@ -18,7 +18,7 @@ public class MemberService {
 	@Autowired
 	MemberDAO dao;
 	
-	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+	private static final Logger logger = LoggerFactory.getLogger(MemberService.class);
 	
 	//아이디 중복 체크
 	public String idCheck(String member_id) {

@@ -32,13 +32,6 @@ public class MemberController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
-	//메인페이지 이동
-	@RequestMapping(value="user_home_test" , method = RequestMethod.GET)
-	public String mainpage(){
-		
-		return "member/user_home_test";
-	}
-	
 	
 	//회원가입 페이지 이동
 	@RequestMapping(value="joinForm" , method = RequestMethod.GET)
@@ -71,7 +64,7 @@ public class MemberController {
 		int result = service.joinComplete(member); 
 		
 		logger.info("회원 등록 종료");
-		return "member/user_home_test";
+		return "redirect:/";
 	}
 	
 	

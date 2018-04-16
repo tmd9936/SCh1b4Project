@@ -12,9 +12,11 @@
 		<typeAlias type="com.h1b4.www.vo.Emotion" alias="emotion"/>
 		<typeAlias type="com.h1b4.www.vo.ContentsReply" alias="contentsreply"/>
 		<typeAlias type="com.h1b4.www.vo.Bookmark" alias="bookmark"/>
+		<typeAlias type="com.h1b4.www.vo.Category" alias="category"/>
 	</typeAliases>
 	
 	<mappers>
+		<mapper resource="contentsMapper/ContentsMapper.xml"/>
 		<mapper resource="memberMapper/MemberMapper.xml"/>
 		<mapper resource="transcriptMapper/ContentsMapper.xml" />
 		<mapper resource="transcriptMapper/TranscriptMapper.xml" />

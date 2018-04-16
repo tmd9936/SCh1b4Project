@@ -17,21 +17,23 @@
 
 <title>[ 회원가입 ]</title>
 <style>
+body {
+	text-align: center;
+}
+.location{
+	width: 300px;
+	height: 50px;
+}
+.locationDiv{
+	height: 100px;
+}
+#sub{
+	width: 300px;
+	height: 50px;
+	font-size: 20px;
+	font-weight: bold;
 	
-	#main {
-		margin: 5% auto;
-		width: 50%;
-	}
-	
-	#t {
-		background-color: white;
-		margin: 5% auto;
-		
-	}
-	body{
-		background-size : contain;
-	}
-
+}
 </style>
 <script type="text/javascript">
 function formCheck() {
@@ -69,30 +71,37 @@ function formCheck() {
 }
 </script>
 </head>
+
+<header>
+	<br><br><br>
+	<img src="<c:url value="/resources/images/2_Flat_logo_on_transparent_248x68.png" />" class="demo-avatar">
+	<br><br><br>
+</header>
+
 <body>
 
-<jsp:include page="../navi_side_bar.jsp"></jsp:include>
 <div id="main">
-<form action="update" method="post" onsubmit="return formCheck()">
-	<table id="t">
-		
-		<tr>
-			<th>비밀번호</th>	
-			<td>
-				<input type="password" name="member_password" id="password"><br>
-				<input type="password" id="password2">
-				<!--name 안만드는이유? 두개의 비번이 같다는 처리를 id로 해주면 되기때문 -->
-			</td>
-		</tr>
-		
-	</table>
-	<div align="center">
-		<input type="submit" value="수정">
-		<input type="submit" value="다시쓰기">
-	</div>
+	<form action="update" method="post" onsubmit="return formCheck()">
+		<div class="mdl-textfield mdl-js-textfield">
+			<br>
+				<div class="mdl-textfield mdl-js-textfield">
+					<input class="mdl-textfield__input" type="password" id="password1" name="member_password">
+					<label class="mdl-textfield__label" for="password1">비밀번호</label>
+				</div>
+				<br>
+				<div class="mdl-textfield mdl-js-textfield">
+					<input class="mdl-textfield__input" type="password" id="password2">
+					<label class="mdl-textfield__label" for="password2">비밀번호 확인</label>
+					<div id="passwordText2"></div>
+				</div>
+			<div align="center">
+				<input type="submit" value="수정">
+				<input type="submit" value="다시쓰기">
+			</div>
+		</div>
 	</form>
 </div>
+</body>
+</html>	
 	
-	
-<jsp:include page="../navi_side_bar_bot.jsp"></jsp:include>
 	

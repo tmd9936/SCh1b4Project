@@ -49,12 +49,13 @@
 	href="https://code.getmdl.io/1.3.0/material.cyan-light_blue.min.css">
 <link rel="stylesheet"
 	href="<c:url value="/resources/css/styles.css"></c:url>">
+<script type="text/javascript" src="<c:url value="/resources/js/jquery-3.2.1.js" />"></script> 	
 
 <!-- Square card -->
 <style>
 .demo-card-square.mdl-card {
-	width: 320px;
-	height: 320px;
+	width: 310px;
+	height: 260px;
 	margin: 5px 14px;
 }
 
@@ -112,16 +113,16 @@
 						<span class="visuallyhidden">Accounts</span>
 					</button>
 					 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
-		              <li class="mdl-menu__item"><a href="updateForm">정보수정</a></li>
-		              <li class="mdl-menu__item"><a href="logout"> 로그아웃</a></li>
+		              <li class="mdl-menu__item"><a href="../member/updateForm">정보수정</a></li>
+		              <li class="mdl-menu__item"><a href="../member/logout"> 로그아웃</a></li>
 		            </ul>
 				</div>
 			</c:if>
 			
 			<c:if test="${sessionScope.loginId == null }">	
 				<div id="inform" style="float: left;width: 30%; margin: 5px 5px;">	
-					<span> <a href="loginForm">로그인</a></span><br>
-					<span><a href="joinForm">회원가입</a></span>
+					<span> <a href="../member/loginForm">로그인</a></span><br>
+					<span><a href="../member/joinForm">회원가입</a></span>
 				</div>
 			</c:if>	
 			</div>

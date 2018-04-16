@@ -60,9 +60,9 @@ body {
 			<label class="mdl-textfield__label" for="password1">비밀번호</label>
 		</div>
 		<br>
-		<div align="center">
-			<input type="submit" value="로그인">
-		</div>
+		
+		<input type="submit" id="sub" value="로그인" class="mdl-button mdl-js-button">
+		<div id="joinDiv"></div>
 		</form>
 		<p>${msg}</p>
 	</div>
