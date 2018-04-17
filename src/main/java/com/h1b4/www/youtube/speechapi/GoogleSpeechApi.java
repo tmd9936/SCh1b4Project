@@ -121,7 +121,7 @@ public class GoogleSpeechApi {
 		SpeechClient speech = SpeechClient.create();
 
 		// Configure remote file request for Linear16
-		RecognitionConfig config = RecognitionConfig.newBuilder().setEncoding(AudioEncoding.FLAC)
+		RecognitionConfig config = RecognitionConfig.newBuilder().setEncoding(AudioEncoding.LINEAR16)
 				.setLanguageCode("ja-JP").setEnableWordTimeOffsets(true).build();
 		RecognitionAudio audio = RecognitionAudio.newBuilder().setUri(gcsUri).build();
 

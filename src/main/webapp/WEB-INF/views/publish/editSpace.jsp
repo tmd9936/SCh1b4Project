@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -84,17 +85,17 @@
 
  #YouTube-player-progress {
  	margin-left : 50%;
- 	width: 6000px;
- 	height:100px; 
+ 	width: 38700px;
+ 	height:80px; 
  	position : absolute;
- 	background-color: yellow;
- 	opacity: 50;
+  	opacity: 50;
  	
  }
  .playRow {
  	width : 100%;
  	height : 260px;
  	overflow : hidden;
+	padding: 0;
  }
  .genSubtitle{
  
@@ -128,7 +129,7 @@
     position: absolute;
     width: 1px;
     z-index: 54;
-    
+    float: left;
 
 	
 }
@@ -136,9 +137,35 @@
 #playRow{
 	background-color: GRAY;
 	height: 65px;
-	position: absolute;
+	
 	
 }
+
+#timeViewer{
+	height: 65px;
+	position : static;
+}
+
+.transcriptTextArea{
+
+	padding: 6px 10px 2px 30px;
+}
+#insertCell{
+	overflow: auto;
+	height: 252px;
+}
+
+.subtitle{
+	height: 20px;
+	width: 400px;
+	background-color: white;
+	opacity : 90;
+	float: left;
+	position: relative;
+	top: 30%;
+	margin-left: 51%;
+}
+
 </style>
 </head>
 <body>
@@ -188,28 +215,35 @@
 		
       </div>
 
-	<div id="playRow" class="mdl-grid mdl-cell--12-col">
-	 	<div id="playDiv">
+	<div id="playRow" class="mdl-grid">
+	 	<div id="playDiv" class="mdl-cell--12-col">
 			<!-- <input id="YouTube-player-progress" type="range" value="0" min="0" max="100" onchange="youTubePlayerCurrentTimeChange(this.value);" oninput="youTubePlayerCurrentTimeSlide();"> -->	
 			<div id="timeLineMarker"></div>
+			<div class="subtitle"><a></a><span>Test</span><a></a></div>
 			<div id="YouTube-player-progress">
 				<canvas id="timeViewer"></canvas>
 			</div>
 		</div>
-	 	
-	 	<div id="timeLineMarker" class="mdl-cell--middle"></div>
-        	
-	
-		
 	</div>
 	
 	<div id="editRow" class="mdl-grid">
 		<div id="transcripts" class="mdl-cell mdl-cell--4-col">
+			<ul>
+				<c:forEach items="${tsList }" var="list">
+					<li>${list.ts_start }</li>			
+					<li>${list.ts_text }</li>
+					<li>${list.ts_dur }</li>
+				</c:forEach>
+			</ul>
+		</div>
 		
+		<div id="insertCell" class="mdl-cell mdl-cell--4-col">
+			<form action="syncedTranscript">
+				<div id="transcriptPlace"></div>
+				<div id="genSubtitle"> + New subtitle </div>
+			</form>
 		</div>
-		<div id="insert" class="mdl-cell mdl-cell--4-col">
-			<div id="genSubtitle"> + New subtitle </div>
-		</div>
+		
 		<div id="notes" class="mdl-cell mdl-cell--4-col">
 			<div class="framed">
 		       <div id="YouTube-player-infos"></div>
@@ -227,43 +261,25 @@
 		
 		</div>
 	</div>
-
-<script type="text/javascript">
-/* 
-$('#genSubtitle').on('click', function(){
 	
-	$.ajax({
-		url:"replyList",
-		type : "GET",
-		data : {
-			boardnum : boardnum
-		},
-		dataType : "json", 
-		success : function(list){
-		
-			var str = '';
-			$.each(list, function(index, item){ 
-				str += '<div class="row">';
-				str += '<div class="mdl-cell mdl-cell--4-col"></div>';
-				str += '<div class="col-md-8 text-left"><b>'+this.id+'</b></div><div class="col-md-2"></div>';
-				str += '</div>';
-				str += '<div class="row">';
-				str += '<div class="col-md-2"></div>';
-				str += '<div class="col-md-6">';
-				str += '<textarea class="form-control" readonly="readonly" id="textArea'+this.replynum +'">'+ this.text +'</textarea></div>';
-				
-			});
-				
-			
-			$('#replyDiv').html(str);
-		});
-		}
-	}); */
 
-</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
+<script>
+
+var startPoint = 0;
+
+$('#genSubtitle').on('click', function(){
+	var button = "<button class='mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab'><i class='material-icons'>add</i> </button>";
+	var str = '';
+	
+	str += "<div class='transcriptDiv'><textarea class='transcriptTextArea'></textarea></div>";
+	
+	
+	$('#transcriptPlace').prepend(str)
+	
+	}); 
 
 
-<script type="text/javascript">
 /**
  * JavaScript code for the "YouTube API example"
  * http://www.opimedia.be/DS/webdev/YouTube/
@@ -347,6 +363,7 @@ function onYouTubeIframeAPIReady() {
     // Add private data to the YouTube object
     youTubePlayer.personalPlayer = {'currentTimeSliding': false,
                                     'errors': []};
+    
   
 }
 
@@ -449,20 +466,15 @@ function youTubePlayerDisplayInfos() {
                               : 0);
         //div 움직이기
         if(state === 1){
-        	$("#YouTube-player-progress").animate({left:-current*50+"px"},5);	
+        	$("#YouTube-player-progress").animate({left:-current*50+"px"},5);
+        	$(".subtitle").animate({left:startPoint - current*50+"px"},5);
+        	
         }
         
-       
-       
         //div로 재생 구간 조정하기
      /*    $('editRow').createElement("button", {
         	
         } */
-        
-        
-        
-        
-        
         
         var fraction = (youTubePlayer.hasOwnProperty('getVideoLoadedFraction')
                         ? youTubePlayer.getVideoLoadedFraction()
@@ -470,9 +482,6 @@ function youTubePlayerDisplayInfos() {
 
         var url = youTubePlayer.getVideoUrl();
 
-
-        
-        
         if (!current) {
             current = 0;
         }
@@ -503,7 +512,6 @@ function youTubePlayerDisplayInfos() {
         document.getElementById('YouTube-player-infos').innerHTML = indicatorDisplay;
     }
 }
-
 
 /**
  * Pause.
@@ -568,8 +576,6 @@ function youTubePlayerStop() {
         youTubePlayer.clearVideo();
     }
 }
-
-
 /**
  * Change the volume.
  *
@@ -582,31 +588,105 @@ function youTubePlayerVolumeChange(volume) {
         youTubePlayer.setVolume(volume);
     }
 }
-
-
-
 /**
  * div 위에 눈금 표시하기
  * 
  */
+	function drawIt(totalTime) {
+		var canvas = document.getElementById('timeViewer');
+	    var c = canvas.getContext('2d'); 
+	   
+	    //글자 설정
+	    canvas.font= 'italic 20pt';
+	    canvas.width = 100 * totalTime;
+	    
+	   //시, 분, 초 계산
+	    var hour = totalTime % 3600;
+	    var minute = totalTime % 60 - (hour * 60);
+	    var second =  totalTime - (minute * 60 +  hour * 60*60);
+	    
+	    //시간 표시를 위한 타임스탬프
+	    var timeStamp = 0;
+	    var hourStamp = 0;
+	    var minuteStamp = 0;
+	    var secStamp = 0;
+	    while(timeStamp <= totalTime){
 
-   var x = youTubePlayer.getCurrentTime(); 
+	    	if(secStamp >= 60){
+	    		minuteStamp++;
+	    		secStamp = 0;
+	    	
+	    	}else if(minuteStamp >= 60){
+	    		hourStamp++;
+	    		minuteStamp = 0;
+	    	}
+	    
+	    	c.strokeText( 
+	    			(pad(hourStamp,2) == 00 ? "" : (pad(hourStamp,2)+":")) 
+	    			+ (pad(minuteStamp,2) == 00 ? 0 : pad(minuteStamp,2)) 
+	    			+":"+pad(secStamp,2), 100 * timeStamp, 140);
 		
-		
-		function drawIt(x) {
-		    var canvas = document.getElementById('timeViewer');
-		    var c = canvas.getContext('2d'); 
-		    c.font= x
-		    var pat = c.createPattern();
-		    c.rect(0,0,150,100);
-		    c.fillstyle = pat;
-		    c.fill();
-		}
-	 
+	    	timeStamp++;
+	    	secStamp++;
+	    }
+	}
 	
+	//숫자 01 로 표현하는 거 
+	function pad(n, width){
+		n = n+ '';
+		return n.length >= width ? n : new Array(width - n.length + 1 ).join('0')+n;
+	}
 
-
-
+	//자막 보이기 숨기기
+ 	function transcriptDisplayOrNot() {
+		
+		
+		
+	}
+	
+	//개별 자막 전송
+/* 	function insertATranscript{
+		$.ajax({
+			type:"post",
+			url :"insertATranscript",
+			data:{
+				this.value;
+			},
+			success : function(flag){
+				$(this).attr('readonly');
+			}
+		});
+	} */
+	
+	//화면위에 div 출력 해주기
+	
+	
+	
+	
+	/**
+	*	키보드 인풋으로 자막 삽입및 디스플레이 div 시작점 및 종료점 설정해주기
+		parameters : currentTime
+		returns : duration 
+	*/
+	function setTranscriptDiv(current, keyEvent){
+			
+			
+			if(keyEvent == 40){
+				
+				$(".subtitle").animate( {left : current});
+				startPoint += current;
+			}
+			
+			if(keyEvent == 38){
+				
+				$(".subtitle").css('width', '' + current * 50 - startPoint+'px' );
+		
+			}
+			
+			return ;
+		}
+	
+	
 /**
  * Main
  */
@@ -623,30 +703,16 @@ function youTubePlayerVolumeChange(volume) {
 
         first_script_tag.parentNode.insertBefore(tag, first_script_tag);
     	
-        //drawIt();
-      
-        var x = youTubePlayer.getCurrentTime(); 
-        drawIt(x);
-        
+
         // Set timer to display infos
         setInterval(youTubePlayerDisplayInfos, 50);
-        
     }
-
-
     if (window.addEventListener) {
         window.addEventListener('load', init);
     } else if (window.attachEvent) {
         window.attachEvent('onload', init);
     }
 }());
-
-
-
-
-</script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
-<script type="text/javascript">
 
 	$(document).keydown(function(e) {
 	
@@ -662,52 +728,27 @@ function youTubePlayerVolumeChange(volume) {
 	  }
 		  if(e.which == 9){
 			  if(youTubePlayer.getPlayerState() === 1){
-				  youTubePlayerPause();  
+				  youTubePlayerPause(); 
+				  $(document).focus();
 			  }else {
 				  youTubePlayerPlay();
+				  $(document).focus();
 			  }
 			  
 		  }
 		  
+		  if(e.which == 40){
+			  console.log(e.which);
+			  setTranscriptDiv(youTubePlayer.getCurrentTime(),e.which)
+		  }
+		  
+		  if(e.which == 38){
+			  console.log(e.which);
+			  setTranscriptDiv(youTubePlayer.getCurrentTime(),e.which)
+		  }
+		  
 	});
 
-
-	/* $(function(){
-	//	var e = $.Event("keydown",{keyCode: 64});
-		
-		var code = e.keyCode || e.which;
-		 if(code == 37) { //Enter keycode
-			 $("#playDiv").animate({"left":"+=10px"},"slow");
-		 }else if(code == 39 ){
-			 $("#playDiv").animate({"right":"+=10px"},"slow");
-		 }
-		
-		
-		
-		
-	});
-	
-	
-	
-	
-	
-	
-	
-	function keyEvent(el, type, keyCode) {
-		if('createEvent' in document) {
-			var e = document.createEvent('HTMLEvents');
-			e.keyCode = keyCode;
-			e.initEvent(type, false, true);
-			el.dispatchEvent(e);
-			
-		}else {
-			var e = document.createEventObject();
-			e.keyCode = keyCode;
-			e.eventType = type;
-			el.fireEvent('on'+e.eventType, e);
-		}
-		
-	} */
 </script>
 
 

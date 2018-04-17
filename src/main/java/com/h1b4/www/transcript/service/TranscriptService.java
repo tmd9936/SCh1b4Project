@@ -71,11 +71,32 @@ public class TranscriptService {
 		 */
 
 		tsdao.insertTsList(tsList);
-	}
+	} 
 
-	/*
-	 * public ArrayList<Transcript> selectTranscript(){
-	 * 
-	 * return list; }
-	 */
+	
+	public void insertTranscriptOne(Transcript transcript){
+		int resultFlag = tsdao.insertTsOne(transcript);
+		if(resultFlag == 1){
+			System.out.println("삽입성공");
+		}else {
+			System.out.println("삽입실패");
+		}
+	}
+	
+	 public ArrayList<Transcript> selectTranscript(Transcript ts){
+		 
+		 
+		 ArrayList<Transcript> tsList =  tsdao.selectT(ts);
+		 
+		 if(tsList == null){
+			 System.out.println("자막 값 없음");
+			 return null;
+		 }else {
+			System.out.println("자막 불러오기 성공");
+		}
+		 
+		 
+	 return tsList; 
+	 }
+	
 }

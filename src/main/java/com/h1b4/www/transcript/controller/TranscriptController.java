@@ -77,9 +77,11 @@ public class TranscriptController {
 	public String selectT(Transcript ts, Model model) {
 
 		// TODO: 자막 Select
-		// ArrayList<Transcript> traList = dao.selectTranscript();
+		 ArrayList<Transcript> traList = transcriptService.selectTranscript(ts);
+		 
+		 model.addAttribute("tsList", traList);
 
-		return "";
+		return "publish/editSpace";
 	}
 
 	@RequestMapping(value = "streamOnMic", method = RequestMethod.POST)
@@ -243,6 +245,16 @@ public class TranscriptController {
 		
 		
 		return "publish/editSpace";
+	}
+	
+	//편집공간 자막 한줄씨 넣기
+	@RequestMapping(value = "insertTsOne" , method = RequestMethod.POST)
+	@ResponseBody
+	public boolean insertTsOne(Transcript transcript){
+	
+			
+		
+		return false;
 	}
 	
 
