@@ -32,14 +32,13 @@ $(document).ready(function(){
 function answer(num, text){
 		var x = document.createElement("INPUT");
 		x.setAttribute("type", "text");
-		var space = document.getElementById('outputDiv'+num);
 		//div를 만들고
 		    var div = document.createElement('div');
 		//div 내용은 다른데서 가져오고
 		    div.innerHTML = text+"<br>";
 		//div를 붙여준다.		
 		    //document.getElementById('outputDiv'+num).appendChild(div);
-		    document.getElementById('outputDiv'+num).appendChild(x);
+		    //document.getElementById('outputDiv'+num).appendChild(x);
 		document.getElementById('outputDiv'+num).onclick="disabled";
 		document.getElementById('outputDiv'+num).style.cursor="auto";
 		}
@@ -68,8 +67,10 @@ function answer(num, text){
 		var uanswer = document.getElementById('uanswer'+num);
 		if(answer==uanswer.value){
 			alert('정-답');
+			uanswer.disabled=true;
 		}else{
 			alert('새창 띄우고 단어 + 품사 + 설명 + 뜻');
+			    window.open("wordDetail", "wordDetail", "width=578, height=215, toolbar=no, menubar=no, scrollbars=no, location=no, status=no, resizable=no" );  
 		}
 	}
 	$(document).ready(function(){
