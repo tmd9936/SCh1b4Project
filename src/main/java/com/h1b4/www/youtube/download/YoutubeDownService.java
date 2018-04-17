@@ -108,7 +108,7 @@ public class YoutubeDownService {
 		//음성 파일은 있어야 되니까 파일은 만들어둠
 		String flacCommand = "/win64/usr/bin/youtube-dl --extract-audio --audio-format wav -o \"%(id)s.%(ext)s\" "
 				+ url;
-		String monoCommand = "ffmpeg -i " + url + ".wav -ac 1" + " m" + url + ".wav";
+		String monoCommand = "ffmpeg -i " + url + ".wav -ac 1 -ar 16000 " + " m" + url + ".wav";
 		String filename = "m" + url + ".wav";
 		try {
 			executeCommand(flacCommand, monoCommand);
