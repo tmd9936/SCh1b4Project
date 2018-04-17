@@ -29,10 +29,9 @@ public class ContentsController {
 	
 	//컨텐츠 전체 출력
 	@RequestMapping(value="toUserHome",method=RequestMethod.GET)
-	public String AllContents(Contents contents , Model model){
+	public String AllContents(Contents contents , Model model ){
 		
 		logger.info("최신 컨텐츠 읽기");
-		//전체 영상 조회
 		
 		ArrayList<Contents> result = service.NewContents();
 		System.out.println("result:"+result);
@@ -48,11 +47,25 @@ public class ContentsController {
 		logger.info("카테고리 읽기");
 		
 		ArrayList<Category> result2 = service.CategoryList();
-		System.out.println("category:"+result2);
+		System.out.println("categoryList:"+result2);
 		model.addAttribute("categoryList", result2);
 		
 		logger.info("컨텐츠 읽기 완료");
 		return "user_home";
 	}
+	
+	//카테고리 데이터 가지고 페이지 이동
+	@RequestMapping(value="categoryList",method=RequestMethod.GET)
+	public String selectAllPlayer(Model model,String t_name){
+		logger.info("카테고리별 리스트 읽기");
+		
+		ArrayList<Category> result3 = service.CategoryList();
+		System.out.println("category"+result3);
+		model.addAttribute("category",result3);
+		
+		logger.info("카테고리별 리스트 종료");
+		return "/contents/contentsList";
+	}
+	
 	
 }

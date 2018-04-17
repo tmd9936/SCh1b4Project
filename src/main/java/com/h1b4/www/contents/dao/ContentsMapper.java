@@ -1,6 +1,7 @@
 package com.h1b4.www.contents.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.h1b4.www.vo.Category;
 import com.h1b4.www.vo.Contents;
@@ -20,5 +21,8 @@ public interface ContentsMapper {
 	
 	//전체 카테고리
 	public ArrayList<Category> getCategoryList();
+	
+	//카테고리로 검색
+	public ArrayList<Contents> searchByCategory(String category_kr);
 	
 }

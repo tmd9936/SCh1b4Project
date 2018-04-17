@@ -8,7 +8,12 @@
 		$(function(){
 			$(".category").on('click',function(){
 				var str = $(this).text();
-				alert(str);
+				location.href = 'categoryList?str=' + str;
+
+				/* document.id.action="/contents/contentsList.jsp";
+
+				document.id.submit(); */
+
 			});
 		});
 	 </script>

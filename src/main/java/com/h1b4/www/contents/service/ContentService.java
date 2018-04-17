@@ -19,7 +19,20 @@ public class ContentService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ContentService.class);
 	
-	//리스트 전체 읽기
+	//커테고리별 리스트
+	public ArrayList<Contents> searchByCategory(String category_kr){
+		logger.info("서비스 컨텐츠 전체 읽기");
+		
+		ArrayList<Contents> list = null;
+		list = dao.searchByCategory(category_kr);
+		
+		
+		logger.info("서비스 컨텐츠 전체 보내주기");
+		
+		return list;
+	}
+	
+	//리스트 최신 읽기
 	public ArrayList<Contents> NewContents(){
 		logger.info("서비스 컨텐츠 전체 읽기");
 		
