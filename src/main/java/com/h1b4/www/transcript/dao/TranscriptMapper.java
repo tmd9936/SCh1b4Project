@@ -9,4 +9,6 @@ public interface TranscriptMapper {
 	public void insertTsList(ArrayList<Transcript> ts);
 	
 	public ArrayList<Transcript> selectT(Transcript ts);
+	
+	public int insertTsOne(Transcript transcript);
 }

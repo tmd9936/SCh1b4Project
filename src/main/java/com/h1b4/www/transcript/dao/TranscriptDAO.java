@@ -45,4 +45,18 @@ public class TranscriptDAO {
 		
 	
 	}
+	
+	public int insertTsOne(Transcript ts){
+		TranscriptMapper mapper = sqlSession.getMapper(TranscriptMapper.class);
+		
+		int flag = 0;
+		try {
+			flag = mapper.insertTsOne(ts);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return flag;
+	}
 }
