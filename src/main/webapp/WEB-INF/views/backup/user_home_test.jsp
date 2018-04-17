@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	
-	<jsp:include page="navi_side_bar.jsp"></jsp:include>
+	
       
       <!-- 여기부터 시작 -->
       <main class="mdl-layout__content mdl-color--grey-100">
