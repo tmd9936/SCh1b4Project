@@ -100,12 +100,4 @@ public class TranscriptController {
 		
 		return "transcript/qPage";
 	}
-	
-//	오답 시 단어 상세 정보
-	@RequestMapping(value="wordDetail", method=RequestMethod.GET)
-	public String wordDetail() {
-		
-		
-		return "wordDetail";
-	}
 }
