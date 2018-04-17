@@ -56,10 +56,10 @@ public class ContentsController {
 	
 	//카테고리 데이터 가지고 페이지 이동
 	@RequestMapping(value="categoryList",method=RequestMethod.GET)
-	public String selectAllPlayer(Model model,String t_name){
+	public String selectAllPlayer(Model model,String category){
 		logger.info("카테고리별 리스트 읽기");
 		
-		ArrayList<Category> result3 = service.CategoryList();
+		ArrayList<Contents> result3 = service.searchByCategory(category);
 		System.out.println("category"+result3);
 		model.addAttribute("category",result3);
 		
