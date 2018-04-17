@@ -88,7 +88,7 @@ public class TranscriptController {
 	public HashMap<String, Object> streamOnMic(@RequestBody String base64data) {
 
 		// 세션에서 멤버아이디 가져와야됨
-		//컨텐츠 교육 화면에서 Filename이랑 dur,starttime 가져와야됨
+		//컨텐츠 교육 화면에서 Filename이랑 ts_dur,ts_num,ts_start,ts_text 가져와야됨
 		String member_id = "h1b4";
 		String ytFileName = "mG68_hkc29po";
 		double per = 0;
@@ -224,27 +224,4 @@ public class TranscriptController {
 		}
 		return null;
 	}
-
-	class AudioFile {
-		private String base64data;
-		private String contents_num;
-
-		public String getBase64data() {
-			return base64data;
-		}
-
-		public void setBase64data(String base64data) {
-			this.base64data = base64data;
-		}
-
-		public String getContents_num() {
-			return contents_num;
-		}
-
-		public void setContents_num(String contents_num) {
-			this.contents_num = contents_num;
-		}
-
-	}
-
 }
