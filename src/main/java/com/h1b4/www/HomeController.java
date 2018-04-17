@@ -11,11 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.fasterxml.jackson.annotation.JsonFormat.Value;
 import com.h1b4.www.youtube.download.YoutubeDownService;
-
-
-
-
 
 /**
  * Handles requests for the application home page.
@@ -25,16 +22,30 @@ public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-
+	
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! ssssThe client locale is {}.", locale);
 		
 		return "home";
-	} 
+	} */
+	
+	//메인페이지 이동
+	@RequestMapping(value="/" , method = RequestMethod.GET)
+	public String mainpage(){
+		
+		return "redirect:/contents/toUserHome"; 
+	}
+
+	//테스트페이지
+	@RequestMapping(value="test" , method = RequestMethod.GET)
+		public String testpage(){
+			
+			return "/test";
+		}
 	
 	/*@GetMapping(value="dd") 
 	public String home(String youtube){
