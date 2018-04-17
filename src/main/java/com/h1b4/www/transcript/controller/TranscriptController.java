@@ -88,6 +88,7 @@ public class TranscriptController {
 	public HashMap<String, Object> streamOnMic(@RequestBody String base64data) {
 
 		// 세션에서 멤버아이디 가져와야됨
+		//컨텐츠 교육 화면에서 Filename이랑 dur,starttime 가져와야됨
 		String member_id = "h1b4";
 		String ytFileName = "mG68_hkc29po";
 		double per = 0;
@@ -207,6 +208,7 @@ public class TranscriptController {
 			resultMap.put("per", per);
 			resultMap.put("ytArr", ytArr);
 			resultMap.put("memArr",memArr);
+			
 			
 			return resultMap;
 		} catch (Exception e) {
