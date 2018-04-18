@@ -66,4 +66,9 @@ public class HomeController {
 		return "education/rokuon";
 	}
 	
+	@GetMapping(value="webSTT")
+	public String goWebSeach() {
+		return "education/webSTT";
+	}
+	
 }

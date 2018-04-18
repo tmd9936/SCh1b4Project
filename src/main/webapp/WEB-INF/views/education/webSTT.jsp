@@ -1,15 +1,20 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html>
+<html
+	class="js consumer build-stable chrome win win7 win64 win64-capable twisty-js"
+	lang="en" id="win64">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Web Audio API を使用した録音、及びWAVファイル出力のデモ - iroha Soft</title>
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/js/jquery-3.2.1.js"></c:url>"></script>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script>
+	(function(e, p) {
+		var m = location.href.match(/platform=(win8|win|mac|linux|cros)/);
+		e.id = (m && m[1])
+				|| (p.indexOf('Windows NT 6.2') > -1 ? 'win8' : p
+						.indexOf('Windows') > -1 ? 'win'
+						: p.indexOf('Mac') > -1 ? 'mac'
+								: p.indexOf('CrOS') > -1 ? 'cros' : 'linux');
+		e.className = e.className.replace(/\bno-js\b/, 'js');
+	})(document.documentElement, window.navigator.userAgent)
+</script>
 
 <meta content="initial-scale=1, minimum-scale=1, width=device-width"
 	name="viewport">
@@ -21,38 +26,61 @@
 <link href="https://www.google.com/images/icons/product/chrome-32.png"
 	rel="icon" type="image/ico">
 
-<link rel="stylesheet" type="text/css" href="resources/css/study.css">
+<style>
+#info {
+	font-size: 20px;
+}
 
+#div_start {
+	float: right;
+}
 
+#headline {
+	text-decoration: none
+}
+
+#results {
+	font-size: 14px;
+	font-weight: bold;
+	border: 1px solid #ddd;
+	padding: 15px;
+	text-align: left;
+	min-height: 150px;
+}
+
+#start_button {
+	border: 0;
+	background-color: transparent;
+	padding: 0;
+}
+
+.interim {
+	color: gray;
+}
+
+.final {
+	color: black;
+	padding-right: 3px;
+}
+
+.button {
+	display: none;
+}
+
+#buttons {
+	margin: 10px 0;
+	position: relative;
+	top: -50px;
+}
+
+</style>
+<style>
+a.c1 {
+	font-weight: normal;
+}
+</style>
 </head>
-<body>
-	<input type="hidden" name="contents_num" value="223" id="contents_num">
-	<input type="hidden" name="start" value="12" id="start">
-	<input type="hidden" name="dur" value="4" id="dur">
-	
-	<h2>Web Audio API を使用した録音、及びWAVファイル出力のデモ</h2>
-
-	※ 録音後、音声ファイル(WAVファイル)がダウンロードできます。
-	<br>
-	<br>
-
-	<button id="start_button">시작</button>
-	<button id="endBtn" onclick="stopRecording(this);" disabled>종료</button>
-
-	<h3>録音ファイル</h3>
-	<ul id="recordingslist"></ul>
-
-	<h3>로그</h3>
-	<pre id="log"></pre>
-	
-	<input type="hidden" id="streamVoice" name="voice">
-	
-
-	<form action="/www/transcript/streamOnMic" method="post" id="sendVoice"
-		enctype="multipart/form-data"> 
-		<input type="submit" value="가즈아">
-	</form>
-	<a href="webSTT">webSTT</a>
+<body class="" id="grid" style="">
 	<div class="browser-landing" id="main">
 		<div class="compact marquee">
 			<div id="info" style="visibility: hidden;">
@@ -83,30 +111,19 @@
 					later.
 				</p>
 			</div>
-			<!-- <div id="div_start">
+			<div id="div_start">
 				<button id="start_button" onclick="startButton(event)"
 					style="display: inline-block;">
 					<img alt="Start" id="start_img">
 				</button>
-			</div> -->
+			</div>
 			<div id="results">
 				<span class="final" id="final_span"></span> <span class="interim"
 					id="interim_span"></span>
 			</div>
 		</div>
 	</div>
-	<div id="ytPitch" style="height: 250px; width: 40%;" class="pitchContainer"></div>
 	
-	<div id="memPitch" style="height: 250px; width: 40%;" class="pitchContainer"></div>
-	
-	 
-	
-	
-	
-	
-	
-	<script type="text/javascript" src="<c:url value="/resources/javascript/webSpeech.js"></c:url>"></script>
-
-	<script src="<c:url value="/resources/js/recorder.js" />"></script>
+	<!-- 구글 webSTT스크립트 끝 -->
 </body>
 </html>
