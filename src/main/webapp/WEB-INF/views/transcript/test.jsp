@@ -24,11 +24,6 @@
     </c:forEach>
      
 <script type="text/javascript">
-$(document).ready(function(){
-  
-  
-})  
- 
  function answer(num, text){
     var x = document.createElement("INPUT");
     x.setAttribute("type", "text");
@@ -62,15 +57,16 @@ $(document).ready(function(){
     qPage.submit();
   }
   */
-  function checkanswer(num,answer){
-	    
-	    var uanswer = document.getElementById('uanswer'+num);
+  
+  function checkanswer(ts_num,answer,contents_num){
+	  console.log(contents_num);
+	    var uanswer = document.getElementById('uanswer'+ts_num);
 	    if(answer==uanswer.value){
 	      alert('정-답');
 	      uanswer.disabled=true;
 	    }else{
 	      alert('새창 띄우고 단어 + 품사 + 설명 + 뜻');
-	          window.open("wordDetail", "wordDetail", "width=578, height=215, toolbar=no, menubar=no, scrollbars=no, location=no, status=no, resizable=no" );  
+	          window.open("wordDetail?ts_num="+ts_num+"&contents_num="+contents_num, "wordDetail", "width=578, height=215, toolbar=no, menubar=no, scrollbars=no, location=no, status=no, resizable=no" );  
 	    }
 	  }
 	  $(document).ready(function(){
@@ -128,7 +124,7 @@ $(document).ready(function(){
             console.log(compare.length);
              $('#outputDiv'+num).html(text);
              var temp = "'"+compare[i]+"'";
-             $('#outputDiv'+num).html(text.replace(compare[i], '<input type="text" id="uanswer'+num+'" onkeypress="if(event.keyCode==13) {checkanswer('+num+','+temp+');}">'));
+             $('#outputDiv'+num).html(text.replace(compare[i], '<input type="text" id="uanswer'+num+'" onkeypress="if(event.keyCode==13) {checkanswer('+num+','+temp+','+${contents_num}+');}">'));
           }
           return true;
         },

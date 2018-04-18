@@ -95,50 +95,6 @@ public class TranscriptController {
 	}
 	
 	
-//	작업시간이 30초이상 걸려서 이 방법은 봉인
-//	@RequestMapping(value="javaTest",method=RequestMethod.POST)
-//	public String notAllList(Model model) {
-//		ArrayList<Transcript> tsList = new ArrayList<>(); 
-//		ArrayList<Transcript>  temp = new ArrayList<>();
-//		//컨텐츠 넘버를 보낸다
-//		temp = transcriptService.selectList(221);
-//		
-//		
-//		for (Transcript transcript : temp) {
-//			String body = "{\"sentence\":\""+transcript.getTs_text()+"\",\"info_filter\":\"form|pos|read\",\"pos_filter\":\"名詞|連用詞\"}";
-//			try {
-//				URI uri = new URI("https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=483567313073493142416249757669777545574a5575626e2f755145677a5a4c2f63394d69364757646532");
-//				URL url = uri.toURL();
-//				HttpsURLConnection huc = (HttpsURLConnection)url.openConnection();
-//				huc.setRequestMethod("POST");
-//				huc.setDoInput(true);
-//				huc.setDoOutput(true);
-//				huc.setRequestProperty("Content-Type", "application/json");
-//				OutputStream os = huc.getOutputStream();
-//				os.write(body.getBytes("UTF-8"));
-//				os.flush();
-//				os.close();
-//				
-//				BufferedReader br = new BufferedReader(new InputStreamReader(huc.getInputStream(),"utf-8"));
-//				String line="";
-//				String page="";
-//				while((line= br.readLine())!=null){
-//					page += line;
-//				}
-//				
-//					String meishi = "\"名詞\"";
-//					int io_meishi = page.indexOf(meishi);	
-//					String meishiWord;
-//					meishiWord = page.substring(io_meishi+meishi.length()+2,(page.substring(io_meishi).indexOf("]")+io_meishi)-1);
-//					tsList.add(transcript);
-//			}catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		model.addAttribute("tsList", tsList);
-//			return "transcript/qPage";
-//	}
-	
 	//전체 리스트 불러오기
 	@RequestMapping(value="listTest", method=RequestMethod.GET)
 	public String selectList(Model model) {
@@ -161,9 +117,32 @@ public class TranscriptController {
 			tsList.add(transcript);
 		}
 		model.addAttribute("tsList", tsList);
-		
-		
-		
 		return "transcript/qPage";
 	}
+	
+	@RequestMapping(value="wordDetail", method=RequestMethod.GET)
+	public String wordDetail(int ts_num, int contents_num) {
+		System.out.println(1);
+		
+		return "transcript/wordDetail";
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
