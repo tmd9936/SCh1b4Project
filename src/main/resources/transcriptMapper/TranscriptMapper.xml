@@ -61,7 +61,27 @@
 	
 	
 	</select>
+	<!-- 전체 리스트 불러오기 -->
+	<select id="selectList" resultType="transcript" parameterType="int">
+	SELECT contents_num
+					,ts_num
+					,ts_start
+					,ts_dur
+					,ts_text
+	FROM transcript 
+	WHERE contents_num = #{contents_num}
+	</select>
+	<!-- 문제풀이용 자막 불러오기 -->
 	
+	<select id="tsnum" resultType="transcript" parameterType="int">
+	SELECT contents_num
+					,ts_num
+					,ts_start
+					,ts_dur
+					,ts_text
+	FROM transcript 
+	WHERE contents_num= #{contents_num} AND ts_num = #{ts_num} 
+	</select>
 	
 	
 </mapper>
