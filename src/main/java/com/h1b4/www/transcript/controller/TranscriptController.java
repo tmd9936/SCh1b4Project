@@ -2,11 +2,15 @@
 package com.h1b4.www.transcript.controller;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URI;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.embedded.OutputStreamFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,7 +38,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.JsonObject;
 import com.h1b4.www.transcript.dao.TranscriptMapper;
 import com.h1b4.www.transcript.service.TranscriptService;
+import com.h1b4.www.utils.programs.ConsoleMain;
 import com.h1b4.www.vo.Transcript;
+import com.h1b4.www.youtube.download.YoutubeDownService;
 
 
 @Controller
@@ -49,6 +56,8 @@ public class TranscriptController {
 	@Autowired
 	TranscriptService transcriptService;
 	
+	@Autowired
+	YoutubeDownService youService;
 	
 	@RequestMapping(value="tstest", method = RequestMethod.GET)
 	public String transcript(String youtube) {
