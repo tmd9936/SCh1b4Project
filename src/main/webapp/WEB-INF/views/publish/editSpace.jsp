@@ -116,7 +116,7 @@
 	color: white;
 	text-align: center;
 	margin-left: 10%;
-	margin-top: 250px;
+	margin-top: 210px;
 	display: inline;
 }
 
@@ -137,13 +137,14 @@
 #playRow{
 	background-color: GRAY;
 	height: 65px;
-	
+	overflow: hidden;
 	
 }
 
 #timeViewer{
-	height: 65px;
+	height: 70px;
 	position : static;
+	overflow: hidden;
 }
 
 .transcriptTextArea{
@@ -190,7 +191,7 @@
 			
 			
 	        <span class="nowrap margin-left-m margin-right-m">
-	          <input id="YouTube-video-id" type="hidden" value="xGbxsiBZGPI" size="12" pattern="[_\-0-9A-Za-z]{11}" onchange="youTubePlayerChangeVideoId();">
+	          <input id="YouTube-video-id" type="hidden" value="a6Hk24zK8C0" size="12" pattern="[_\-0-9A-Za-z]{11}" onchange="youTubePlayerChangeVideoId();">
 				       
 	        </span>
 			
@@ -204,9 +205,11 @@
 		</div>
 		<div class="mdl-cell mdl-cell--4-col">
 			 <div>
-		        <input id="YouTube-player-volume" type="range" value="50" min="0" max="100" onchange="youTubePlayerVolumeChange(this.value);">
-		        <label for="YouTube-player-volume">volume</label>
-		        
+		      1. Type what you hear <br>
+		      
+		      2. Sync Timing <br>
+
+			  3. Review and Complete<br>		        
 		        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Publish!</button>
 	    	  </div>
     	</div>
@@ -214,7 +217,7 @@
   
 		
       </div>
-
+	
 	<div id="playRow" class="mdl-grid">
 	 	<div id="playDiv" class="mdl-cell--12-col">
 			<!-- <input id="YouTube-player-progress" type="range" value="0" min="0" max="100" onchange="youTubePlayerCurrentTimeChange(this.value);" oninput="youTubePlayerCurrentTimeSlide();"> -->	
@@ -239,8 +242,10 @@
 		
 		<div id="insertCell" class="mdl-cell mdl-cell--4-col">
 			<form action="syncedTranscript">
-				<div id="transcriptPlace"></div>
-				<div id="genSubtitle"> + New subtitle </div>
+				<ul>
+					<li><div id="transcriptPlace"></div></li>
+					<div id="genSubtitle"> + New subtitle </div>
+				</ul>
 			</form>
 		</div>
 		
@@ -265,17 +270,22 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
 <script>
-
+//자막 시작 포인트
 var startPoint = 0;
+//자막 div 상태 전역변수
+var transDivStatus = 0;
+//Canvas 그리기 전역변수
+var canvasOnce = 0;
 
 $('#genSubtitle').on('click', function(){
+	var length = $('.transcriptDiv').length;
 	var button = "<button class='mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab'><i class='material-icons'>add</i> </button>";
 	var str = '';
 	
 	str += "<div class='transcriptDiv'><textarea class='transcriptTextArea'></textarea></div>";
+	str += "<input type='hidden' value="+ length +" />";
 	
-	
-	$('#transcriptPlace').prepend(str)
+	$('#transcriptPlace').append(str);
 	
 	}); 
 
@@ -466,10 +476,30 @@ function youTubePlayerDisplayInfos() {
                               : 0);
         //div 움직이기
         if(state === 1){
-        	$("#YouTube-player-progress").animate({left:-current*50+"px"},5);
-        	$(".subtitle").animate({left:startPoint - current*50+"px"},5);
+        	$("#YouTube-player-progress").animate({left:-current*70+"px"},5);
+        	
+        	if(transDivStatus === 1){
+        		$(".subtitle").animate({left:startPoint*70 - current*70+"px"},5);	
+        	}
+        	
         	
         }
+        
+        //캔버스 그리기
+        if(canvasOnce < 1){
+        	drawIt(duration);
+        	console.log(duration);
+        	if (duration  >0){
+        		canvasOnce++;	
+        	}
+        	
+        	
+        }
+        
+        
+        //Typing 중인 textarea div 에 옮기기
+       var text =  $(".transcriptTextArea").val();
+        $(".transcript-float-video").text(text);
         
         //div로 재생 구간 조정하기
      /*    $('editRow').createElement("button", {
@@ -597,22 +627,26 @@ function youTubePlayerVolumeChange(volume) {
 	    var c = canvas.getContext('2d'); 
 	   
 	    //글자 설정
-	    canvas.font= 'italic 20pt';
+	    
+	    
 	    canvas.width = 100 * totalTime;
 	    
 	   //시, 분, 초 계산
-	    var hour = totalTime % 3600;
-	    var minute = totalTime % 60 - (hour * 60);
+	    var hour = Math.floor(totalTime / 3600);
+	   
+	    var minute = Math.floor(totalTime / 60) - (hour * 60);
+	   
 	    var second =  totalTime - (minute * 60 +  hour * 60*60);
-	    
+	   
 	    //시간 표시를 위한 타임스탬프
 	    var timeStamp = 0;
 	    var hourStamp = 0;
 	    var minuteStamp = 0;
 	    var secStamp = 0;
+	    
 	    while(timeStamp <= totalTime){
-
-	    	if(secStamp >= 60){
+	    	
+			if(secStamp >= 60){
 	    		minuteStamp++;
 	    		secStamp = 0;
 	    	
@@ -621,14 +655,18 @@ function youTubePlayerVolumeChange(volume) {
 	    		minuteStamp = 0;
 	    	}
 	    
-	    	c.strokeText( 
+	    	c.font= 'bold 30px Consolas';
+	    	
+	    	c.fillText( 
 	    			(pad(hourStamp,2) == 00 ? "" : (pad(hourStamp,2)+":")) 
-	    			+ (pad(minuteStamp,2) == 00 ? 0 : pad(minuteStamp,2)) 
-	    			+":"+pad(secStamp,2), 100 * timeStamp, 140);
-		
-	    	timeStamp++;
+	    			+ (pad(minuteStamp,2) == 00 ? 0+":" : (pad(minuteStamp,2)+":")) 
+	    			+ pad(secStamp,2), 150 * timeStamp, 140);
 	    	secStamp++;
+	    	timeStamp++;
+	    	console.log(secStamp);
+	    	
 	    }
+	    
 	}
 	
 	//숫자 01 로 표현하는 거 
@@ -673,13 +711,17 @@ function youTubePlayerVolumeChange(volume) {
 			
 			if(keyEvent == 40){
 				
-				$(".subtitle").animate( {left : current});
+				$(".subtitle").css( 'left' , ''+current);
 				startPoint += current;
+				transDivStatus = 1;
+				console.log(transDivStatus);
 			}
 			
 			if(keyEvent == 38){
 				
 				$(".subtitle").css('width', '' + current * 50 - startPoint+'px' );
+			
+				
 		
 			}
 			
@@ -703,7 +745,7 @@ function youTubePlayerVolumeChange(volume) {
 
         first_script_tag.parentNode.insertBefore(tag, first_script_tag);
     	
-
+		
         // Set timer to display infos
         setInterval(youTubePlayerDisplayInfos, 50);
     }
