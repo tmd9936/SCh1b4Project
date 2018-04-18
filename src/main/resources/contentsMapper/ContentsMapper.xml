@@ -16,12 +16,10 @@
 		,c.category
 		,c.contents_url
 		,c.contents_hits
-	    ,g.category
-	    ,g.CATEGORY_KR
 	from
-	    category g ,contents c
+	    contents c, category g
 	where
-	    g.category_kr = #{_parameter} 
+	    g.category_kr = #{category_kr} 
 	    and 
 	    c.category = g.category
 	</select>

@@ -2,33 +2,41 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	
-
-	 <jsp:include page="navi_side_bar.jsp"></jsp:include>
-	 <script type="text/javascript">
-		$(function(){
-			$(".category").on('click',function(){
-				var str = $(this).text();
-				location.href = 'categoryList?str=' + str;
-
-				/* document.id.action="/contents/contentsList.jsp";
-
-				document.id.submit(); */
-
-			});
+	<jsp:include page="navi_side_bar.jsp"></jsp:include>
+	
+	<script type="text/javascript">
+	
+	
+	$(function(){
+		$(".category").on('click',function(){
+			var str = $(this).text();
+			/* alert(str); */
+			location.href = 'categoryList?category=' + str;
+	
+			/* document.id.action="/contents/contentsList.jsp";
+	
+			document.id.submit(); */
+	
 		});
-	 </script>
-	 
-      
+	});
+	
+	</script>
+	
       <!-- 여기부터 시작 -->
       <main class="mdl-layout__content mdl-color--grey-100">
         <div class="mdl-grid demo-content">
 			<div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
 		      	<div class="categorys">
 		      		<c:forEach var="category" items="${categoryList }">
-		      			<p class="category" >${category.category_kr }</p>
+						<!-- Contact Chip -->
+						<span class="mdl-chip mdl-chip--contact">
+						    <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white"></span>
+						    <span class="mdl-chip__text category">${category.category_kr }</span>
+						</span>
 		      		</c:forEach>
 		      	</div>
       		</div>        
+        	
         	
         <a>최신순</a>
           <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
