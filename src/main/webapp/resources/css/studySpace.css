@@ -293,3 +293,7 @@ main > section textarea {
 	background-color: #fff;
 	z-index: 200;
 }
+
+.speachView{
+	visibility: hidden;
+}

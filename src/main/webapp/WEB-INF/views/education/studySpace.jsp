@@ -4,10 +4,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+<!-- <link rel="stylesheet" type="text/css" href="resources/css/study.css"> -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+
+<meta content="initial-scale=1, minimum-scale=1, width=device-width"
+	name="viewport">
+<meta
+	content="Google Chrome is a browser that combines a minimal design with sophisticated technology to make the web faster, safer, and easier."
+	name="description">
+<link href="https://plus.google.com/100585555255542998765"
+	rel="publisher">
+	
+	
 
 
 <!-- jquery -->
@@ -54,7 +66,7 @@
 			left = (parseFloat(ts.ts_start)/allTime)*100;
 			width = (parseFloat(ts.ts_dur)/allTime)*100;
 			str = $('.seek-bar-container').html();
-			str += "<div class ='script-bar' style='left:"+left+"%;width:"+width+"%;' start ='"+ts.ts_start+"' num = '"+ts.ts_num+"' dur='"+ts.ts_dur+"' left='"+left+"'></div>";
+			str += "<div class ='script-bar' style='left:"+left+"%;width:"+width+"%;' start ='"+ts.ts_start+"' num = '"+ts.ts_num+"' dur='"+ts.ts_dur+"' left='"+left+"' text='"+ts.ts_text+"'></div>";
 			$('.seek-bar-container').html(str);
 		});
 		
@@ -73,8 +85,19 @@
 
 </head>
 <body>
-<input type="hidden" value="${contents.contents_num }">
-  
+<input type="hidden" id="filename" class="filename" value="${filename}">
+<input type="hidden" name="contents_num" value="${contents.contents_num }" id="contents_num">
+<input type="hidden" name="start" value="12" id="start">
+<input type="hidden" name="dur" value="4" id="dur">  
+
+	<ul id="recordingslist"></ul>
+
+	<pre id="log"></pre>
+<!-- <button id="startBtn" onclick="startRecording(this);">시작</button>
+	<button id="endBtn" onclick="stopRecording(this);" disabled>종료</button>
+	<div id="ytPitch" style="height: 250px; width: 40%;" class="pitchContainer"></div>
+	
+	<div id="memPitch" style="height: 250px; width: 40%;" class="pitchContainer"></div> -->
   <div class ="a">
 
 
@@ -89,7 +112,25 @@
 		  
 	    <!--오른쪽 리스트 클릭시 새롭게 생성되는 부분   -->
 	    <div id="divNewGSTL" class="secondView">
-		
+	    	<div class="divNewView">
+	    		
+	    	</div>
+			<div class="speachView">
+
+				<button id="startBtn" onclick="startRecording(this);">시작</button>
+				<button id="endBtn" onclick="stopRecording(this);" disabled>종료</button>
+			
+				<ul id="recordingslist"></ul>
+			
+				<pre id="log"></pre>
+				
+				<input type="hidden" id="streamVoice" name="voice">
+				
+				<div id="ytPitch" style="height: 250px; width: 100%;" class="pitchContainer"></div>
+				
+				<div id="memPitch" style="height: 250px; width: 100%;" class="pitchContainer"></div>
+				<div class="perContainer"></div>
+			</div>
 		
 		</div>
 		
@@ -268,13 +309,12 @@
 
 <!-- 가운데 정렬  -->
 
-  
-  
-  
 
 
+<script type="text/javascript" src="<c:url value="/resources/javascript/webSpeech.js"></c:url>"></script>
 
-
+<script src="<c:url value="/resources/js/recorder.js" />"></script>
+</div>
 
 </body>
 </html>

@@ -79,6 +79,7 @@
 			var contents_num = $('#contents_num').val();
 			var start = $('#start').val();
 			var dur = $('#dur').val();
+			var filename = $('#filename').val();
 			
 			// alert(contents_num + " "+ start +" "+dur);
 			
@@ -94,10 +95,11 @@
 				fd.append("contents_num",contents_num);
 				fd.append("start",start);
 				fd.append("dur",dur);
+				fd.append("filename",filename);
 				
 				$.ajax({			
 					type : 'POST',
-					url : 'transcript/streamOnMic',
+					url : '../transcript/streamOnMic',
 					data : fd,
 					processData : false,
 					contentType : false,
@@ -133,7 +135,7 @@
 					+ (navigator.getUserMedia ? 'available.'
 							: 'not present!'));
 		} catch (e) {
-			alert('No web audio support in this browser!');
+			//alert('No web audio support in this browser!');
 		}
 
 		navigator.getUserMedia({
@@ -195,7 +197,7 @@ var start_timestamp;
 if (!('webkitSpeechRecognition' in window)) {
 	upgrade();
 } else {
-	start_button.style.display = 'inline-block';
+	//start_button.style.display = 'inline-block';
 	var recognition = new webkitSpeechRecognition();
 	recognition.continuous = true;
 	recognition.interimResults = true;

@@ -10,10 +10,20 @@ var dur = 3000;
 var ts_num = '';
 var spTime = (100/allTime)/4; //seekPointTime 0.25초에 crub이 가는 시간 
 var intervals = new Array();
+var speakSpace = false;
 var speakState = false;
-
+var speakText = '';
 $(function(){
 	$('.script-bar').on('click',function(){
+		speakState = true;
+		$('#start').val($(this).attr('start'));
+		$('#dur').val($(this).attr('dur'));
+		speakText = $(this).attr('text');
+		
+		if(speakState){
+			$('.Notice').text(speakText);
+		}
+		
 		if(intervals.length >0){
 			$.each(intervals,function(index,inter){
 				clearInterval(inter);
@@ -43,7 +53,7 @@ $(function(){
 		
 		intervals.push(ss);
 		
-		dur = parseInt(($(this).attr('dur')))*1000;
+		dur = parseInt(($(this).attr('dur')))*1090;
 		done = false;
 		
 		var start = $(this).attr('start'); //유튜브 시작 초
@@ -341,27 +351,38 @@ function youTubePlayerStop() {
 
 function GoSpeakTheLine(){
 	
-	var div = document.getElementById("divNewGSTL");
 	
-	if(!speakState){
-		var str = '<div class="Notice">'; 
-			 
+	
+	if(!speakSpace){
+		
+		var str = '<div class="Notice">';  
 			str +=  "비디오에서 SPEAK1할 문장을 선택하세요:";
 			str += '</div>';
+			/*str +=' <button id="start_button">시작</button>';
+			str += '<button id="endBtn" onclick="stopRecording(this);" disabled>종료</button>';
+			str += '<div class="browser-landing" id="main"><div class="compact marquee"><div id="results">'
+			str	+= '<span class="final" id="final_span"></span> <span class="interim" id="interim_span"></span>'
+			str += '</div></div></div>';
+			str + '<div id="ytPitch" style="height: 250px; width: 40%;" class="pitchContainer"></div>';
+			str + '<div id="memPitch" style="height: 250px; width: 40%;" class="pitchContainer"></div>';*/
+			
 			str += '<style type="text/css">';
 			str += '.secondView{'
 			str += 'width: 598px;';
-			str += 'height: 598px;';
+			str += 'height: 700px;';
 			str += 'border:1px solid;';
 			str +=	'}';
 			str	+= '</style>';
 			
 			
-		div.innerHTML = str;	
-		speakState = true;
+			
+		$('.divNewView').html(str);
+		$('.speachView').css('visibility','visible');
+		speakSpace = true;
 	}else{
-		div.innerHTML = "";
-		speakState = false;
+		$('.divNewView').html('');
+		$('.speachView').css('visibility','hidden');
+		speakSpace = false;
 	}
 	
 }

@@ -167,6 +167,7 @@ public class TranscriptService {
 					String contents_num = s[7].replace("\r", "");
 					int start = (int) Float.parseFloat(s[11].replace("\r", ""));
 					float dur = Float.parseFloat(s[15].replace("\r", ""));
+					ytFileName = s[19].replace("\r", "");
 					// int end =
 					// (int)(Float.parseFloat(s[11].replace("\r",""))+Float.parseFloat(s[15].replace("\r","")));
 
