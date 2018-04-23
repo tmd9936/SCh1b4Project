@@ -10,11 +10,58 @@
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
 
-<!-- ajax -->
+<!-- jquery -->
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.2.1.js" />"></script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>studySpace</title>
+<style type="text/css">
+	.script-bar{
+		cursor: pointer;
+	}
+	.script-bar:hover {
+		background-color: green;
+	}
+</style>
+
+
+
+<!-- tsList가져오기 -->
+<script type="text/javascript">
+	var allTime = parseInt('${allTime}');
+	var tsList = new Array();
+	var contents_num = '${contents.contents_num}';
+	$(function(){		
+		//<div class="script-bar" style="left:40%;width: 30%;" width="30" start="30" dur="6"></div>
+		console.log(tsList);
+		
+		<c:forEach items="${tsList }" var="ts">
+			var json = new Object();
+			json.contents_num = "${ts.contents_num}";
+			json.ts_start = '${ts.ts_start}';
+			json.ts_num = "${ts.ts_num}";
+			json.ts_dur = "${ts.ts_dur}";
+			json.ts_text = "${ts.ts_text}";
+			tsList.push(json);
+		</c:forEach>
+		
+		var str = "";
+		var container;
+		var left = 0;
+		var width = 0;
+		
+		$.each(tsList,function(index,ts){
+			left = (parseFloat(ts.ts_start)/allTime)*100;
+			width = (parseFloat(ts.ts_dur)/allTime)*100;
+			str = $('.seek-bar-container').html();
+			str += "<div class ='script-bar' style='left:"+left+"%;width:"+width+"%;' start ='"+ts.ts_start+"' num = '"+ts.ts_num+"' dur='"+ts.ts_dur+"' left='"+left+"'></div>";
+			$('.seek-bar-container').html(str);
+		});
+		
+	});
+	
+</script>
+
 
 <!-- js 적용  -->
 <script type="text/javascript" src="<c:url value="/resources/javascript/studySpace.js"></c:url>"></script>
@@ -26,7 +73,7 @@
 
 </head>
 <body>
-
+<input type="hidden" value="${contents.contents_num }">
   
   <div class ="a">
 
@@ -34,6 +81,7 @@
 
 		<!--동영상 부분, 관계 영상 리스트, 댓글 부분 전체를 묶는 div태그  -->
 		
+		<div class="mdl-grid">
 		<div class="centralView">
 		
 		
@@ -82,24 +130,37 @@
 	    
 	  
 	
+	<!-- 자막 부분  -->
 	
-		
-	<!--동영상 재생 부분  -->	
-      <div  class ="YouTube-player" id="YouTube-player"> 
+    
+	<!--동영상 재생 부분  -->
+	<div  class ="YouTube-player" id="YouTube-player"> 
       
-      
-      </div>
+     </div>	
 		
 		
 		
 	
 	<!-- 왼쪽 리스트  시작-->
 	<div class="LeftList">
-	
-	<!--좋아요 하트 표시  -->
-	<div class="ViewLikes">
-	What Time is?
+	<div class="seek-bar-container">
+	 		<div class="seek-crub-container">
+	 			<div class="seek-crub"></div>
+	 		</div>	
 	</div>
+	<!--좋아요 하트 표시  -->
+	
+	<div class="ViewLikes">
+	<!-- seekbar로 현재 동영상 위치 나타내기 -->
+	 	
+	<!-- What Time is?
+	</div>
+	<div>
+		<div>
+        <input  id="YouTube-player-progress" type="range" value="0" min="0" max="100" onchange="youTubePlayerCurrentTimeChange(this.value);" oninput="youTubePlayerCurrentTimeSlide();" >
+        <label for="YouTube-player-progress">dur</label>
+    </div>	
+	</div> -->
 	
 	<!-- 소셜미디어 링크  --> 
 	<div class="ToFaceBook">
@@ -130,10 +191,13 @@
         </span>
 	 	
 	 	
-	 	 <span class="nowrap margin-left-m margin-right-m">
-          <label for="YouTube-video-id"></label>
-          <input id="YouTube-video-id" type="hidden" value="dNXcT_LsZoE" size="12" pattern="[_\-0-9A-Za-z]{11}" onchange="youTubePlayerChangeVideoId();">
-        </span>
+	 	<div class="youtubeFrame">
+		 	 <span class="nowrap margin-left-m margin-right-m">
+	          <label for="YouTube-video-id"></label>
+	          <input id="YouTube-video-id" type="hidden" value="${ytName}" size="12" pattern="[_\-0-9A-Za-z]{11}" onchange="youTubePlayerChangeVideoId();">
+	        </span>
+	 	</div>
+	 	
 
       <!--   <span class="nowrap">
           <button onclick="youTubePlayerPlay();">Play</button>
@@ -143,10 +207,11 @@
 	 
 	 
 	 	</div>
-	 
+	 	
+	 	
+	 		
 	 </div>
 	<!--관련된 동영상 리스트 종료  -->		
-		
 		
 		
 		<!-- 댓글 시작  -->
@@ -198,7 +263,7 @@
 
 </div>
 <!-- 동영상 부분, 관계 영상 리스트, 댓글 부분 전체를 묶는 div태그 종료 -->
-
+</div>
 </div>
 
 <!-- 가운데 정렬  -->

@@ -69,5 +69,13 @@ public class ContentService {
 		return list;
 	}
 	
-
+	public Contents searchByNumber(String contents_num) {
+		logger.info("컨텐츠 가져오기 시작");
+		
+		Contents con = dao.searchByNumber(contents_num);
+		
+		logger.info("컨텐츠 가져오기 종료");
+		
+		return con;
+	}
 }

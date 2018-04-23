@@ -4,6 +4,11 @@
 	
 
 	 <jsp:include page="navi_side_bar.jsp"></jsp:include>
+	 <style type="text/css">
+		.mdl-card--expand{
+			cursor: pointer;
+		}
+	 </style>
 	 <script type="text/javascript">
 		$(function(){
 			$(".category").on('click',function(){
@@ -15,8 +20,17 @@
 				document.id.submit(); */
 
 			});
+			
+			$('.contentsCard').on('click',function(){
+				var num = $(this).attr('value');
+				location.href = 'studySpace?num='+num;
+				
+			});
 		});
+		
+		
 	 </script>
+	 
 	 
       
       <!-- 여기부터 시작 -->
@@ -34,41 +48,42 @@
           <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
 				<c:forEach var="list" items="${result }" end="5">
 				
-				<div class="demo-card-square mdl-card mdl-shadow--2dp">
-					<div class="mdl-card__title mdl-card--expand">
-					<h2 class="mdl-card__title-text"><img src="${list.thumbnail }" width="100%" height="100%"> </h2>
-					</div>
-					<div class="mdl-card__supporting-text">
-					${list.contents_title }
-					</div>
-					<div class="mdl-card__actions mdl-card--border">
-					<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-					View Videos
-					</a>
+				<div class="contentsCard" value="${list.contents_num }">
+					<div class="demo-card-square mdl-card mdl-shadow--2dp">
+						<div class="mdl-card__title mdl-card--expand">
+						<h2 class="mdl-card__title-text"><img src="${list.thumbnail }" width="100%" height="100%"> </h2>
+						</div>
+						<div class="mdl-card__supporting-text">
+						${list.contents_title }
+						</div>
+						<div class="mdl-card__actions mdl-card--border">
+						<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+						View Videos
+						</a>
+						</div>
 					</div>
 				</div>
-				
 				</c:forEach>					
 			</div>
         
         <a>랜덤순</a>
           <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
 				<c:forEach var="rnd" items="${rnd }" >
-				
-				<div class="demo-card-square mdl-card mdl-shadow--2dp">
-					<div class="mdl-card__title mdl-card--expand">
-					<h2 class="mdl-card__title-text"><img src="${rnd.thumbnail }" width="100%" height="100%"> </h2>
-					</div>
-					<div class="mdl-card__supporting-text">
-					${rnd.contents_title }
-					</div>
-					<div class="mdl-card__actions mdl-card--border">
-					<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-					View Videos
-					</a>
+				<div  class="contentsCard" value="${rnd.contents_num }">
+					<div class="demo-card-square mdl-card mdl-shadow--2dp">
+						<div class="mdl-card__title mdl-card--expand">
+						<h2 class="mdl-card__title-text"><img src="${rnd.thumbnail }" width="100%" height="100%"> </h2>
+						</div>
+						<div class="mdl-card__supporting-text">
+						${rnd.contents_title }
+						</div>
+						<div class="mdl-card__actions mdl-card--border">
+						<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+						View Videos
+						</a>
+						</div>
 					</div>
 				</div>
-				
 				</c:forEach>					
 			</div>	
         	

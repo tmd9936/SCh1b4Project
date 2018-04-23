@@ -121,4 +121,20 @@ public class ContentsDAO {
 
 		return category;
 	}
+	
+	public Contents searchByNumber(String contents_num) {
+		logger.info("contents_num으로 컨텐츠 가져오기 시작");
+		ContentsMapper mapper = sqlSession.getMapper(ContentsMapper.class);
+		
+		Contents contents = null;
+		
+		try {
+			contents = mapper.searchByNumber(contents_num);
+		} catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		
+		return contents;
+	}
 }

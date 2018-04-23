@@ -25,4 +25,7 @@ public interface ContentsMapper {
 	//카테고리로 검색
 	public ArrayList<Contents> searchByCategory(String category_kr);
 	
+	//searchByNumber
+	public Contents searchByNumber(String contents_num);
+	
 }

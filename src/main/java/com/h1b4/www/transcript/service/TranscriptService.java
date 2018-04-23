@@ -1,9 +1,15 @@
 package com.h1b4.www.transcript.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 import org.jsoup.Jsoup;
@@ -16,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.h1b4.www.transcript.dao.TranscriptDAO;
+import com.h1b4.www.utils.programs.ConsoleMain;
 import com.h1b4.www.vo.Transcript;
+import com.h1b4.www.youtube.download.YoutubeDownService;
 
 @Service
 public class TranscriptService {
@@ -140,5 +148,150 @@ public class TranscriptService {
 		Transcript transcript = new Transcript();
 		transcript = tsdao.ts_num(contents_num,ts_num);
 		return transcript;
+	}
+	
+	
+	
+	public HashMap<String, Object> pitchCompare(String base64data,String member_id,YoutubeDownService youService){
+		String ytFileName = "mG68_hkc29po";
+		double per = 0;
+		
+		//컨텐츠 교육 화면에서 Filename이랑 ts_dur,ts_num,ts_start,ts_text 가져와야됨
+				try {
+
+					System.out.println("incoming message ...");
+					// int size = base64data.split("\n").length;
+					String s[] = base64data.split("\n");
+
+					String base64 = s[3].replace("\r", "");
+					String contents_num = s[7].replace("\r", "");
+					int start = (int) Float.parseFloat(s[11].replace("\r", ""));
+					float dur = Float.parseFloat(s[15].replace("\r", ""));
+					// int end =
+					// (int)(Float.parseFloat(s[11].replace("\r",""))+Float.parseFloat(s[15].replace("\r","")));
+
+					System.out.println(contents_num + " " + start + " " + dur);
+					byte[] decodedByte = org.apache.commons.codec.binary.Base64.decodeBase64(base64.split(",")[1].getBytes());
+
+					// String test = base64data.split(",")[1].substring(0,
+					// base64data.compareTo("------WebKitFormBoundary"));
+					// System.out.println(t);
+
+					/*
+					 * File file = new File("c:/tmp/"+member_id); if(!file.isDirectory()) {
+					 * file.mkdir(); }
+					 */
+
+					FileOutputStream fos = new FileOutputStream("c:/tmp/test/" + member_id + ytFileName + ".wav");
+
+					// 저장할 파일명을 오늘 날짜의 년월일로 생성
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+					String savedFilename = sdf.format(new Date());
+
+					savedFilename += member_id;
+
+					File safile = new File("c:/tmp/test/" + savedFilename + ".wav");
+					if (safile.isFile()) {
+						safile.delete();
+					}
+
+					// 유저아이디 붙히기
+					String command = "ffmpeg -ss " + start + " -t " + dur + " -i c:/tmp/test/" + ytFileName
+							+ ".wav -acodec copy " + savedFilename + ".wav";
+
+					youService.commandffmpeg(command);
+
+					fos.write(decodedByte);
+					fos.flush();
+					fos.close();
+
+					ConsoleMain consoleMain = new ConsoleMain(savedFilename + ".wav", member_id);
+					List<Double> ytArr = consoleMain.getData();
+
+					ConsoleMain consoleMain2 = new ConsoleMain(member_id + ytFileName + ".wav", member_id);
+					List<Double> memArr = consoleMain2.getData();
+						
+					System.out.println("size = " + ytArr.size()); 
+					System.out.println("size = " + memArr.size());
+					
+					
+					if(ytArr.size() > memArr.size()) {
+						for(int i=memArr.size(); i<ytArr.size(); i++) {
+							memArr.add(0.0);
+						}
+					}else {
+						memArr = memArr.subList(0, ytArr.size());
+					}
+					
+					int val = 200;
+					
+					System.out.println("size = " + ytArr.size());
+					System.out.println("size = " + memArr.size());
+					
+					int cnt = ytArr.size()/5;
+					int a = 0;
+					int b = 0;
+					
+					int x = 0;
+					int y = 0;
+					int ok = 0; // 횟수
+					
+					if(cnt == 0) {
+						for(int i = 0; i<ytArr.size(); i++) {
+							a += ytArr.get(i); 
+						}
+						for(int j = 0; j<memArr.size(); j++) {
+							b += memArr.get(j);
+						}
+						
+						per = (a>b) ? b/a : a/b;
+					}else {
+						for(int i=0; i<cnt; i++) {
+							for(a=b; a<b+5; a++) {
+								x += ytArr.get(a);
+								y += memArr.get(b);
+							}
+							if(y>x-val && y<x+val) {
+								ok++;
+							}
+							b +=5;
+							x=0;
+							y=0;
+						}
+						for(int i=cnt*5; i<ytArr.size(); i++) {
+							x += ytArr.get(i);
+							y += memArr.get(i);	
+						}
+						if(y>x-val && y<x+val) {
+							ok++;
+						}
+					}
+					
+					per = ((ok*1.0)/(cnt*1.0))*100;
+					HashMap<String, Object> resultMap = new HashMap<>();
+					resultMap.put("per", per);
+					resultMap.put("ytArr", ytArr);
+					resultMap.put("memArr",memArr);
+					
+					
+					return resultMap;
+				} catch (Exception e) {
+					e.printStackTrace();
+					// TODO: handle exception
+				}
+
+				System.out.println("로그");
+				if (!base64data.equals("")) {
+					
+					return null;
+
+				}
+				return null;
+	}
+	
+	public  ArrayList<Transcript> getTsList(int contents_num){
+		ArrayList<Transcript> tsList = tsdao.selectList(contents_num);
+		
+		return tsList;
 	}
 }

@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.h1b4.www.contents.service.ContentService;
 import com.h1b4.www.member.controller.MemberController;
+import com.h1b4.www.transcript.service.TranscriptService;
 import com.h1b4.www.vo.Category;
 import com.h1b4.www.vo.Contents;
+import com.h1b4.www.vo.Transcript;
 
 @Controller
 @RequestMapping(value="contents")
@@ -23,6 +25,9 @@ public class ContentsController {
 	
 	@Autowired
 	ContentService service;
+	
+	@Autowired
+	TranscriptService tsService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
@@ -67,5 +72,31 @@ public class ContentsController {
 		return "/contents/contentsList";
 	}
 	
-	
+	//교육용 페이지 이동
+	@RequestMapping(value="studySpace", method=RequestMethod.GET)
+	public String StudySpace(String num,Model model) {
+		logger.info("교육화면 이동 시작");
+		
+		Contents contents = service.searchByNumber(num);
+		ArrayList<Transcript> tsList = tsService.getTsList(contents.getContents_num());
+		
+		String filename = "";
+		String ytName = "";
+		
+		model.addAttribute("contents",contents);
+		model.addAttribute("tsList",tsList);
+		
+		ytName = contents.getContents_url().replace("https://www.youtube.com/embed/", "");
+		filename = "m"+ytName;
+		
+		String tStr[] = contents.getEndtime().split(":");
+		int allTime = Integer.parseInt(tStr[0])*3600 + Integer.parseInt(tStr[1])*60 + Integer.parseInt(tStr[2]);
+		
+		model.addAttribute("allTime",allTime);
+		model.addAttribute("ytName",ytName);
+		model.addAttribute("filename",filename);
+		
+		logger.info("교육화면 이동 종료");
+		return "/education/studySpace";
+	}
 }
