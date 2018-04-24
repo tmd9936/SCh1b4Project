@@ -4,19 +4,19 @@ public class ContentsReply {
 	private int reply_num;
 	private int contents_num;
 	private String member_id;
-	private String text;
+	private String reply_text;
 	private String inputdate;
 	
 	public ContentsReply() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ContentsReply(int reply_num, int contents_num, String member_id, String text, String inputdate) {
+	public ContentsReply(int reply_num, int contents_num, String member_id, String reply_text, String inputdate) {
 		super();
 		this.reply_num = reply_num;
 		this.contents_num = contents_num;
 		this.member_id = member_id;
-		this.text = text;
+		this.reply_text = reply_text;
 		this.inputdate = inputdate;
 	}
 
@@ -44,12 +44,12 @@ public class ContentsReply {
 		this.member_id = member_id;
 	}
 
-	public String getText() {
-		return text;
+	public String getReply_text() {
+		return reply_text;
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public void setReply_text(String reply_text) {
+		this.reply_text = reply_text;
 	}
 
 	public String getInputdate() {
@@ -63,7 +63,7 @@ public class ContentsReply {
 	@Override
 	public String toString() {
 		return "ContentsReply [reply_num=" + reply_num + ", contents_num=" + contents_num + ", member_id=" + member_id
-				+ ", text=" + text + ", inputdate=" + inputdate + "]";
+				+ ", reply_text=" + reply_text + ", inputdate=" + inputdate + "]";
 	}
 	
 	
