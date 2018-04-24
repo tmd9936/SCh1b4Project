@@ -82,7 +82,7 @@ public class ContentService {
 		
 		return con;
 	}
-}
+
 
 	//키워드로 검색
 	public ArrayList<Contents> searchByText(String searchtext){
