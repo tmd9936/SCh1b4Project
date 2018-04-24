@@ -7,11 +7,6 @@
 	<script type="text/javascript">
 	
 	
-	$(function(){
-			
-
-	});
-	
 	</script>	
 	
     <!-- 여기부터 시작 -->
