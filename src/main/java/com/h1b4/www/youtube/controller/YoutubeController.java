@@ -99,7 +99,7 @@ public class YoutubeController {
 		// return the public download link 
 		//Files.deleteIfExists(new File("c:/tmp/test/42.flac").toPath());
 		logger.info("유튭 다운 종료");
-		return "test";
+		return "user_home";
 		
 	}
 	

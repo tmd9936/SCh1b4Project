@@ -93,9 +93,6 @@ public class ContentsController {
 		
 		ArrayList<Contents> bookmarklist = service.bookmarklist(loginId);
 		ArrayList<String> ytIdList = new ArrayList<>();
-		for (Contents contents : bookmarklist) {
-			ytIdList.add(contents.getContents_url().replace("https://www.youtube.com/embed/", ""));
-		}
 		
 		System.out.println("loginId"+loginId);
 		model.addAttribute("bookmarklist",bookmarklist);
