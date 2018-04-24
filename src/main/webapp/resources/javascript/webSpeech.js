@@ -107,7 +107,7 @@
 						console.log(data);
 						draw(data.ytArr,ytPitch,'youtube');
 						draw(data.memArr,memPitch,'member');
-						
+						$('.perContainer').html(data.per);
 					},
 					error: function(e){			
 						console.log(e);
@@ -168,6 +168,11 @@
 	};
 	
 	$('#start_button').on('click', function() {
+		startRecording(this);
+		startButton(event);
+	});
+	
+	$('#startBtn').on('click', function() {
 		startRecording(this);
 		startButton(event);
 	});
@@ -233,12 +238,20 @@ if (!('webkitSpeechRecognition' in window)) {
 	};
 
 	recognition.onend = function() {
+		var tss = $('#final_span').text();
+		var ytText = $('.Notice').text();
+		
+		//console.log("tss : "+tss);
+		//console.log("ytText : "+ytText);
+		textCompare(tss,ytText);
+		
 		recognizing = false;
 		if (ignore_onend) {
 			return;
 		}
-		// start_img.src =
-		// '/intl/en/chrome/assets/common/images/content/mic.gif';
+		//TODO : 테스트 비교 알고리즘 
+		
+		
 		if (!final_transcript) {
 			showInfo('info_start');
 			return;
@@ -250,9 +263,8 @@ if (!('webkitSpeechRecognition' in window)) {
 			range.selectNode(document.getElementById('final_span'));
 			window.getSelection().addRange(range);
 		}
-		var tss = $('#final_span').html();
-		//TODO : 테스트 비교 알고리즘 
-		alert(tss);
+		
+		
 
 	};
 	
@@ -281,6 +293,31 @@ if (!('webkitSpeechRecognition' in window)) {
 		}
 	
 	};
+}
+
+function textCompare(tts,ytText){
+	var big = 0;
+	var small = 0;
+	
+	if(tts.length >= ytText){
+		big = tts.length;
+		small = ytText.length;
+	}else{
+		small = tts.length;
+		big = ytText.length;
+	}
+	var son = 1;
+	var parent = 1;
+	for(var i = 0; i<small; i++){
+		if(tts[i]==ytText[i]){
+			son++;
+		}
+		parent++;
+	}
+	parent = parent+(big-small);
+	var textPer = ((son*1.0)/(parent*1.0))*100;
+	alert('textPer : '+textPer.toFixed(3)+"%");
+	
 }
 
 function upgrade() {

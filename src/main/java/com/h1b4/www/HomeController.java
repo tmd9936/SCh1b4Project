@@ -26,12 +26,12 @@ public class HomeController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	/*@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "gohometest", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! ssssThe client locale is {}.", locale);
 		
 		return "home";
-	} */
+	} 
 	
 	//메인페이지 이동
 	@RequestMapping(value="/" , method = RequestMethod.GET)

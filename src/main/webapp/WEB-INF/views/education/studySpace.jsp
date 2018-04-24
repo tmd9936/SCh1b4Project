@@ -116,20 +116,57 @@
 	    		
 	    	</div>
 			<div class="speachView">
-
-				<button id="startBtn" onclick="startRecording(this);">시작</button>
-				<button id="endBtn" onclick="stopRecording(this);" disabled>종료</button>
-			
-				<ul id="recordingslist"></ul>
-			
-				<pre id="log"></pre>
-				
-				<input type="hidden" id="streamVoice" name="voice">
-				
-				<div id="ytPitch" style="height: 250px; width: 100%;" class="pitchContainer"></div>
-				
-				<div id="memPitch" style="height: 250px; width: 100%;" class="pitchContainer"></div>
-				<div class="perContainer"></div>
+				<div id="info" style="visibility: hidden;">
+				<p id="info_start" style="display: none;">Click on the
+					microphone icon and begin speaking for as long as you like.</p>
+				<p id="info_speak_now" style="display: inline;">Speak now.</p>
+				<p id="info_no_speech" style="display: none">
+					No speech was detected. You may need to adjust your <a
+						href="https://support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">microphone
+						settings</a>.
+				</p>
+				<p id="info_no_microphone" style="display: none">
+					No microphone was found. Ensure that a microphone is installed and
+					that <a
+						href="https://support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">
+						microphone settings</a> are configured correctly.
+				</p>
+				<p id="info_allow" style="display: none;">Click the "Allow"
+					button above to enable your microphone.</p>
+				<p id="info_denied" style="display: none">Permission to use
+					microphone was denied.</p>
+				<p id="info_blocked" style="display: none">Permission to use
+					microphone is blocked. To change, go to
+					chrome://settings/contentExceptions#media-stream</p>
+				<p id="info_upgrade" style="display: none">
+					Web Speech API is not supported by this browser. Upgrade to <a
+						href="https://www.google.com/chrome">Chrome</a> version 25 or
+					later.
+				</p>
+			</div>
+				<div class="browser-landing" id="main">
+					<div class="compact marquee">
+						<button id="startBtn" onclick="startRecording(this);">시작</button>
+						<button id="endBtn" onclick="stopRecording(this);" disabled>종료</button>
+					
+						<ul id="recordingslist"></ul>
+					
+						<pre id="log"></pre>
+						
+						<input type="hidden" id="streamVoice" name="voice">
+						
+						<div id="ytPitch" style="height: 250px; width: 100%;" class="pitchContainer"></div>
+						
+						<div id="memPitch" style="height: 250px; width: 100%;" class="pitchContainer"></div>
+						
+						<div class="perContainer"></div>
+						
+						<div id="results" >
+							<span class="final" id="final_span"></span> <span class="interim"
+								id="interim_span"></span>
+						</div>
+					</div>
+				</div>
 			</div>
 		
 		</div>

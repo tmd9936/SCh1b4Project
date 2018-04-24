@@ -74,10 +74,10 @@ public class ContentsController {
 	
 	//교육용 페이지 이동
 	@RequestMapping(value="studySpace", method=RequestMethod.GET)
-	public String StudySpace(String num,Model model) {
+	public String StudySpace(String contents_num,Model model) {
 		logger.info("교육화면 이동 시작");
 		
-		Contents contents = service.searchByNumber(num);
+		Contents contents = service.searchByNumber(contents_num);
 		ArrayList<Transcript> tsList = tsService.getTsList(contents.getContents_num());
 		
 		String filename = "";
