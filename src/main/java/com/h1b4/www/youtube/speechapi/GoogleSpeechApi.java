@@ -40,7 +40,7 @@ public class GoogleSpeechApi {
 			SpeechClient speech = SpeechClient.create();
 
 			// ����� ���Ͽ� ���� �����κ�
-			RecognitionConfig config = RecognitionConfig.newBuilder().setEncoding(RecognitionConfig.AudioEncoding.FLAC)
+			RecognitionConfig config = RecognitionConfig.newBuilder().setEncoding(RecognitionConfig.AudioEncoding.LINEAR16)
 					.setSampleRateHertz(48000)
 					// .setSampleRateHertz(44100)
 
@@ -92,7 +92,7 @@ public class GoogleSpeechApi {
 		try (SpeechClient speech = SpeechClient.create()) {
 
 			// Configure remote file request for Linear16
-			RecognitionConfig config = RecognitionConfig.newBuilder().setEncoding(AudioEncoding.FLAC)
+			RecognitionConfig config = RecognitionConfig.newBuilder().setEncoding(AudioEncoding.LINEAR16)
 					.setLanguageCode("ja-JP").setSampleRateHertz(16000).build();
 			RecognitionAudio audio = RecognitionAudio.newBuilder().setUri(gcsUri).build();
 
@@ -119,7 +119,7 @@ public class GoogleSpeechApi {
 	public static ArrayList<Transcript> asyncRecognizeWords(String gcsUri,int contents_num) throws Exception, IOException {
 		// Instantiates a client with GOOGLE_APPLICATION_CREDENTIALS
 		SpeechClient speech = SpeechClient.create();
-
+		
 		// Configure remote file request for Linear16
 		RecognitionConfig config = RecognitionConfig.newBuilder().setEncoding(AudioEncoding.LINEAR16).setSampleRateHertz(16000)
 				.setLanguageCode("ja-JP").setEnableWordTimeOffsets(true).build();
@@ -212,7 +212,7 @@ public class GoogleSpeechApi {
 		SpeechClient speech = SpeechClient.create();
 
 		// Configure request with local raw PCM audio
-		RecognitionConfig recConfig = RecognitionConfig.newBuilder().setEncoding(AudioEncoding.FLAC)
+		RecognitionConfig recConfig = RecognitionConfig.newBuilder().setEncoding(AudioEncoding.LINEAR16)
 				.setLanguageCode("ja-JP").setSampleRateHertz(16000).build();
 		StreamingRecognitionConfig config = StreamingRecognitionConfig.newBuilder().setConfig(recConfig).build();
 
@@ -280,7 +280,7 @@ public class GoogleSpeechApi {
 	 * 구글 스토리지의 파일을 스피치API로 변환시켜서 텍스트로 가져오기
 	 * 
 	 * @param filename
-	 *            .flac포함 파일 이름
+	 *            .wav포함 파일 이름
 	 */
 	public ArrayList<Transcript> runTranslate(String filename,int contents_num) {
 		String gcsuri = "gs://speechstorage_h1b4/" + filename;

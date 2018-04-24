@@ -4,9 +4,10 @@
 <html>
 <head>
 
+
 <script type="text/javascript"
 	src="<c:url value="/resources/jquery/jquery.js"></c:url>"></script>
-=======
+
 <script type="text/javascript" src="<c:url value="/resources/jquery/jquery-3.1.1.js"></c:url>"></script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -29,6 +30,8 @@
 	
 
 </script>
+
+
 <script type="text/javascript">
 function goSpeechTest() {
 	location.href = "webSpeechTest";
@@ -47,13 +50,35 @@ function goSpeechTest() {
 	 <p>ㅎㅎ</p>
 	<input type="button" id="subtitle" value="자막얻기">
 	
+
+	<input type="button" value="문제만들기테스트" onclick="javascript:gotoTest()">
+	
+	
+	<input type="button" value="javatest" onclick="loation.href='transcript/javaTest'">
+	
+	
+	
+	<!-- 작업시간이 30초이상 걸려서 이 방법은 봉인
+	
+	<form action="transcript/javaTest" method="post">
+	<input type="submit" value="gogo">
+	</form>
+	
+	  -->
+	  
+	<script type="text/javascript">
+	function gotoTest() {
+		location.href='transcript/listTest';
+	}
+	</script>
+
 	<input type="button" value="goVoiceRecording" onclick="goSpeechTest()">
 	
 
 	<p><a href="test">테스트</a></p>
 	
 
-	
+
 </body>
 </html>
 

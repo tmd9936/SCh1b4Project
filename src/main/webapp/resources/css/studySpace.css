@@ -1,0 +1,350 @@
+@CHARSET "UTF-8";
+
+
+.a{
+margin: 5% auto;
+margin-left: 5%;
+
+}
+
+
+.centralView{
+
+float:left;
+
+}
+
+
+.tts{
+	font-size:50px;
+	background-color: aqua;
+	z-index: 999;
+	margin-top: 60px;
+	
+}
+
+iframe{
+	z-index: -10;
+}
+
+
+.center{
+border:1px solid;
+float:left;
+}
+ 
+
+ 
+ .YouTube-player{
+ width: 600px;
+  float:left;
+  z-index: -10;
+ }
+
+
+ .secondView{
+ 
+ 	float:right;
+ 	/* 
+ 	width: 400px;
+ 	height: 300px;
+ 	border:1px solid;
+ 	
+	 */ 	
+ }
+
+ 
+ .LeftList{
+ clear:left;
+ height : 55px;
+ 
+ 
+ }
+ 
+ 
+ .ViewLikes{
+ 
+ float: left;
+ 
+ }
+ 
+ .ToFaceBook{
+ float: right;
+ 
+ }
+ 
+ .RightList{
+ float: right;
+ 
+ }
+ 
+ 
+ 
+ 
+.LearningList1{
+
+clear: right;
+height : 73px;
+color: blue;
+border:1px solid;
+padding-left: 5px;
+cursor: pointer; 
+}
+
+.LearningList2{
+
+clear:right;
+height : 73px;
+color:red;
+border:1px solid;
+padding-left: 5px;
+cursor: pointer;
+}
+
+.LearningList3{
+
+clear:right;
+height : 73px;
+color: green;
+border:1px solid;
+padding-left: 5px;
+cursor: pointer;
+
+}
+
+.LearningList4{
+
+clear:right;
+height : 73px;
+color: yellow;
+border:1px solid;
+padding-left: 5px;
+cursor: pointer;
+
+}
+
+
+.Voca&Plan{
+clear:right;
+color : gray;
+border:1px solid;
+padding-left: 5px;
+
+}
+
+.VocabQuiz{
+float: left;
+height : 55px;
+weight : 150px;
+color : gray;
+border:1px solid;
+cursor: pointer;
+
+}
+
+.LessonPlan
+{
+float: left;
+height : 55px;
+weight : 150px;
+color : gray;
+border:1px solid;
+cursor: pointer;
+
+}
+
+.KindOfStudy{
+
+clear:left;
+padding: 10px;
+
+
+}
+
+.KindOfStudy_List{
+clear:left;
+padding-left: 20px;
+padding-top: 5px;
+
+}
+
+
+.ShowReplyList{
+clear: left;
+padding: 10px;
+
+}
+
+
+
+.ShowReplyLeft{
+float: left;
+
+}
+
+.ShowReplyRight{
+float: right;
+}
+
+
+.insertReply{
+clear: left;
+}
+
+.replyList{
+	
+	clear: left;
+}
+.Watch_the_video{
+ background-size: 1px;
+}
+
+main {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+main > section { margin-bottom: 1em; }
+
+main > section div.framed > div {
+    border: 1px solid black;
+    margin-bottom: 1ex;
+    padding: 1ex;
+}
+
+main > section button { padding: 0.5ex 1em; }
+
+main > section input[type="range"] { width: 400px; }
+
+main > section label[for^="YouTube-player-"] { position: absolute; }
+
+main > section textarea {
+    height: 9ex;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+    width: 99%;
+}
+
+
+.center { text-align: center; }
+
+.margin-left-m { margin-left: 1em; }
+.margin-right-m { margin-right: 1em; }
+
+.nowrap { white-space: nowrap; }
+
+
+#indicator-display {
+    background-color: #f0f0f0;
+    border-radius: 3ex;
+    display: inline-block;
+    float: right;
+    font-family: monospace;
+    height: 2ex;
+    line-height: 2ex;
+    margin: 1ex 1ex 0 0;
+    padding: 1ex;
+    text-align: center;
+    vertical-align: middle;
+    width: 2ex;
+}
+#YouTube-player-progress{
+	width: 80%;
+	
+}
+#YouTube-video-id { font-family: monospace; }
+
+
+.seek-bar-container{
+	height: 10px;
+	width: 100%;
+	background: #222;
+	position: relative;
+	z-index: 50;
+}
+
+.script-bar{
+	position: absolute;
+	background-color: yellow;
+	height: 10px;
+	margin-right: 0%;
+	z-index: 100;
+}
+
+.seek-crub-container{
+	 position: absolute;
+	 top: -1px;
+	 bottom: -3px;
+	 left: 0px;
+	 right: 0px;
+	 overflow: hidden;
+}
+
+.seek-crub{
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 10px;
+	width: 10px;
+	margin-left: -6px;
+	border-radius: 18px;
+	border: 2px solid #666;
+	background-color: #fff;
+	z-index: 200;
+}
+
+.speachView{
+	visibility: hidden;
+}
+
+
+
+
+
+
+#info {
+	font-size: 20px;
+}
+
+#div_start {
+	float: right;
+}
+
+#headline {
+	text-decoration: none
+}
+
+#results {
+	font-size: 14px;
+	font-weight: bold;
+	border: 1px solid #ddd;
+	padding: 15px;
+	text-align: left;
+	min-height: 150px;
+}
+
+#start_button {
+	border: 0;
+	background-color: transparent;
+	padding: 0;
+}
+
+.interim {
+	color: gray;
+}
+
+.final {
+	color: black;
+	padding-right: 3px;
+}
+
+.button {
+	display: none;
+}
+
+#buttons {
+	margin: 10px 0;
+	position: relative;
+	top: -50px;
+}

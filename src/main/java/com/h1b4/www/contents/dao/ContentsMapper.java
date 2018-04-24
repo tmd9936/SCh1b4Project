@@ -25,9 +25,15 @@ public interface ContentsMapper {
 	//카테고리로 검색
 	public ArrayList<Contents> searchByCategory(String category_kr);
 	
+
+	//searchByNumber
+	public Contents searchByNumber(String contents_num);
+	
+
 	//검색한 키워드를 transcript로 가진 contents
 	public ArrayList<Contents> searchByText(String searchtext);
 	
 	//즐겨찾기 목록
 	public ArrayList<Contents> bookmarklist(String loginId);
+
 }
