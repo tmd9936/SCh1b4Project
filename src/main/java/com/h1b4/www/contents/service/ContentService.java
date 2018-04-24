@@ -2,10 +2,13 @@ package com.h1b4.www.contents.service;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.h1b4.www.contents.dao.ContentsDAO;
 import com.h1b4.www.vo.Category;
@@ -69,5 +72,26 @@ public class ContentService {
 		return list;
 	}
 	
-
-}
+	//키워드로 검색
+	public ArrayList<Contents> searchByText(String searchtext){
+		logger.info("텍스트로 검사하기 서비스");
+		
+		ArrayList<Contents> list = null;
+		list = dao.searchByText(searchtext);
+		
+		logger.info("텍스트로 검사하기 서비스 끝");
+		return list;
+	}
+	
+	//즐겨찾기 검색
+	public ArrayList<Contents> bookmarklist(String loginId){
+		logger.info("즐겨찾기 서비스");
+		
+		ArrayList<Contents> list = null;
+		list = dao.bookmarklist(loginId);
+		
+		
+		logger.info("즐겨찾기 서비스 끝");
+		return list;
+	}
+}	

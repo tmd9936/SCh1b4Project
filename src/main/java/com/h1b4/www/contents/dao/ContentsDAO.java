@@ -55,23 +55,6 @@ public class ContentsDAO {
 		return result;
 	}
 
-	//카테고리로 검색
-	public ArrayList<Contents> searchByCategory(String category_kr){
-		logger.info("DAO카테고리별 리스트  가져오기 시작");
-		
-		ContentsMapper mapper = sqlSession.getMapper(ContentsMapper.class);
-		ArrayList<Contents> list = null;
-		
-		try {
-			list = mapper.searchByCategory(category_kr);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		logger.info("DAO카테고리별 리스트  가져오기 종료");
-		return list;
-	}
-
 	// 최신 contents 영상
 	public ArrayList<Contents> NewContents() {
 		logger.info("DAO전체 리스트  가져오기 시작");
@@ -118,7 +101,57 @@ public class ContentsDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		logger.info("DAO카테고리 가져오기 종료");
 		return category;
+	}
+	
+	//카테고리로 검색
+	public ArrayList<Contents> searchByCategory(String category_kr){
+		logger.info("DAO카테고리별 리스트  가져오기 시작");
+		
+		ContentsMapper mapper = sqlSession.getMapper(ContentsMapper.class);
+		ArrayList<Contents> list = null;
+		
+		try {
+			list = mapper.searchByCategory(category_kr);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		logger.info("DAO카테고리별 리스트  가져오기 종료");
+		return list;
+	}
+	
+	//검색한 키워드를 transcript로 가진 contents
+	public ArrayList<Contents> searchByText(String searchtext){
+		logger.info("DAO 키워드검색  시작");
+		ContentsMapper mapper = sqlSession.getMapper(ContentsMapper.class);
+		ArrayList<Contents> list = null;
+		
+		try {
+			list = mapper.searchByText(searchtext);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		logger.info("DAO 키워드검색  종료");
+		return list;
+	}
+	
+	//즐겨찾기 목록
+	public ArrayList<Contents> bookmarklist(String loginId){
+		logger.info("DAO 북마크  시작");
+		ContentsMapper mapper = sqlSession.getMapper(ContentsMapper.class);
+		ArrayList<Contents> list = null;
+		
+		try {
+			list = mapper.bookmarklist(loginId);
+			System.out.println(loginId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		logger.info("DAO 북마크  시작");
+		return list;
 	}
 }

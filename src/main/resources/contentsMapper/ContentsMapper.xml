@@ -59,8 +59,6 @@
 		]]>
 	</select>
 	
-
-	
 	<!-- 카테고리 조회 -->
 	<select id="getCategoryList" resultType="category">
  		select
@@ -69,4 +67,43 @@
  		from 
  			category
 	</select> 
+	
+	<!-- 검색한 단어가 포함된 contents의 transcript -->
+	<select id="searchByText" resultType="contents" parameterType="java.lang.String" >
+		select 
+		    c.CONTENTS_NUM
+		    ,c.CONTENTS_TITLE
+		    ,c.THUMBNAIL
+		    ,c.CONTENTS_URL
+		    ,c.CONTENTS_HITS
+		from
+		    contents c , transcript t
+		where 
+		    t.TS_TEXT like '%'||#{searchtext}||'%'
+		    and
+		    t.contents_num = c.contents_num
+		group by
+		    c.contents_num, c.contents_title , c.thumbnail , c.contents_url , c.contents_hits
+	</select>
+	
+	<!-- 즐겨찾기 조회 -->
+	<select id="bookmarklist" resultType="contents" parameterType="String">
+		select 
+		    c.contents_num
+		    ,c.contents_title
+		    ,c.thumbnail
+		    ,c.category
+		    ,c.contents_url
+		    ,c.contents_hits
+		from
+		    contents c, bookmark b
+		where
+		    b.contents_num = c.contents_num
+		    and
+		   	b.member_id = #{loginId}
+		group by
+		    c.contents_num, c.contents_title , c.thumbnail , c.category, c.contents_url , c.contents_hits
+	
+	</select>	
+	
 </mapper>
