@@ -51,10 +51,14 @@
 	href="<c:url value="/resources/css/styles.css"></c:url>">
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.2.1.js" />"></script> 	
 
-<!-- Square card -->
+<script type="text/javascript">
+	
+
+</script>
+	
 <style>
 .demo-card-square.mdl-card {
-	width: 310px;
+	width: 320px;
 	height: 260px;
 	margin: 5px 14px;
 }
@@ -63,7 +67,56 @@
 	color: #fff;
 	
 }
+.demo-card-image.mdl-card {
+  width: 256px;
+  height: 256px;
+  background: url('../assets/demos/image_card.jpg') center / cover;
+}
+.demo-card-image > .mdl-card__actions {
+  height: 52px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.2);
+}
+.demo-card-image__filename {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+}
+.mdl-chip--contact{
+	margin: 5px 15px;
+}
+
+.mdl-chip{
+			cursor: pointer;
+}
+
+.mdl-textfield--floating-label{
+	width: 750px;
+}
+
+.mdl-textfield__label{
+	font-size: 10px;
+}
+
+.ytd_btn{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px 60px; 
+  outline: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  background: #2196F3;
+  box-shadow: 0 1px 9px rgba(0,0,0,.66);
+}
+.article-image{
+	width: 100%;
+	height: 100%;
+}
 </style>
+
 </head>
 <body>
 	<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
@@ -77,13 +130,33 @@
 				<img src="<c:url value="/resources/images/2_Flat_logo_on_transparent_248x68.png" />">
 				<div class="mdl-layout-spacer"></div>
 				<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-					<label class="mdl-button mdl-js-button mdl-button--icon"
-						for="search"> <i class="material-icons">search</i>
+					<label class="mdl-button mdl-js-button mdl-button--icon" id="searchBtn" for="search">
+						<i class="material-icons">search</i>
 					</label>
 					<div class="mdl-textfield__expandable-holder">
+						<!-- 검색할 텍스트 입력 -->	
 						<input class="mdl-textfield__input" type="text" id="search">
-						<label class="mdl-textfield__label" for="search">Enter
-							your query...</label>
+						<label class="mdl-textfield__label" for="search">
+						<!-- 입력란 텍스트를 처리할 알고리즘 -->
+						<script type="text/javascript">
+							 $(function(){
+								
+								$('#searchBtn').on('click',function(){
+									if($('#search').val() == ''){
+										return;
+									}	
+									else{
+										/* alert($('#search').val()); */
+										var searchtext = $('#search').val();
+
+										location.href = 'searchtText?searchtext=' + searchtext;
+									}
+								});
+							 });
+						</script>
+						
+						</label>
+						
 					</div>
 				</div>
 			</div>
@@ -130,27 +203,24 @@
 				
 			</header>
 			<nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
-				<a class="mdl-navigation__link" href=""><i
-					class="mdl-color-text--blue-grey-400 material-icons"
-					role="presentation">home</i>Home</a> <a class="mdl-navigation__link"
-					href=""><i class="mdl-color-text--blue-grey-400 material-icons"
-					role="presentation">inbox</i>Inbox</a> <a class="mdl-navigation__link"
-					href=""><i class="mdl-color-text--blue-grey-400 material-icons"
-					role="presentation">delete</i>Trash</a> <a class="mdl-navigation__link"
-					href=""><i class="mdl-color-text--blue-grey-400 material-icons"
-					role="presentation">report</i>Spam</a> <a class="mdl-navigation__link"
-					href=""><i class="mdl-color-text--blue-grey-400 material-icons"
-					role="presentation">forum</i>Forums</a> <a class="mdl-navigation__link"
-					href=""><i class="mdl-color-text--blue-grey-400 material-icons"
-					role="presentation">flag</i>Updates</a> <a class="mdl-navigation__link"
-					href=""><i class="mdl-color-text--blue-grey-400 material-icons"
-					role="presentation">local_offer</i>Promos</a> <a
-					class="mdl-navigation__link" href=""><i
-					class="mdl-color-text--blue-grey-400 material-icons"
-					role="presentation">shopping_cart</i>Purchases</a> <a
-					class="mdl-navigation__link" href=""><i
-					class="mdl-color-text--blue-grey-400 material-icons"
-					role="presentation">people</i>Social</a>
+				<a class="mdl-navigation__link" href="../">
+					<i class="mdl-color-text--blue-grey-400 material-icons"
+					role="presentation">home</i>Home</a>
+				<a class="mdl-navigation__link" href="../contents/ytDownPage">
+					<i class="mdl-color-text--blue-grey-400 material-icons"	role="presentation">playlist_add</i>영상추가</a>
+				<a class="mdl-navigation__link"	href="../contents/BookMark">
+					<i class="mdl-color-text--blue-grey-400 material-icons"	role="presentation">bookmark</i>Bookmark</a>
+				<a class="mdl-navigation__link"	href="">
+					<i class="mdl-color-text--blue-grey-400 material-icons"	role="presentation">forum</i>Forums</a>
+				<a class="mdl-navigation__link"	href="">
+					<i class="mdl-color-text--blue-grey-400 material-icons"	role="presentation">flag</i>Updates</a>
+				<a class="mdl-navigation__link"	href="">
+					<i class="mdl-color-text--blue-grey-400 material-icons"	role="presentation">local_offer</i>Promos</a>
+				<a class="mdl-navigation__link" href="">
+					<i class="mdl-color-text--blue-grey-400 material-icons"	role="presentation">shopping_cart</i>Purchases</a>
+				<a class="mdl-navigation__link" href="">
+					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">people</i>Social</a>
+				
 				<div class="mdl-layout-spacer"></div>
 				<a class="mdl-navigation__link" href=""><i
 					class="mdl-color-text--blue-grey-400 material-icons"

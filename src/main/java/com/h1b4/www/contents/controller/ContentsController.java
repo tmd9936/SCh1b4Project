@@ -1,6 +1,11 @@
 package com.h1b4.www.contents.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,6 +77,7 @@ public class ContentsController {
 		return "/contents/contentsList";
 	}
 	
+
 	//교육용 페이지 이동
 	@RequestMapping(value="studySpace", method=RequestMethod.GET)
 	public String StudySpace(String contents_num,Model model) {
@@ -99,4 +105,49 @@ public class ContentsController {
 		logger.info("교육화면 이동 종료");
 		return "/education/studySpace";
 	}
+
+	//검색한 키워드를 transcript로 가진 contents
+	@RequestMapping(value="searchtText" ,method=RequestMethod.GET)
+	public String searchByText(Model model,String searchtext){
+		logger.info("검색한 텍스트 읽기");
+		
+		ArrayList<Contents> list = service.searchByText(searchtext);
+		System.out.println("searchtext"+searchtext);
+		model.addAttribute("list",list);
+		
+		return "/contents/contentsList";
+	}
+	
+	//즐겨찾기 목록
+	@RequestMapping(value="BookMark" ,method=RequestMethod.GET)
+	public String Bookmark(Model model,HttpSession session){
+		logger.info(" 즐겨찾기 읽기");
+		
+		String loginId = (String)session.getAttribute("loginId");
+		
+		ArrayList<Contents> bookmarklist = service.bookmarklist(loginId);
+		ArrayList<String> ytIdList = new ArrayList<>();
+		for (Contents contents : bookmarklist) {
+			ytIdList.add(contents.getContents_url().replace("https://www.youtube.com/embed/", ""));
+		}
+		
+		System.out.println("loginId"+loginId);
+		model.addAttribute("bookmarklist",bookmarklist);
+		model.addAttribute("ytIdList", ytIdList);
+		
+		
+		return "/contents/BookMark";
+		
+	}
+	
+	//영상추가 페이지 이동
+	@RequestMapping(value="ytDownPage" , method=RequestMethod.GET)
+	public String addVideo(){
+		logger.info("영상추가 페이지 이동");
+		
+		
+		return "/contents/ytDown";
+	}
+	
+
 }
