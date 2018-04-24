@@ -241,8 +241,14 @@ public class TranscriptController {
 	}
 	
 	@RequestMapping(value="goEditSpace", method = RequestMethod.GET)
-	public String goEditSpace(){
+	public String goEditSpace(Model model, Transcript ts){
 		
+		ArrayList<Transcript> tsList =  transcriptService.selectTranscript(ts);
+		
+		String youtubeUrl = transcriptService.selectContentsUrl(ts.getContents_num());
+		
+		model.addAttribute("url", youtubeUrl);
+		model.addAttribute("tsList", tsList);
 		
 		return "publish/editSpace";
 	}

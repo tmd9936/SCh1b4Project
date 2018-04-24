@@ -9,6 +9,8 @@
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Edit Space</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style type="text/css">
 	main {
 	    margin-left: 1em;
@@ -95,7 +97,9 @@
  	width : 100%;
  	height : 260px;
  	overflow : hidden;
-	padding: 0;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	overflow-x: none;
  }
  .genSubtitle{
  
@@ -103,6 +107,8 @@
 
 #playerSection player{
 	z-index: -1;
+	margin-bottom: 0px;
+	margin-top:0px;
 }
 
 
@@ -116,8 +122,9 @@
 	color: white;
 	text-align: center;
 	margin-left: 10%;
-	margin-top: 210px;
+	margin-top: 150px;
 	display: inline;
+	
 }
 
 #timeLineMarker{
@@ -135,20 +142,20 @@
 }
 
 #playRow{
-	background-color: GRAY;
+	background-color: #1a1a1a;
 	height: 65px;
 	overflow: hidden;
-	
+	overflow-y:auto;
 }
 
 #timeViewer{
 	height: 70px;
 	position : static;
-	overflow: hidden;
+
 }
 
 .transcriptTextArea{
-
+	
 	padding: 6px 10px 2px 30px;
 }
 #insertCell{
@@ -157,137 +164,266 @@
 }
 
 .subtitle{
-	height: 20px;
+	height: 28px;
 	width: 400px;
 	background-color: white;
 	opacity : 90;
-	float: left;
-	position: relative;
-	top: 30%;
+	position: absolute;
+	top: 35%;
 	margin-left: 51%;
+	cursor: move;
+}
+
+#transcripts {
+	overflow: auto;
+	height: 252px;
+	}
+
+#infoRow{
+	height : 200px;
+	padding-bottom: 7px;
+	padding-top: 0px;
+}
+
+.timing{
+	font-size: 10px;
+}
+.mdl-cell mdl-cell--4-col{
+	padding-bottom: 0px;
+}
+#container{
+	  background-color:  #333;
+}
+
+html {
+   overflow-x: hidden !important;
+ 
+}
+
+.material-icons md-18{
+	position: absolute;
+}
+
+.transcriptTextArea mdl-textfield__input {
+font-size: 1rem;
+}
+.timing_start_point{
+font-size: 0.89rem;
+}
+.timing_end_point{
+font-size: 0.89rem;
+}
+.disabled{
+    pointer-events:none;
+    opacity:0.4;
+}
+li:enabled:active{
+
 }
 
 </style>
 </head>
 <body>
-<div class="container"> </div>
-	<div class="mdl-grid" id="infoRow">
-		<div class="mdl-cell mdl-cell--4-col">
-		
-		<b>Keyboard controls</b> 
-		
-		    <p> Tab : 재생/정지 </p>
-		     <p> Shift + Tab : 재생/정지 (구현예정) </p>
-		
-		
-		</div>
-		<div class="mdl-cell mdl-cell--4-col" id="playerSection">
-			<div class="transcript-float-video">
-					자막 삽입 구간
+	<div class="container">
+		<div class="mdl-grid" id="infoRow">
+			<div class="mdl-cell mdl-cell--3-col">
+
+				<b>Keyboard controls</b>
+
+				<p>Tab : 재생/정지</p>
+
+				<p>Ctrl + X : 내용 복사</p>
+
+				<p>Shift + Tab : 재생/정지 (구현예정)</p>
+
+
 			</div>
-			
-			<div id="YouTube-player">
-			</div>
-			
-			
-	        <span class="nowrap margin-left-m margin-right-m">
-	          <input id="YouTube-video-id" type="hidden" value="a6Hk24zK8C0" size="12" pattern="[_\-0-9A-Za-z]{11}" onchange="youTubePlayerChangeVideoId();">
-				       
-	        </span>
-			
-	     <!--    <span class="nowrap">
+			<div class="mdl-cell mdl-cell--6-col" id="playerSection">
+				<div class="transcript-float-video">자막 삽입 구간</div>
+
+				<div id="YouTube-player"></div>
+
+
+				<span class="nowrap margin-left-m margin-right-m"> <input
+					id="YouTube-video-id" type="hidden" value="${url }" size="12"
+					pattern="[_\-0-9A-Za-z]{11}"
+					onchange="youTubePlayerChangeVideoId();">
+
+				</span>
+
+				<!--    <span class="nowrap">
 	          <button onclick="youTubePlayerPlay();">Play</button>
 	          <button onclick="youTubePlayerPause();">Pause</button>
 	          <button onclick="youTubePlayerStop();">Stop</button>
 	        </span> -->
-	        
-	
+
+
+			</div>
+			<div class="mdl-cell mdl-cell--3-col">
+				<div>
+					<ol>
+						<li id="firstRow">Type what you hear <br>
+						<button	class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="startBtn">Start Sync!</button>
+						</li>
+						<hr>
+						<li class="disabled" id="secondRow"> Sync Timing <br>
+						</li>
+						<hr>
+						<li class="disabled" id="thirdRow">Review and Complete <br>
+											
+						</li>
+					</ol>
+					
+					<script type="text/javascript">
+						$('#startBtn').on('click',function(){
+							var str = '';
+							str += '<button	class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="syncBtn">Start Review!</button>'
+							
+							$('#startBtn').closest("li").attr('class','disabled');
+							$('#startBtn').css('display','none');
+							$('#playRow').css('display','inherit');
+							$('#secondRow').append(str);
+							$('#secondRow').attr('class','active');
+							$('#syncBtn').on('click', function(){
+								var str = '';
+								str += '<button	class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="publishBtn">Publish</button>'
+								$('#syncBtn').closest("li").attr('class','disabled');
+								$('#syncBtn').css('display','none');
+								
+								$('#thirdRow').append(str);
+								$('#thirdRow').attr('class','active');
+							});
+							
+						});
+					
+					
+					</script>
+					
+					
+						
+				</div>
+			</div>
+
+
+
 		</div>
-		<div class="mdl-cell mdl-cell--4-col">
-			 <div>
-		      1. Type what you hear <br>
-		      
-		      2. Sync Timing <br>
 
-			  3. Review and Complete<br>		        
-		        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Publish!</button>
-	    	  </div>
-    	</div>
+		<div id="playRow" class="mdl-grid" style="display: none">
+			<div id="playDiv" class="mdl-cell--12-col">
+				<!-- <input id="YouTube-player-progress" type="range" value="0" min="0" max="100" onchange="youTubePlayerCurrentTimeChange(this.value);" oninput="youTubePlayerCurrentTimeSlide();"> -->
+				<div id="timeLineMarker"></div>
+				<div class="subtitle">
+					<a></a><span>Test</span><a></a>
+				</div>
+				<div id="YouTube-player-progress">
+					<canvas id="timeViewer"></canvas>
+				</div>
+			</div>
+		</div>
 
-  
-		
-      </div>
-	
-	<div id="playRow" class="mdl-grid">
-	 	<div id="playDiv" class="mdl-cell--12-col">
-			<!-- <input id="YouTube-player-progress" type="range" value="0" min="0" max="100" onchange="youTubePlayerCurrentTimeChange(this.value);" oninput="youTubePlayerCurrentTimeSlide();"> -->	
-			<div id="timeLineMarker"></div>
-			<div class="subtitle"><a></a><span>Test</span><a></a></div>
-			<div id="YouTube-player-progress">
-				<canvas id="timeViewer"></canvas>
+		<div id="editRow" class="mdl-grid">
+
+			<div class="mdl-cell mdl-cell--4-col">
+				<div>
+					<c:if test="${tsList != null }">
+						<button id="cloneBtn">Clone</button>
+					</c:if>
+				</div>
+				<div id="transcripts">
+					<ul class="demo-list-item mdl-list">
+						<c:forEach items="${tsList }" var="list">
+							<li class="mdl-list__item"><span class="timing_text">${list.ts_text }</span>
+								<input type="hidden" class="timing_text_hidden"
+								value="${list.ts_text }">
+								<div id="tt${list.ts_num }" class="material-icons md-18">assignment</div>
+								<div class="mdl-tooltip" for="tt${list.ts_num }">
+									<span class="timing_start">start : ${list.ts_start }</span><br>
+									<span class="timing_dur">duration : ${list.ts_dur }</span> <input
+										class="timing_start_hidden" type="hidden"
+										value="${list.ts_start }"><input
+										class="timing_dur_hidden" type="hidden"
+										value="${list.ts_dur }">
+								</div></li>
+						</c:forEach>
+					</ul>
+				</div>
+			</div>
+
+			<div class="mdl-cell mdl-cell--4-col">
+				<!-- <form action="syncedTranscript"> -->
+				<div>편집영역</div>
+				<div id="insertCell">
+					
+						<div id="transcriptPlace">
+							<ul class="demo-list-item mdl-list" id="sortableEditList">
+							
+							</ul>
+						</div>
+						<div id="genSubtitle">+ New subtitle</div>
+				</div>
+				<!-- </form> -->
+			</div>
+
+			<div id="notes" class="mdl-cell mdl-cell--4-col">
+				<div>정보영역</div>
+				<br>
+				<div class="framed">
+					<div id="YouTube-player-infos"></div>
+					<div id="YouTube-player-errors"></div>
+					<div id="YouTube-player-fixed-infos"></div>
+				</div>
+
+				<div class="framed">
+					<div id="YouTube-player-infos"></div>
+					<div id="YouTube-player-errors"></div>
+					<div id="YouTube-player-fixed-infos"></div>
+				</div>
+
+
+
 			</div>
 		</div>
 	</div>
-	
-	<div id="editRow" class="mdl-grid">
-		<div id="transcripts" class="mdl-cell mdl-cell--4-col">
-			<ul>
-				<c:forEach items="${tsList }" var="list">
-					<li>${list.ts_start }</li>			
-					<li>${list.ts_text }</li>
-					<li>${list.ts_dur }</li>
-				</c:forEach>
-			</ul>
-		</div>
-		
-		<div id="insertCell" class="mdl-cell mdl-cell--4-col">
-			<form action="syncedTranscript">
-				<ul>
-					<li><div id="transcriptPlace"></div></li>
-					<div id="genSubtitle"> + New subtitle </div>
-				</ul>
-			</form>
-		</div>
-		
-		<div id="notes" class="mdl-cell mdl-cell--4-col">
-			<div class="framed">
-		       <div id="YouTube-player-infos"></div>
-		       <div id="YouTube-player-errors"></div>
-		       <div id="YouTube-player-fixed-infos"></div>
-		    </div>
 
-		    <div class="framed">
-		      <div id="YouTube-player-infos"></div>
-		      <div id="YouTube-player-errors"></div>
-		      <div id="YouTube-player-fixed-infos"></div>
-		    </div>
-    
-		
-		
-		</div>
-	</div>
 	
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
 <script>
-//자막 시작 포인트
+//자막 시작&끝 포인트
 var startPoint = 0;
+var endPoint = 0;
 //자막 div 상태 전역변수
 var transDivStatus = 0;
 //Canvas 그리기 전역변수
 var canvasOnce = 0;
 
+//ProgressBar x 좌표 변수
+var progressBar = 0;
+
+
+//DisplayFlag
+var displayFlag = 0;
+
+//syncIndex 
+var syncIndex = 0;
+//syncFlag
+var syncFlag = false;
+
+
+var lengthGeneral = $('.transcriptDiv').length;
 $('#genSubtitle').on('click', function(){
 	var length = $('.transcriptDiv').length;
-	var button = "<button class='mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab'><i class='material-icons'>add</i> </button>";
 	var str = '';
-	
-	str += "<div class='transcriptDiv'><textarea class='transcriptTextArea'></textarea></div>";
-	str += "<input type='hidden' value="+ length +" />";
-	
-	$('#transcriptPlace').append(str);
-	
+	str += "<li class='transcriptDiv'><i class='material-icons md-18'><span class='dragEditList'>format list numbered</span></i>"
+	str += "<input class='transcriptTextArea mdl-textfield__input' type='text' data-num="+lengthGeneral+"></input>";
+	str += "<span class='timing_start_point'><c:if test="youTubePlayerActive()">"+console.log(youTubePlayer.getCurrentTime())+"</c:if></span>";
+	str += "<i class='material-icons md-18'><span class='delEditList'>close</span></i>"
+	str += "<span class='timing_end_point'></span></li>"
+	$('#transcriptPlace ul').append(str);
+	delListEdit();
+	getValueOfSort();
+	sortEditDiv();
+	setTextSubtitle();
 	}); 
+	
 
 
 /**
@@ -319,7 +455,7 @@ function onYouTubeIframeAPIReady() {
     var inputVideoId = document.getElementById('YouTube-video-id');
     var videoId = inputVideoId.value;
     var suggestedQuality = 'tiny';
-    var height = 300;
+    var height = 200;
     var width = 400;
     var youTubePlayerVolumeItemId = 'YouTube-player-volume';
 
@@ -418,6 +554,8 @@ function youTubePlayerCurrentTimeChange(currentTime) {
     if (youTubePlayerActive()) {
         youTubePlayer.seekTo(currentTime*youTubePlayer.getDuration()/100, true);
         
+       
+        
     }
 }
 
@@ -429,6 +567,8 @@ function youTubePlayerCurrentTimeSlide() {
     'use strict';
 	  
     youTubePlayer.personalPlayer.currentTimeSliding = true;
+    
+    drawItAgain(youTubePlayer.getDuration(), current);
 }
 
 
@@ -451,7 +591,8 @@ function youTubePlayerDisplayFixedInfos() {
  *   some video informations to #YouTube-player-infos,
  *   errors to #YouTube-player-errors
  *   and set progress bar #YouTube-player-progress.
- */
+ */ 
+ var progressStatus = 0;
 function youTubePlayerDisplayInfos() {
     'use strict';
 
@@ -474,26 +615,95 @@ function youTubePlayerDisplayInfos() {
         var currentPercent = (current && duration
                               ? current*100/duration
                               : 0);
-        //div 움직이기
+        
+       /**
+       *	 div 움직이기 
+       *
+       */ 
         if(state === 1){
-        	$("#YouTube-player-progress").animate({left:-current*70+"px"},5);
+        	$("#YouTube-player-progress").animate({left:(progressBar == 0 ? -current*70 : (3800*progressBar)-current*70 )+"px"},5);
+        		progressStatus++;
+        		//progressBar++;
+        		
+        		if(progressStatus >= 1100){
+        			var canvas = document.getElementById('timeViewer');
+        			var c = canvas.getContext('2d');
+        			c.fillStyle="gray";
+        			c.clearRect(0, 0, canvas.width, canvas.height);
+        			$("#YouTube-player-progress").css('left','-1000');
+        			drawItAgain(duration, current);
+        			console.log(duration+"길이");
+        			console.log(current+"현재 위치");
+        			progressStatus = 0;
+        			progressBar++;
+        		}
+        
+      
         	
+        		
         	if(transDivStatus === 1){
         		$(".subtitle").animate({left:startPoint*70 - current*70+"px"},5);	
+        	
         	}
         	
         	
+        	if(state === 0){
+        		progressBar = 0;
+        		//자막 시작&끝 포인트
+        		startPoint = 0;
+        		endPoint = 0;
+        		//자막 div 상태 전역변수
+        		transDivStatus = 0;
+        		//Canvas 그리기 전역변수
+        		canvasOnce = 0;
+        		//ProgressBar x 좌표 변수
+        		progressBar = 0;
+        		//DisplayFlag
+        		displayFlag = 0;
+        		//syncIndex 
+        		syncIndex = 0;
+        		//syncFlag
+        		syncFlag = false;
+        	}
+        	
         }
+       
+       
+       
+       //start, duration
+/*         var check = $('.timing_start_hidden');
+        var dur =  $('.timing_dur_hidden');
+        var text = $('.timing_text_hidden');
+        
+ 
+        for(let i = 0 ; i < check.length ; i++){
+        	var startPoint = check[i].value;
+        	var endPoint = Number(startPoint)+ Number(dur[i].value);
+        	
+     
+        	if(startPoint <= current && endPoint > current ){
+        		transcriptDisplayOrNot(true);
+        		 $(".transcript-float-video").text(text[i].value);
+        		
+        		break;
+        	}else{
+        		transcriptDisplayOrNot(false);	
+        	}
+        	
+        
+      	  
+      	
+        } 
+ */       
+       
         
         //캔버스 그리기
         if(canvasOnce < 1){
         	drawIt(duration);
         	console.log(duration);
-        	if (duration  >0){
+        	if (duration >0){
         		canvasOnce++;	
         	}
-        	
-        	
         }
         
         
@@ -505,6 +715,36 @@ function youTubePlayerDisplayInfos() {
      /*    $('editRow').createElement("button", {
         	
         } */
+        
+        
+        //자막DIV 보이기 안보이기 호출
+       
+        
+      /*   if(timing_start  <= current &&  timing_end >= current ){
+        	transcriptDisplayOrNot(true);	
+        	displayFlag++;
+        	
+        }else{
+        	transcriptDisplayOrNot(false);
+        	
+        }
+         */
+         /**
+         *	DIV 만드는 함수 호출
+         */
+        
+        if(syncIndex == $('.transcriptDiv').length-1){
+        	
+        	var lastIndex  = $('.subtitle').length;
+        	var numOfTransDiv = $('.transcriptDiv').length-1;
+     
+        	if (lastIndex > numOfTransDiv + 5){
+        		console.log("리턴");
+        		return;	
+        	}
+        	createSubtitleDiv(numOfTransDiv);	
+        }
+         
         
         var fraction = (youTubePlayer.hasOwnProperty('getVideoLoadedFraction')
                         ? youTubePlayer.getVideoLoadedFraction()
@@ -626,16 +866,12 @@ function youTubePlayerVolumeChange(volume) {
 		var canvas = document.getElementById('timeViewer');
 	    var c = canvas.getContext('2d'); 
 	   
-	    //글자 설정
 	    
-	    
-	    canvas.width = 100 * totalTime;
+	    canvas.width = 15000;
 	    
 	   //시, 분, 초 계산
 	    var hour = Math.floor(totalTime / 3600);
-	   
 	    var minute = Math.floor(totalTime / 60) - (hour * 60);
-	   
 	    var second =  totalTime - (minute * 60 +  hour * 60*60);
 	   
 	    //시간 표시를 위한 타임스탬프
@@ -645,41 +881,123 @@ function youTubePlayerVolumeChange(volume) {
 	    var secStamp = 0;
 	    
 	    while(timeStamp <= totalTime){
-	    	
 			if(secStamp >= 60){
 	    		minuteStamp++;
 	    		secStamp = 0;
-	    	
-	    	}else if(minuteStamp >= 60){
+	    	}
+			if(minuteStamp >= 60){
 	    		hourStamp++;
 	    		minuteStamp = 0;
 	    	}
-	    
-	    	c.font= 'bold 30px Consolas';
-	    	
+			//글자 설정
+	    	c.fillStyle="gray";
+			c.font= 'bold 30px Consolas';
 	    	c.fillText( 
 	    			(pad(hourStamp,2) == 00 ? "" : (pad(hourStamp,2)+":")) 
 	    			+ (pad(minuteStamp,2) == 00 ? 0+":" : (pad(minuteStamp,2)+":")) 
 	    			+ pad(secStamp,2), 150 * timeStamp, 140);
+	    	
 	    	secStamp++;
 	    	timeStamp++;
-	    	console.log(secStamp);
 	    	
 	    }
 	    
 	}
 	
-	//숫자 01 로 표현하는 거 
+	function drawItAgain(totalTime, current) {
+		var canvas = document.getElementById('timeViewer');
+	    var c = canvas.getContext('2d'); 
+	   
+	    
+	    canvas.width = 15000;
+	    
+	   //시, 분, 초 계산
+	    var hour = Math.floor(totalTime / 3600);
+	    var minute = Math.floor(totalTime / 60) - (hour * 60);
+	    var second =  totalTime - (minute * 60 +  hour * 60*60);
+	    
+	    
+	    //현재 시간을 시분초로 계산
+	    var currentHour = Math.floor(current / 3600);
+	    var currentMinute = Math.floor(current / 60) - (hour * 60);
+	    var currentSecond =  current - (currentMinute * 60 +  currentHour * 60*60);
+	    
+	    
+	 
+	    //시간 표시를 위한 타임스탬프
+	    var timeStamp = 0;
+	    var hourStamp = currentHour;
+	    var minuteStamp = currentMinute;
+	    var secStamp = Math.floor(currentSecond);
+	    
+	    var differentStamp = totalTime - current;
+	    
+	    //싱크 맞춰주기 위한 Stamp 설정
+	    if((secStamp ) < 0){
+			secStamp = secStamp + 50 ;
+	    	if(--minuteStamp < 0){
+	    		minuteStamp = minuteStamp + 50;
+	    		--hour;
+	    	}
+	    }else{
+	    	secStamp = secStamp;
+	    }   
+	    
+	    console.log(hourStamp);
+	    console.log(minuteStamp);
+	    console.log(secStamp);
+	   
+	    
+	    
+	    while(timeStamp <= differentStamp){
+			if(secStamp >= 60){
+	    		minuteStamp++;
+	    		secStamp = 0;
+	    	}
+			if(minuteStamp >= 60){
+	    		hourStamp++;
+	    		minuteStamp = 0;
+	    	}
+			//글자 설정
+	    
+			c.font= 'bold 30px Consolas';
+			c.fillStyle="gray";
+			c.fillText( 
+	    			(pad(hourStamp,2) == 00 ? "" : (pad(hourStamp,2)+":")) 
+	    			+ (pad(minuteStamp,2) == 00 ? 0+":" : (pad(minuteStamp,2)+":")) 
+	    			+ pad(secStamp,2),  150 * timeStamp, 140);
+	    	
+	    	secStamp++;
+	    	timeStamp++;
+	    	
+	    }
+	    
+	}
+	
+	/*
+		캔버스 지우기
+	*
+	*/
+	
+	function cleartIt(){
+		
+	}
+	
+	
+	//숫자 01 로 표현하는 함수 
 	function pad(n, width){
 		n = n+ '';
 		return n.length >= width ? n : new Array(width - n.length + 1 ).join('0')+n;
 	}
 
 	//자막 보이기 숨기기
- 	function transcriptDisplayOrNot() {
+ 	function transcriptDisplayOrNot(flag) {
 		
-		
-		
+		if(flag){
+			$('.transcript-float-video').css('display','inline');	
+		}else{
+			$('.transcript-float-video').css('display','none');
+		}
 	}
 	
 	//개별 자막 전송
@@ -696,9 +1014,77 @@ function youTubePlayerVolumeChange(volume) {
 		});
 	} */
 	
-	//화면위에 div 출력 해주기
+	/**
+		
+			
+	*/
+	
+	/*
+	 *	Div 에 편집영역 텍스트 붙여넣기
+	 *
+	 **/
+	function setTextSubtitle() {
+		var text = $('input[type="text"]')[syncIndex];
+		console.log(text.value);
+		
+		var subtitle =$('.subtitle')[syncIndex]; 
+		console.log(subtitle);
+		subtitle.childNodes[2].innerHTML = text.value;
+		
+		
+	}
 	
 	
+	/**
+		왼쪽 불러온 자막을 편집영역으로 복사하기
+	*/
+	
+	$('#cloneBtn').on('click', function(){
+		var cloneElements = $('#transcripts').clone();
+		// 변수 cloneElements를 만들어 복사된 요소들을 저장
+		cloneElements .appendTo('#insertCell');
+		// 복사한 요소들을 buttons2 클래스명의 자식요소로 넣기
+	});
+	
+	
+	
+	/**
+	 *  자막 시작 점 설정
+	 *
+	 */
+	function setStartPoint(current){
+		//syncIndex = console.log(getValueOfSort());	
+		var spanStart = $('.timing_start_point')[syncIndex];
+		spanStart.innerHTML = current;
+		var flag = spanStart.innerHTML;
+
+		if(!(flag =="" || flag == null || flag == undefined)){
+			syncFlag = true;
+			
+			return true;
+		}
+		
+	}
+	
+	/**
+	 * 자막 종료 점 설정
+	 *
+	 */
+	function setEndPoint(current, syncFlag){
+		if(!syncFlag){
+			return false;
+		}
+		var spanEnd = $('.timing_end_point')[syncIndex];
+		spanEnd.innerHTML = current;
+		var flag = spanEnd.innerHTML;
+		
+		if(!(flag =="" || flag == null || flag == undefined)){
+			syncIndex++;
+			syncFlag = false;
+			return true;
+		}
+		
+	}	
 	
 	
 	/**
@@ -706,27 +1092,142 @@ function youTubePlayerVolumeChange(volume) {
 		parameters : currentTime
 		returns : duration 
 	*/
-	function setTranscriptDiv(current, keyEvent){
-			
+	function setTranscriptDiv(current,syncIndex, keyEvent){
 			
 			if(keyEvent == 40){
+				if(syncIndex > 1){
+					
+					var syncStartDiv = $(".subtitle");
+					syncStartDiv[syncIndex].style.left = ""+current+"px";
+					startPoint = current;
+					transDivStatus = 1;
+					
+				}else{
+					$(".subtitle").css( 'left' , ''+current);
+					startPoint = current;
+					transDivStatus = 1;
+				}
 				
-				$(".subtitle").css( 'left' , ''+current);
-				startPoint += current;
-				transDivStatus = 1;
-				console.log(transDivStatus);
 			}
 			
 			if(keyEvent == 38){
+				if(syncIndx > 1){
+					var syncEndDiv = $(".subtitle")[syncIndex];
+			//		console.log(syncEndDiv);
+					syncEndDiv.style.width = ""+ current*70 - startPoint*70 + "px";
+					
+				}else{
+					$(".subtitle").css('width', '' + current * 70 - startPoint*70+'px' );	
+				}
 				
-				$(".subtitle").css('width', '' + current * 50 - startPoint+'px' );
-			
-				
-		
 			}
-			
 			return ;
 		}
+	
+	
+	
+	/*
+	*  Div 시작위치점 잡는 함수  + duration 에 맞게 길이 설정 해주는 함수
+	*/
+	
+	function setFloatDiv(startTime, duration, count){
+		
+		if(count == 1){
+		
+			$(".subtitle").css('left', startTime * 70 + 'px');
+			$(".subtitle").css('width',duration * 70+'px');
+		}else{
+			$(".subtitle").each(function(index, item){
+				let startPoint = $('input[type=text]').childNodes;
+				console(startPoint);
+				$('.subtitle').eq(index).css('left', startPoint * 70 + 'px');
+				$('.subtitle').eq(index).css('width', dur * 70+'px');
+			});
+		}
+		
+		
+	}
+	
+	
+	/**
+		selected 된 Text 값 리턴
+	*/
+	function getSelectedText() {
+	    if (window.getSelection) {
+	        return window.getSelection().toString();
+	    } else if (document.selection) {
+	        return document.selection.createRange().text;
+	    }
+	    return '';
+	}
+	
+	/**
+	*	선택영역 <li>삭제 이벤트 연결 함수
+	*/
+	function delListEdit(){
+		$('.delEditList').on('click', function(){
+			$(this).closest("li").remove();
+		});
+		
+	}
+	
+	/**
+	*	밸류값 indexing 하기
+	*/
+	function getValueOfSort(){
+		$('.transcriptDiv').click(function(){
+			var index = $('.transcriptDiv').index(this);
+			return index;
+		});
+		
+	}
+	
+	/**
+	*	편집영역 div 순서 바꾸기
+	*/
+	
+	function sortEditDiv(){
+	
+		$("#sortableEditList").sortable();
+		$("#sortableEditList").disableSelection();
+		
+	}
+	
+	/*
+	 *	DIV 생성하기
+	 *
+	 **/
+	function createSubtitleDiv(numOfTranscript){
+		var lastIndex  = $('.subtitle').length;
+		
+		console.log(lastIndex);
+		
+		/* if(numOfTranscript < lastIndex){
+			break;
+		}  */
+		
+		if(lastIndex == 2){
+			var str = '';
+			str = '<div class="subtitle" style="width:400px; float:left; left:200px">';
+			str += '<a></a><span></span><a></a></div>';
+			$('.subtitle').after(str);
+		
+		}else if(lastIndex){
+			let i = lastIndex + 1;
+			var str = '';
+			str = '<div class="subtitle" style="width:400px; float:left; left:200px">';
+			str += '<a></a><span></span><a></a></div>';
+			$('.subtitle').after(str);
+			
+				for(i ; i < lastIndex+5 ; i++ ){
+					$('.subtitle').after(str);
+					
+					console.log($('.subtitle'));
+					console.log(i);
+				}
+				
+			}
+	}
 	
 	
 /**
@@ -745,7 +1246,26 @@ function youTubePlayerVolumeChange(volume) {
 
         first_script_tag.parentNode.insertBefore(tag, first_script_tag);
     	
-		
+       // setFloatDiv($('.timing_start_point')[0].val(),$('.timing_end_point')[0].val());
+        
+        //Draggable
+     //   $('.transportable').draggable();
+        
+     /*    $('.timing_text').ondrag(function() {
+		    var text=getSelectedText();
+		    if (text!='') alert(text);
+		});
+
+		function getSelectedText() {
+		    if (window.getSelection) {
+		        return window.getSelection().toString();
+		    } else if (document.selection) {
+		        return document.selection.createRange().text;
+		    }
+		    return '';
+		} */
+        
+	
         // Set timer to display infos
         setInterval(youTubePlayerDisplayInfos, 50);
     }
@@ -756,6 +1276,10 @@ function youTubePlayerVolumeChange(volume) {
     }
 }());
 
+	/**
+	 * 키보드 동작 매칭
+	 *
+	 */
 	$(document).keydown(function(e) {
 	
 		  if(e.which == 26) {
@@ -781,16 +1305,69 @@ function youTubePlayerVolumeChange(volume) {
 		  
 		  if(e.which == 40){
 			  console.log(e.which);
-			  setTranscriptDiv(youTubePlayer.getCurrentTime(),e.which)
+			  setTranscriptDiv(youTubePlayer.getCurrentTime(),syncIndex ,e.which);
+			  setStartPoint(youTubePlayer.getCurrentTime());
 		  }
 		  
 		  if(e.which == 38){
 			  console.log(e.which);
-			  setTranscriptDiv(youTubePlayer.getCurrentTime(),e.which)
+			  setTranscriptDiv(youTubePlayer.getCurrentTime(),e.which);
+			  setEndPoint(youTubePlayer.getCurrentTime(), syncFlag);
 		  }
+		  
+		  if(e.which == 13){
+			  console.log(e.which);
+			  
+				var length = $('.transcriptDiv').length;
+				var str = '';
+				str += "<li class='transcriptDiv'><i class='material-icons md-18'><span class='dragEditList'>format list numbered</span></i>"
+				str += "<input class='transcriptTextArea mdl-textfield__input' type='text' data-num="+length+"></input>";
+				str += "<input type='hidden' value="+ length +" />";
+				str += "<span class='timing_start_point'><c:if test="youTubePlayerActive()">"+console.log(youTubePlayer.getCurrentTime())+"</c:if></span>";
+				str += "<i class='material-icons md-18'><span class='delEditList'>close</span></i>";
+				str += "<span class='timing_end_point'></span></li>";
+				$('#transcriptPlace ul').append(str);
+				$('input[data-num='+length+']').focus();
+				delListEdit();
+				getValueOfSort();
+			    sortEditDiv();
+			    setTextSubtitle();
+		  }
+		  
+		  if(e.which == 88 & e.ctrlKey){
+
+			  //로직
+			var text = getSelectedText();
+			if(text == ''){
+				return false;
+			} 
+			  
+			var length = $('.transcriptDiv').length;
+			var str = '';
+			str += "<li class='transcriptDiv'><i class='material-icons md-18'><span class='dragEditList'>format list numbered</span></i>"
+			str += "<input class='transcriptTextArea mdl-textfield__input' type='text' data-num="+length+" value="+text+"></input>";
+			str += "<input type='hidden' value="+ length +" />";
+			str += "<span class='timing_start_point'><c:if test="youTubePlayerActive()">"+console.log(youTubePlayer.getCurrentTime())+"</c:if> </span>";
+			str += "<i class='material-icons md-18'><span class='delEditList'>close</span></i>"
+			str += "<span class='timing_end_point'></span></li>";
+			$('#transcriptPlace ul').append(str);
+			$('input[data-num='+length+']').focus();
+			  
+			delListEdit();
+			getValueOfSort();
+			sortEditDiv();
+			setTextSubtitle();
+			  return false;
+			  
+		  }
+		  
 		  
 	});
 
+	
+	$('#transcriptDiv').on('click',function(){
+		
+	});
 </script>
 
 

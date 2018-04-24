@@ -11,4 +11,7 @@ public interface TranscriptMapper {
 	public ArrayList<Transcript> selectT(Transcript ts);
 	
 	public int insertTsOne(Transcript transcript);
+	
+	
+	public String selectContentsUrl(int contents_num);
 }

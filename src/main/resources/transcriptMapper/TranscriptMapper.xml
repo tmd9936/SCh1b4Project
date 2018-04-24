@@ -56,12 +56,25 @@
 	
 	
 	
-	<select id="selectT" resultType="transcript">
-	
-	
-	
+	<select id="selectT" parameterType="transcript" resultType="transcript">
+	select * 
+		from 
+			transcript 
+		where 
+			contents_num = #{contents_num}
+
 	</select>
 	
+	
+	<select id="selectContentsUrl" parameterType="int" resultType="String">
+	select 
+		contents_url
+		from
+			contents
+		where
+			contents_num = #{contents_num}			
+	
+	</select>
 	
 	
 </mapper>

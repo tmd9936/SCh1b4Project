@@ -98,5 +98,19 @@ public class TranscriptService {
 		 
 	 return tsList; 
 	 }
+	 
+	 public String selectContentsUrl(int contents_num){
+		 
+		 String rawContentsUrl = tsdao.selectContentsUrl(contents_num);
+		 
+		 if(rawContentsUrl.equals("")){
+			 return "fail";
+		 }
+		 
+		String[] youtubeUrl  = rawContentsUrl.split("embed/");
+		 
+		 
+		 return youtubeUrl[1];
+	 }
 	
 }

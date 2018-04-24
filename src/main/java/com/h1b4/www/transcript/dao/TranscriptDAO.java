@@ -59,4 +59,17 @@ public class TranscriptDAO {
 		
 		return flag;
 	}
+	
+	
+	public String selectContentsUrl(int contents_num){
+		TranscriptMapper mapper = sqlSession.getMapper(TranscriptMapper.class);
+		
+		String contentsUrl = "";
+		try {
+			contentsUrl = mapper.selectContentsUrl(contents_num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return contentsUrl;
+	}
 }
