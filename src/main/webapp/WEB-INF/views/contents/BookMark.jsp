@@ -7,20 +7,19 @@
 	<script type="text/javascript">
 	
 	
-	$(function(){
-			
-
-	});
-	
 	</script>	
 	
     <!-- 여기부터 시작 -->
   	<main class="mdl-layout__content mdl-color--grey-100">
         <div class="mdl-grid demo-content">
-        	<c:if test="${sessionScope.loginId == null }">	
-				<h1>로그인 이후 사용해 주세요</h1>        	
-        	</c:if>
         	
+		<c:choose>
+        	
+        	<c:when test="${sessionScope.loginId == null }">	
+				<h1>로그인 이후 사용해 주세요</h1>        	
+        	</c:when>
+        	
+        	<c:otherwise>
             <c:forEach var="bookmark" items="${bookmarklist }" varStatus="status">
         	<div class="mdl-grid mdl-cell mdl-cell--12-col mdl-cell--4-col-tablet mdl-card mdl-shadow--4dp">
                     <div class="mdl-card__media mdl-cell mdl-cell--10-col-tablet">
@@ -34,11 +33,12 @@
                             <span>Category : ${bookmark.category }</span>
                         </div>
                     </div>
-                    <input type="button" value="미리보기" class="miribogi" url="${ytIdList[status.index] }" onclick="miribogi"> 
                 </div>
                 <div class="miriDiv">
                 </div>
      		</c:forEach>
+   			</c:otherwise>
+    	</c:choose>
   	 	</div>
     </main>
     <!-- 여기까지가 페이지의 코드 -->
