@@ -120,7 +120,7 @@ public class ContentsDAO {
 		}
 		
 		return contents;
-
+	}
 	//카테고리로 검색
 	public ArrayList<Contents> searchByCategory(String category_kr){
 		logger.info("DAO카테고리별 리스트  가져오기 시작");
