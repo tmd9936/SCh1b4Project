@@ -239,7 +239,7 @@ public class YoutubeDownService {
 				.build(), new FileInputStream(new File("c:/tmp/test/" + filename)));
 
 		// return the public download link
-		Files.deleteIfExists(new File("c:/tmp/test/" + filename).toPath());
+		//Files.deleteIfExists(new File("c:/tmp/test/" + filename).toPath());
 
 	}
 }

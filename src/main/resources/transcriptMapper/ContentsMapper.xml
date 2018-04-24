@@ -24,6 +24,25 @@
  			contents_url = #{contents_url}
  	</select>
  	
+ 	<select id="searchByNumber" parameterType="java.lang.String" resultType="contents">
+ 		select
+ 			contents_num
+ 			,contents_title
+ 			,endtime
+ 			,thumbnail
+ 			,deletestate
+ 			,deletedate
+ 			,deleteid
+ 			,category
+ 			,contents_url
+ 			,contents_hits
+ 		
+ 		from 
+ 			contents
+ 		where 
+ 			contents_num = #{contents_num}
+ 	</select>
+ 	
  	<insert id="insertContents" parameterType="contents">
  		<selectKey keyProperty="contents_num" resultType="int" order="BEFORE">
 			select contents_seq.nextval from dual

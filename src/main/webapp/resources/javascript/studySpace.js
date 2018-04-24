@@ -4,6 +4,85 @@
 
 
 var youTubePlayer;
+var done = true;
+var dur = 3000;
+
+var ts_num = '';
+var spTime = (100/allTime)/4; //seekPointTime 0.25초에 crub이 가는 시간 
+var intervals = new Array();
+var speakSpace = false;
+var speakState = false;
+var speakText = '';
+$(function(){
+	$('.script-bar').on('click',function(){
+		speakState = true;
+		$('#start').val($(this).attr('start'));
+		$('#dur').val($(this).attr('dur'));
+		speakText = $(this).attr('text');
+		
+		if(speakState){
+			$('.Notice').text(speakText);
+		}
+		
+		if(intervals.length >0){
+			$.each(intervals,function(index,inter){
+				clearInterval(inter);
+			});
+		}
+		$('.script-bar').attr('click','false');
+		$(this).attr('click','true');
+		
+		//crub위치 바꾸기
+		var left = $(this).attr('left');
+		$('.seek-crub').css('left',left+'%');
+		ts_num = $(this).attr('num');
+		num = ts_num;
+		
+		var crubsp = parseFloat(left);
+		var endTime = ((parseFloat($(this).attr('start'))+parseFloat($(this).attr('dur')))/allTime*100);
+		var ss = setInterval(function(){
+			$('.seek-crub').css('left',crubsp+'%');
+			//alert((parsefloat($('.seek-crub').css('left').replace('%',''))+spTime));
+			crubsp += spTime;
+			console.log(intervals.length);
+			if(num != ts_num||crubsp>endTime){
+				clearInterval(ss);
+			}
+			
+		},250);
+		
+		intervals.push(ss);
+		
+		dur = parseInt(($(this).attr('dur')))*1090;
+		done = false;
+		
+		var start = $(this).attr('start'); //유튜브 시작 초
+		youTubePlayer.seekTo(start,true);// 유튜브 시작위치
+		youTubePlayer.playVideo(); //유튜브 재생
+		
+		setTimeout(changeSeekerColor,dur,this);
+		
+	});
+});
+
+function changeSeekerColor(bar){
+	if($(bar).attr('click')=='true')
+		$(bar).css('background-color', 'red');
+}
+
+function moveCrub(num){
+	
+}
+
+
+function pauseVideo(num){
+	if(ts_num == num)
+		youTubePlayer.pauseVideo();
+}
+
+function stopVideo() {
+	youTubePlayer.stopVideo();
+ }
 
 
 function onYouTubeIframeAPIReady() {
@@ -12,8 +91,8 @@ function onYouTubeIframeAPIReady() {
     var inputVideoId = document.getElementById('YouTube-video-id');
     var videoId = inputVideoId.value;
     var suggestedQuality = 'tiny';
-    var height = 300;
-    var width = 300;
+    var height = 360;
+    var width = 640;
     var youTubePlayerVolumeItemId = 'YouTube-player-volume';
 
 
@@ -40,6 +119,10 @@ function onYouTubeIframeAPIReady() {
         if (volumeItem && (Math.round(volumeItem.value) != volume)) {
             volumeItem.value = volume;
         }
+        if (event.data == YT.PlayerState.PLAYING && !done) {
+        	done = true;
+            setTimeout(pauseVideo, dur,ts_num);
+          }
     }
 
 
@@ -47,13 +130,16 @@ function onYouTubeIframeAPIReady() {
                                   {videoId: videoId,
                                    height: height,
                                    width: width,
-                                   playerVars: {'autohide': 0,
+                                   playerVars: {
+                                	   			'wmode' : "transparent",
+                                	   			'autohide': 0,
                                                 'cc_load_policy': 0,
                                                 'controls': 2,
                                                 'disablekb': 1,
                                                 'iv_load_policy': 3,
                                                 'modestbranding': 1,
                                                 'rel': 0,
+                                                'controls' : 0,
                                                 'showinfo': 0,
                                                 'start': 3
                                                },
@@ -66,6 +152,8 @@ function onYouTubeIframeAPIReady() {
     // Add private data to the YouTube object
     youTubePlayer.personalPlayer = {'currentTimeSliding': false,
                                     'errors': []};
+
+    
 }
 
 
@@ -100,17 +188,6 @@ function youTubePlayerChangeVideoId() {
     youTubePlayerDisplayFixedInfos();
 }
 
-
-
-
-/**
- * Mark that the HTML slider move.
- */
-function youTubePlayerCurrentTimeSlide() {
-    'use strict';
-
-    youTubePlayer.personalPlayer.currentTimeSliding = true;
-}
 
 
 
@@ -254,7 +331,7 @@ function youTubePlayerStop() {
         var first_script_tag = document.getElementsByTagName('script')[0];
 
         first_script_tag.parentNode.insertBefore(tag, first_script_tag);
-
+        
 
         // Set timer to display infos
        // setInterval(youTubePlayerDisplayInfos, 1000);
@@ -274,23 +351,39 @@ function youTubePlayerStop() {
 
 function GoSpeakTheLine(){
 	
-	var div = document.getElementById("divNewGSTL");
 	
-	var str = '<div class="Notice">'; 
-		 
-		str +=  "비디오에서 SPEAK1할 문장을 선택하세요:";
-		str += '</div>';
-		str += '<style type="text/css">';
-		str += '.secondView{'
-		str += 'width: 598px;';
-		str += 'height: 598px;';
-		str += 'border:1px solid;';
-		str +=	'}';
-		str	+= '</style>';
-		
-		
-	div.innerHTML = str;	
 	
+	if(!speakSpace){
+		
+		var str = '<div class="Notice">';  
+			str +=  "비디오에서 SPEAK1할 문장을 선택하세요:";
+			str += '</div>';
+			/*str +=' <button id="start_button">시작</button>';
+			str += '<button id="endBtn" onclick="stopRecording(this);" disabled>종료</button>';
+			str += '<div class="browser-landing" id="main"><div class="compact marquee"><div id="results">'
+			str	+= '<span class="final" id="final_span"></span> <span class="interim" id="interim_span"></span>'
+			str += '</div></div></div>';
+			str + '<div id="ytPitch" style="height: 250px; width: 40%;" class="pitchContainer"></div>';
+			str + '<div id="memPitch" style="height: 250px; width: 40%;" class="pitchContainer"></div>';*/
+			
+			str += '<style type="text/css">';
+			str += '.secondView{'
+			str += 'width: 598px;';
+			str += 'height: 700px;';
+			str += 'border:1px solid;';
+			str +=	'}';
+			str	+= '</style>';
+			
+			
+			
+		$('.divNewView').html(str);
+		$('.speachView').css('visibility','visible');
+		speakSpace = true;
+	}else{
+		$('.divNewView').html('');
+		$('.speachView').css('visibility','hidden');
+		speakSpace = false;
+	}
 	
 }
 
@@ -322,6 +415,31 @@ function GoLive() {
 	window.open("goLive", "newWindow", "top=300", "left=300", "width=500", "height=500");
 	
 	
+}
+
+/**
+ * Seek the video to the currentTime.
+ * (And mark that the HTML slider *don't* move.)
+ *
+ * :param currentTime: 0 <= number <= 100
+ */
+function youTubePlayerCurrentTimeChange(currentTime) {
+    'use strict';
+
+    youTubePlayer.personalPlayer.currentTimeSliding = false;
+    if (youTubePlayerActive()) {
+        youTubePlayer.seekTo(currentTime*youTubePlayer.getDuration()/100, true);
+    }
+}
+
+
+/**
+ * Mark that the HTML slider move.
+ */
+function youTubePlayerCurrentTimeSlide() {
+    'use strict';
+
+    youTubePlayer.personalPlayer.currentTimeSliding = true;
 }
 
 function WatchTheVideo(){

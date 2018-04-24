@@ -79,6 +79,7 @@
 			var contents_num = $('#contents_num').val();
 			var start = $('#start').val();
 			var dur = $('#dur').val();
+			var filename = $('#filename').val();
 			
 			// alert(contents_num + " "+ start +" "+dur);
 			
@@ -94,10 +95,11 @@
 				fd.append("contents_num",contents_num);
 				fd.append("start",start);
 				fd.append("dur",dur);
+				fd.append("filename",filename);
 				
 				$.ajax({			
 					type : 'POST',
-					url : 'transcript/streamOnMic',
+					url : '../transcript/streamOnMic',
 					data : fd,
 					processData : false,
 					contentType : false,
@@ -105,7 +107,7 @@
 						console.log(data);
 						draw(data.ytArr,ytPitch,'youtube');
 						draw(data.memArr,memPitch,'member');
-						
+						$('.perContainer').html(data.per);
 					},
 					error: function(e){			
 						console.log(e);
@@ -133,7 +135,7 @@
 					+ (navigator.getUserMedia ? 'available.'
 							: 'not present!'));
 		} catch (e) {
-			alert('No web audio support in this browser!');
+			//alert('No web audio support in this browser!');
 		}
 
 		navigator.getUserMedia({
@@ -169,6 +171,11 @@
 		startRecording(this);
 		startButton(event);
 	});
+	
+	$('#startBtn').on('click', function() {
+		startRecording(this);
+		startButton(event);
+	});
 
 
 // 무슨 스크립트지?
@@ -195,7 +202,7 @@ var start_timestamp;
 if (!('webkitSpeechRecognition' in window)) {
 	upgrade();
 } else {
-	start_button.style.display = 'inline-block';
+	//start_button.style.display = 'inline-block';
 	var recognition = new webkitSpeechRecognition();
 	recognition.continuous = true;
 	recognition.interimResults = true;
@@ -231,12 +238,20 @@ if (!('webkitSpeechRecognition' in window)) {
 	};
 
 	recognition.onend = function() {
+		var tss = $('#final_span').text();
+		var ytText = $('.Notice').text();
+		
+		//console.log("tss : "+tss);
+		//console.log("ytText : "+ytText);
+		textCompare(tss,ytText);
+		
 		recognizing = false;
 		if (ignore_onend) {
 			return;
 		}
-		// start_img.src =
-		// '/intl/en/chrome/assets/common/images/content/mic.gif';
+		//TODO : 테스트 비교 알고리즘 
+		
+		
 		if (!final_transcript) {
 			showInfo('info_start');
 			return;
@@ -248,9 +263,8 @@ if (!('webkitSpeechRecognition' in window)) {
 			range.selectNode(document.getElementById('final_span'));
 			window.getSelection().addRange(range);
 		}
-		var tss = $('#final_span').html();
-		//TODO : 테스트 비교 알고리즘 
-		alert(tss);
+		
+		
 
 	};
 	
@@ -279,6 +293,31 @@ if (!('webkitSpeechRecognition' in window)) {
 		}
 	
 	};
+}
+
+function textCompare(tts,ytText){
+	var big = 0;
+	var small = 0;
+	
+	if(tts.length >= ytText){
+		big = tts.length;
+		small = ytText.length;
+	}else{
+		small = tts.length;
+		big = ytText.length;
+	}
+	var son = 1;
+	var parent = 1;
+	for(var i = 0; i<small; i++){
+		if(tts[i]==ytText[i]){
+			son++;
+		}
+		parent++;
+	}
+	parent = parent+(big-small);
+	var textPer = ((son*1.0)/(parent*1.0))*100;
+	alert('textPer : '+textPer.toFixed(3)+"%");
+	
 }
 
 function upgrade() {
