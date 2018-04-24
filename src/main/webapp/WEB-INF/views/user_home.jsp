@@ -35,7 +35,6 @@
       
       <!-- 여기부터 시작 -->
       <main class="mdl-layout__content mdl-color--grey-100">
-        <a href="../gohometest">테스트</a>
         <div class="mdl-grid demo-content">
 			<div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
 		      	<div class="categorys">
