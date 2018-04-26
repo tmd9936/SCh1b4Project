@@ -1,14 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-<head>
-<!-- <link rel="stylesheet" type="text/css" href="resources/css/study.css"> -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+ <jsp:include page="../navi_side_bar.jsp"></jsp:include>
+
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/study.css"></c:url>"> 
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
 
 
 <meta content="initial-scale=1, minimum-scale=1, width=device-width"
@@ -83,8 +84,6 @@
 
 
 
-</head>
-<body>
 <input type="hidden" id="filename" class="filename" value="${filename}">
 <input type="hidden" name="contents_num" value="${contents.contents_num }" id="contents_num">
 <input type="hidden" name="start" value="12" id="start">
@@ -98,14 +97,15 @@
 	<div id="ytPitch" style="height: 250px; width: 40%;" class="pitchContainer"></div>
 	
 	<div id="memPitch" style="height: 250px; width: 40%;" class="pitchContainer"></div> -->
-  <div class ="a">
+
 
 
 
 		<!--동영상 부분, 관계 영상 리스트, 댓글 부분 전체를 묶는 div태그  -->
 		
-		<div class="mdl-grid">
-		<div class="centralView" style="margin: auto">
+		<main class="mdl-layout__content mdl-color--grey-100">
+        <div class="mdl-grid demo-content"  style="max-width: 1500px;margin-right: 0px;margin-left: 0px;">
+		<div class="centralView" style="margin: auto;" align="center">
 		
 		
 		
@@ -344,6 +344,8 @@
 </div>
 </div>
 
+</main>
+
 <!-- 가운데 정렬  -->
 
 
@@ -351,7 +353,7 @@
 <script type="text/javascript" src="<c:url value="/resources/javascript/webSpeech.js"></c:url>"></script>
 
 <script src="<c:url value="/resources/js/recorder.js" />"></script>
-</div>
 
-</body>
-</html>
+
+<!-- 여기까지가 페이지의 코드 -->
+    <jsp:include page="../navi_side_bar_bot.jsp"></jsp:include>

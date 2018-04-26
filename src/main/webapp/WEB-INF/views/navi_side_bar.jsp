@@ -29,6 +29,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="icon" sizes="192x192" href="images/android-desktop.png">
 
+
 <!-- Tile icon for Win8 (144x144 + tile color) -->
 <meta name="msapplication-TileImage"
 	content="images/touch/ms-touch-icon-144x144-precomposed.png">
@@ -53,7 +54,6 @@
 
 <script type="text/javascript">
 	
-
 </script>
 	
 <style>
@@ -62,7 +62,6 @@
 	height: 260px;
 	margin: 5px 14px;
 }
-
 .demo-card-square>.mdl-card__title {
 	color: #fff;
 	
@@ -85,19 +84,15 @@
 .mdl-chip--contact{
 	margin: 5px 15px;
 }
-
 .mdl-chip{
 			cursor: pointer;
 }
-
 .mdl-textfield--floating-label{
 	width: 750px;
 }
-
 .mdl-textfield__label{
 	font-size: 10px;
 }
-
 .ytd_btn{
   position: absolute;
   left: 50%;
@@ -111,12 +106,10 @@
   background: #2196F3;
   box-shadow: 0 1px 9px rgba(0,0,0,.66);
 }
-
 .article-image{
 	width: 100%;
 	height: 100%;
 }
-
 </style>
 
 </head>
@@ -150,7 +143,6 @@
 									else{
 										/* alert($('#search').val()); */
 										var searchtext = $('#search').val();
-
 										location.href = 'searchtText?searchtext=' + searchtext;
 									}
 								});
