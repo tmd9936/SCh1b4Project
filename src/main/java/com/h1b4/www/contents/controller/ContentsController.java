@@ -126,11 +126,9 @@ public class ContentsController {
 		String loginId = (String)session.getAttribute("loginId");
 		
 		ArrayList<Contents> bookmarklist = service.bookmarklist(loginId);
-		ArrayList<String> ytIdList = new ArrayList<>();
 		
 		System.out.println("loginId"+loginId);
 		model.addAttribute("bookmarklist",bookmarklist);
-		model.addAttribute("ytIdList", ytIdList);
 		
 		
 		return "/contents/BookMark";

@@ -29,6 +29,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="icon" sizes="192x192" href="images/android-desktop.png">
 
+
 <!-- Tile icon for Win8 (144x144 + tile color) -->
 <meta name="msapplication-TileImage"
 	content="images/touch/ms-touch-icon-144x144-precomposed.png">
@@ -53,7 +54,6 @@
 
 <script type="text/javascript">
 	
-
 </script>
 	
 <style>
@@ -62,7 +62,6 @@
 	height: 260px;
 	margin: 5px 14px;
 }
-
 .demo-card-square>.mdl-card__title {
 	color: #fff;
 	
@@ -85,19 +84,15 @@
 .mdl-chip--contact{
 	margin: 5px 15px;
 }
-
 .mdl-chip{
 			cursor: pointer;
 }
-
 .mdl-textfield--floating-label{
 	width: 750px;
 }
-
 .mdl-textfield__label{
 	font-size: 10px;
 }
-
 .ytd_btn{
   position: absolute;
   left: 50%;
@@ -148,7 +143,6 @@
 									else{
 										/* alert($('#search').val()); */
 										var searchtext = $('#search').val();
-
 										location.href = 'searchtText?searchtext=' + searchtext;
 									}
 								});
@@ -214,12 +208,7 @@
 					<i class="mdl-color-text--blue-grey-400 material-icons"	role="presentation">forum</i>Forums</a>
 				<a class="mdl-navigation__link"	href="">
 					<i class="mdl-color-text--blue-grey-400 material-icons"	role="presentation">flag</i>Updates</a>
-				<a class="mdl-navigation__link"	href="">
-					<i class="mdl-color-text--blue-grey-400 material-icons"	role="presentation">local_offer</i>Promos</a>
-				<a class="mdl-navigation__link" href="">
-					<i class="mdl-color-text--blue-grey-400 material-icons"	role="presentation">shopping_cart</i>Purchases</a>
-				<a class="mdl-navigation__link" href="">
-					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">people</i>Social</a>
+				
 				
 				<div class="mdl-layout-spacer"></div>
 				<a class="mdl-navigation__link" href=""><i

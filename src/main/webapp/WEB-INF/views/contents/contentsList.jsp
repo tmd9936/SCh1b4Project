@@ -2,7 +2,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	
+
+	
 	 <jsp:include page="../navi_side_bar.jsp"></jsp:include>
+	 
+	 <script type="text/javascript">
+		$(function(){
+			$('.demo-card-square').on('click',function(){
+				var contents_num = $(this).attr('value');
+				location.href = 'studySpace?contents_num='+contents_num;
+				
+			});
+		});
+		
+		
+	 </script>
+	  <style type="text/css">
+	.demo-card-square{
+		cursor: pointer;
+	}
+	</style>
 	 <!-- 여기부터 시작 -->
 	
       <main class="mdl-layout__content mdl-color--grey-100">
@@ -10,23 +29,19 @@
 			<div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
 				<c:forEach var="list" items="${category }" >
 				
-				<div class="demo-card-square mdl-card mdl-shadow--2dp">
+				<div class="demo-card-square mdl-card mdl-shadow--2dp" value="${list.contents_num }">
 					<div class="mdl-card__title mdl-card--expand">
 					<h2 class="mdl-card__title-text"><img src="${list.thumbnail }" width="100%" height="100%"> </h2>
 					</div>
 					<div class="mdl-card__supporting-text">
 					${list.contents_title }
 					</div>
-					<div class="mdl-card__actions mdl-card--border">
+					<div class="mdl-card__actions mdl-card--border" >
 					<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
 					View Videos
 					</a>
 					</div>
 				</div>
-				
-				<c:if test="${category == null }">
-					<p>자료를 준비중입니다.</p>
-				</c:if>
 				
 				</c:forEach>					
 			</div>
