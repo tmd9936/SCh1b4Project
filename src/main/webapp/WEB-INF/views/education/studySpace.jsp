@@ -105,7 +105,7 @@
 		<!--동영상 부분, 관계 영상 리스트, 댓글 부분 전체를 묶는 div태그  -->
 		
 		<div class="mdl-grid">
-		<div class="centralView">
+		<div class="centralView" style="margin: auto">
 		
 		
 		
@@ -174,10 +174,7 @@
 		
 		<div class="RightList">	
 	<!--교육 메뉴  -->	
-	  <div class="LearningList1" id="LearningList1" 
-	  
-	  
-	  
+	  <div class="LearningList1" id="LearningList1" style="color: white; background-color: blue;" align="center"  
 	  onclick="javascript:WatchTheVideo()">
 	  
 	  <span class="Watch_the_video"><!--이미지 넣을 곳   --></span>
@@ -186,12 +183,15 @@
 	  Watch the video
 	  </div>
 	  
-	  <div class="LearningList2" id="LearningList2" onclick ="javascript:LearnTheWords()">Learn the words</div>
+	  <div class="LearningList2" id="LearningList2" style="color: white; background-color: red;" align="center"
+	  onclick ="javascript:LearnTheWords()">Learn the words</div>
 	  
 	  
-	  <div class="LearningList3"  id="LearningList3" onclick="javascript:GoSpeakTheLine()">Speak the lines</div>
+	  <div class="LearningList3"  id="LearningList3" style="color: white; background-color: rgb(0, 166, 140);" align="center" 
+	  onclick="javascript:GoSpeakTheLine()">Speak the lines</div>
 	  
-	  <div class="LearningList4"  id="LearningList4" onclick="javascript:GoLive()">GoLive!</div>
+	  <div class="LearningList4"  id="LearningList4" style="color: white; background-color: maroon;" align="center"  
+	  onclick="javascript:GoLive()">GoLive!</div>
 	  
 	  <div class="Voca&Plan"> 
 	  <div class="VocabQuiz"  id="VocabQuiz">VocabQuiz</div>

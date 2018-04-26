@@ -24,10 +24,6 @@
 					</div>
 				</div>
 				
-				<c:if test="${category == null }">
-					<p>자료를 준비중입니다.</p>
-				</c:if>
-				
 				</c:forEach>					
 			</div>
         </div>

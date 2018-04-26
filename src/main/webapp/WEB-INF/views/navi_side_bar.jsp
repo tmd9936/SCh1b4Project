@@ -111,10 +111,12 @@
   background: #2196F3;
   box-shadow: 0 1px 9px rgba(0,0,0,.66);
 }
+
 .article-image{
 	width: 100%;
 	height: 100%;
 }
+
 </style>
 
 </head>
@@ -214,12 +216,7 @@
 					<i class="mdl-color-text--blue-grey-400 material-icons"	role="presentation">forum</i>Forums</a>
 				<a class="mdl-navigation__link"	href="">
 					<i class="mdl-color-text--blue-grey-400 material-icons"	role="presentation">flag</i>Updates</a>
-				<a class="mdl-navigation__link"	href="">
-					<i class="mdl-color-text--blue-grey-400 material-icons"	role="presentation">local_offer</i>Promos</a>
-				<a class="mdl-navigation__link" href="">
-					<i class="mdl-color-text--blue-grey-400 material-icons"	role="presentation">shopping_cart</i>Purchases</a>
-				<a class="mdl-navigation__link" href="">
-					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">people</i>Social</a>
+				
 				
 				<div class="mdl-layout-spacer"></div>
 				<a class="mdl-navigation__link" href=""><i
