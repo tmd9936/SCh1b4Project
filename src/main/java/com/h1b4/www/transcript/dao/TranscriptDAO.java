@@ -72,4 +72,17 @@ public class TranscriptDAO {
 		}
 		return contentsUrl;
 	}
+	
+	public int deleteTranscript (int contents_num){
+		TranscriptMapper mapper = sqlSession.getMapper(TranscriptMapper.class);
+		int result = 0 ;
+		try {
+			result = mapper.deleteTranscript(contents_num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
 }

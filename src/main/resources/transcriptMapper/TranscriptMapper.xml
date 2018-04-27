@@ -76,5 +76,15 @@
 	
 	</select>
 	
+	<delete id="deleteTranscript" parameterType="int">
+		delete from 
+			transcript
+			where
+			contents_num = #{contents_num}
+	
+	
+	
+	</delete>
+	
 	
 </mapper>

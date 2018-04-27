@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -64,12 +65,35 @@ public class TranscriptController {
 	public String insertT(ArrayList<Transcript> tsList) {
 
 		// TODO: 자막 Insert
-
+		System.out.println("어레이리스트"+tsList);
+		//System.out.println(contents_num);
 		transcriptService.insertTranscript(tsList);
 
 		return "redirect:/";
 	}
 
+	/**
+	 * function : 자막넣기 Parameter : contents_num, ts_start, ts_dur ? end 값은 어디감?
+	 */
+	@ResponseBody
+	@RequestMapping(value = "insertTs", method = RequestMethod.POST)
+	public String insertTs(@RequestBody List<Transcript> tsList) {
+
+		System.out.println(tsList);
+		// TODO: 자막 Insertk
+		/*for(String l : tsList){
+			System.out.println(l);
+		}*/
+		
+		//System.out.println(contents_num);
+	//	transcriptService.insertTranscript(tsList);
+
+		return "redirect:/";
+	}
+
+	
+	
+	
 	/**
 	 * function : 자막 불러오기 Parametr : contents_num Return :ts 객체
 	 */
@@ -253,7 +277,7 @@ public class TranscriptController {
 		return "publish/editSpace";
 	}
 	
-	//편집공간 자막 한줄씨 넣기
+	//편집공간 자막 한줄씩 넣기((사용안함))
 	@RequestMapping(value = "insertTsOne" , method = RequestMethod.POST)
 	@ResponseBody
 	public boolean insertTsOne(Transcript transcript){
@@ -261,6 +285,13 @@ public class TranscriptController {
 			
 		
 		return false;
+	}
+	
+	@RequestMapping(value= "deleteTs" , method = RequestMethod.POST)
+	public String deleteTranscript(int contents_num){
+		int result = transcriptService.deleteTranscript(contents_num);
+		
+		return "";
 	}
 	
 

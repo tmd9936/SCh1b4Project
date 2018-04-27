@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.h1b4.www.transcript.dao.TranscriptDAO;
+import com.h1b4.www.transcript.dao.TranscriptMapper;
 import com.h1b4.www.vo.Transcript;
 
 @Service
@@ -111,6 +112,20 @@ public class TranscriptService {
 		 
 		 
 		 return youtubeUrl[1];
+	 }
+	 
+	 public int deleteTranscript (int contents_num){
+		 int result = tsdao.deleteTranscript(contents_num);
+		 
+		 if(result != 1){
+			 System.out.println("자막 삭제 실패 :: TS_Service");
+			 return result;
+		 }
+		 
+		 System.out.println("자막 삭제 성공 :: TS_Service");
+		 return result;
+		 
+		
 	 }
 	
 }

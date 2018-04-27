@@ -12,6 +12,8 @@ public interface TranscriptMapper {
 	
 	public int insertTsOne(Transcript transcript);
 	
-	
 	public String selectContentsUrl(int contents_num);
+	
+	public int deleteTranscript (int contents_num);
+	
 }
