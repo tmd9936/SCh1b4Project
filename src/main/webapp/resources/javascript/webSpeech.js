@@ -2,6 +2,7 @@
  * 
  */
 
+
 (function(e, p) {
 	var m = location.href.match(/platform=(win8|win|mac|linux|cros)/);
 	e.id = (m && m[1])
@@ -11,6 +12,8 @@
 							: p.indexOf('CrOS') > -1 ? 'cros' : 'linux');
 	e.className = e.className.replace(/\bno-js\b/, 'js');
 })(document.documentElement, window.navigator.userAgent)
+
+	
 
 	function __log(e, data) {
 		log.innerHTML += e + " " + (data || '') + '\n';
@@ -107,7 +110,8 @@
 						console.log(data);
 						draw(data.ytArr,ytPitch,'youtube');
 						draw(data.memArr,memPitch,'member');
-						$('.perContainer').html(data.per);
+						//$('.perContainer').html(data.per);
+						$('.pitchPercent').html(data.per);
 					},
 					error: function(e){			
 						console.log(e);
@@ -383,6 +387,7 @@ function textCompares(ttsList,ytList){
 	return textPer;
 }
 
+var speechdialog = document.querySelector('#percentDialog');
 function hyngteaso(ytText,tts,textCompares){
 	var ytList = new Array();
 	var ttsList = new Array();
@@ -425,8 +430,9 @@ function hyngteaso(ytText,tts,textCompares){
                         });
                     });
                     var persent = textCompares(ytList,ttsList);
-                    alert(persent.toFixed(3));
-                    
+                    //alert(persent.toFixed(3));
+                   $('.textPercent').html(persent.toFixed(3));
+                   speechdialog.showModal();
                     
                 },//success 끝
                 error : function(){
@@ -508,3 +514,7 @@ function stopRecording(button) {
 	
 	recorder.clear();
 }
+
+$('#closeButton').on('click',function(){
+	speechdialog.close();
+});

@@ -28,6 +28,7 @@
 <!-- Add to homescreen for Chrome on Android -->
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="icon" sizes="192x192" href="images/android-desktop.png">
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
 
 
 <!-- Tile icon for Win8 (144x144 + tile color) -->
@@ -48,6 +49,7 @@
 	href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet"
 	href="https://code.getmdl.io/1.3.0/material.cyan-light_blue.min.css">
+	
 <link rel="stylesheet"
 	href="<c:url value="/resources/css/styles.css"></c:url>">
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.2.1.js" />"></script> 	
@@ -122,7 +124,7 @@
 					<br><br><br>
 					<br><br><br>
 				</span>
-				<img src="<c:url value="/resources/images/2_Flat_logo_on_transparent_248x68.png" />">
+				<a href="../"><img src="<c:url value="/resources/images/2_Flat_logo_on_transparent_248x68.png" />" name="logo"></a>
 				<div class="mdl-layout-spacer"></div>
 				<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
 					<label class="mdl-button mdl-js-button mdl-button--icon" id="searchBtn" for="search">
@@ -156,8 +158,7 @@
 			</div>
 		</header>
 		
-		<div
-			class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
+		<div class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
 			<header class="demo-drawer-header">
 			
 			<!-- Login -->
