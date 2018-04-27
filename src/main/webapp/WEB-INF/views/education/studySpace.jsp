@@ -98,15 +98,35 @@
 	
 	<div id="memPitch" style="height: 250px; width: 40%;" class="pitchContainer"></div> -->
 
-
+		<dialog class="mdl-dialog" id="percentDialog">
+			<h4 class="mdl-dialog__title">결과</h4>
+			<div class="mdl-dialog__content">
+     		 	<table class="mdl-data-table mdl-js-data-table">
+     		 		<tr>
+     		 			<th>Text</th>
+     		 			<td class="textPercent"> </td>
+     		 		</tr>
+     		 		<tr>
+     		 			<th>Pitch</th>
+     		 			<td class="pitchPercent"> </td>
+     		 		</tr>
+     		 	</table>
+     		 	<div id="ytPitch" style="height: 250px; width: 100%;" class="pitchContainer"></div>
+						
+				<div id="memPitch" style="height: 250px; width: 100%;" class="pitchContainer"></div>
+    		</div>
+    		<div class="mdl-dialog__actions">
+      			<button type="button" class="mdl-button close" id="closeButton">Close</button>
+    		</div>
+		</dialog>
 
 
 		<!--동영상 부분, 관계 영상 리스트, 댓글 부분 전체를 묶는 div태그  -->
 		
 		<main class="mdl-layout__content mdl-color--grey-100">
-        <div class="mdl-grid demo-content"  style="max-width: 1500px;margin-right: 0px;margin-left: 0px;">
-		<div class="centralView" style="margin: auto;" align="center">
-		
+        	<div class="mdl-grid demo-content"  style="max-width: 1500px;margin-right: 0px;margin-left: 0px;">
+				<div class="centralView" style="margin: auto;" align="center">
+			
 		
 		
 		  
@@ -146,8 +166,15 @@
 			</div>
 				<div class="browser-landing" id="main">
 					<div class="compact marquee">
-						<button id="startBtn" onclick="startRecording(this);">시작</button>
-						<button id="endBtn" onclick="stopRecording(this);" disabled>종료</button>
+						<div class="startEndBtn" style="visibility: hidden;">
+							<button id="startBtn" onclick="startRecording(this);" class="mdl-button mdl-js-button">시작</button>
+							<button id="endBtn" onclick="stopRecording(this);" disabled class="mdl-button mdl-js-button">종료</button>
+						</div>
+						
+						<div id="results" >
+							<span class="final" id="final_span"></span> <span class="interim"
+								id="interim_span"></span>
+						</div>
 					
 						<ul id="recordingslist"></ul>
 					
@@ -155,16 +182,12 @@
 						
 						<input type="hidden" id="streamVoice" name="voice">
 						
-						<div id="ytPitch" style="height: 250px; width: 100%;" class="pitchContainer"></div>
+						<!-- 피치 컨테이너 -->
 						
-						<div id="memPitch" style="height: 250px; width: 100%;" class="pitchContainer"></div>
-						
+						<!-- 피치 컨테이너 -->
 						<div class="perContainer"></div>
 						
-						<div id="results" >
-							<span class="final" id="final_span"></span> <span class="interim"
-								id="interim_span"></span>
-						</div>
+						
 					</div>
 				</div>
 			</div>
@@ -257,8 +280,7 @@
 		  <!--관련된 동영상 리스트  시작-->  	
 	 <div class="KindOfStudy" id="KindOfStudy">
 	 
-	 <h5>연관 비디오</h5>
-	 			
+	 <h5>연관 비디오</h5>		
 	 	<div class="KindOfStudy_List">
 	 	
         <span class="nowrap">

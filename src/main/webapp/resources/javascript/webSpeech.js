@@ -2,6 +2,7 @@
  * 
  */
 
+
 (function(e, p) {
 	var m = location.href.match(/platform=(win8|win|mac|linux|cros)/);
 	e.id = (m && m[1])
@@ -11,6 +12,8 @@
 							: p.indexOf('CrOS') > -1 ? 'cros' : 'linux');
 	e.className = e.className.replace(/\bno-js\b/, 'js');
 })(document.documentElement, window.navigator.userAgent)
+
+	
 
 	function __log(e, data) {
 		log.innerHTML += e + " " + (data || '') + '\n';
@@ -107,7 +110,8 @@
 						console.log(data);
 						draw(data.ytArr,ytPitch,'youtube');
 						draw(data.memArr,memPitch,'member');
-						$('.perContainer').html(data.per);
+						//$('.perContainer').html(data.per);
+						$('.pitchPercent').html(data.per);
 					},
 					error: function(e){			
 						console.log(e);
@@ -199,6 +203,8 @@ var final_transcript = '';
 var recognizing = false;
 var ignore_onend;
 var start_timestamp;
+
+
 if (!('webkitSpeechRecognition' in window)) {
 	upgrade();
 } else {
@@ -243,13 +249,16 @@ if (!('webkitSpeechRecognition' in window)) {
 		
 		//console.log("tss : "+tss);
 		//console.log("ytText : "+ytText);
-		textCompare(tss,ytText);
+
+		//TODO 텍스트 비교 알고리즘
+		//textCompares(tss,ytText);
+		hyngteaso(tss,ytText,textCompares);
 		
 		recognizing = false;
 		if (ignore_onend) {
 			return;
 		}
-		//TODO : 테스트 비교 알고리즘 
+		
 		
 		
 		if (!final_transcript) {
@@ -320,6 +329,124 @@ function textCompare(tts,ytText){
 	
 }
 
+
+function textCompares(ttsList,ytList){
+/*	var ytList = hyngteaso(ytText);
+	var ttsList = hyngteaso(tts);
+	var textPer = 0.0;
+	
+	
+	
+	console.log(ytList);
+	console.log(ttsList);*/
+	
+	var son = 1;
+	var parent = 1;
+	if(ytList.length == 0 || ttsList.length == 0){
+		alert('스트링 오류입니다.');
+		return 0;
+	}
+	
+	
+	if(ytList.length == 1){
+		if(ytList[0] == ttsList[0]){
+			son++;
+		}
+		parent = ttsList.length-1
+		textPer = ((son*1.0)/(parent*1.0))*100;
+		return textPer;
+	}else if(ttsList.length == 1){
+		if(ytList[0] == ttsList[0]){
+			son++;
+		}
+		parent = ytList.length-1
+		textPer = ((son*1.0)/(parent*1.0))*100;
+		return textPer;
+	}
+	if(ytList[0] == ttsList[0]){
+		son++;
+	}
+	
+	for(var i=1; i<ytList.length; i++){
+		for(var j=1; j<ttsList.length; j++){
+			if(ytList[i] == ttsList[j]){
+				if(ytList[i-1] == ttsList[j-1]){
+					son++;
+				}
+			}
+			parent++;
+		}
+	}
+	if(ytList.length <= ttsList.length){
+		parent += ttsList.length- ytList.length-1;
+	}else{
+		parent += ytList.length-ttsList.length-1;
+	}
+	
+	textPer = ((son*1.0)/(parent*1.0))*100;
+	return textPer;
+}
+
+var speechdialog = document.querySelector('#percentDialog');
+function hyngteaso(ytText,tts,textCompares){
+	var ytList = new Array();
+	var ttsList = new Array();
+	
+    $.ajax({
+        type : "POST",
+        url : "https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=702e62656b4b77496e64685a366630705a56737573476d7261636731344f6b2e346e4a75502e616e734c39",
+        ContentType : "application/json; charset=utf-8",
+        dataType : 'json',
+        data : {
+           "request_id": num, //필수 아님
+           "sentence": ytText,   //여기가 문자열
+           "info_filter" : "form" //원문, 형태소포지션, 읽는 방법
+           //,"pos_filter" : "名詞|連用詞|動詞活用語尾|動詞接尾辞|動詞語幹" 
+        },
+        success : function(obj){
+        	//API로 받아온 분석결과는 2중 배열에 갇혀 있기 때문에 꺼내준다.
+            $.each(obj.word_list,function(index,item){
+            	$.each(item,function(index2,item2){
+            		ytList.push(item2[0]);
+                });
+            });
+            
+            $.ajax({
+                type : "POST",
+                url : "https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=702e62656b4b77496e64685a366630705a56737573476d7261636731344f6b2e346e4a75502e616e734c39",
+                ContentType : "application/json; charset=utf-8",
+                dataType : 'json',
+                data : {
+                   "request_id": num, //필수 아님
+                   "sentence": tts,   //여기가 문자열
+                   "info_filter" : "form" //원문, 형태소포지션, 읽는 방법
+                   //,"pos_filter" : "名詞|連用詞|動詞活用語尾|動詞接尾辞|動詞語幹" 
+                },
+                success : function(obj){
+                	//API로 받아온 분석결과는 2중 배열에 갇혀 있기 때문에 꺼내준다.
+                    $.each(obj.word_list,function(index,item){
+                    	$.each(item,function(index2,item2){
+                    		ttsList.push(item2[0]);
+                        });
+                    });
+                    var persent = textCompares(ytList,ttsList);
+                    //alert(persent.toFixed(3));
+                   $('.textPercent').html(persent.toFixed(3));
+                   speechdialog.showModal();
+                    
+                },//success 끝
+                error : function(){
+                	console.log("실패");
+                }//error끝
+            });//ajax끝	
+            
+        },//success 끝
+        error : function(){
+        	console.log("실패");
+        }//error끝
+    });//ajax끝
+}
+
 function upgrade() {
 	start_button.style.visibility = 'hidden';
 	showInfo('info_upgrade');
@@ -387,3 +514,7 @@ function stopRecording(button) {
 	
 	recorder.clear();
 }
+
+$('#closeButton').on('click',function(){
+	speechdialog.close();
+});
