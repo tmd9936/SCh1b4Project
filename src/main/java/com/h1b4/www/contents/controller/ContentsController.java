@@ -71,7 +71,7 @@ public class ContentsController {
 		
 		ArrayList<Contents> result3 = service.searchByCategory(category);
 		System.out.println("category"+result3);
-		model.addAttribute("category",result3);
+		model.addAttribute("list",result3);
 		
 		logger.info("카테고리별 리스트 종료");
 		return "/contents/contentsList";
