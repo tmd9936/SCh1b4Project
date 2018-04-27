@@ -144,6 +144,7 @@ public class TranscriptController {
 	public HashMap<String, Object> streamOnMic(@RequestBody String base64data,HttpSession session) {
 		
 		String member_id = (String)session.getAttribute("loginId");
+		
 		// 세션에서 멤버아이디 가져와야됨
 		//String member_id = "h1b4";
 		//String ytFileName = "mG68_hkc29po";

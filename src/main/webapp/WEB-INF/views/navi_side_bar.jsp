@@ -28,6 +28,7 @@
 <!-- Add to homescreen for Chrome on Android -->
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="icon" sizes="192x192" href="images/android-desktop.png">
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
 
 
 <!-- Tile icon for Win8 (144x144 + tile color) -->
@@ -48,6 +49,7 @@
 	href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet"
 	href="https://code.getmdl.io/1.3.0/material.cyan-light_blue.min.css">
+	
 <link rel="stylesheet"
 	href="<c:url value="/resources/css/styles.css"></c:url>">
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.2.1.js" />"></script> 	

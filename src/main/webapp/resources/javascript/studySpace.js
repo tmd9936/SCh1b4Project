@@ -22,6 +22,7 @@ $(function(){
 		
 		if(speakState){
 			$('.Notice').text(speakText);
+			$('.startEndBtn').css('visibility','visible');
 		}
 		
 		if(intervals.length >0){
@@ -91,8 +92,8 @@ function onYouTubeIframeAPIReady() {
     var inputVideoId = document.getElementById('YouTube-video-id');
     var videoId = inputVideoId.value;
     var suggestedQuality = 'tiny';
+    var width = 480;
     var height = 360;
-    var width = 640;
     var youTubePlayerVolumeItemId = 'YouTube-player-volume';
 
 
@@ -355,7 +356,7 @@ function GoSpeakTheLine(){
 	
 	if(!speakSpace){
 		
-		var str = '<div class="Notice">';  
+		var str = '<div class="Notice typo-styles__demo mdl-typography--headline">';  
 			str +=  "비디오에서 SPEAK1할 문장을 선택하세요:";
 			str += '</div>';
 			/*str +=' <button id="start_button">시작</button>';
@@ -398,7 +399,7 @@ function LearnTheWords(){
 	str += '</div>';
 	str += '<style type="text/css">';
 	str += '.secondView{'
-	str += 'width: 298px;';
+	str += 'width: 210px;';
 	str += 'height: 298px;';
 	str += 'border:1px solid;';
 	str +=	'}';
