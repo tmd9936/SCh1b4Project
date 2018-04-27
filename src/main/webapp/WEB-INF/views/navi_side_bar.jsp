@@ -122,7 +122,7 @@
 					<br><br><br>
 					<br><br><br>
 				</span>
-				<img src="<c:url value="/resources/images/2_Flat_logo_on_transparent_248x68.png" />">
+				<a href="../"><img src="<c:url value="/resources/images/2_Flat_logo_on_transparent_248x68.png" />" name="logo"></a>
 				<div class="mdl-layout-spacer"></div>
 				<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
 					<label class="mdl-button mdl-js-button mdl-button--icon" id="searchBtn" for="search">
@@ -156,8 +156,7 @@
 			</div>
 		</header>
 		
-		<div
-			class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
+		<div class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
 			<header class="demo-drawer-header">
 			
 			<!-- Login -->
