@@ -136,6 +136,7 @@ public class GoogleSpeechApi {
 		List<SpeechRecognitionResult> results = response.get().getResultsList();
 		ArrayList<Transcript> transcriptList = new ArrayList<>();
 		ArrayList<String> rr = new ArrayList<>();
+		int i = 0;
 
 		for (SpeechRecognitionResult result : results) {
 			// There can be several alternative transcripts for a given chunk of speech.
@@ -158,7 +159,7 @@ public class GoogleSpeechApi {
 			String first = "";
 			String last = "";
 			
-			int i = 0;
+			
 			for (WordInfo wordInfo : alternative.getWordsList()) {
 				/*
 				 * System.out.println(wordInfo.getWord());

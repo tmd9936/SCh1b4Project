@@ -64,14 +64,15 @@ public class YoutubeDownService {
 		if (contentsDAO == null) {
 			System.out.println("널임");
 		}
-
+		
+		//https://www.youtube.com/embed/0xgjj-xPZ2M
 		if (url.contains("https://www.youtube.com/watch?v=")) {
 			url = url.replace("https://www.youtube.com/watch?v=", "");
 		}
 
 		// TODO : 여기서 이미 유튜브 영상이 contents 테이블에 존재하는지 확인
 		// 있으면 바로 리턴
-		Contents con = contentsDAO.searchByUrlContents(url);
+		Contents con = contentsDAO.searchByUrlContents("https://www.youtube.com/embed/"+url);
 		if (con != null) {
 			return -1;
 		}
