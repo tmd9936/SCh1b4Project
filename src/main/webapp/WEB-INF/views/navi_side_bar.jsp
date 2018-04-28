@@ -42,7 +42,8 @@
 <!-- 
     <link rel="canonical" href="http://www.example.com/"> 
     -->
-
+ <link rel="stylesheet" href="<c:url value="/resources/css/layout.css" />"><link rel="stylesheet" href="<c:url value="/resources/css/swiper.css" />">
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
 <link rel="stylesheet"
@@ -52,7 +53,9 @@
 <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
 <link rel="stylesheet"
 	href="<c:url value="/resources/css/styles.css"></c:url>">
+	
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.2.1.js" />"></script> 	
+
 
 <script type="text/javascript">
 	
@@ -112,6 +115,14 @@
 	width: 100%;
 	height: 100%;
 }
+a {
+text-decoration: none;
+}
+table {
+	width: 100%;
+ 	text-align: center;
+}
+
 </style>
 
 </head>
@@ -124,7 +135,7 @@
 					<br><br><br>
 					<br><br><br>
 				</span>
-				<a href="../"><img src="<c:url value="/resources/images/2_Flat_logo_on_transparent_248x68.png" />" name="logo"></a>
+				<a href="../"><img src="<c:url value="/resources/images/2_Flat_logo_on_transparent_248x68.png" />" name="logo" class="logo"></a>
 				<div class="mdl-layout-spacer"></div>
 				<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
 					<label class="mdl-button mdl-js-button mdl-button--icon" id="searchBtn" for="search">
@@ -163,10 +174,11 @@
 			
 			<!-- Login -->
 			<div>
-				<div id="profile" style="float: left;width: 40%; margin: 5px 5px;" >
+			<c:if test="${sessionScope.loginId != null }">
+				<div id="profile" style="float: left; width: 40%; margin: 5px 5px;" >
 					<img src="<c:url value="/resources/images/user.jpg" />" class="demo-avatar">
 				</div>
-			<c:if test="${sessionScope.loginId != null }">
+			
 				<div id="inform" style="float: left;width: 30%; margin: 5px 5px;">	
 					<span>${sessionScope.loginName}</span><br>
 					<span>${sessionScope.point}</span>
@@ -188,9 +200,13 @@
 			</c:if>
 			
 			<c:if test="${sessionScope.loginId == null }">	
-				<div id="inform" style="float: left;width: 30%; margin: 5px 5px;">	
-					<span> <a href="../member/loginForm">로그인</a></span><br>
-					<span><a href="../member/joinForm">회원가입</a></span>
+				<div id="inform" style="float: left;width: 100%; margin: 5px 5px;">	
+					<table>
+					<tr>
+						<td><span> <a href="../member/loginForm">로그인</a></span></td>
+					    <td><span><a href="../member/joinForm">회원가입</a></span></td>
+					</tr>
+					</table>
 				</div>
 			</c:if>	
 			</div>
