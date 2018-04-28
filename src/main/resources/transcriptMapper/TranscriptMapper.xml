@@ -62,7 +62,8 @@
 			transcript 
 		where 
 			contents_num = #{contents_num}
-
+		and 
+			status = 0;
 	</select>
 	
 	
@@ -73,7 +74,7 @@
 			contents
 		where
 			contents_num = #{contents_num}			
-	
+		
 	</select>
 	
 	<delete id="deleteTranscript" parameterType="int">

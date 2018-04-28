@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -71,8 +72,37 @@ public class TranscriptService {
 		 * passer.xmlIntodatabase();
 		 */
 
+		int i = 0;
+		for (Transcript t : tsList) {
+
+			Transcript ts = new Transcript();
+			t.setTs_num(i++);
+			
+		}
+		System.out.println(tsList);
+		
 		tsdao.insertTsList(tsList);
 	} 
+	
+	public void insertTranscript(List<Transcript> tsList) {
+		/*
+		 * Passer passer = new Passer(); ArrayList<Transcript> tsList =
+		 * passer.xmlIntodatabase();
+		 */
+
+		
+		int i = 0;
+		for (Transcript t : tsList) {
+
+			Transcript ts = new Transcript();
+			t.setTs_num(i++);
+			
+		}
+		System.out.println(tsList);
+		
+		tsdao.insertTsList(tsList);
+	} 
+	
 
 	
 	public void insertTranscriptOne(Transcript transcript){

@@ -268,7 +268,7 @@ li:enabled:active{
 
 			</div>
 			<div class="mdl-cell mdl-cell--5-col" id="playerSection">
-				<div class="transcript-float-video">자막 삽입 구간</div>
+				<div class="transcript-float-video"></div>
 
 				<div id="YouTube-player"></div>
 
@@ -344,6 +344,7 @@ li:enabled:active{
 										
 										success : function(data){
 											alert('성공');
+											$(location).attr('href','/www');
 										},
 										error : function(err){
 											console.log(err);
@@ -498,6 +499,7 @@ $('#genSubtitle').on('click', function(){
 	str += "<li class='transcriptDiv'><i class='material-icons md-18'><span class='dragEditList'>format list numbered</span></i>"
 	str += "<input class='transcriptTextArea mdl-textfield__input' type='text' data-num="+lengthGeneral+"></input>";
 	str += "<span class='timing_start_point'><c:if test="youTubePlayerActive()">"+console.log(youTubePlayer.getCurrentTime())+"</c:if></span>";
+	str += "<input type='hidden' class='timing_start_point_hidden'>"
 	str += "<i class='material-icons md-18'><span class='delEditList'>close</span></i>"
 	str += "<span class='timing_end_point'></span></li>"
 	$('#transcriptPlace ul').append(str);
@@ -754,7 +756,7 @@ function youTubePlayerDisplayInfos() {
        
        
        //start, duration
-/*         var check = $('.timing_start_hidden');
+/*       var check = $('.timing_start_hidden');
         var dur =  $('.timing_dur_hidden');
         var text = $('.timing_text_hidden');
         
@@ -777,7 +779,7 @@ function youTubePlayerDisplayInfos() {
       	  
       	
         } 
- */       
+        
        
         
         //캔버스 그리기
@@ -791,8 +793,8 @@ function youTubePlayerDisplayInfos() {
         
         
         //Typing 중인 textarea div 에 옮기기
-       var text =  $(".transcriptTextArea").val();
-        $(".transcript-float-video").text(text);
+      /*  var text =  $(".transcriptTextArea").val();
+        $(".transcript-float-video").text(text); */
         
         //div로 재생 구간 조정하기
      /*    $('editRow').createElement("button", {
@@ -1152,6 +1154,9 @@ function youTubePlayerVolumeChange(volume) {
 		var spanStart = $('.timing_start_point')[syncIndex];
 		spanStart.innerHTML = current.toFixed(2);
 		var flag = spanStart.innerHTML;
+		var inputStart = $('.timing_start_point')[syncIndex];
+		inputStart.value = current;
+		
 
 		if(!(flag =="" || flag == null || flag == undefined)){
 			syncFlag = true;
@@ -1172,6 +1177,9 @@ function youTubePlayerVolumeChange(volume) {
 		var spanEnd = $('.timing_end_point')[syncIndex];
 		spanEnd.innerHTML = current.toFixed(2);
 		var flag = spanEnd.innerHTML;
+		
+		var inputEnd = $('.timing_end_point')[syncIndex];
+		inputEnd.value = current;
 		
 		if(!(flag =="" || flag == null || flag == undefined)){
 			syncIndex++;
@@ -1444,8 +1452,9 @@ function youTubePlayerVolumeChange(volume) {
 				str += "<input class='transcriptTextArea mdl-textfield__input' type='text' data-num="+length+"></input>";
 				str += "<input type='hidden' value="+ length +" />";
 				str += "<span class='timing_start_point'><c:if test="youTubePlayerActive()">"+console.log(youTubePlayer.getCurrentTime())+"</c:if></span>";
+				str += "<input type='hidden' class='timing_start_point_hidden'>"
 				str += "<i class='material-icons md-18'><span class='delEditList'>close</span></i>";
-				str += "<span class='timing_end_point'></span></li>";
+				str += "<span class='timing_end_point'></span><input type='hidden' class='timing_end_point_hidden'></li>";
 				$('#transcriptPlace ul').append(str);
 				$('input[data-num='+length+']').focus();
 				delListEdit();
@@ -1469,8 +1478,9 @@ function youTubePlayerVolumeChange(volume) {
 			str += "<input class='transcriptTextArea mdl-textfield__input' type='text' data-num="+length+" value="+text+"></input>";
 			str += "<input type='hidden' value="+ length +" />";
 			str += "<span class='timing_start_point'><c:if test="youTubePlayerActive()">"+console.log(youTubePlayer.getCurrentTime())+"</c:if> </span>";
+			str += "<input type='hidden' class='timing_start_point_hidden'>"
 			str += "<i class='material-icons md-18'><span class='delEditList'>close</span></i>"
-			str += "<span class='timing_end_point'></span></li>";
+			str += "<span class='timing_end_point'><input type='hidden' class='timing_end_point_hidden'></span></li>";
 			$('#transcriptPlace ul').append(str);
 			$('input[data-num='+length+']').focus();
 			  

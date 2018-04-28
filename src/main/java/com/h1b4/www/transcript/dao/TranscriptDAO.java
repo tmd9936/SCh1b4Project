@@ -1,6 +1,7 @@
 package com.h1b4.www.transcript.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,22 @@ public class TranscriptDAO {
 		}
 		
 	}
+	
+public void insertTsList(List<Transcript> tsList){
+		
+		TranscriptMapper mapper = sqlSession.getMapper(TranscriptMapper.class);
+		try{
+			
+			mapper.insertTsList(tsList);
+			
+			
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+
 	
 	
 	public ArrayList<Transcript> selectT(Transcript ts){

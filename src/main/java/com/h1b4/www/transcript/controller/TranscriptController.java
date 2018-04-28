@@ -86,7 +86,7 @@ public class TranscriptController {
 		}*/
 		
 		//System.out.println(contents_num);
-	//	transcriptService.insertTranscript(tsList);
+		transcriptService.insertTranscript(tsList);
 
 		return "redirect:/";
 	}
