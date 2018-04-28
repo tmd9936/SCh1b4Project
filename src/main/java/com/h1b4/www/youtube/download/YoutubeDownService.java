@@ -124,6 +124,7 @@ public class YoutubeDownService {
 		// 있으면 xml받아서 바로 테이터베이스에 넣고 리턴
 
 		ArrayList<Transcript> tlist = null;
+		ArrayList<Transcript> tlist2 = null;
 		if (elements != null) {
 			tlist = tsService.xmlIntodatabase(con.getContents_num(), elements);
 			tsService.insertTranscript(tlist);
@@ -136,6 +137,8 @@ public class YoutubeDownService {
 			insertFile(filename);
 			GoogleSpeechApi speechApi = new GoogleSpeechApi();
 			tlist = speechApi.runTranslate(filename, con.getContents_num());
+			
+			
 			tsService.insertTranscript(tlist);
 			logger.debug("xml없을 때 파일 넣기 끝");
 		} catch (Exception e) {

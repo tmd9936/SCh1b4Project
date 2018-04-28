@@ -76,35 +76,94 @@ public class TranscriptController {
 	
 	
 	/**
-	 *  function : 자막넣기
-	 * 	Parameter : contents_num, ts_start, ts_dur ? end 값은 어디감?
-	 * */	
-	@RequestMapping(value="tsinsert", method = RequestMethod.POST)
-	public String insertT(ArrayList<Transcript> tsList){
-		
-		//TODO: 자막 Insert 
-		
+
+	 * function : 자막넣기 Parameter : contents_num, ts_start, ts_dur ? end 값은 어디감?
+	 */
+	@RequestMapping(value = "tsinsert", method = RequestMethod.POST)
+	public String insertT(ArrayList<Transcript> tsList) {
+
+		// TODO: 자막 Insert
+		System.out.println("어레이리스트"+tsList);
+		//System.out.println(contents_num);
 		transcriptService.insertTranscript(tsList);
+
+		return "redirect:/";
+	}
+
+	/**
+	 * function : 자막넣기 Parameter : contents_num, ts_start, ts_dur ? end 값은 어디감?
+	 */
+	@ResponseBody
+	@RequestMapping(value = "insertTs", method = RequestMethod.POST)
+	public String insertTs(@RequestBody List<Transcript> tsList) {
+
+		System.out.println(tsList);
+		// TODO: 자막 Insertk
+		/*for(String l : tsList){
+			System.out.println(l);
+		}*/
 		
+		//System.out.println(contents_num);
+		transcriptService.insertTranscript(tsList);
 		
 		return "redirect:/";
 	}
 	
 	
 
+	
 	/**
-	 *  function : 자막 불러오기
-	 * 	Parametr : contents_num  
-	 *  Return :ts 객체
-	 * */	
-	@RequestMapping(value="tsselect", method = RequestMethod.GET)
-	public String selectT(Transcript ts, Model model){
+	 * function : 편집용 자막넣기 Parameter : contents_num, ts_start, ts_dur ? end 값은 어디감?
+	 */
+	@ResponseBody
+	@RequestMapping(value = "insertEdit", method = RequestMethod.POST)
+	public String insertEdit(@RequestBody List<Transcript> tsList) {
+
+		System.out.println(tsList);
+		// TODO: 자막 Insertk
+		/*for(String l : tsList){
+			System.out.println(l);
+		}*/
 		
-		//TODO: 자막 Select
-		//ArrayList<Transcript> traList = dao.selectTranscript();
-		
-		return "";
+		//System.out.println(contents_num);
+		transcriptService.insertEditList(tsList);
+
+		return "redirect:/";
 	}
+	
+	
+	
+	
+	/**
+	 * function : 자막 불러오기 Parametr : contents_num Return :ts 객체
+	 */
+	@RequestMapping(value = "tsselect", method = RequestMethod.GET)
+	public String selectT(Transcript ts, Model model) {
+
+		// TODO: 자막 Select
+		 ArrayList<Transcript> traList = transcriptService.selectTranscript(ts);
+		 
+		 model.addAttribute("tsList", traList);
+
+		return "publish/editSpace";
+	}
+	
+
+	/**
+	 * function : 편집용 자막 불러오기 Parametr : contents_num Return :ts 객체
+	 */
+	@RequestMapping(value = "editselect", method = RequestMethod.GET)
+	public String editselectT(Transcript ts, Model model) {
+
+		// TODO: 자막 Select
+		 ArrayList<Transcript> traList = transcriptService.selectEditList(ts);
+		 
+		 model.addAttribute("editList", traList);
+
+		return "publish/editSpace";
+	}
+	
+
 	
 	
 	//전체 리스트 불러오기
@@ -139,6 +198,7 @@ public class TranscriptController {
 		return "transcript/wordDetail";
 	}
 
+
 	@RequestMapping(value = "streamOnMic", method = RequestMethod.POST)
 	@ResponseBody
 	public HashMap<String, Object> streamOnMic(@RequestBody String base64data,HttpSession session) {
@@ -155,5 +215,38 @@ public class TranscriptController {
 
 	
 }
+
+
+	}
+	
+	@RequestMapping(value="goEditSpace", method = RequestMethod.GET)
+	public String goEditSpace(Model model, Transcript ts){
+		
+		ArrayList<Transcript> tsList =  transcriptService.selectTranscript(ts);
+		
+		String youtubeUrl = transcriptService.selectContentsUrl(ts.getContents_num());
+		
+		model.addAttribute("url", youtubeUrl);
+		model.addAttribute("tsList", tsList);
+		
+		return "publish/editSpace";
+	}
+	
+	//편집공간 자막 한줄씩 넣기((사용안함))
+	@RequestMapping(value = "insertTsOne" , method = RequestMethod.POST)
+	@ResponseBody
+	public boolean insertTsOne(Transcript transcript){
+	
+			
+		
+		return false;
+	}
+	
+	@RequestMapping(value= "deleteTs" , method = RequestMethod.POST)
+	public String deleteTranscript(int contents_num){
+		int result = transcriptService.deleteTranscript(contents_num);
+		
+		return "";
+	}
 
 

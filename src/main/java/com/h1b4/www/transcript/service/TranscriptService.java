@@ -107,40 +107,7 @@ public class TranscriptService {
 			temp = tsList.get(num);
 			tempList.add(temp);
 		}
-//		for (Transcript transcript : temp) {
-//		String body = "{\"sentence\":\""+transcript.getTs_text()+"\",\"info_filter\":\"form|pos|read\",\"pos_filter\":\"名詞|連用詞\"}";
-//		try {
-//			URI uri = new URI("https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=483567313073493142416249757669777545574a5575626e2f755145677a5a4c2f63394d69364757646532");
-//			URL url = uri.toURL();
-//			HttpsURLConnection huc = (HttpsURLConnection)url.openConnection();
-//			huc.setRequestMethod("POST");
-//			huc.setDoInput(true);
-//			huc.setDoOutput(true);
-//			huc.setRequestProperty("Content-Type", "application/json");
-//			OutputStream os = huc.getOutputStream();
-//			os.write(body.getBytes("UTF-8"));
-//			os.flush();
-//			os.close();
-//			
-//			BufferedReader br = new BufferedReader(new InputStreamReader(huc.getInputStream(),"utf-8"));
-//			String line="";
-//			String page="";
-//			while((line= br.readLine())!=null){
-//				page += line;
-//			}
-//			
-//				String meishi = "\"名詞\"";
-//				int io_meishi = page.indexOf(meishi);	
-//				String meishiWord;
-//				meishiWord = page.substring(io_meishi+meishi.length()+2,(page.substring(io_meishi).indexOf("]")+io_meishi)-1);
-//				tsList.add(transcript);
-//		}catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
-//	model.addAttribute("tsList", tsList);
-//		return "transcript/qPage";
-//}
+
 		return tempList;
 	}
 	//문제풀기용 리스트 가져오기
@@ -295,4 +262,88 @@ public class TranscriptService {
 		
 		return tsList;
 	}
+  public void insertTranscript(ArrayList<Transcript> tsList) {
+		/*
+		 * Passer passer = new Passer(); ArrayList<Transcript> tsList =
+		 * passer.xmlIntodatabase();
+		 */
+
+		int i = 0;
+		for (Transcript t : tsList) {
+
+			Transcript ts = new Transcript();
+			t.setTs_num(i++);
+			
+		}
+		System.out.println(tsList);
+		
+		tsdao.insertTsList(tsList);
+	} 
+	
+	public void insertTranscript(List<Transcript> tsList) {
+		/*
+		 * Passer passer = new Passer(); ArrayList<Transcript> tsList =
+		 * passer.xmlIntodatabase();
+		 */
+
+		
+		int i = 0;
+		for (Transcript t : tsList) {
+
+			Transcript ts = new Transcript();
+			t.setTs_num(i++);
+			
+		}
+		System.out.println(tsList);
+		
+		tsdao.insertTsList(tsList);
+	} 
+	
+	public void insertEditList(List<Transcript> tsList) {
+		/*
+		 * Passer passer = new Passer(); ArrayList<Transcript> tsList =
+		 * passer.xmlIntodatabase();
+		 */
+
+		
+		int i = 0;
+		for (Transcript t : tsList) {
+
+			Transcript ts = new Transcript();
+			t.setTs_num(i++);
+			
+		}
+		System.out.println(tsList);
+		
+		tsdao.insertEditList(tsList);
+	} 
+public ArrayList<Transcript> selectEditList(Transcript ts){
+		 
+		 
+		 ArrayList<Transcript> tsList =  tsdao.selectE(ts);
+		 
+		 if(tsList == null){
+			 System.out.println("자막 값 없음");
+			 return null;
+		 }else {
+			System.out.println("자막 불러오기 성공");
+		}
+		 
+		 
+	 return tsList; 
+	 }
+
+public int deleteTranscript (int contents_num){
+		 int result = tsdao.deleteTranscript(contents_num);
+		 
+		 if(result != 1){
+			 System.out.println("자막 삭제 실패 :: TS_Service");
+			 return result;
+		 }
+		 
+		 System.out.println("자막 삭제 성공 :: TS_Service");
+		 return result;
+		 
+		
+	 }
 }
