@@ -75,7 +75,7 @@
  	  SELECT * FROM dual
  </insert>
 	
-	<select id="selectE" parameterType="trascript" resultType="transcript">
+	<select id="selectE" parameterType="transcript" resultType="transcript">
 	select * 
 		from 
 			transcript 
