@@ -352,5 +352,6 @@ main > section textarea {
 	font-size: 15px;
 }
 .mdl-dialog{
-	width: 500px;
+	width: 600px;
+	height: 800px;
 }

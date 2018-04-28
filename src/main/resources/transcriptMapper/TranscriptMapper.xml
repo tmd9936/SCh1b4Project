@@ -69,7 +69,7 @@
 					,ts_dur
 					,ts_text
 	FROM transcript 
-	WHERE contents_num = #{contents_num}
+	WHERE contents_num = #{contents_num} AND status = 0
 	</select>
 	<!-- 문제풀이용 자막 불러오기 -->
 	
@@ -80,7 +80,7 @@
 					,ts_dur
 					,ts_text
 	FROM transcript 
-	WHERE contents_num= #{contents_num} AND ts_num = #{ts_num} 
+	WHERE contents_num= #{contents_num} AND ts_num = #{ts_num} AND status = 0 
 	</select>
 	
 	
