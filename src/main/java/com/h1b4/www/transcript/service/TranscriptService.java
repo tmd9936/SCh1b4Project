@@ -139,7 +139,7 @@ public class TranscriptService {
 						if(meishi.length()<20) {
 							continue;
 						}
-						if(meishi.length()>200) {
+						if(meishi.length()>400) {
 							tempList.add(temp);
 							return tempList;
 						}

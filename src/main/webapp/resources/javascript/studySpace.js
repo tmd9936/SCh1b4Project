@@ -416,9 +416,14 @@ function LearnTheWords(tslist){
 			var text = tslist[i].ts_text;
 			var start = tslist[i].ts_start-1;
 			var dur = tslist[i].ts_dur+1;
-			var str = '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="'+i+'. 재생" onclick="javascript:playsound('+start+','+dur+','+num+')">'
+			
+			var str = '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="'+i+'. 재생" onclick="javascript:playsound('+start+','+dur+')">'
+			if(dur>10){
+				str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="5sec 뒤로" onclick="javascript:playsound2('+start+','+dur+',0)">'
+				str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="5sec 앞으로" onclick="javascript:playsound2('+start+','+dur+',1)">'
+			}
 			str += ' <input type="hidden" id="answers'+num+'">';
-			str += ' <div id="outputDiv'+num+'" style="display: inline;"></div>';
+			str += ' <div id="outputDiv'+num+'" style="display: inline;" data-value="1"></div>';
 			str += '<div id="list'+num+'" style="display: none;"></div>';
 			str += '<div style="display: none;" id="inputAnswer'+num+'">정답을 입력 :&nbsp;&nbsp;&nbsp;<input id="yourText'+num+'" type="text"   style="border-left: none; border-right: none; border-top: none; "></div><br>';
 			this.test(num,text);
@@ -436,13 +441,32 @@ function LearnTheWords(tslist){
 	}
 }
 
-function playsound(start7,dur7,num7){
+function playsound(start7,dur7){
 	done = false;
-	dur = dur7*1500;
+	dur = dur7*2000;
 	youTubePlayer.seekTo(start7,true);// 유튜브 시작위치
 	youTubePlayer.playVideo(); //유튜브 재생
-	
-	
+}
+
+function playsound2(start7,dur7,num){
+	console.log(num);
+	console.log(dur7);
+	done = false;
+	var currentTime;
+	console.log("currentTime :"+youTubePlayer.getCurrentTime());
+	switch(num){
+	case 1:
+		currentTime = youTubePlayer.getCurrentTime()+5;
+		console.log(currentTime);
+		break;
+	case 0:
+		currentTime = youTubePlayer.getCurrentTime()-5;
+		console.log(currentTime);
+		break;
+	}
+	dur = dur7*1500;
+	youTubePlayer.seekTo(currentTime,true);// 유튜브 시작위치
+	youTubePlayer.playVideo(); //유튜브 재생
 }
 
 
@@ -511,6 +535,8 @@ function test(num,text){
 	          	    text = text.replace(compare[i],'<input type="text" id="'+num+''+i+'" onkeypress="answer('+num+','+i+')"; size="5"; style="border-left: none; border-right: none; border-top: none;">');
 	         }
     $('#outputDiv'+num).html(text);
+    document.getElementById('outputDiv'+num).setAttribute('data-value',text);
+    console.log("데벨"+document.getElementById('outputDiv'+num).getAttribute('data-value'));
     
     return true;
   },
@@ -526,13 +552,14 @@ function answer(num,i){
  		//엔터를 입력했다면
 	if(event.keyCode==13){
 		
-		//일치하면 입력 칸을 막고 일치하지 않으면 새 창을 띄워 문장에 대한 정보를 제공할 수 있는 버튼을 등장시킨다.
 		var yourAnswer = document.getElementById(num+''+i);
 		var correctAnswer = document.getElementById('answers'+num);
 		var compare = [];
 		compare = correctAnswer.value.split(",");
 		console.log("compare[i] :"+compare[i]);
 		var x = document.createElement("INPUT");
+		
+		//답이 일치하지 않으면
 		if(yourAnswer.value != compare[i]){
 			if(document.getElementById('view'+num)== null){
 				x.setAttribute("id","view"+num);
@@ -540,28 +567,78 @@ function answer(num,i){
 				x.setAttribute("value","정보 보기");
 				x.setAttribute("class","mdl-button mdl-js-button mdl-button--accent");
 				document.getElementById('outputDiv'+num).appendChild(x);
-				x.onclick = function(){viewInfo(compare,num,contents_num)};
+				
 			}
 			document.getElementById('view'+num).style.display="block";
 			
+			//일치하면
 		}else{
 			yourAnswer.disabled=true;
 			if(document.getElementById('view'+num)!=null)
 			document.getElementById('view'+num).style.display="none";
-			console.log("compare[0]:"+compare[0]);
 		}
+		x.onclick = function(){
+			console.log("compareINx.onclick"+compare);
+			viewInfo(compare,num,contents_num)
+			};
 	}
 }
  	//새 창 띄워서 정보 보기
  	function viewInfo(words,ts_num,contents_num){
- 		console.log("ts_num :"+ts_num);
- 		console.log("contents_num :"+contents_num);
+ 		
+ 		//words, explanation 가져옴 div 만들어서 밑에 붙임 (거기에 다이얼로그)
+ 		console.log("words:"+words);
+ 		var div = document.createElement('div');
+ 		document.getElementById('outputDiv'+ts_num).appendChild(div);
  		var explanation = document.getElementById('list'+ts_num).innerHTML;
  		console.log("explanation :"+explanation);
-	          window.open("../transcript/wordDetail?words="+words+"&ts_num="+ts_num+"&contents_num="+contents_num+"&explanation="+explanation, "wordDetail", "width=578, height=215, toolbar=no, menubar=no, scrollbars=no, location=no, status=no, resizable=no" );
+ 		
+ 		// 다이얼로그
+ 		//데이터 밸류를 가져와서
+ 		var sentence = words[0];
+ 		var answers=[];
+ 		for(var i=1;i<words.length;i++){
+ 			if(words[i].length<2)continue;
+ 			answers.push(words[i]);
+ 		}
+ 		console.log("sentence"+sentence);
+ 		console.log("answers"+answers);
+ 		var color=sentence;
+ 		for(var j=0;j<answers.length;j++){
+ 			var str = '<a href=""><span style="color: red;">'+answers[j]+'</span></a>';
+ 			color = color.replace(answers[j],str);
+ 		}
+// 		for(var i=1;i<words.length;i++){
+// 			if(sentence.contains(words[i])){
+// 				var length = words[i].length;
+// 				var index = sentence.indexOf(words[i]);
+// 				sentence.substring(index,length);
+// 				
+// 			}
+// 		}
+ 		//다이얼로그 내부 구문을 완성하고
+ 		var str = '<dialog class="mdl-dialog" id="viewInho">';
+ 		str += '<h4 class="mdl-dialog__title"> Stduy sentence </h4>';
+ 		str += ' <div class="mdl-dialog__content"></div>';
+ 		str += ' <div class="mdl-dialog__actions"><button type="button" class="mdl-button">넵</button>';
+ 		str += ' <button type="button" class="mdl-button close">아니요</button></div>';
+ 		str += '</dialog>';
+ 		
+ 		//넣은 다음에 출력
+ 		 $(document).ready(function(){
+ 		 $('.mdl-dialog__content').html(color);
+ 		 })
+ 		div.innerHTML = str;
+ 		var dialog = document.getElementById('viewInho');
+ 		 if (! dialog.showModal) {
+	    	  dialogPolyfill.registerDialog(dialog);
+	      }
+ 		    dialog.showModal(); 	
+ 		 dialog.querySelector('.close').addEventListener('click', function() {
+ 		      dialog.close();
+ 		    });
+	         // window.open("../transcript/wordDetail?words="+words+"&ts_num="+ts_num+"&contents_num="+contents_num+"&explanation="+explanation, "wordDetail", "width=578, height=215, toolbar=no, menubar=no, scrollbars=no, location=no, status=no, resizable=no" );
  	}  
-
-
 function GoLive() {
 	/* var user_id = document.getElementById(""); */
 	
