@@ -8,8 +8,24 @@
 			cursor: pointer;
 		}
 		
-		
 	 </style>
+	 
+	<script src="<c:url value="/resources/js/swiper.js" />"></script><script>
+	window.onload = function(){
+		var swiper = new Swiper('.swiper-container', {
+					 pagination: '.swiper-pagination',
+					 paginationType: 'progress',
+					 slidesPerView: 'auto',
+					 paginationClickable: true,
+					 spaceBetween: 0,
+					 freeMode: true,
+					 nextButton: '.next',
+					 prevButton: '.back'
+		 });
+	};
+	</script></head>
+	 
+	 
 	 <script type="text/javascript">
 		$(function(){
 			$(".category").on('click',function(){
@@ -54,7 +70,43 @@
 	
       <!-- 여기부터 시작 -->
       <main class="mdl-layout__content mdl-color--grey-100">
-    	
+    	<br>
+    	 <div class="mdl-grid demo-content">
+			<div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
+    	<section class="feature">
+			<div class="inWrap">
+				<div class="fInner swiper-container swiper-container-horizontal swiper-container-free-mode">
+					<ul class="swiper-wrapper" style="transform: translate3d(-2019px, 0px, 0px); transition-duration: 0ms;">
+						<c:forEach var="category" items="${categoryList }" varStatus="status">
+							<c:choose>
+								<c:when test="${status.count == 1 }">
+									<li class="swiper-slide swiper-slide-active category"><a href="#"><span>${category.category_kr }</span></a></li>
+								</c:when>
+								<c:when test="${status.count == 2 }">
+									<li class="swiper-slide swiper-slide-next category"><a href="#"><span>${category.category_kr }</span></a></li>
+								</c:when>
+								<c:otherwise>
+									<li class="swiper-slide category"><a href="#"><span>${category.category_kr }</span></a></li>
+								</c:otherwise>
+							</c:choose>
+							
+		      				
+		      			</c:forEach>
+						
+					
+					</ul>
+					<!-- Add Pagination -->
+					<div class="swiper-pagination swiper-pagination-progress"><span class="swiper-pagination-progressbar" style="transform: translate3d(0px, 0px, 0px) scaleX(1) scaleY(1); transition-duration: 300ms;"></span></div>
+				</div>
+
+				<div class="button">
+					<div class="back"><a href="#"><span class="hidden">back</span></a></div>
+					<div class="next swiper-button-disabled"><a href="#"><span class="hidden">next</span></a></div>
+				</div>
+			</div>
+		</section>
+		  	</div>
+      		</div>	
     
         <div class="mdl-grid demo-content">
 			<div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">

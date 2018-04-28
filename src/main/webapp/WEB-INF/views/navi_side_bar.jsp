@@ -42,7 +42,7 @@
 <!-- 
     <link rel="canonical" href="http://www.example.com/"> 
     -->
-
+ <link rel="stylesheet" href="<c:url value="/resources/css/layout.css" />"><link rel="stylesheet" href="<c:url value="/resources/css/swiper.css" />">
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
@@ -55,6 +55,7 @@
 	href="<c:url value="/resources/css/styles.css"></c:url>">
 	
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.2.1.js" />"></script> 	
+
 
 <script type="text/javascript">
 	
