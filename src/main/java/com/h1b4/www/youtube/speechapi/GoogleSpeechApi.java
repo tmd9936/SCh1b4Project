@@ -121,7 +121,7 @@ public class GoogleSpeechApi {
 		SpeechClient speech = SpeechClient.create();
 
 		// Configure remote file request for Linear16
-		RecognitionConfig config = RecognitionConfig.newBuilder().setEncoding(AudioEncoding.LINEAR16)
+		RecognitionConfig config = RecognitionConfig.newBuilder().setEncoding(AudioEncoding.LINEAR16).setSampleRateHertz(16000)
 				.setLanguageCode("ja-JP").setEnableWordTimeOffsets(true).build();
 		RecognitionAudio audio = RecognitionAudio.newBuilder().setUri(gcsUri).build();
 
@@ -288,7 +288,6 @@ public class GoogleSpeechApi {
 	
 		try {
 			list = asyncRecognizeWords(gcsuri,contents_num);
-			asyncRecognizeGcs(gcsuri);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

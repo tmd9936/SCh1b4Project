@@ -103,6 +103,24 @@ public class TranscriptService {
 		tsdao.insertTsList(tsList);
 	} 
 	
+	public void insertEditList(List<Transcript> tsList) {
+		/*
+		 * Passer passer = new Passer(); ArrayList<Transcript> tsList =
+		 * passer.xmlIntodatabase();
+		 */
+
+		
+		int i = 0;
+		for (Transcript t : tsList) {
+
+			Transcript ts = new Transcript();
+			t.setTs_num(i++);
+			
+		}
+		System.out.println(tsList);
+		
+		tsdao.insertEditList(tsList);
+	} 
 
 	
 	public void insertTranscriptOne(Transcript transcript){
@@ -129,6 +147,23 @@ public class TranscriptService {
 		 
 	 return tsList; 
 	 }
+	 
+public ArrayList<Transcript> selectEditList(Transcript ts){
+		 
+		 
+		 ArrayList<Transcript> tsList =  tsdao.selectE(ts);
+		 
+		 if(tsList == null){
+			 System.out.println("자막 값 없음");
+			 return null;
+		 }else {
+			System.out.println("자막 불러오기 성공");
+		}
+		 
+		 
+	 return tsList; 
+	 }
+	 
 	 
 	 public String selectContentsUrl(int contents_num){
 		 

@@ -461,6 +461,8 @@ li:enabled:active{
 					<div id="YouTube-player-errors"></div>
 					<div id="YouTube-player-fixed-infos"></div>
 				</div>
+				<button class="">Save status</button>
+				
 			</div>
 		</div>
 	</div>

@@ -46,7 +46,17 @@ public void insertTsList(List<Transcript> tsList){
 		
 	}
 
-	
+	public void insertEditList(List<Transcript> tsList){
+		
+		TranscriptMapper mapper = sqlSession.getMapper(TranscriptMapper.class);
+		try{
+			
+			mapper.insertEditList(tsList);
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 	
 	public ArrayList<Transcript> selectT(Transcript ts){
 		TranscriptMapper mapper = sqlSession.getMapper(TranscriptMapper.class);
@@ -61,6 +71,19 @@ public void insertTsList(List<Transcript> tsList){
 		return transcriptsList;
 		
 	
+	}
+	
+	public ArrayList<Transcript> selectE(Transcript ts){
+		TranscriptMapper mapper = sqlSession.getMapper(TranscriptMapper.class);
+		ArrayList<Transcript> transcriptsList = null;
+		try {
+			transcriptsList = mapper.selectE(ts);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return transcriptsList;
 	}
 	
 	public int insertTsOne(Transcript ts){

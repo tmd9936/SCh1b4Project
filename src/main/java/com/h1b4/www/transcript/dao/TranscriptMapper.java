@@ -11,7 +11,11 @@ public interface TranscriptMapper {
 	
 	public void insertTsList(List<Transcript> ts);
 	
+	public void insertEditList(List<Transcript> ts);
+	
 	public ArrayList<Transcript> selectT(Transcript ts);
+	
+	public ArrayList<Transcript> selectE(Transcript ts);
 	
 	public int insertTsOne(Transcript transcript);
 	

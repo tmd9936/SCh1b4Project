@@ -92,6 +92,26 @@ public class TranscriptController {
 	}
 
 	
+	/**
+	 * function : 편집용 자막넣기 Parameter : contents_num, ts_start, ts_dur ? end 값은 어디감?
+	 */
+	@ResponseBody
+	@RequestMapping(value = "insertEdit", method = RequestMethod.POST)
+	public String insertEdit(@RequestBody List<Transcript> tsList) {
+
+		System.out.println(tsList);
+		// TODO: 자막 Insertk
+		/*for(String l : tsList){
+			System.out.println(l);
+		}*/
+		
+		//System.out.println(contents_num);
+		transcriptService.insertEditList(tsList);
+
+		return "redirect:/";
+	}
+	
+	
 	
 	
 	/**
@@ -107,6 +127,22 @@ public class TranscriptController {
 
 		return "publish/editSpace";
 	}
+	
+
+	/**
+	 * function : 편집용 자막 불러오기 Parametr : contents_num Return :ts 객체
+	 */
+	@RequestMapping(value = "editselect", method = RequestMethod.GET)
+	public String editselectT(Transcript ts, Model model) {
+
+		// TODO: 자막 Select
+		 ArrayList<Transcript> traList = transcriptService.selectEditList(ts);
+		 
+		 model.addAttribute("editList", traList);
+
+		return "publish/editSpace";
+	}
+	
 
 	@RequestMapping(value = "streamOnMic", method = RequestMethod.POST)
 	@ResponseBody
