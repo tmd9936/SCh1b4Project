@@ -214,10 +214,10 @@ public class TranscriptController {
 	}
 
 	
-}
 
 
-	}
+
+	
 	
 	@RequestMapping(value="goEditSpace", method = RequestMethod.GET)
 	public String goEditSpace(Model model, Transcript ts){
@@ -248,5 +248,5 @@ public class TranscriptController {
 		
 		return "";
 	}
-
+}
 
