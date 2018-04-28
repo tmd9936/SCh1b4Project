@@ -1,6 +1,8 @@
 @CHARSET "UTF-8";
 
+/*테스트 시작*/
 
+/*테스트 끝*/
 .a{
 margin: 5% auto;
 margin-left: 5%;
@@ -62,17 +64,30 @@ float:left;
  }
  
  
- .ViewLikes{
+ .Likes&faceBook{
  
  float: left;
  
  }
  
- .ToFaceBook{
- float: right;
+ .thumbsUp{
+ 
+ float: left;
+ width: 50px;
+ height: 50px;
  
  }
  
+ .recommendCountDiv{
+ float: left;
+ }
+ 
+ .bookMark{
+ float: right;
+  width: 50px;
+ height: 50px;
+ }
+
  .RightList{
  float: right;
  
@@ -174,8 +189,6 @@ clear: left;
 padding: 10px;
 
 }
-
-
 
 .ShowReplyLeft{
 float: left;

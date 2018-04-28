@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.h1b4.www.contents.dao.ContentsDAO;
+import com.h1b4.www.vo.Bookmark;
 import com.h1b4.www.vo.Category;
 import com.h1b4.www.vo.Contents;
 
@@ -95,16 +96,49 @@ public class ContentService {
 		return list;
 	}
 	
-	//즐겨찾기 검색
+	//북마크 입력
+	public void bookmarkInsert(Bookmark bookmark){
+		logger.info("북마크 입력 서비스 시작");
+		
+		dao.bookmarkInsert(bookmark);
+		
+		
+		logger.info("북마크 입력 서비스 종료");
+	}
+	
+	//북마크 검색
 	public ArrayList<Contents> bookmarklist(String loginId){
-		logger.info("즐겨찾기 서비스");
+		logger.info("북마크 서비스");
 		
 		ArrayList<Contents> list = null;
 		list = dao.bookmarklist(loginId);
 		
 		
-		logger.info("즐겨찾기 서비스 끝");
+		logger.info("북마크 서비스 끝");
 		return list;
 	}
+	
+	//북마크 삭제
+	public void bookmarkDelete(Bookmark bookmark){
+		logger.info("북마크 삭제 서비스 시작");
+		
+		dao.bookmarkDelete(bookmark);
+		
+		logger.info("북마크 삭제 서비스 종료");
+		
+	}
+	
+	//해당 컨테츠 북마크 여부 확인
+	public Bookmark selectBookmarkOrNot(Bookmark bookmark){
+		logger.info("DAO 해당 컨텐츠 북마크 여부 확인 시작");
+		
+		Bookmark boomark2 = null;
+		boomark2 = dao.selectBookmarkOrNot(bookmark);
+		
+		
+		logger.info("DAO 해당 컨텐츠 북마크 여부 확인 종료");
+		return boomark2;
+	}
+	
 }	
 

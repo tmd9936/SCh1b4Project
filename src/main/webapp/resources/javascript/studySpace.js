@@ -3,6 +3,9 @@
  */
 
 
+
+
+
 var youTubePlayer;
 var done = true;
 var dur = 3000;
@@ -13,6 +16,8 @@ var intervals = new Array();
 var speakSpace = false;
 var speakState = false;
 var speakText = '';
+
+
 $(function(){
 	$('.script-bar').on('click',function(){
 		speakState = true;
@@ -64,6 +69,8 @@ $(function(){
 		
 	});
 });
+
+
 
 function changeSeekerColor(bar){
 	if($(bar).attr('click')=='true')
@@ -351,8 +358,6 @@ function youTubePlayerStop() {
 
 function GoSpeakTheLine(){
 	
-	
-	
 	if(!speakSpace){
 		
 		var str = '<div class="Notice">';  
@@ -408,14 +413,123 @@ function LearnTheWords(){
 }
 
 
+function GoLive(){
+	
+	var div = document.getElementById("divNewGSTL");
+	var teacher_name = document.getElementById("teacher_name");
+	
+	var str ='<div id="container"></div>';
+	str += '<input type="button" id="sendMessage" value="전송"  />';
+	str +='<input type="text" id="message" placeholder="메시지 내용"/>';
+	str +='<input type="hidden" id="to" />';
+	str +='<div id="chatMessage" style="overFlow: auto; max-height: 500px;"></div>';
+	
+	
+	str +='<style type="text/css">'; 
+	str +='.secondView{'
+	str +='width: 640px;';
+	str +='height: 800px;';
+	str +='border:1px solid;';
+	str +='}';
+	str	+='</style>';
+	
+	div.innerHTML = str;
+	
+	console.log(str);
+	
+	
+	var sock = null;
+	var message = {};
+	
+		sock = new SockJS("/www/echo");
+		
+	  	console.log(sock);
+	  	
+	    sock.onopen = function() {
+	    	
+	        message={};
+	        message.message = "반갑습니다.";
+	        message.type = "all";
+	        message.to = "all";
+	        sock.send(JSON.stringify(message)); 
+	        
+	        }
+	     
+	    sock.onmessage = function(evt) {
+	        console.log(evt);
+	    	$("#chatMessage").append(evt.data);
+	        $("#chatMessage").append("<br />");
+	        $("#chatMessage").scrollTop(99999999);
+	    };
+	     
+	    sock.onclose = function() {
+	    	
+	        // sock.send("채팅을 종료합니다.");
+	    }
+	     
+	     $("#message").keydown(function (key) {
+	         if (key.keyCode == 13) {
+	            $("#sendMessage").click();
+	         }
+	      });
+	     
+	    $("#sendMessage").click(function() {
+	        if( $("#message").val() != "") {
+	             
+	            message={};
+	            message.message = $("#message").val();
+	            message.type = "all";
+	            message.to = "all";
+	             
+	            var to = $("#to").val();
+	            if ( to != "") {
+	                message.type = "one";
+	                message.to = to;
+	            }
+	             
+	            sock.send(JSON.stringify(message));
+	            $("#chatMessage").append("나 : "+	 " -> " + $("#message").val() + "<br/>");
+	            $("#chatMessage").scrollTop(99999999);
+	            $("#message").val("");
+	        }
+	    });
+	    
+	    
+	    
+	    /* 테스트 시작*/
+	    var connection = new RTCMultiConnection();
 
-function GoLive() {
-	/* var user_id = document.getElementById(""); */
-	
-	window.open("goLive", "newWindow", "top=300", "left=300", "width=500", "height=500");
-	
+	 // this line is VERY_important
+	 connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+
+	 // if you want audio+video conferencing
+	 connection.session = {
+	     audio: true,
+	     video: true
+	 };
+
+	// connection.openOrJoin('your-room-id');
+		connection.openOrJoin( 'room-id', function(isRoomExists, roomid) {
+			  alert(isRoomExists ? 'You joined room' : 'You created room');
+			});
+				
+		connection.onstream = function(event) {
+		    var video = event.mediaElement;
+
+		    // append to <body>
+		   // document.body.appendChild(video);
+		    //document.getElementById("container").appenChild(video);
+		    $('#container').html(video);
+		};
+		            
+		/* 테스트 종료 */
+	    
 	
 }
+
+
+
+
 
 /**
  * Seek the video to the currentTime.
@@ -469,6 +583,639 @@ function WatchTheVideo(){
 
 
 
+$(function(){
+	/*댓글 리스트 출력*/
+	init2();	 
+	
+	
+	
+	
+	$('#formButton').on('click', function(){
+		
+		
+		
+		var member_id = $('#member_id').val();
+		var contents_num = $('#contents_num').val();
+		var reply_text = $('#reply_text').val();
+		
+		
+		
+		if(reply_text.length == 0){
+			alert("댓글 내용을 입력해주세요~");
+			return;
+			
+		}
+		
+		$.ajax({
+		
+			url : "contentsReplyInsert",
+			type : "POST",
+			contentType : "application/json; charset=utf-8",
+			data : JSON.stringify({
+				
+				member_id : member_id,
+				contents_num : contents_num,
+				reply_text : reply_text
+				
+			}),
+			success : function(){
+				
+				alert("댓글 등록 완료");
+				
+				$('#reply_text').val('');
+				/*댓글 리스트 출력*/
+				init2();
+				
+			},
+			error : function(err){
+				console.log(err)
+			}
+			
+			
+		});
+		
+		
+	});
+	
+	/*좋아요 입력*/
+	$('#thumbsUp').on('click',function(){
+		var contents_num = $('#contents_num').val();
+		$.ajax({
+			url:"selectRecommendOrNot",
+			type:"GET",
+			data:{
+				contents_num : contents_num
+			},
+			success: function(data){
+				
+				if(data){
+					
+					$.ajax({
+						url:"insertRecommend",
+						type: "POST",
+						data:{
+							contents_num : contents_num	
+						},
+						success: function(){
+							var contents_num = $('#contents_num').val();
+							
+							$.ajax({
+								url:"selectRecommendCount",
+								type: "GET",
+								data:{
+									contents_num : contents_num
+								},
+								success: function(data){
+									if(data){
+										$('#thumbsUp').attr('src','/www/resources/icon/star_after.svg');
+										var str = '<h4>'+data+'</h4>';
+										$('#recommendCountDiv').html(str);
+									}
+									
+								},
+								error:function(err){
+									console.log(err);
+								}
+							});//내부의내부함수
+						},
+						error: function(err){
+							console.log(err);
+						}
+						
+						
+					});//THUMBSUP 함수 내부 1 AJAX
+		
+				}else{
+					alert("추천한 게시물은 다시 추천 불가 !");
+					/*$.ajax({
+						url : "deleteRecommend",
+						type: "POST",
+						data:{
+							contents_num : contents_num	
+						},
+						success: function(){
+							var contents_num = $('#contents_num').val();
+							alert('추천 삭제');
+							
+							$.ajax({
+								url:"selectRecommendCount",
+								type: "GET",
+								data:{
+									contents_num : contents_num
+									
+								},
+								success: function(data){
+									if(data){
+										$('#thumbsUp').attr('src','/www/resources/icon/thumbs-up.svg');
+										var str = '<h4>'+data+'</h4>';
+										$('#recommendCountDiv').html(str);
+									}
+									
+								},
+								error:function(err){
+									console.log(err);
+								}
+							});//내부의내부함수
+							
+						},
+						error:function(err){
+							console.log(err);
+						}
+						
+						
+					});
+					
+					*/
+				}
+				
+				
+			},
+			error: function(err){
+				console.log(err);
+			}
+		});
+		
+		
+	});
+	
+	
+	$('#thumbsUp').mouseover(function(){
+		$('#thumbsUp').css('cursor','pointer')
+	})
+	
+	
+	/*북마크 입력*/
+	$('#bookMark').on('click',function(){
+		var contents_num = $('#contents_num').val();
+		$.ajax({
+			url:"selectBookmarkOrNot",
+			type:"GET",
+			data:{
+				contents_num : contents_num
+			},
+			success: function(data){
+				
+				if(data){
+					
+					$.ajax({
+						url:"bookmarkInsert",
+						type: "POST",
+						data:{
+							contents_num : contents_num	
+						},
+						success: function(){
+							var contents_num = $('#contents_num').val();
+						$('#bookMark').attr('src','/www/resources/icon/bookmark_black.svg');
+						alert("북마크 등록");
+						
+						},
+						error: function(err){
+							console.log(err);
+						}
+							
+					});
+		
+				}else{
+			
+						$.ajax({
+							
+							url : "bookmarkDelete",
+							type : "POST",
+							data :{
+								
+								contents_num : contents_num
+							},
+							success :function(){
+								var contents_num = $('#contents_num').val();
+								$('#bookMark').attr('src','/www/resources/icon/bookmark_border_black.svg');
+								alert("북마크 삭제");
+							},
+							error : function(err){
+								
+								console.log(err);
+							}
+							
+							
+							
+							
+						});
+						
+						
+						
+					
+				}
+				
+				
+			},
+			error: function(err){
+				console.log(err);
+			}
+		});
+		
+		
+	});
+	
+	
+	$('#bookMark').mouseover(function(){
+		$('#bookMark').css('cursor','pointer')
+	})
+	
+	
+});//레디함수 종료 
+
+
+function init2(){
+		
+	var contents_num = $('#contents_num').val();
+	var page = 1;
+	var loading = true;
+	
+	
+	$.ajax({
+		
+		url : "selectAllContentsReply",
+		type : "POST",
+		data : {
+			
+			contents_num : contents_num,
+		    		 page : page
+		
+	},
+	dataType : "json",
+	success : function(obj){
+		//console.log("첫 페이지 리스트 ");
+		//console.log(obj.navi);
+		//console.log(obj.contentsReply);
+		
+		var str = '';
+		str += '<tr>';
+		str += '<th class="mdl-data-table__cell--non-numeric">번호</th>';
+	    str += '<th>아이디</th>';
+	    str += '<th>내용</th>';
+	    str += '<th>날짜</th>';
+	    str += '<th>삭제</th>';
+	    str += '<th>수정</th>';
+		str += '<th></th>';
+		str += '</tr>';
+		
+		$.each(obj.contentsReply, function(index, item){
+			
+				console.log(index);
+			
+			
+			str += '<tr id="page1">';
+			str += '<td >'+item.reply_num+'</td>';
+			str += '<td >'+item.member_id+'</td>';
+			str += '<td >'+item.reply_text+'</td>';
+			str += '<td >'+item.inputdate+'</td>';
+			str += '<td><input type="button" value="삭제" class="deleteContentsReply mdl-button mdl-js-button mdl-button--raised mdl-button--colored" data_num="'+item.reply_num+'"></td>'; 
+			str += '<td><input type="button" value="수정" class= "updateContentsReplyForm mdl-button mdl-js-button mdl-button--raised mdl-button--colored" data_num="'+item.reply_num+'" data_text="'+item.reply_text+'" data_index="'+index+'"></td>';
+			str += '<td><div class="updateContentsReplyFormDiv'+index+'"></div></td>';
+			str += '</tr>';
+			
+			
+		})
+		
+		 $('#replyDiv').html(str);
+		
+		
+		/*삭제 시작*/
+		$('.deleteContentsReply').on('click', function(){
+			
+			var reply_num = $(this).attr('data_num');
+			console.log(reply_num);
+			alert(reply_num);
+			$.ajax({
+				
+				url : "contentsReplyDelete",
+				type : "POST",
+				contentType : "application/json; charset=UTF-8",
+				data : JSON.stringify({
+					
+					reply_num : reply_num
+			
+				}),
+				success : function(){
+					
+					
+					init2();
+				},
+				
+				error : function(error){
+					
+					console.log(error);
+				}
+				
+			});
+			
+		});
+		
+		
+		/*수정 시작*/
+		$('.updateContentsReplyForm').on('click', function(){
+			
+			var reply_num = $(this).attr('data_num');
+			var reply_text = $(this).attr('data_text');
+			var index = $(this).attr('data_index');
+			
+			var str = '';
+			
+			console.log(reply_num);
+			console.log(reply_text);
+			console.log(index);
+			
+			str = '<input type="hidden" id ="reply_num"  value="'+reply_num+'">';
+            str += '<input type="text" id ="reply_text2"  value="'+reply_text+'" >';
+            str += '<input type="button" value="수정완료" id="updateContentsReply" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">';
+			
+			
+            $('.updateContentsReplyFormDiv'+index).html(str);
+            console.log(str);
+            
+            
+            $('#updateContentsReply').on('click', function(){
+            	
+            	var reply_num = $('#reply_num').val();
+            	var reply_text = $('#reply_text2').val();
+            	console.log(reply_num);
+            	console.log(reply_text);
+            	
+            	$.ajax({
+            	
+            		url : "contentsReplyUpdate",
+            		type : "POST",
+            		contentType : "application/json; charset=utf-8",
+            		data : JSON.stringify({
+            		
+            			reply_num : reply_num,
+            			reply_text : reply_text
+            			
+            		}),
+            		
+            		success : function(){
+            			
+            		
+            			init2();
+            			
+            			
+            		},
+            		
+            		error : function(error){
+            			
+            			console.log(error);
+            			
+            		}
+            		
+            	});
+            	
+            });
+		});
+		
+		$(document).scroll(function(){
+			
+			var maxHeight = $(document).height();
+		    var currentScroll = $(window).scrollTop() + $(window).height();
+		   // var flag = false;
+			
+		    
+		   
+		    if (maxHeight <= currentScroll + 100) {
+		    	
+		    /*	if(flag == true)return;
+			    	setTimeout(() => {
+						flag = true;
+					}, 2000);
+					*/
+		    	
+		    	$('html').scrollTop(0);
+		    	
+		    	if(loading){
+		    		page = page+1;
+		    		
+		    		loading = false;
+		    		
+		    		$.ajax({
+		    			
+		    			url : "selectAllContentsReply",
+		    			type : "POST",
+		    			data : {
+		    				
+		    				contents_num : contents_num,
+		    			    		 page : page
+		    			},
+		    			
+		    			dataType : "json",
+		    			success : function(obj){
+		    				console.log("추가 페이지 리스트 ");
+		    					console.log(obj);
+		    				
+		    				var str = '';
+		    				
+		    					$.each(obj.contentsReply, function(index, item){
+		    					   
+		    						if(index == 0){
+			    							
+			    					str +=	'<tr id="page'+page+'" >';
+			    					
+			    					}else{
+			    						
+			    						str += '<tr>';
+			    						
+			    					}
+		    					
+		    					 str += '<td class="mdl-data-table__cell--non-numeric">'+item.reply_num+'</td>';
+		    					 str += '<td>'+item.member_id+'</td>';
+		    					 str += '<td>'+item.reply_text+'</td>';
+		    					 str += '<td>'+item.inputdate+'</td>';
+		    					 str += '<td><input type="button" value="삭제" class="deleteContentsReply mdl-button mdl-js-button mdl-button--raised mdl-button--colored" data_num="'+item.reply_num+'"></td>'; 
+		    					 str += '<td><input type="button" value="수정" class= "updateContentsReplyForm mdl-button mdl-js-button mdl-button--raised mdl-button--colored" data_num="'+item.reply_num+'" data_text="'+item.reply_text+'" data_index="'+index+'"></td>';
+		    					 str += '<td><div class="updateContentsReplyFormDiv'+index+'"></div></td>';
+		    					 str += '</tr>';
+		    					  
+		    					  
+		    					  if(page <= obj.navi.currentPage){
+		    						 $('#loading').addClass('mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active');
+		    						 loading = true;
+		    						 
+		    					  }else{
+		    						  
+		    						  $('#loading').removeClass('mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active');
+		    						  str ='';
+		    						  loading = false;
+		    						  //alert("끝 페이지 ");
+		    						  $('html').scrollTop(0);
+		    						
+			    					
+		    					  }
+		    					 
+		    					 
+		    				});
+		    					
+		    					
+		    				$('#page'+(page-1)).after(str);
+ 
+		    		        /*   삭제 시작*/
+		    		   		$('.deleteContentsReply').on('click', function(){
+		    		   			
+		    		   			var reply_num = $(this).attr('data_num');
+		    		   			console.log(reply_num);
+		    		   			alert(reply_num);
+		    		   			$.ajax({
+		    		   				
+		    		   				url : "contentsReplyDelete",
+		    		   				type : "POST",
+		    		   				contentType : "application/json; charset=UTF-8",
+		    		   				data : JSON.stringify({
+		    		   					
+		    		   					reply_num : reply_num
+		    		   			
+		    		   				}),
+		    		   				success : function(){
+		    		   					
+		    		   					
+		    		   					init2();
+		    		   				},
+		    		   				
+		    		   				error : function(error){
+		    		   					
+		    		   					console.log(error);
+		    		   				}
+		    		   				
+		    		   			});
+		    		   			
+		    		   		});
+		    		   		
+		    		   		
+		    		   		/*수정 시작*/
+		    		   		$('.updateContentsReplyForm').on('click', function(){
+		    		   			
+		    		   			var reply_num = $(this).attr('data_num');
+		    		   			var reply_text = $(this).attr('data_text');
+		    		   			var index = $(this).attr('data_index');
+		    		   			
+		    		   			var str = '';
+		    		   			
+		    		   			console.log(reply_num);
+		    		   			console.log(reply_text);
+		    		   			console.log(index);
+		    		   			
+		    		   			str = '<input type="hidden" id ="reply_num"  value="'+reply_num+'">';
+		    		               str += '<input type="text" id ="reply_text2"  value="'+reply_text+'" >';
+		    		               str += '<input type="button" value="수정완료" id="updateContentsReply" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">';
+		    		   			
+		    		   			
+		    		               $('.updateContentsReplyFormDiv'+index).html(str);
+		    		               console.log(str);
+		    		               
+		    		               
+		    		               $('#updateContentsReply').on('click', function(){
+		    		               	
+		    		               	var reply_num = $('#reply_num').val();
+		    		               	var reply_text = $('#reply_text2').val();
+		    		               	console.log(reply_num);
+		    		               	console.log(reply_text);
+		    		               	
+		    		               	$.ajax({
+		    		               	
+		    		               		url : "contentsReplyUpdate",
+		    		               		type : "POST",
+		    		               		contentType : "application/json; charset=utf-8",
+		    		               		data : JSON.stringify({
+		    		               		
+		    		               			reply_num : reply_num,
+		    		               			reply_text : reply_text
+		    		               			
+		    		               		}),
+		    		               		
+		    		               		success : function(){
+		    		               			
+		    		               			
+		    		               			init2();
+		    		               			//init3()
+		    		               			
+		    		               		},     		
+		    		               		error : function(error){	    		               			
+		    		               			console.log(error);
+              			
+		    		               		}     		
+		    		               	});               	
+		    		               });
+		    		   		});       	
+		    			},
+		    			
+		    			error : function(err){
+		    				
+		    				console.log(err);
+		    				
+		    			}
+		    		});
+		}    	
+		    }
+		});
+	},
+	error : function(error){
+		
+		console.log(error);
+	}
+	});
+	
+	/*좋아요 */
+	$.ajax({
+		url:"selectRecommendOrNot",
+		type:"GET",
+		data:{
+			contents_num : contents_num
+		},
+		success: function(data){
+			console.log(!data);
+			if(!data){
+				$('#thumbsUp').attr('src','/www/resources/icon/star_after.svg');
+			}
+			
+		},
+		error: function(err){
+			console.log(err);
+		}
+	}); //2번 ajax
+	
+	$.ajax({
+		url:"selectRecommendCount",
+		type: "GET",
+		data:{
+			contents_num : contents_num
+		},
+		success: function(data){
+			var str = '<h4>'+data+'</h4>';
+			$('#recommendCountDiv').html(str);
+		},
+		error:function(err){
+			console.log(err);
+		}
+	});//3번 ajax
+	
+
+	$.ajax({
+		url : "selectBookmarkOrNot",
+		type : "GET",
+		data :{
+			
+			contents_num : contents_num
+		},
+		success : function(data){
+			if(!data){
+				$('#bookMark').attr('src','/www/resources/icon/bookmark_black.svg');
+			}
+			},
+		error : function(err){
+			console.log(err);
+			
+		}	
+			
+		});
+
+
+}
+//init2()함수 종료
 
 
 

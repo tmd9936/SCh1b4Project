@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+
+<!-- 회원정보 처리 SQL -->
+<mapper namespace="com.h1b4.www.contents.dao.ContentsReplyMapper">
+	
+	
+	<insert id="insertContentsReply" parameterType="contentsreply">
+	insert into
+			ContentsReply
+			(
+			reply_num
+			,contents_num
+			,member_id
+			,reply_text
+			
+		)values(
+			contents_reply_seq.nextval
+			,#{contents_num}
+			,#{member_id}
+			,#{reply_text}
+			
+		)
+	
+	</insert>
+	
+
+	<select id ="selectAllContentsReply" resultType="contentsreply" parameterType="map">
+		select
+			reply_num
+			,contents_num
+			,member_id
+			,reply_text
+			,to_char(inputdate, 'yyyy/MM/dd') inputdate
+		from 
+			ContentsReply
+		
+		where
+			contents_num = #{contents_num}
+		
+			<if test="search != null">
+			
+			<if test = "search == 'member_id'">
+			and member_id like '%' || #{searchText} || '%'
+			</if>
+			
+			<if test="search == 'reply_text'">
+			and reply_text like '%' || #{searchText} || '%' 
+			</if>
+			
+			<if test = "search == 'inputdate'">
+			and inputdate like '%' || #{searchText} || '%'			
+			 </if>
+		
+			</if>
+			
+		order by
+			reply_num desc		
+	
+	</select>
+	
+	<!-- 전체 글 갯수 -->
+	<select id="getTotal" parameterType="map" resultType="int">
+		select
+			count(*)
+			
+		from
+			ContentsReply
+		
+		where
+			contents_num = #{contents_num}
+		
+			<if test="search != null">
+			
+			<if test = "search == 'member_id'">
+			and member_id like '%' || #{searchText} || '%'
+			</if>
+			
+			<if test="search == 'reply_text'">
+			and reply_text like '%' || #{searchText} || '%' 
+			</if>
+		
+			</if>
+	
+	</select>
+	
+	<delete id="deleteContentsReply" parameterType="contentsreply">
+		delete
+			ContentsReply
+		where
+			reply_num = #{reply_num}
+			and
+			member_id = #{member_id}
+	
+	</delete>
+		
+	
+	<update id="updateContentsReply" parameterType="contentsreply">
+	update
+		ContentsReply
+	
+	set
+		reply_text = #{reply_text}
+	
+	where
+		reply_num = #{reply_num}
+		and
+		member_id = #{member_id}
+	
+	</update>
+	
+	<select id="selectOneContentsReply" resultType="contentsreply" parameterType="int">
+		select
+			reply_num
+			,contents_num
+			,member_id
+			,reply_text
+			,to_char(inputdate, 'yyyy/MM/dd') inputdate
+		from 
+			ContentsReply
+	
+	where
+		reply_num = #{reply_num}	
+	
+	
+	
+	
+	</select> 
+	
+ 	
+	
+	</mapper>

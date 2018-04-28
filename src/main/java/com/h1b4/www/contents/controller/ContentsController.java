@@ -12,9 +12,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.socket.WebSocketSession;
 
 import com.h1b4.www.contents.service.ContentService;
 import com.h1b4.www.member.controller.MemberController;
@@ -22,6 +25,7 @@ import com.h1b4.www.transcript.service.TranscriptService;
 import com.h1b4.www.vo.Category;
 import com.h1b4.www.vo.Contents;
 import com.h1b4.www.vo.Transcript;
+import com.h1b4.www.vo.Bookmark;
 
 @Controller
 @RequestMapping(value="contents")
@@ -89,6 +93,7 @@ public class ContentsController {
 		String filename = "";
 		String ytName = "";
 		
+		
 		model.addAttribute("contents",contents);
 		model.addAttribute("tsList",tsList);
 		
@@ -147,6 +152,71 @@ public class ContentsController {
 		
 		
 		return "/contents/ytDown";
+	}
+	
+	
+	//북마크 등록
+	@ResponseBody
+	@RequestMapping(value="bookmarkInsert", method = RequestMethod.POST)
+	public void bookmarkInsert(int contents_num, HttpSession session){
+		
+		logger.info("북마크 등록 시작");
+		
+		Bookmark bookmark = new Bookmark();
+		
+		bookmark.setMember_id("h1b4");
+		bookmark.setContents_num(contents_num);
+		
+		service.bookmarkInsert(bookmark);
+		
+		
+		logger.info("북마크 등록 종료");
+	}
+	
+	//해당 컨테츠 북마크 여부 확인
+	@ResponseBody
+	@RequestMapping(value="selectBookmarkOrNot", method = RequestMethod.GET)
+	public Boolean selectBookmarkOrNot(int contents_num, HttpSession session){
+		logger.info("해당 컨테츠 북마크 여부 확인 시작");
+		
+		String member_id = "h1b4";//(String)session.getAttribute("loginId");
+		
+		if(member_id == ""){
+			
+			return false;
+		}
+		
+		Bookmark bookmark = new Bookmark();
+		bookmark.setMember_id(member_id);
+		bookmark.setContents_num(contents_num);
+		
+		Bookmark result = service.selectBookmarkOrNot(bookmark);
+		
+		if(result != null){
+			return false;
+		}
+		logger.info("해당 컨테츠 북마크 여부 확인 종료");
+		
+		return true;
+		
+	}
+	
+	//북마크 삭제
+	@ResponseBody
+	@RequestMapping(value="bookmarkDelete", method = RequestMethod.POST)
+	public void bookmarkDelete(int contents_num, HttpSession session){
+		
+		logger.info("북마크 삭제 시작");
+		
+		Bookmark bookmark = new Bookmark();
+		
+		bookmark.setMember_id("h1b4");
+		bookmark.setContents_num(contents_num);
+		
+		service.bookmarkDelete(bookmark);
+		
+		
+		logger.info("북마크 삭제 종료");
 	}
 	
 
