@@ -394,7 +394,7 @@ function hyngteaso(ytText,tts,textCompares){
 	
     $.ajax({
         type : "POST",
-        url : "https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=702e62656b4b77496e64685a366630705a56737573476d7261636731344f6b2e346e4a75502e616e734c39",
+        url : "https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=436a6431712f387571513657764a484765534776586c784e656337765a4e79494c447a76545a556f6e3639",
         ContentType : "application/json; charset=utf-8",
         dataType : 'json',
         data : {
@@ -413,7 +413,7 @@ function hyngteaso(ytText,tts,textCompares){
             
             $.ajax({
                 type : "POST",
-                url : "https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=702e62656b4b77496e64685a366630705a56737573476d7261636731344f6b2e346e4a75502e616e734c39",
+                url : "https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=436a6431712f387571513657764a484765534776586c784e656337765a4e79494c447a76545a556f6e3639",
                 ContentType : "application/json; charset=utf-8",
                 dataType : 'json',
                 data : {

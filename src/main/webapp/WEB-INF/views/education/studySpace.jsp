@@ -111,9 +111,9 @@
      		 			<td class="pitchPercent"> </td>
      		 		</tr>
      		 	</table>
-     		 	<div id="ytPitch" style="height: 250px; width: 100%;" class="pitchContainer"></div>
+     		 	<div id="ytPitch" style="height: 250px; width: 90%;" class="pitchContainer"></div>
 						
-				<div id="memPitch" style="height: 250px; width: 100%;" class="pitchContainer"></div>
+				<div id="memPitch" style="height: 250px; width: 90%;" class="pitchContainer"></div>
     		</div>
     		<div class="mdl-dialog__actions">
       			<button type="button" class="mdl-button close" id="closeButton">Close</button>
