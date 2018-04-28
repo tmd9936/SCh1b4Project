@@ -20,7 +20,7 @@ $(function(){
 		$('#dur').val($(this).attr('dur'));
 		speakText = $(this).attr('text');
 		
-		if(speakState){
+		if(speakState && speakSpace){
 			$('.Notice').text(speakText);
 			$('.startEndBtn').css('visibility','visible');
 		}
