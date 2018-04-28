@@ -417,7 +417,7 @@ function LearnTheWords(tslist){
 			var start = tslist[i].ts_start-1;
 			var dur = tslist[i].ts_dur+1;
 			
-			var str = '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="'+i+'. 재생" onclick="javascript:playsound('+start+','+dur+')">'
+			var str = '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="'+(i+1)+'. 재생" onclick="javascript:playsound('+start+','+dur+')">'
 			if(dur>10){
 				str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="5sec 뒤로" onclick="javascript:playsound2('+start+','+dur+',0)">'
 				str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="5sec 앞으로" onclick="javascript:playsound2('+start+','+dur+',1)">'
@@ -449,11 +449,8 @@ function playsound(start7,dur7){
 }
 
 function playsound2(start7,dur7,num){
-	console.log(num);
-	console.log(dur7);
 	done = false;
 	var currentTime;
-	console.log("currentTime :"+youTubePlayer.getCurrentTime());
 	switch(num){
 	case 1:
 		currentTime = youTubePlayer.getCurrentTime()+5;
@@ -471,12 +468,11 @@ function playsound2(start7,dur7,num){
 
 
 function test(num,text){
-	console.log("num:"+num);
-	console.log("text:"+text);
+	var oneWordAnswer=[];
+	
     var object;
     var compare=[];
     compare.push(text);
-    
     //문장을 API를 이용해 분해,분석 하자.
     $(document).ready(function(){
         $.ajax({
@@ -493,7 +489,6 @@ function test(num,text){
               
             //성공한다면
             success : function(obj){
-            	console.log(JSON.stringify(obj));
               var list = '';
               var str = obj.word_list[0];
               var c=0;
@@ -501,42 +496,66 @@ function test(num,text){
               //API로 받아온 분석결과는 2중 배열에 갇혀 있기 때문에 꺼내준다.
               $.each(str,function(index,item){
                 //list += '인덱스: '+index+'<br>';
+            	  var oneWord='';
+            	  var oneWord2=''; var oneWord3=''; var oneWord4='';
 		              $.each(item,function(index2,item2){
 		                switch(c){
 		               case 0:
 		                 list += '원문: '+item2;
+		                 console.log("item 원문 판별 : "+item2);
 		                 //list += item2;
 		                 compare.push(item2);
+		                 if(item2.length>=2){
+		                	 console.log("item 이녀석 저장: "+item2);	 
+		                 oneWord2 = item2+':';
+		                 }
 		                 c++;
 		                 break;
 	    	           case 1:
 	        	          list += ' 품사: '+item2;
+	        	          console.log(item2);
 	           		       //list += item2;
-		                 c++;
+	        	          if(oneWord2!=''){
+	        	          oneWord3 = item2+':';
+	        	          console.log("oneWord3의상태 :"+oneWord3);
+	        	          }
+	        	          c++;
 		                 break;
 		               case 2:
-		                 list += ' 읽기: '+item2;
+		                 list += ' 읽기: '+item2+'<br>';
+		                 console.log(item2+'<br>');
 		                 //list += item2;
+		                 if(oneWord2!=''){
+		                 oneWord4 = item2;
+		                 console.log("oneWord4의상태 :"+oneWord4);
+		                 }
 		                 c=0;
 		                 break;
 		               }
 		             });
+		              if(oneWord2!=''){
+		            	  oneWord =oneWord2+""+oneWord3+""+oneWord4;
+		            	  console.log("총합의상태 :"+oneWord);
+		            	  oneWordAnswer.push(oneWord);
+		            	  console.log("저장 직후의 상태 :"+oneWordAnswer);
+		              }
 		         });
-		         $('#list'+num).text(list);
+		         $('#list'+num).text(oneWordAnswer);
+		         
 		         var answers = document.getElementById('answers'+num);
 		        	answers.value = compare;
 		          //문제가 만들어지는 공간마다 답 입력칸을 만들어 준다.
 	          	for (var i = 1; i < compare.length; i++) {
-	          		console.log("compare[i]:"+compare[i]);
 	          		//너무 짧은 건 넘기고
 	        	if(compare[i].length<2)continue;
-	        	
 	          		//일치하는 부분을 답 입력 칸으로 변-환
-	          	    text = text.replace(compare[i],'<input type="text" id="'+num+''+i+'" onkeypress="answer('+num+','+i+')"; size="5"; style="border-left: none; border-right: none; border-top: none;">');
+	          	    text = text.replace(compare[i],'<input type="text" id="'+num+''+i+'" onkeypress="answer('+num+','+i+')"; size="5"; style="border-left: none; border-right: none; border-top: none;">'+' ');
 	         }
+	          	//문제가 만들어지지 않았다면
+	          	if(!text.includes('<input type="text"') )return;
+	          	
+	          	
     $('#outputDiv'+num).html(text);
-    document.getElementById('outputDiv'+num).setAttribute('data-value',text);
-    console.log("데벨"+document.getElementById('outputDiv'+num).getAttribute('data-value'));
     
     return true;
   },
@@ -578,12 +597,11 @@ function answer(num,i){
 			document.getElementById('view'+num).style.display="none";
 		}
 		x.onclick = function(){
-			console.log("compareINx.onclick"+compare);
 			viewInfo(compare,num,contents_num)
 			};
 	}
 }
- 	//새 창 띄워서 정보 보기
+ 	//다이얼로그 띄워서 정보 보기
  	function viewInfo(words,ts_num,contents_num){
  		
  		//words, explanation 가져옴 div 만들어서 밑에 붙임 (거기에 다이얼로그)
@@ -605,28 +623,25 @@ function answer(num,i){
  		console.log("answers"+answers);
  		var color=sentence;
  		for(var j=0;j<answers.length;j++){
- 			var str = '<a href=""><span style="color: red;">'+answers[j]+'</span></a>';
+ 			var str = '<span  style="color: red; cursor:pointer" onclick="javascript:checkWord('+contents_num+','+ts_num+','+j+')">'+answers[j]+'</span>';
  			color = color.replace(answers[j],str);
  		}
-// 		for(var i=1;i<words.length;i++){
-// 			if(sentence.contains(words[i])){
-// 				var length = words[i].length;
-// 				var index = sentence.indexOf(words[i]);
-// 				sentence.substring(index,length);
-// 				
-// 			}
-// 		}
  		//다이얼로그 내부 구문을 완성하고
  		var str = '<dialog class="mdl-dialog" id="viewInho">';
- 		str += '<h4 class="mdl-dialog__title"> Stduy sentence </h4>';
+ 		str += '<h4 class="mdl-dialog__title"> Study sentence </h4>';
+ 		str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="재생" onclick="javascript:suzukikun('+contents_num+','+ts_num+')">';
  		str += ' <div class="mdl-dialog__content"></div>';
- 		str += ' <div class="mdl-dialog__actions"><button type="button" class="mdl-button">넵</button>';
- 		str += ' <button type="button" class="mdl-button close">아니요</button></div>';
+ 		str += '<div class="mdl-dialog__underContent" style="display: none"></div>';
+ 		str += '<div class="mdl-dialog__underunder" style="display: none"></div>'
+ 		str += ' <div class="mdl-dialog__actions"><button type="button" class="mdl-button">확인</button>';
+ 		//str += ' <button type="button" class="mdl-button close">아니요</button>
+ 		str += '</div>';
  		str += '</dialog>';
  		
  		//넣은 다음에 출력
  		 $(document).ready(function(){
  		 $('.mdl-dialog__content').html(color);
+ 		 //$('.mdl-dialog__underContent').html(explanation);
  		 })
  		div.innerHTML = str;
  		var dialog = document.getElementById('viewInho');
@@ -634,17 +649,47 @@ function answer(num,i){
 	    	  dialogPolyfill.registerDialog(dialog);
 	      }
  		    dialog.showModal(); 	
- 		 dialog.querySelector('.close').addEventListener('click', function() {
+ 		 dialog.querySelector('.mdl-dialog__actions').addEventListener('click', function() {
+ 			$('.mdl-dialog__underunder').html('');
  		      dialog.close();
  		    });
 	         // window.open("../transcript/wordDetail?words="+words+"&ts_num="+ts_num+"&contents_num="+contents_num+"&explanation="+explanation, "wordDetail", "width=578, height=215, toolbar=no, menubar=no, scrollbars=no, location=no, status=no, resizable=no" );
  	}  
+ 	
+ 	
+ 	function checkWord(contents_num,ts_num,j){
+ 		$(document).ready(function(){
+ 			console.log("j :"+j);
+ 			
+ 			var list= $('#list'+ts_num).text();
+ 			console.log("list :"+list);
+ 			var compare=[];
+ 			compare = list.split(",");
+ 			console.log("compare :"+compare);
+ 			var kanji; var part; var mean;
+ 			var sentence = compare[j].split(":");
+ 			console.log("sentence :"+sentence);
+ 			kanji = sentence[0];
+ 			part = sentence[1];
+ 			mean = sentence[2];
+ 			console.log("kanji :"+kanji);console.log("part :"+part);console.log("mean :"+mean);
+ 			$('.mdl-dialog__underunder').html("원문 : "+kanji+" 품사 : "+part+" 의미 : "+mean);
+ 			$('.mdl-dialog__underunder').show();
+ 			
+ 			// $('.mdl-dialog__underContent').show();
+ 			
+ 			 
+ 		})
+ 	 		 
+ 	}
+ 	
+ 	
+ 	function suzukikun(contents_num, ts_num){
+ 		location.href="../transcript/suzuki?contents_num="+contents_num+"&ts_num="+ts_num;
+ 	}
 function GoLive() {
 	/* var user_id = document.getElementById(""); */
-	
 	window.open("goLive", "newWindow", "top=300", "left=300", "width=500", "height=500");
-	
-	
 }
 
 /**

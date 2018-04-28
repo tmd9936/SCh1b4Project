@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-
+<script type="text/javascript" async src="http://www.google-analytics.com/ga.js"></script>
 
 
 <meta content="initial-scale=1, minimum-scale=1, width=device-width"
