@@ -71,8 +71,6 @@
       <!-- 여기부터 시작 -->
       <main class="mdl-layout__content mdl-color--grey-100">
     	<br>
-    	 <div class="mdl-grid demo-content">
-			<div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
     	<section class="feature">
 			<div class="inWrap">
 				<div class="fInner swiper-container swiper-container-horizontal swiper-container-free-mode">
@@ -105,22 +103,9 @@
 				</div>
 			</div>
 		</section>
-		  	</div>
-      		</div>	
     
         <div class="mdl-grid demo-content">
-			<div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
-		      	<div class="categorys">
-		      		<c:forEach var="category" items="${categoryList }" varStatus="status">
-						<!-- Contact Chip -->
-						<span class="mdl-chip mdl-chip--contact">
-						    <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white"></span>
-						    <span class="mdl-chip__text category">${category.category_kr }</span>
-						</span>
-		      		</c:forEach>
-		      	</div>
-      		</div>        
-        <a>최신순</a>
+        <a><h3>최신순</h3></a>
           <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
 				<c:forEach var="list" items="${result }" end="5">
 				
@@ -142,7 +127,7 @@
 				</c:forEach>					
 			</div>
         
-        <a>랜덤순</a>
+        <a><h3>랜덤순</h3></a>
           <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
 				<c:forEach var="rnd" items="${rnd }" >
 				<div  class="contentsCard" value="${rnd.contents_num }">
