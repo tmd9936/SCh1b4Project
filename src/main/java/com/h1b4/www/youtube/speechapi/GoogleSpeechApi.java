@@ -41,7 +41,8 @@ public class GoogleSpeechApi {
 
 			// ����� ���Ͽ� ���� �����κ�
 			RecognitionConfig config = RecognitionConfig.newBuilder().setEncoding(RecognitionConfig.AudioEncoding.LINEAR16)
-					//.setSampleRateHertz(48000)
+					.setSampleRateHertz(48000)
+
 					// .setSampleRateHertz(44100)
 
 					.setLanguageCode("ja-JP").build();
@@ -93,7 +94,8 @@ public class GoogleSpeechApi {
 
 			// Configure remote file request for Linear16
 			RecognitionConfig config = RecognitionConfig.newBuilder().setEncoding(AudioEncoding.LINEAR16)
-					.setLanguageCode("ja-JP").build();
+					.setLanguageCode("ja-JP").setSampleRateHertz(16000).build();
+
 			RecognitionAudio audio = RecognitionAudio.newBuilder().setUri(gcsUri).build();
 
 			// Use non-blocking call for getting file transcription
@@ -119,7 +121,7 @@ public class GoogleSpeechApi {
 	public static ArrayList<Transcript> asyncRecognizeWords(String gcsUri,int contents_num) throws Exception, IOException {
 		// Instantiates a client with GOOGLE_APPLICATION_CREDENTIALS
 		SpeechClient speech = SpeechClient.create();
-
+		
 		// Configure remote file request for Linear16
 		RecognitionConfig config = RecognitionConfig.newBuilder().setEncoding(AudioEncoding.LINEAR16).setSampleRateHertz(16000)
 				.setLanguageCode("ja-JP").setEnableWordTimeOffsets(true).build();
@@ -136,6 +138,7 @@ public class GoogleSpeechApi {
 		List<SpeechRecognitionResult> results = response.get().getResultsList();
 		ArrayList<Transcript> transcriptList = new ArrayList<>();
 		ArrayList<String> rr = new ArrayList<>();
+		int i = 0;
 
 		for (SpeechRecognitionResult result : results) {
 			// There can be several alternative transcripts for a given chunk of speech.
@@ -158,7 +161,7 @@ public class GoogleSpeechApi {
 			String first = "";
 			String last = "";
 			
-			int i = 0;
+			
 			for (WordInfo wordInfo : alternative.getWordsList()) {
 				/*
 				 * System.out.println(wordInfo.getWord());
@@ -212,7 +215,7 @@ public class GoogleSpeechApi {
 		SpeechClient speech = SpeechClient.create();
 
 		// Configure request with local raw PCM audio
-		RecognitionConfig recConfig = RecognitionConfig.newBuilder().setEncoding(AudioEncoding.FLAC)
+		RecognitionConfig recConfig = RecognitionConfig.newBuilder().setEncoding(AudioEncoding.LINEAR16)
 				.setLanguageCode("ja-JP").setSampleRateHertz(16000).build();
 		StreamingRecognitionConfig config = StreamingRecognitionConfig.newBuilder().setConfig(recConfig).build();
 
@@ -280,7 +283,7 @@ public class GoogleSpeechApi {
 	 * 구글 스토리지의 파일을 스피치API로 변환시켜서 텍스트로 가져오기
 	 * 
 	 * @param filename
-	 *            .flac포함 파일 이름
+	 *            .wav포함 파일 이름
 	 */
 	public ArrayList<Transcript> runTranslate(String filename,int contents_num) {
 		String gcsuri = "gs://speechstorage_h1b4/" + filename;

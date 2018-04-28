@@ -64,14 +64,15 @@ public class YoutubeDownService {
 		if (contentsDAO == null) {
 			System.out.println("널임");
 		}
-
+		
+		//https://www.youtube.com/embed/0xgjj-xPZ2M
 		if (url.contains("https://www.youtube.com/watch?v=")) {
 			url = url.replace("https://www.youtube.com/watch?v=", "");
 		}
 
 		// TODO : 여기서 이미 유튜브 영상이 contents 테이블에 존재하는지 확인
 		// 있으면 바로 리턴
-		Contents con = contentsDAO.searchByUrlContents(url);
+		Contents con = contentsDAO.searchByUrlContents("https://www.youtube.com/embed/"+url);
 		if (con != null) {
 			return -1;
 		}
@@ -83,6 +84,7 @@ public class YoutubeDownService {
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			return -1;
 		}
 
 		System.out.println(contentsDAO.insertContents(con));
@@ -97,15 +99,17 @@ public class YoutubeDownService {
 		} catch (MalformedURLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			return -1;
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			return -1;
 		}
 
 		//음성 파일은 있어야 되니까 파일은 만들어둠
 		String flacCommand = "/win64/usr/bin/youtube-dl --extract-audio --audio-format wav -o \"%(id)s.%(ext)s\" "
 				+ url;
-		String monoCommand = "ffmpeg -i " + url + ".wav -ac 1" + " m" + url + ".wav";
+		String monoCommand = "ffmpeg -i " + url + ".wav -ac 1 -ar 16000 " + " m" + url + ".wav";
 		String filename = "m" + url + ".wav";
 		try {
 			executeCommand(flacCommand, monoCommand);
@@ -239,7 +243,7 @@ public class YoutubeDownService {
 				.build(), new FileInputStream(new File("c:/tmp/test/" + filename)));
 
 		// return the public download link
-		Files.deleteIfExists(new File("c:/tmp/test/" + filename).toPath());
+		//Files.deleteIfExists(new File("c:/tmp/test/" + filename).toPath());
 
 	}
 }

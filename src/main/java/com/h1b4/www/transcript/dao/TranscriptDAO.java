@@ -3,6 +3,7 @@ package com.h1b4.www.transcript.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -73,6 +74,7 @@ public void insertTsList(List<Transcript> tsList){
 	
 	}
 	
+
 	public ArrayList<Transcript> selectE(Transcript ts){
 		TranscriptMapper mapper = sqlSession.getMapper(TranscriptMapper.class);
 		ArrayList<Transcript> transcriptsList = null;
@@ -125,4 +127,30 @@ public void insertTsList(List<Transcript> tsList){
 		return result;
 	}
 	
+
+	//자막 전체 불러오기
+		public ArrayList<Transcript> selectList(int contents_num){
+			TranscriptMapper mapper = sqlSession.getMapper(TranscriptMapper.class);
+			ArrayList<Transcript> transcriptList = null;
+			try {
+				transcriptList = mapper.selectList(contents_num);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			return transcriptList;
+		}
+		//문제풀이용 자막 불러오기
+		public Transcript ts_num(@Param("contents_num")int contents_num,@Param("ts_num")int ts_num){
+			TranscriptMapper mapper = sqlSession.getMapper(TranscriptMapper.class);
+			Transcript transcript = null;
+			try {
+				transcript = mapper.tsnum(contents_num,ts_num);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			return transcript;
+		}
+
 }

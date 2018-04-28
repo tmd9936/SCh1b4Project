@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+
+<mapper namespace="com.h1b4.www.contents.dao.ContentsMapper">
+	
+	<!-- 케테고리에 맞는 컨텐츠 -->
+	<select id="searchByCategory" resultType="contents" parameterType="String" >
+		select
+		 c.contents_num
+		,c.contents_title
+		,c.thumbnail	
+		,c.category
+		,c.contents_url
+		,c.contents_hits
+	from
+	    contents c, category g
+	where
+	    g.category_kr = #{category_kr} 
+	    and 
+	    c.category = g.category
+	</select>
+	
+	<!-- 최신 컨텐츠 read -->
+	<select id="NewContents" resultType="contents">
+		select
+			contents_num
+			,contents_title
+			,thumbnail	
+			,category
+			,contents_url
+			,contents_hits
+		from
+			contents
+		order by contents_num desc	
+		
+	</select>
+	
+	<!-- 랜덤 컨텐츠 read -->
+	<select id="RndContents" resultType="contents">
+	<![CDATA[
+		select * from
+		(
+			select
+			    contents_num
+			    ,contents_title
+			    ,thumbnail	
+			    ,category
+			    ,contents_url
+			    ,contents_hits
+			from
+			    contents
+			order by SYS.DBMS_RANDOM.VALUE
+		)
+		where rownum < 19
+		]]>
+	</select>
+	
+	<!-- 카테고리 조회 -->
+	<select id="getCategoryList" resultType="category">
+ 		select
+ 			category
+ 			,category_kr
+ 		from 
+ 			category
+	</select> 
+	
+	<!-- 검색한 단어가 포함된 contents의 transcript -->
+	<select id="searchByText" resultType="contents" parameterType="java.lang.String" >
+		select 
+		    c.CONTENTS_NUM
+		    ,c.CONTENTS_TITLE
+		    ,c.THUMBNAIL
+		    ,c.CONTENTS_URL
+		    ,c.CONTENTS_HITS
+		from
+		    contents c , transcript t
+		where 
+		    t.TS_TEXT like '%'||#{searchtext}||'%'
+		    and
+		    t.contents_num = c.contents_num
+		group by
+		    c.contents_num, c.contents_title , c.thumbnail , c.contents_url , c.contents_hits
+	</select>
+	
+	<!-- 즐겨찾기 조회 -->
+	<select id="bookmarklist" resultType="contents" parameterType="String">
+		select 
+		    c.contents_num
+		    ,c.contents_title
+		    ,c.thumbnail
+		    ,c.category
+		    ,c.contents_url
+		    ,c.contents_hits
+		from
+		    contents c, bookmark b
+		where
+		    b.contents_num = c.contents_num
+		    and
+		   	b.member_id = #{loginId}
+		group by
+		    c.contents_num, c.contents_title , c.thumbnail , c.category, c.contents_url , c.contents_hits
+	
+	</select>	
+	
+</mapper>
