@@ -54,7 +54,7 @@
     				
     			</dialog>
 	      		<div>
-	      		<h2>youtube의 영상을 교육용 자료로 바꾸어 드립니다</h2>
+	      		<h2> </h2>
 	      		</div>
 	      		<div class="ytd_main">
 	      		<form action="../ytDown" method="get" onsubmit="ytd_text">

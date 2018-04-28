@@ -70,21 +70,21 @@
 	
       <!-- 여기부터 시작 -->
       <main class="mdl-layout__content mdl-color--grey-100">
-    	<br>
     	<section class="feature">
+    	<br>
 			<div class="inWrap">
 				<div class="fInner swiper-container swiper-container-horizontal swiper-container-free-mode">
 					<ul class="swiper-wrapper" style="transform: translate3d(-2019px, 0px, 0px); transition-duration: 0ms;">
 						<c:forEach var="category" items="${categoryList }" varStatus="status">
 							<c:choose>
 								<c:when test="${status.count == 1 }">
-									<li class="swiper-slide swiper-slide-active category"><a href="#"><span>${category.category_kr }</span></a></li>
+									<li class="swiper-slide swiper-slide-active"><a href="#"><span>${category.category_kr }</span></a></li>
 								</c:when>
 								<c:when test="${status.count == 2 }">
-									<li class="swiper-slide swiper-slide-next category"><a href="#"><span>${category.category_kr }</span></a></li>
+									<li class="swiper-slide swiper-slide-next"><a href="#"><span>${category.category_kr }</span></a></li>
 								</c:when>
 								<c:otherwise>
-									<li class="swiper-slide category"><a href="#"><span>${category.category_kr }</span></a></li>
+									<li class="swiper-slide"><a href="#"><span>${category.category_kr }</span></a></li>
 								</c:otherwise>
 							</c:choose>
 							
@@ -102,12 +102,12 @@
 					<div class="next swiper-button-disabled"><a href="#"><span class="hidden">next</span></a></div>
 				</div>
 			</div>
-		</section>
+		</section>	
     
-        <div class="mdl-grid demo-content">
-        <a><h3>최신순</h3></a>
+          
+       	 <a>최신순</a>
           <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
-				<c:forEach var="list" items="${result }" end="5">
+				<c:forEach var="list" items="${result }" end="7">
 				
 				<div class="contentsCard" value="${list.contents_num }">
 					<div class="demo-card-square mdl-card mdl-shadow--2dp">
@@ -119,7 +119,7 @@
 						</div>
 						<div class="mdl-card__actions mdl-card--border">
 						<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-						View Videos
+						View Video
 						</a>
 						</div>
 					</div>
@@ -127,7 +127,7 @@
 				</c:forEach>					
 			</div>
         
-        <a><h3>랜덤순</h3></a>
+        <a>랜덤순</a>
           <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
 				<c:forEach var="rnd" items="${rnd }" >
 				<div  class="contentsCard" value="${rnd.contents_num }">
@@ -140,7 +140,7 @@
 						</div>
 						<div class="mdl-card__actions mdl-card--border">
 						<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-						View Videos
+						View Video
 						</a>
 						</div>
 					</div>
