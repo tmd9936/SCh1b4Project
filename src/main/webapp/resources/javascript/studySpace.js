@@ -441,19 +441,7 @@ function LearnTheWords(tslist){
 		learnSpace=false;
 	}
 
-	var str = '<div class="Notice">';
 	
-	str +=  "비디오에서 SPEAK2할 문장을 선택하세요:";
-	str += '</div>';
-	str += '<style type="text/css">';
-	str += '.secondView{'
-	str += 'width: 210px;';
-	str += 'height: 298px;';
-	str += 'border:1px solid;';
-	str +=	'}';
-	str	+= '</style>';
-	
-	div.innerHTML = str;	
 
 }
 
