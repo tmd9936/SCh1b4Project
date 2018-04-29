@@ -57,30 +57,21 @@ public class ContentsReplyController {
 			//,@RequestParam(value="search", defaultValue = "")String search
 			,HashMap<String, Object> map
 			,HttpSession session
-			
 			){
-		
 		logger.info("댓글 검색 시작");
 		
 		
-		
-		//System.out.println(searchText);	
-	//	System.out.println("페이지  값 : "+page);	
-		//System.out.println(search);	
-		//System.out.println(contents_num);
+		System.out.println("페이지  값 : "+page);	
+	
 		//map.put("search", search);
 		//map.put("searchText",searchText);
 		map.put("contents_num", contents_num);
 		
 		//전체 글 갯수 조회
 		int total = contentReplyService.getTotal(map);
-		//System.out.println("댓글 전체 갯수  : "+total);
-		
 		
 		//페이징 처리를 위한 네비게이션
 		PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, page, total);
-		
-		
 		
 		//리턴 
 		HashMap<String, Object> hashMap = new HashMap<>();
@@ -97,8 +88,6 @@ public class ContentsReplyController {
 		//System.out.println("해쉬맵"+hashMap);
 		//System.out.println("어레이리스트"+  hashMap.get("contentsReply"));
 		//System.out.println("네비 객체 " + hashMap.get("navi"));		
-		
-		
 		
 		logger.info("댓글 검색 종료");
 		

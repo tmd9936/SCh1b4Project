@@ -23,7 +23,6 @@
 <!--소켓 끝  -->
 	</script>
 
-
 <meta content="initial-scale=1, minimum-scale=1, width=device-width"
 	name="viewport">
 <meta
@@ -92,7 +91,15 @@
 </head>
 <body>
 
-		
+<%--
+ <c:forEach items="${teacherList }" var="TL" varStatus="num">
+
+<input type="hidden" id="teacher_id" value="${TL.teacher_id }">
+<input type="hidden" id="teacher_name" value="${TL.teacher_name }">
+
+</c:forEach> 
+--%>
+
 <input type="hidden" id="filename" class="filename" value="${filename}">
 <input type="hidden" name="contents_num" value="${contents.contents_num }" id="contents_num">
 <input type="hidden" name="start" value="12" id="start">
@@ -115,7 +122,9 @@
 		  
 	    <!--오른쪽 리스트 클릭시 새롭게 생성되는 부분   -->
 	    <div id="divNewGSTL" class="secondView">
+	    	
 	    	<div class="divNewView">
+	    		
 	    		
 	    	</div>
 			<div class="speachView">
@@ -205,11 +214,6 @@
 	
 		<!--동영상, 교육메뉴, 관련 영상 리스트 시작  -->
 	    <div class="center" >
-	    
-	  
-	
-	<!-- 자막 부분  -->
-	
     
 	<!--동영상 재생 부분  -->
 	<div  class ="YouTube-player" id="YouTube-player"> 
@@ -309,7 +313,18 @@
 	<!--관련된 동영상 리스트 종료  -->		
 		
 		
-		<!-- 댓글 시작  -->
+		
+
+</div>
+<!-- 동영상 부분, 관계 영상 리스트, 댓글 부분 전체를 묶는 div태그 종료 -->
+
+
+
+</div>
+
+
+
+<!-- 댓글 시작  -->
 		<div class="ShowReplyList">
 		
 		
@@ -345,19 +360,16 @@
 		 </div>
 			
 			
-		<table class="mdl-data-table mdl-js-data-table replyList" id ="replyDiv">
+		<div class="replyList" id ="replyDiv">
 	 			
 	 			
 	 			
 	 			
-		</table>	
+		</div>	
 	    
 
 </div>
 
-</div>
-<!-- 동영상 부분, 관계 영상 리스트, 댓글 부분 전체를 묶는 div태그 종료 -->
-</div>
 </div>
 
 <!-- 가운데 정렬  -->

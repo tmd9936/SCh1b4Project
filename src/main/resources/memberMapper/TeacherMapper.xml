@@ -9,22 +9,36 @@
   <mapper namespace="com.h1b4.www.teacher.dao.TeacherMapper">
   	
   	<!--회원정보 등록  -->
-	<insert id="selectTeacherList" parameterType="teacher" >
-	insert into Teacher(
+	<select id="selectAllTeacherList" resultType ="teacher">
+	select 
 		teacher_id
 		,teacher_password
 		,teacher_name
+		,teacher_onstate
 		,teacher_ip
+		,teacher_hit
+	
+	from	
+		Teacher
 		
-	)values(
-		#{teacher_id}
-		,#{teacher_password}
-		,#{teacher_name}
-		,#{teacher_ip}
-		
-	)
-  </insert>
+  </select>
   
-
+	<select id="selectOneTeacher" resultType="teacher" parameterType="String">
+	select 
+		teacher_id
+		,teacher_password
+		,teacher_name
+		,teacher_onstate
+		,teacher_ip
+		,teacher_hit
+	
+	from	
+		Teacher
+	where
+		teacher_id = #{teacher_id}	
+		and
+		teacher_onstate = 1
+	
+	</select>
   	
   </mapper>

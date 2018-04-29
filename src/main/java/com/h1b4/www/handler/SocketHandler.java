@@ -34,7 +34,7 @@ public class SocketHandler extends TextWebSocketHandler{
              
              for(WebSocketSession webSocketSession : connectedUsers){
             	 if(!session.getId().equals(webSocketSession.getId())){
-            		 webSocketSession.sendMessage(new TextMessage(session.getRemoteAddress().getHostName() + "퇴장했습니다."));
+            		 webSocketSession.sendMessage(new TextMessage("상대방이 " + "퇴장했습니다."));
             	 }
              }
        }
@@ -57,7 +57,7 @@ public class SocketHandler extends TextWebSocketHandler{
     		if (messageVO.getType().equals("all")){
     			if(!session.getId().equals(webSocketSession.getId())){
     				webSocketSession.sendMessage(
-    						new TextMessage("상대방 : "+ " -> " + messageVO.getMessage() ));
+    						new TextMessage(messageVO.getMessage()));
     										
     				//session.getRemoteAddress().getHostName()
     			}
@@ -67,7 +67,7 @@ public class SocketHandler extends TextWebSocketHandler{
     				webSocketSession.sendMessage(
     						new TextMessage(
     								"<span style='color:red; font-weight: bold;' >"
-    								+"상대방 : "+ " -> " + messageVO.getMessage()
+    								+ messageVO.getMessage()
     								//session.getRemoteAddress().getHostName()
     								+ "</span>"));
     						

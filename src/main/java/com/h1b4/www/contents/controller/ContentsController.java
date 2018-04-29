@@ -21,9 +21,11 @@ import org.springframework.web.socket.WebSocketSession;
 
 import com.h1b4.www.contents.service.ContentService;
 import com.h1b4.www.member.controller.MemberController;
+import com.h1b4.www.teacher.service.TeacherService;
 import com.h1b4.www.transcript.service.TranscriptService;
 import com.h1b4.www.vo.Category;
 import com.h1b4.www.vo.Contents;
+import com.h1b4.www.vo.Teacher;
 import com.h1b4.www.vo.Transcript;
 import com.h1b4.www.vo.Bookmark;
 
@@ -37,6 +39,9 @@ public class ContentsController {
 	
 	@Autowired
 	TranscriptService tsService;
+	
+	@Autowired
+	TeacherService teacherService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
@@ -86,6 +91,10 @@ public class ContentsController {
 	@RequestMapping(value="studySpace", method=RequestMethod.GET)
 	public String StudySpace(String contents_num,Model model) {
 		logger.info("교육화면 이동 시작");
+		
+		/*선생님 리스트*/
+		ArrayList<Teacher> teacherList = teacherService.selectAllTeacherList();
+		model.addAttribute("teacherList", teacherList);
 		
 		Contents contents = service.searchByNumber(contents_num);
 		ArrayList<Transcript> tsList = tsService.getTsList(contents.getContents_num());
