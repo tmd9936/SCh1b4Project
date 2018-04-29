@@ -10,6 +10,9 @@
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
+<script type="text/javascript" async src="http://www.google-analytics.com/ga.js"></script>
+
+
 <!--소켓 -->
 <script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
@@ -51,19 +54,35 @@
 <script type="text/javascript">
 	var allTime = parseInt('${allTime}');
 	var tsList = new Array();
+	var tslist = new Array();
 	var contents_num = '${contents.contents_num}';
 	$(function(){		
+		
+		
 		//<div class="script-bar" style="left:40%;width: 30%;" width="30" start="30" dur="6"></div>
 		console.log(tsList);
+		
+		
 		
 		<c:forEach items="${tsList }" var="ts">
 			var json = new Object();
 			json.contents_num = "${ts.contents_num}";
 			json.ts_start = '${ts.ts_start}';
 			json.ts_num = "${ts.ts_num}";
-			json.ts_dur = "${ts.ts_dur}";
+			json.ts_dur= "${ts.ts_dur}";
 			json.ts_text = "${ts.ts_text}";
 			tsList.push(json);
+		</c:forEach>
+		
+
+		<c:forEach items="${tslist }" var="ts">
+			var json = new Object();
+			json.contents_num = "${ts.contents_num}";
+			json.ts_start = '${ts.ts_start}';
+			json.ts_num = "${ts.ts_num}";
+			json.ts_dur= "${ts.ts_dur}";
+			json.ts_text = "${ts.ts_text}";
+			tslist.push(json);
 		</c:forEach>
 		
 		var str = "";
@@ -78,7 +97,6 @@
 			str += "<div class ='script-bar' style='left:"+left+"%;width:"+width+"%;' start ='"+ts.ts_start+"' num = '"+ts.ts_num+"' dur='"+ts.ts_dur+"' left='"+left+"' text='"+ts.ts_text+"'></div>";
 			$('.seek-bar-container').html(str);
 		});
-		
 	});
 	
 </script>
@@ -103,6 +121,7 @@
 	<div id="ytPitch" style="height: 250px; width: 40%;" class="pitchContainer"></div>
 	
 	<div id="memPitch" style="height: 250px; width: 40%;" class="pitchContainer"></div> -->
+
 
 
 		<dialog class="mdl-dialog" id="percentDialog">
@@ -139,8 +158,6 @@
 	    <div id="divNewGSTL" class="secondView">
 	    	
 	    	<div class="divNewView">
-	    		
-	    		
 	    	</div>
 			<div class="speachView">
 				<div id="info" style="visibility: hidden;">
@@ -215,7 +232,7 @@
 	  </div>
 	  
 	  <div class="LearningList2" id="LearningList2" style="color: white; background-color: red;" align="center"
-	  onclick ="javascript:LearnTheWords()">Learn the words</div>
+	  onclick ="javascript:LearnTheWords(tslist)">Learn the words</div>
 	  
 
 	  

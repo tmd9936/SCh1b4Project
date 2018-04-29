@@ -173,6 +173,16 @@ margin-left: 5%;
 
 }
 
+
+
+#viewInho{
+	width : 40%;
+	height : 60%;
+	left: 50%;
+	top: 25%;
+	}
+
+
 .centralView{
 
 float:left;

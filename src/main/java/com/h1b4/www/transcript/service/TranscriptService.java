@@ -1,3 +1,4 @@
+
 package com.h1b4.www.transcript.service;
 
 import java.io.File;
@@ -78,33 +79,71 @@ public class TranscriptService {
 	 * return list; }
 	 */
 
-	// 전체리스트 가져오기
-	// 여기서 리스트를 다 가져오면 너무 많으니까 몇 개만 추려서 가져온다
-	public ArrayList<Transcript> selectList(int contents_num) {
-		// 전체를 받아오고
-		ArrayList<Transcript> tsList = new ArrayList<>();
-		// 몇 개만 랜덤으로 받고
-		ArrayList<Transcript> tempList = new ArrayList<>();
-		// 몇 (개)
-		Transcript temp = new Transcript();
-		// 랜덤
-		Random r = new Random();
-		// 전체를 받아오고
-		tsList = tsdao.selectList(contents_num);
-		// 랜덤으로 5개만 받고
-		for (int i = 0; i < 5; i++) {
-			int num = r.nextInt(tsList.size());
-			temp = tsList.get(num);
-			tempList.add(temp);
-		}
-
+	//전체리스트 가져오기
+		//여기서 리스트를 다 가져오면 너무 많으니까 몇 개만 추려서 가져온다
+		public ArrayList<Transcript> selectList(int contents_num) {
+			//전체를 받아오고
+			ArrayList<Transcript> tsList = new ArrayList<>();
+			//몇 개만 랜덤으로 받고
+			ArrayList<Transcript> tempList = new ArrayList<>();
+			// 몇 (개)
+			Transcript temp = new Transcript();
+			//랜덤
+			Random r = new Random();
+			//전체를 받아오고
+			tsList = tsdao.selectList(contents_num);
+			//랜덤으로 10개만 받고
+			int i=10;
+			
+			//근데 문제로 만들 수 없을 내용(명사나 동사가 포함되지 않은)은 걸러낸다.
+			while(i>0) {
+				int num = r.nextInt(tsList.size());
+				temp = tsList.get(num);
+				String body = "{\"sentence\":\""+temp.getTs_text()+"\",\"info_filter\":\"form|pos|read\",\"pos_filter\":\"名詞|連用詞|動詞活用語尾|動詞接尾辞|動詞語幹\"}";
+				try {
+					URI uri = new URI("https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=766258364c33527044357054725a7149306e684c4a4243764c384673444c355a2e554863662f306f696238");
+					URL url = uri.toURL();
+					HttpsURLConnection huc = (HttpsURLConnection)url.openConnection();
+					huc.setRequestMethod("POST");
+					huc.setDoInput(true);
+					huc.setDoOutput(true);
+					huc.setRequestProperty("Content-Type", "application/json");
+					OutputStream os = huc.getOutputStream();
+					os.write(body.getBytes("UTF-8"));
+					os.flush();
+					os.close();
+					BufferedReader br = new BufferedReader(new InputStreamReader(huc.getInputStream(),"utf-8"));
+					String line="";
+					String page="";
+					while((line= br.readLine())!=null){
+						page += line;
+					}
+						int word = page.indexOf(":[")+3;	
+						String meishi = page.substring(word);
+						System.out.println(meishi);
+						if(meishi.length()<20) {
+							continue;
+						}
+						if(meishi.length()>400) {
+							tempList.add(temp);
+							return tempList;
+						}
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+				i--;
+				System.out.println("temp:"+temp);
+				tempList.add(temp);
+			}
 		return tempList;
-	}
-
-	// 문제풀기용 리스트 가져오기
-	public Transcript tsnum(int contents_num, int ts_num) {
+		}
+		
+		
+		
+	//문제풀기용 리스트 가져오기
+	public Transcript tsnum(int contents_num,int ts_num) {
 		Transcript transcript = new Transcript();
-		transcript = tsdao.ts_num(contents_num, ts_num);
+		transcript = tsdao.ts_num(contents_num,ts_num);
 		return transcript;
 	}
 
@@ -361,3 +400,4 @@ public class TranscriptService {
 
 	}
 }
+

@@ -98,14 +98,16 @@ public class ContentsController {
 		
 		Contents contents = service.searchByNumber(contents_num);
 		ArrayList<Transcript> tsList = tsService.getTsList(contents.getContents_num());
-		
+		//이건 문제용으로 10개만 가져오게 따로 만든 커스텀 리스트
+		ArrayList<Transcript> tslist = tsService.selectList(Integer.parseInt(contents_num));
 		String filename = "";
 		String ytName = "";
 		
 		
 		model.addAttribute("contents",contents);
 		model.addAttribute("tsList",tsList);
-		
+		//이건 문제용으로 10개만 가져오게 따로 만든 커스텀 리스트
+		model.addAttribute("tslist", tslist);
 		ytName = contents.getContents_url().replace("https://www.youtube.com/embed/", "");
 		filename = "m"+ytName;
 		
