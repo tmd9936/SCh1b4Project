@@ -80,7 +80,7 @@ public class ContentsController {
 		
 		ArrayList<Contents> result3 = service.searchByCategory(category);
 		System.out.println("category"+result3);
-		model.addAttribute("category",result3);
+		model.addAttribute("list",result3);
 		
 		logger.info("카테고리별 리스트 종료");
 		return "/contents/contentsList";
@@ -140,14 +140,9 @@ public class ContentsController {
 		String loginId = (String)session.getAttribute("loginId");
 		
 		ArrayList<Contents> bookmarklist = service.bookmarklist(loginId);
-		ArrayList<String> ytIdList = new ArrayList<>();
-		for (Contents contents : bookmarklist) {
-			ytIdList.add(contents.getContents_url().replace("https://www.youtube.com/embed/", ""));
-		}
 		
 		System.out.println("loginId"+loginId);
 		model.addAttribute("bookmarklist",bookmarklist);
-		model.addAttribute("ytIdList", ytIdList);
 		
 		
 		return "/contents/BookMark";

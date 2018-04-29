@@ -55,7 +55,7 @@
 			    contents
 			order by SYS.DBMS_RANDOM.VALUE
 		)
-		where rownum < 19
+		where rownum < 21
 		]]>
 	</select>
 	

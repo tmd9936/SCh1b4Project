@@ -42,9 +42,10 @@ public class GoogleSpeechApi {
 			// ����� ���Ͽ� ���� �����κ�
 			RecognitionConfig config = RecognitionConfig.newBuilder().setEncoding(RecognitionConfig.AudioEncoding.LINEAR16)
 					.setSampleRateHertz(48000)
+
 					// .setSampleRateHertz(44100)
 
-					.setLanguageCode("en-US").build();
+					.setLanguageCode("ja-JP").build();
 
 			RecognitionAudio audio = getRecognitionAudio(filePath); // Audio ���Ͽ� ���� RecognitionAudio �ν��Ͻ� ����
 
@@ -94,6 +95,7 @@ public class GoogleSpeechApi {
 			// Configure remote file request for Linear16
 			RecognitionConfig config = RecognitionConfig.newBuilder().setEncoding(AudioEncoding.LINEAR16)
 					.setLanguageCode("ja-JP").setSampleRateHertz(16000).build();
+
 			RecognitionAudio audio = RecognitionAudio.newBuilder().setUri(gcsUri).build();
 
 			// Use non-blocking call for getting file transcription
@@ -136,6 +138,7 @@ public class GoogleSpeechApi {
 		List<SpeechRecognitionResult> results = response.get().getResultsList();
 		ArrayList<Transcript> transcriptList = new ArrayList<>();
 		ArrayList<String> rr = new ArrayList<>();
+		int i = 0;
 
 		for (SpeechRecognitionResult result : results) {
 			// There can be several alternative transcripts for a given chunk of speech.
@@ -158,7 +161,7 @@ public class GoogleSpeechApi {
 			String first = "";
 			String last = "";
 			
-			int i = 0;
+			
 			for (WordInfo wordInfo : alternative.getWordsList()) {
 				/*
 				 * System.out.println(wordInfo.getWord());
@@ -285,6 +288,7 @@ public class GoogleSpeechApi {
 	public ArrayList<Transcript> runTranslate(String filename,int contents_num) {
 		String gcsuri = "gs://speechstorage_h1b4/" + filename;
 		ArrayList<Transcript> list = null;
+	
 		try {
 			list = asyncRecognizeWords(gcsuri,contents_num);
 		} catch (IOException e) {

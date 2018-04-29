@@ -516,3 +516,10 @@ main > section textarea {
 	position: relative;
 	top: -50px;
 }
+.Notice{
+	font-size: 15px;
+}
+.mdl-dialog{
+	width: 600px;
+	height: 800px;
+}

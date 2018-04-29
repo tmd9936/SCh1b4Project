@@ -5,7 +5,11 @@
 	<jsp:include page="../navi_side_bar.jsp"></jsp:include>
 	
     <!-- 여기부터 시작 -->
+    
     <script type="text/javascript">
+    
+    
+    
     function ytd_text() {
 		if(youtube,value == ''){
 			alert("주소를 입력해 주세요");
@@ -14,14 +18,43 @@
     	  
 			return true;
     	}
-
+    
+    $(function(){
+    	var dialog = document.querySelector('#progressDialog');
+    	 $('.pushBtn').on('click',function(){
+    		 	
+    		 dialog.showModal();
+    	    });
+    	    
+    	    $('.close').on('click',function(){
+    	    	dialog.close();
+    	    });
+    		
+    });
+   
 	</script>
+    <style>
+		#progressDialog{
+			position: absolute;
+			top: 80px;
+			width: 500px;
+		}
+	</style>
+    
     
   	<main class="mdl-layout__content mdl-color--grey-100">
         <div class="mdl-grid demo-content">
         	<div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
+        		<dialog class="mdl-dialog" id="progressDialog">
+    				<h2 class="mdl-dialog__title">잠시만 기다려 주세요!</h2>
+    				<div class="mdl-dialog__content">
+    						<p>자막이 있으면 최대 30초, 없으면 동영상의 길이에 따라 최대 10분 입니다.</p>
+    				<div id="p2" class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+    				</div>
+    				
+    			</dialog>
 	      		<div>
-	      		<h2>youtube의 영상을 교육용 자료로 바꾸어 드립니다</h2>
+	      		<h2> </h2>
 	      		</div>
 	      		<div class="ytd_main">
 	      		<form action="../ytDown" method="get" onsubmit="ytd_text">
@@ -29,11 +62,12 @@
 				    <input class="mdl-textfield__input" type="text" name="youtube" id="youtube">
 				    <label class="mdl-textfield__label" for="sample">example)https://www.youtube.com/watch?v=?????</label>
 			  	</div>
-				<button class="mdl-button mdl-js-button mdl-button--primary">
+				<button class="pushBtn mdl-button mdl-js-button mdl-button--primary">
 					Push
 				</button>
 				</form>
 				</div>
+				
       		</div>   
   	 	</div>
     </main>

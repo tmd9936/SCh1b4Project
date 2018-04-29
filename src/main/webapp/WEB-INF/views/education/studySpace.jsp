@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-<head>
-<!-- <link rel="stylesheet" type="text/css" href="resources/css/study.css"> -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+ <jsp:include page="../navi_side_bar.jsp"></jsp:include>
+
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/study.css"></c:url>"> 
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
@@ -22,6 +22,7 @@
 
 <!--소켓 끝  -->
 	</script>
+
 
 <meta content="initial-scale=1, minimum-scale=1, width=device-width"
 	name="viewport">
@@ -88,17 +89,6 @@
 <!-- css 적용 -->
 <link href ="<c:url value="/resources/css/studySpace.css"/>" type="text/css" rel="stylesheet">
 
-</head>
-<body>
-
-<%--
- <c:forEach items="${teacherList }" var="TL" varStatus="num">
-
-<input type="hidden" id="teacher_id" value="${TL.teacher_id }">
-<input type="hidden" id="teacher_name" value="${TL.teacher_name }">
-
-</c:forEach> 
---%>
 
 <input type="hidden" id="filename" class="filename" value="${filename}">
 <input type="hidden" name="contents_num" value="${contents.contents_num }" id="contents_num">
@@ -113,12 +103,37 @@
 	<div id="ytPitch" style="height: 250px; width: 40%;" class="pitchContainer"></div>
 	
 	<div id="memPitch" style="height: 250px; width: 40%;" class="pitchContainer"></div> -->
-  <div class ="a">
+
+
+		<dialog class="mdl-dialog" id="percentDialog">
+			<h4 class="mdl-dialog__title">결과</h4>
+			<div class="mdl-dialog__content">
+     		 	<table class="mdl-data-table mdl-js-data-table">
+     		 		<tr>
+     		 			<th>Text</th>
+     		 			<td class="textPercent"> </td>
+     		 		</tr>
+     		 		<tr>
+     		 			<th>Pitch</th>
+     		 			<td class="pitchPercent"> </td>
+     		 		</tr>
+     		 	</table>
+     		 	<div id="ytPitch" style="height: 250px; width: 90%;" class="pitchContainer"></div>
+						
+				<div id="memPitch" style="height: 250px; width: 90%;" class="pitchContainer"></div>
+    		</div>
+    		<div class="mdl-dialog__actions">
+      			<button type="button" class="mdl-button close" id="closeButton">Close</button>
+    		</div>
+		</dialog>
+
 
 		<!--동영상 부분, 관계 영상 리스트, 댓글 부분 전체를 묶는 div태그  -->
 		
-		<div class="mdl-grid">
-		<div class="centralView">
+		<main class="mdl-layout__content mdl-color--grey-100">
+        	<div class="mdl-grid demo-content"  style="max-width: 1500px;margin-right: 0px;margin-left: 0px;">
+				<div class="centralView" style="margin: auto;" align="center">
+			
 		  
 	    <!--오른쪽 리스트 클릭시 새롭게 생성되는 부분   -->
 	    <div id="divNewGSTL" class="secondView">
@@ -158,8 +173,15 @@
 			</div>
 				<div class="browser-landing" id="main">
 					<div class="compact marquee">
-						<button id="startBtn" onclick="startRecording(this);">시작</button>
-						<button id="endBtn" onclick="stopRecording(this);" disabled>종료</button>
+						<div class="startEndBtn" style="visibility: hidden;">
+							<button id="startBtn" onclick="startRecording(this);" class="mdl-button mdl-js-button">시작</button>
+							<button id="endBtn" onclick="stopRecording(this);" disabled class="mdl-button mdl-js-button">종료</button>
+						</div>
+						
+						<div id="results" >
+							<span class="final" id="final_span"></span> <span class="interim"
+								id="interim_span"></span>
+						</div>
 					
 						<ul id="recordingslist"></ul>
 					
@@ -167,16 +189,12 @@
 						
 						<input type="hidden" id="streamVoice" name="voice">
 						
-						<div id="ytPitch" style="height: 250px; width: 100%;" class="pitchContainer"></div>
+						<!-- 피치 컨테이너 -->
 						
-						<div id="memPitch" style="height: 250px; width: 100%;" class="pitchContainer"></div>
-						
+						<!-- 피치 컨테이너 -->
 						<div class="perContainer"></div>
 						
-						<div id="results" >
-							<span class="final" id="final_span"></span> <span class="interim"
-								id="interim_span"></span>
-						</div>
+						
 					</div>
 				</div>
 			</div>
@@ -186,8 +204,9 @@
 		
 		<div class="RightList">	
 	<!--교육 메뉴  -->	
-	  <div class="LearningList1" id="LearningList1" 
-	  
+
+	  <div class="LearningList1" id="LearningList1" style="color: white; background-color: blue;" align="center"  
+
 	  onclick="javascript:WatchTheVideo()">
 	  
 	  <span class="Watch_the_video"><!--이미지 넣을 곳   --></span>
@@ -195,12 +214,18 @@
 	  Watch the video
 	  </div>
 	  
-	  <div class="LearningList2" id="LearningList2" onclick ="javascript:LearnTheWords()">Learn the words</div>
+	  <div class="LearningList2" id="LearningList2" style="color: white; background-color: red;" align="center"
+	  onclick ="javascript:LearnTheWords()">Learn the words</div>
 	  
-	  <div class="LearningList3"  id="LearningList3" onclick="javascript:GoSpeakTheLine()">Speak the lines</div>
+
 	  
-	  <div class="LearningList4"  id="LearningList4" onclick="javascript:GoLive()">GoLive!</div>
-	 
+	  <div class="LearningList3"  id="LearningList3" style="color: white; background-color: rgb(0, 166, 140);" align="center" 
+	  onclick="javascript:GoSpeakTheLine()">Speak the lines</div>
+	  
+	  <div class="LearningList4"  id="LearningList4" style="color: white; background-color: maroon;" align="center"  
+	  onclick="javascript:GoLive()">GoLive!</div>
+	  
+
 	  <div class="Voca&Plan"> 
 	  
 	  <div class="VocabQuiz"  id="VocabQuiz">VocabQuiz</div>
@@ -275,7 +300,9 @@
 	  
 	<div class="KindOfStudy" id="KindOfStudy">
 	 
-	 			
+
+	 <h5>연관 비디오</h5>		
+
 	 	<div class="KindOfStudy_List">
 	
 	 <!-- 	
@@ -372,6 +399,8 @@
 
 </div>
 
+</main>
+
 <!-- 가운데 정렬  -->
 
 
@@ -379,7 +408,7 @@
 <script type="text/javascript" src="<c:url value="/resources/javascript/webSpeech.js"></c:url>"></script>
 
 <script src="<c:url value="/resources/js/recorder.js" />"></script>
-</div>
 
-</body>
-</html>
+
+<!-- 여기까지가 페이지의 코드 -->
+    <jsp:include page="../navi_side_bar_bot.jsp"></jsp:include>
