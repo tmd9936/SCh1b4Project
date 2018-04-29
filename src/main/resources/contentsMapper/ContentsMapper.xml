@@ -86,7 +86,62 @@
 		    c.contents_num, c.contents_title , c.thumbnail , c.contents_url , c.contents_hits
 	</select>
 	
-	<!-- 즐겨찾기 조회 -->
+	<!--북마크 입력  -->
+	<insert id="bookmarkInsert" parameterType="bookmark" >
+		insert into
+		bookmark
+		(
+		bookmark_num
+		,member_id
+		,contents_num
+		
+		) values (
+		bookmark_seq.nextval
+		,#{member_id}
+		,#{contents_num}
+		
+		)
+	
+	</insert>
+	
+	<!--콘텐츠 북마크 여부  -->
+	<select id="selectBookmarkOrNot" resultType="bookmark" parameterType="bookmark">
+	select
+		bookmark_num
+		,member_id
+		,contents_num
+		,to_char(inputdate, 'yyyy/MM/dd') inputdate
+	
+	from
+		bookmark
+	
+	where
+		member_id = #{member_id}
+		
+	and
+		contents_num = #{contents_num}
+	
+	order by 
+			bookmark_num desc	
+					
+	</select>
+	
+	<!-- 북마크 삭제 -->
+	<delete id="bookmarkDelete" parameterType="bookmark">
+	delete
+		bookmark
+	
+	where
+		member_id = #{member_id}
+		
+	and
+		contents_num = #{contents_num}
+			
+	
+	</delete>		
+	
+	
+	<!-- 북마크 조회 -->
 	<select id="bookmarklist" resultType="contents" parameterType="String">
 		select 
 		    c.contents_num

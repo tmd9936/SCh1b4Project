@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <!-- Recommend SQL -->
+<mapper namespace="com.h1b4.www.contents.dao.ContentsRecommendMapper">
+
+	<!-- Insert Query For Recommend -->
+	<insert id="insertRecommend" parameterType="emotion">
+		insert into
+			emotion
+			(
+				emotion_num
+				,contents_num
+				,member_id
+				,state
+			
+			)values(
+				emotion_seq.nextval
+				,#{contents_num}
+				,#{member_id}
+				,#{state}
+			
+			)
+			
+	</insert>
+	
+	<!-- Select Query For Count Recommendation from board -->
+	<select id="selectCountRecommend" parameterType="int" resultType="int">
+		select 
+			count(*)
+		from
+			emotion
+		where
+			contents_num = #{contents_num}
+	
+	</select>
+
+	<!-- Select Query For Info RecommedOrNot -->
+	<select id="selectRecommendOrNot" parameterType="emotion" resultType="emotion">
+		select
+		
+			emotion_num
+			,contents_num
+			,member_id
+			,state
+			
+		from
+			emotion
+		where
+			member_id = #{member_id}
+		and
+			contents_num = #{contents_num}
+	
+	</select>
+	
+	<delete id="deleteRecommend" parameterType="emotion">
+	delete
+		emotion
+		
+	where
+			member_id = #{member_id}
+		and
+			contents_num = #{contents_num}
+			
+	
+	
+	</delete>
+	
+	
+	</mapper>

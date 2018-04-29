@@ -10,6 +10,18 @@
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
+<!--소켓 -->
+<script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
+<script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
+
+<script type="text/javascript" src="<c:url value="../resources/js/jquery-3.1.1.min.js"/>"></script>
+<script type="text/javascript" src="<c:url value="../resources/js/sockjs.js"/>"></script>
+
+<!--소켓 시작  -->
+<script type="text/javascript">
+
+<!--소켓 끝  -->
+	</script>
 
 
 <meta content="initial-scale=1, minimum-scale=1, width=device-width"
@@ -20,9 +32,6 @@
 <link href="https://plus.google.com/100585555255542998765"
 	rel="publisher">
 	
-	
-
-
 <!-- jquery -->
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.2.1.js" />"></script>
 
@@ -36,7 +45,6 @@
 		background-color: green;
 	}
 </style>
-
 
 
 <!-- tsList가져오기 -->
@@ -75,13 +83,11 @@
 	
 </script>
 
-
 <!-- js 적용  -->
 <script type="text/javascript" src="<c:url value="/resources/javascript/studySpace.js"></c:url>"></script>
 
 <!-- css 적용 -->
 <link href ="<c:url value="/resources/css/studySpace.css"/>" type="text/css" rel="stylesheet">
-
 
 
 <input type="hidden" id="filename" class="filename" value="${filename}">
@@ -97,6 +103,7 @@
 	<div id="ytPitch" style="height: 250px; width: 40%;" class="pitchContainer"></div>
 	
 	<div id="memPitch" style="height: 250px; width: 40%;" class="pitchContainer"></div> -->
+
 
 		<dialog class="mdl-dialog" id="percentDialog">
 			<h4 class="mdl-dialog__title">결과</h4>
@@ -127,12 +134,12 @@
         	<div class="mdl-grid demo-content"  style="max-width: 1500px;margin-right: 0px;margin-left: 0px;">
 				<div class="centralView" style="margin: auto;" align="center">
 			
-		
-		
 		  
 	    <!--오른쪽 리스트 클릭시 새롭게 생성되는 부분   -->
 	    <div id="divNewGSTL" class="secondView">
+	    	
 	    	<div class="divNewView">
+	    		
 	    		
 	    	</div>
 			<div class="speachView">
@@ -197,18 +204,20 @@
 		
 		<div class="RightList">	
 	<!--교육 메뉴  -->	
+
 	  <div class="LearningList1" id="LearningList1" style="color: white; background-color: blue;" align="center"  
+
 	  onclick="javascript:WatchTheVideo()">
 	  
 	  <span class="Watch_the_video"><!--이미지 넣을 곳   --></span>
 	  								<!-- <img src="<c:url value="/resources/images/if_icon-play.jpg" />" > -->
-	  
 	  Watch the video
 	  </div>
 	  
 	  <div class="LearningList2" id="LearningList2" style="color: white; background-color: red;" align="center"
 	  onclick ="javascript:LearnTheWords()">Learn the words</div>
 	  
+
 	  
 	  <div class="LearningList3"  id="LearningList3" style="color: white; background-color: rgb(0, 166, 140);" align="center" 
 	  onclick="javascript:GoSpeakTheLine()">Speak the lines</div>
@@ -216,7 +225,9 @@
 	  <div class="LearningList4"  id="LearningList4" style="color: white; background-color: maroon;" align="center"  
 	  onclick="javascript:GoLive()">GoLive!</div>
 	  
+
 	  <div class="Voca&Plan"> 
+	  
 	  <div class="VocabQuiz"  id="VocabQuiz">VocabQuiz</div>
 	  
 	   <div class="LessonPlan" id="LessonPlan">LessonPlan</div>
@@ -228,11 +239,6 @@
 	
 		<!--동영상, 교육메뉴, 관련 영상 리스트 시작  -->
 	    <div class="center" >
-	    
-	  
-	
-	<!-- 자막 부분  -->
-	
     
 	<!--동영상 재생 부분  -->
 	<div  class ="YouTube-player" id="YouTube-player"> 
@@ -249,9 +255,11 @@
 	 			<div class="seek-crub"></div>
 	 		</div>	
 	</div>
-	<!--좋아요 하트 표시  -->
 	
-	<div class="ViewLikes">
+	
+	
+	
+	<div class="Likes&faceBook">
 	<!-- seekbar로 현재 동영상 위치 나타내기 -->
 	 	
 	<!-- What Time is?
@@ -263,10 +271,21 @@
     </div>	
 	</div> -->
 	
-	<!-- 소셜미디어 링크  --> 
-	<div class="ToFaceBook">
-	공유하기
+	
+	<!--좋아요 하트 표시  -->
+	<img class="thumbsUp" id="thumbsUp" src="/www/resources/icon/star_before.svg">
+									 
+	
+	<div class ="recommendCountDiv" id="recommendCountDiv">
+	
 	</div>
+	<!-- 북마크 -->
+	
+
+	<img class="bookMark" id="bookMark" src="/www/resources/icon/bookmark_border_black.svg">
+	
+	
+
 	
 	</div>
 	<!-- 왼쪽 리스트  끝-->
@@ -278,19 +297,23 @@
 	
 
 		  <!--관련된 동영상 리스트  시작-->  	
-	 <div class="KindOfStudy" id="KindOfStudy">
+	  
+	<div class="KindOfStudy" id="KindOfStudy">
 	 
+
 	 <h5>연관 비디오</h5>		
+
 	 	<div class="KindOfStudy_List">
-	 	
+	
+	 <!-- 	
         <span class="nowrap">
           <button onclick="document.getElementById('YouTube-video-id').value='dNXcT_LsZoE'; youTubePlayerChangeVideoId();" title="In the summertime (Mungo Jerry)">1</button>
           <button onclick="document.getElementById('YouTube-video-id').value='F2Ug3VkFuDw'; youTubePlayerChangeVideoId();" title="Peter Popoff pris la main dans le sac par James Randi">2</button>
           <button onclick="document.getElementById('YouTube-video-id').value='1X9RvuSuU_Y'; youTubePlayerChangeVideoId();" title="The Steven Seagal Show #002">3</button>
           <button onclick="document.getElementById('YouTube-video-id').value='LHdsMXEwLNE'; youTubePlayerChangeVideoId();" title="The Man from Earth (Richard Schenkman)">4</button>
         </span>
-	 	
-	 	
+	 	 -->
+
 	 	<div class="youtubeFrame">
 		 	 <span class="nowrap margin-left-m margin-right-m">
 	          <label for="YouTube-video-id"></label>
@@ -310,27 +333,37 @@
 	 	
 	 	
 	 		
-	 </div>
+	 </div> 
+	
+	 
+	 
 	<!--관련된 동영상 리스트 종료  -->		
 		
 		
-		<!-- 댓글 시작  -->
+		
+
+</div>
+<!-- 동영상 부분, 관계 영상 리스트, 댓글 부분 전체를 묶는 div태그 종료 -->
+
+
+
+</div>
+
+
+
+<!-- 댓글 시작  -->
 		<div class="ShowReplyList">
 		
 		
-		<!-- 댓글 개수 -->
+		
 		<div class="ShowReplyLeft">
-		<h5>댓글 ~개 </h5>
+		
+
+		
 		</div>
 		
-		<div class="ShowReplyRight">
-		<h5>검색 <select>
-		<option id="search" value="member_id">아이디</option>
-		<option id="search" value="reply_text">내용</option>
-		<option id="search" value="inputdate">일자</option>
-		</select>
-		</h5> 
 		
+		<div class="ShowReplyRight">
 		
 		
 		</div>
@@ -354,16 +387,16 @@
 		 </div>
 			
 			
-		<div class="replyList" id ="replyList">
-	 
+		<div class="replyList" id ="replyDiv">
+	 			
+	 			
+	 			
+	 			
 		</div>	
 	    
 
 </div>
 
-</div>
-<!-- 동영상 부분, 관계 영상 리스트, 댓글 부분 전체를 묶는 div태그 종료 -->
-</div>
 </div>
 
 </main>
