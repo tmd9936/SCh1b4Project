@@ -162,7 +162,7 @@ body {
 
 <header>
 	<br><br><br>
-	<img src="<c:url value="/resources/images/2_Flat_logo_on_transparent_248x68.png" />" class="demo-avatar">
+	<a href="../"><img src="<c:url value="/resources/images/2_Flat_logo_on_transparent_248x68.png" />" class="demo-avatar"></a>
 	<br><br><br>
 </header>
 

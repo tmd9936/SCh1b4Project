@@ -53,13 +53,60 @@
  	  SELECT * FROM dual
  </insert>
 	
+	<insert id="insertEditList" parameterType="java.util.List">
+   	INSERT ALL  
+   	 <foreach collection="list" item="transcript" index="index" >
+   	  INTO transcript (
+					contents_num
+					,ts_num
+					,ts_start
+					,ts_dur
+					,ts_text
+					,status
+					) values(
+					#{transcript.contents_num}
+					, #{transcript.ts_num}
+					,#{transcript.ts_start}
+					,#{transcript.ts_dur}
+					,#{transcript.ts_text}
+					,1
+					) 
+   	 </foreach>
+ 	  SELECT * FROM dual
+ </insert>
+	
+	<select id="selectE" parameterType="transcript" resultType="transcript">
+	select * 
+		from 
+			transcript 
+		where 
+			contents_num = #{contents_num}
+		and 
+			status = 1;
+	
+	</select>
 	
 	
 	
-	<select id="selectT" resultType="transcript">
+	<select id="selectT" parameterType="transcript" resultType="transcript">
+	select * 
+		from 
+			transcript 
+		where 
+			contents_num = #{contents_num}
+		and 
+			status = 0;
+	</select>
 	
 	
-	
+	<select id="selectContentsUrl" parameterType="int" resultType="String">
+	select 
+		contents_url
+		from
+			contents
+		where
+			contents_num = #{contents_num}			
+		
 	</select>
 	<!-- 전체 리스트 불러오기 -->
 	<select id="selectList" resultType="transcript" parameterType="int">
@@ -70,10 +117,22 @@
 					,ts_text
 					,status
 	FROM transcript 
-	WHERE contents_num = #{contents_num} AND status =0
+	WHERE contents_num = #{contents_num} AND status = 0
+
 	</select>
 	<!-- 문제풀이용 자막 불러오기 -->
 	
+
+	<delete id="deleteTranscript" parameterType="int">
+		delete from 
+			transcript
+			where
+			contents_num = #{contents_num}
+	
+	
+	
+	</delete>
+
 	<select id="tsnum" resultType="transcript" parameterType="int">
 	SELECT contents_num
 					,ts_num
@@ -84,6 +143,7 @@
 	FROM transcript 
 	WHERE contents_num= #{contents_num} AND ts_num = #{ts_num} AND status = 0 
 	</select>
+
 	
 	
 </mapper>

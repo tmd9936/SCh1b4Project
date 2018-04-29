@@ -1,6 +1,7 @@
 package com.h1b4.www.transcript.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
@@ -31,6 +32,32 @@ public class TranscriptDAO {
 		
 	}
 	
+public void insertTsList(List<Transcript> tsList){
+		
+		TranscriptMapper mapper = sqlSession.getMapper(TranscriptMapper.class);
+		try{
+			
+			mapper.insertTsList(tsList);
+			
+			
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void insertEditList(List<Transcript> tsList){
+		
+		TranscriptMapper mapper = sqlSession.getMapper(TranscriptMapper.class);
+		try{
+			
+			mapper.insertEditList(tsList);
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 	
 	public ArrayList<Transcript> selectT(Transcript ts){
 		TranscriptMapper mapper = sqlSession.getMapper(TranscriptMapper.class);
@@ -47,6 +74,60 @@ public class TranscriptDAO {
 	
 	}
 	
+
+	public ArrayList<Transcript> selectE(Transcript ts){
+		TranscriptMapper mapper = sqlSession.getMapper(TranscriptMapper.class);
+		ArrayList<Transcript> transcriptsList = null;
+		try {
+			transcriptsList = mapper.selectE(ts);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return transcriptsList;
+	}
+	
+	public int insertTsOne(Transcript ts){
+		TranscriptMapper mapper = sqlSession.getMapper(TranscriptMapper.class);
+		
+		int flag = 0;
+		try {
+			flag = mapper.insertTsOne(ts);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return flag;
+	}
+	
+	
+	public String selectContentsUrl(int contents_num){
+		TranscriptMapper mapper = sqlSession.getMapper(TranscriptMapper.class);
+		
+		String contentsUrl = "";
+		try {
+			contentsUrl = mapper.selectContentsUrl(contents_num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return contentsUrl;
+	}
+	
+	public int deleteTranscript (int contents_num){
+		TranscriptMapper mapper = sqlSession.getMapper(TranscriptMapper.class);
+		int result = 0 ;
+		try {
+			result = mapper.deleteTranscript(contents_num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+
 	//자막 전체 불러오기
 		public ArrayList<Transcript> selectList(int contents_num){
 			TranscriptMapper mapper = sqlSession.getMapper(TranscriptMapper.class);
@@ -71,4 +152,5 @@ public class TranscriptDAO {
 			
 			return transcript;
 		}
+
 }

@@ -3,6 +3,7 @@ package com.h1b4.www.contents.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.h1b4.www.vo.Bookmark;
 import com.h1b4.www.vo.Category;
 import com.h1b4.www.vo.Contents;
 
@@ -33,7 +34,15 @@ public interface ContentsMapper {
 	//검색한 키워드를 transcript로 가진 contents
 	public ArrayList<Contents> searchByText(String searchtext);
 	
-	//즐겨찾기 목록
+	//북마크 입력
+	public void bookmarkInsert(Bookmark bookmark);
+	
+	//북마크 목록
 	public ArrayList<Contents> bookmarklist(String loginId);
-
+	
+	//북마크 삭제
+	public void bookmarkDelete(Bookmark bookmark);
+	
+	//해당 컨테츠 북마크 여부 확인  
+	public Bookmark selectBookmarkOrNot(Bookmark bookmark);
 }
