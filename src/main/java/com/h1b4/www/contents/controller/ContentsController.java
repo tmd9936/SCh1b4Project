@@ -169,8 +169,8 @@ public class ContentsController {
 		logger.info("북마크 등록 시작");
 		
 		Bookmark bookmark = new Bookmark();
-		
-		bookmark.setMember_id("h1b4");
+		String loginId = (String)session.getAttribute("loginId");
+		bookmark.setMember_id(loginId);
 		bookmark.setContents_num(contents_num);
 		
 		service.bookmarkInsert(bookmark);
@@ -185,7 +185,7 @@ public class ContentsController {
 	public Boolean selectBookmarkOrNot(int contents_num, HttpSession session){
 		logger.info("해당 컨테츠 북마크 여부 확인 시작");
 		
-		String member_id = "h1b4";//(String)session.getAttribute("loginId");
+		String member_id = (String)session.getAttribute("loginId");
 		
 		if(member_id == ""){
 			
@@ -213,10 +213,10 @@ public class ContentsController {
 	public void bookmarkDelete(int contents_num, HttpSession session){
 		
 		logger.info("북마크 삭제 시작");
-		
+		String loginId = (String)session.getAttribute("loginId");
 		Bookmark bookmark = new Bookmark();
 		
-		bookmark.setMember_id("h1b4");
+		bookmark.setMember_id(loginId);
 		bookmark.setContents_num(contents_num);
 		
 		service.bookmarkDelete(bookmark);
