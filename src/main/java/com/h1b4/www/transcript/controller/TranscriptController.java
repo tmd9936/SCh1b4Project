@@ -18,6 +18,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 import javax.net.ssl.HttpsURLConnection;
+import javax.servlet.http.HttpSession;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -277,7 +278,7 @@ public class TranscriptController {
 		
 
 		// 세션에서 멤버아이디 가져와야됨
-		String member_id = "h1b4";
+		//String member_id = "h1b4";
 		String ytFileName = "mG68_hkc29po";
 		double per = 0;
 		
@@ -472,7 +473,6 @@ public class TranscriptController {
         model.addAttribute("contents_num", contents_num);
         return "transcript/wordDetail";
 	}
-}
 
 
 	

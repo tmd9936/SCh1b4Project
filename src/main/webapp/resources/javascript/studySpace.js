@@ -400,6 +400,7 @@ function GoSpeakTheLine(){
 
 
 function LearnTheWords(tslist){
+	console.log("파라미터로 넘어온 10문제용 tslist 한 번 더 체크:"+tslist);
 	var div = document.getElementById("divNewGSTL");
 	div.style.overflow = "scroll";
 	if(!learnSpace){
@@ -440,7 +441,7 @@ function LearnTheWords(tslist){
 		div.style.display="none";
 		learnSpace=false;
 	}
-
+/*
 	var str = '<div class="Notice">';
 	
 	str +=  "비디오에서 SPEAK2할 문장을 선택하세요:";
@@ -454,7 +455,7 @@ function LearnTheWords(tslist){
 	str	+= '</style>';
 	
 	div.innerHTML = str;	
-
+*/
 }
 
 function playsound(start7,dur7){

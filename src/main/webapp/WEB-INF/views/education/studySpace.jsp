@@ -2,7 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
- <jsp:include page="../navi_side_bar.jsp"></jsp:include>
+<!DOCTYPE html>
+<html>
+<head>
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/study.css"></c:url>"> 
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -84,7 +86,7 @@
 			json.ts_text = "${ts.ts_text}";
 			tslist.push(json);
 		</c:forEach>
-		
+		console.log("10문제용 tslist확인:"+tslist);
 		var str = "";
 		var container;
 		var left = 0;
@@ -106,6 +108,8 @@
 
 <!-- css 적용 -->
 <link href ="<c:url value="/resources/css/studySpace.css"/>" type="text/css" rel="stylesheet">
+</head>
+<body>
 
 
 <input type="hidden" id="filename" class="filename" value="${filename}">
@@ -428,4 +432,5 @@
 
 
 <!-- 여기까지가 페이지의 코드 -->
-    <jsp:include page="../navi_side_bar_bot.jsp"></jsp:include>
+</body>
+</html>

@@ -1,10 +1,14 @@
 
 package com.h1b4.www.transcript.service;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,6 +16,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -94,7 +100,9 @@ public class TranscriptService {
 			tsList = tsdao.selectList(contents_num);
 			//랜덤으로 10개만 받고
 			int i=10;
-			
+			if(tsList.size()<=10) {
+				i=tsList.size();
+			}
 			//근데 문제로 만들 수 없을 내용(명사나 동사가 포함되지 않은)은 걸러낸다.
 			while(i>0) {
 				int num = r.nextInt(tsList.size());
