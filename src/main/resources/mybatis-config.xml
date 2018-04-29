@@ -18,7 +18,10 @@
 	
 	<mappers>
 		<mapper resource="contentsMapper/ContentsMapper.xml"/>
+		<mapper resource="contentsMapper/ContentsReplyMapper.xml"/>
+		<mapper resource="contentsMapper/ContentsRecommendMapper.xml"/>
 		<mapper resource="memberMapper/MemberMapper.xml"/>
+		<mapper resource="memberMapper/TeacherMapper.xml"/>
 		<mapper resource="transcriptMapper/ContentsMapper.xml" />
 		<mapper resource="transcriptMapper/TranscriptMapper.xml" />
 		<mapper resource="transcriptMapper/VocaMapper.xml" />

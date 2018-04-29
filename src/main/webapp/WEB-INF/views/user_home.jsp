@@ -2,14 +2,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	
-
-
 	 <jsp:include page="navi_side_bar.jsp"></jsp:include>
 	 <style type="text/css">
 		.mdl-card--expand{
 			cursor: pointer;
 		}
+		
 	 </style>
+	 
+	<script src="<c:url value="/resources/js/swiper.js" />"></script><script>
+	window.onload = function(){
+		var swiper = new Swiper('.swiper-container', {
+					 pagination: '.swiper-pagination',
+					 paginationType: 'progress',
+					 slidesPerView: 'auto',
+					 paginationClickable: true,
+					 spaceBetween: 0,
+					 freeMode: true,
+					 nextButton: '.next',
+					 prevButton: '.back'
+		 });
+	};
+	</script></head>
+	 
+	 
 	 <script type="text/javascript">
 		$(function(){
 			$(".category").on('click',function(){
@@ -22,58 +38,76 @@
 
 			});
 			
+		
+			
 			$('.contentsCard').on('click',function(){
 				var contents_num = $(this).attr('value');
 				location.href = 'studySpace?contents_num='+contents_num;
 				
 			});
+			
+			
+			
+			$(function(){
+				$(".category").on('click',function(){
+					var str = $(this).text();
+					/* alert(str); */
+					location.href = 'categoryList?category=' + str;
+			
+					/* document.id.action="/contents/contentsList.jsp";
+			
+					document.id.submit(); */
+			
+				});
+			});
+			
+			
 		});
 		
 		
 	 </script>
-	 
-	 
-      
-
-	
-	
-	<script type="text/javascript">
-	
-	
-	$(function(){
-		$(".category").on('click',function(){
-			var str = $(this).text();
-			/* alert(str); */
-			location.href = 'categoryList?category=' + str;
-	
-			/* document.id.action="/contents/contentsList.jsp";
-	
-			document.id.submit(); */
-	
-		});
-	});
-	
-	</script>
+	 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 	
       <!-- 여기부터 시작 -->
       <main class="mdl-layout__content mdl-color--grey-100">
-        <div class="mdl-grid demo-content">
-			<div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
-		      	<div class="categorys">
-		      		<c:forEach var="category" items="${categoryList }">
-						<!-- Contact Chip -->
-						<span class="mdl-chip mdl-chip--contact">
-						    <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white"></span>
-						    <span class="mdl-chip__text category">${category.category_kr }</span>
-						</span>
-		      		</c:forEach>
-		      	</div>
-      		</div>        
-        	
-        	
-        <a>최신순</a>
+    	<section class="feature">
+    	<br>
+			<div class="inWrap">
+				<div class="fInner swiper-container swiper-container-horizontal swiper-container-free-mode">
+					<ul class="swiper-wrapper" style="transform: translate3d(-2019px, 0px, 0px); transition-duration: 0ms;">
+						<c:forEach var="category" items="${categoryList }" varStatus="status">
+							<c:choose>
+								<c:when test="${status.count == 1 }">
+									<li class="swiper-slide swiper-slide-active"><a href="#"><span>${category.category_kr }</span></a></li>
+								</c:when>
+								<c:when test="${status.count == 2 }">
+									<li class="swiper-slide swiper-slide-next"><a href="#"><span>${category.category_kr }</span></a></li>
+								</c:when>
+								<c:otherwise>
+									<li class="swiper-slide"><a href="#"><span>${category.category_kr }</span></a></li>
+								</c:otherwise>
+							</c:choose>
+							
+		      				
+		      			</c:forEach>
+						
+					
+					</ul>
+					<!-- Add Pagination -->
+					<div class="swiper-pagination swiper-pagination-progress"><span class="swiper-pagination-progressbar" style="transform: translate3d(0px, 0px, 0px) scaleX(1) scaleY(1); transition-duration: 300ms;"></span></div>
+				</div>
+
+				<div class="button">
+					<div class="back"><a href="#"><span class="hidden">back</span></a></div>
+					<div class="next swiper-button-disabled"><a href="#"><span class="hidden">next</span></a></div>
+				</div>
+			</div>
+		</section>	
+    
+          
+       	 <a>최신순</a>
           <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
-				<c:forEach var="list" items="${result }" end="5">
+				<c:forEach var="list" items="${result }" end="7">
 				
 				<div class="contentsCard" value="${list.contents_num }">
 					<div class="demo-card-square mdl-card mdl-shadow--2dp">
@@ -85,7 +119,7 @@
 						</div>
 						<div class="mdl-card__actions mdl-card--border">
 						<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-						View Videos
+						View Video
 						</a>
 						</div>
 					</div>
@@ -106,7 +140,7 @@
 						</div>
 						<div class="mdl-card__actions mdl-card--border">
 						<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-						View Videos
+						View Video
 						</a>
 						</div>
 					</div>

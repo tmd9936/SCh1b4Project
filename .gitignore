@@ -38,3 +38,8 @@ out
 test-output
 atlassian-ide-plugin.xml
 .gradletasknamecache
+src/main/webapp/resources/javascript/studySpace\.js
+
+src/main/webapp/WEB-INF/views/navi_side_bar\.jsp
+
+src/main/webapp/WEB-INF/views/user_home\.jsp

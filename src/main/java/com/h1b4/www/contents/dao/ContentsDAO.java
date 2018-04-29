@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.h1b4.www.vo.Bookmark;
 import com.h1b4.www.vo.Category;
 import com.h1b4.www.vo.Contents;
 
@@ -154,9 +155,26 @@ public class ContentsDAO {
 		return list;
 	}
 	
-	//즐겨찾기 목록
+	//북마크 입력
+	public void bookmarkInsert(Bookmark bookmark){
+		logger.info("DAO 북마크 입력 시작");
+		ContentsMapper mapper = sqlSession.getMapper(ContentsMapper.class);
+		
+		try{
+			
+			mapper.bookmarkInsert(bookmark);
+			
+		}catch(Exception e){
+			
+			e.printStackTrace();
+		}
+		
+		logger.info("DAO 북마크 입력 종료");
+	}
+	
+	//북마크 목록
 	public ArrayList<Contents> bookmarklist(String loginId){
-		logger.info("DAO 북마크  시작");
+		logger.info("DAO 북마크  목록 시작");
 		ContentsMapper mapper = sqlSession.getMapper(ContentsMapper.class);
 		ArrayList<Contents> list = null;
 		
@@ -167,8 +185,52 @@ public class ContentsDAO {
 			e.printStackTrace();
 		}
 		
-		logger.info("DAO 북마크  시작");
+		logger.info("DAO 북마크  목록  시작");
 		return list;
 
+	}
+	
+	//해당 컨테츠 북마크 여부 확인
+	public Bookmark selectBookmarkOrNot(Bookmark bookmark){
+		logger.info("DAO 해당 컨텐츠 북마크 여부 확인 시작");
+		
+		ContentsMapper mapper = sqlSession.getMapper(ContentsMapper.class);
+		Bookmark boomark2 = null;
+		
+		try{
+			
+			boomark2 = mapper.selectBookmarkOrNot(bookmark);
+			
+		}catch(Exception e){
+			
+			e.printStackTrace();
+		
+		}
+		
+		logger.info("DAO 해당 컨텐츠 북마크 여부 확인 종료");
+		return boomark2;
+	}
+	
+	//북마크 삭제 
+	public void bookmarkDelete(Bookmark bookmark){
+		logger.info("DAO 북마크 삭제 시작");
+		
+		ContentsMapper mapper = sqlSession.getMapper(ContentsMapper.class);
+		
+		try{
+			
+			mapper.bookmarkDelete(bookmark);
+			
+		}
+		catch(Exception e){
+			
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		
+		logger.info("DAO 북마크 삭제 종료");
 	}
 }

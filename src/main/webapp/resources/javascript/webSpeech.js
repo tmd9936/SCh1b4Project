@@ -2,6 +2,7 @@
  * 
  */
 
+
 (function(e, p) {
 	var m = location.href.match(/platform=(win8|win|mac|linux|cros)/);
 	e.id = (m && m[1])
@@ -11,6 +12,8 @@
 							: p.indexOf('CrOS') > -1 ? 'cros' : 'linux');
 	e.className = e.className.replace(/\bno-js\b/, 'js');
 })(document.documentElement, window.navigator.userAgent)
+
+	
 
 	function __log(e, data) {
 		log.innerHTML += e + " " + (data || '') + '\n';
@@ -107,7 +110,8 @@
 						console.log(data);
 						draw(data.ytArr,ytPitch,'youtube');
 						draw(data.memArr,memPitch,'member');
-						$('.perContainer').html(data.per);
+						//$('.perContainer').html(data.per);
+						$('.pitchPercent').html(data.per);
 					},
 					error: function(e){			
 						console.log(e);
@@ -383,13 +387,14 @@ function textCompares(ttsList,ytList){
 	return textPer;
 }
 
+var speechdialog = document.querySelector('#percentDialog');
 function hyngteaso(ytText,tts,textCompares){
 	var ytList = new Array();
 	var ttsList = new Array();
 	
     $.ajax({
         type : "POST",
-        url : "https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=702e62656b4b77496e64685a366630705a56737573476d7261636731344f6b2e346e4a75502e616e734c39",
+        url : "https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=436a6431712f387571513657764a484765534776586c784e656337765a4e79494c447a76545a556f6e3639",
         ContentType : "application/json; charset=utf-8",
         dataType : 'json',
         data : {
@@ -408,7 +413,7 @@ function hyngteaso(ytText,tts,textCompares){
             
             $.ajax({
                 type : "POST",
-                url : "https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=702e62656b4b77496e64685a366630705a56737573476d7261636731344f6b2e346e4a75502e616e734c39",
+                url : "https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=436a6431712f387571513657764a484765534776586c784e656337765a4e79494c447a76545a556f6e3639",
                 ContentType : "application/json; charset=utf-8",
                 dataType : 'json',
                 data : {
@@ -425,8 +430,9 @@ function hyngteaso(ytText,tts,textCompares){
                         });
                     });
                     var persent = textCompares(ytList,ttsList);
-                    alert(persent.toFixed(3));
-                    
+                    //alert(persent.toFixed(3));
+                   $('.textPercent').html(persent.toFixed(3));
+                   speechdialog.showModal();
                     
                 },//success 끝
                 error : function(){
@@ -508,3 +514,7 @@ function stopRecording(button) {
 	
 	recorder.clear();
 }
+
+$('#closeButton').on('click',function(){
+	speechdialog.close();
+});
