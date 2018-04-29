@@ -53,9 +53,8 @@
 <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
 <link rel="stylesheet"
   href="<c:url value="/resources/css/styles.css"></c:url>">
-<script src="path/to/jquery.js"></script>
-<script src="<c:url value="/resources/dist/jquery.mmenu.js" />"></script>
-<link href=" <c:url value="/resources/dist/jquery.mmenu.css" />" rel="stylesheet" />
+
+
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.2.1.js" />"></script>   
  
 
@@ -63,11 +62,7 @@
 <script>
  
 
-$(document).ready(function() {
-   $("#my-menu").mmenu({
-      // options
-   });
-});
+
 
 </script>
 
@@ -141,6 +136,13 @@ margin-left: -24px;
     position: absolute
     }
  
+ material-icons{
+ color: white;
+ }
+ .arrow{
+ 	margin: 0px auto;
+ }
+ 
 </style>
 
 </head>
@@ -207,7 +209,8 @@ margin-left: -24px;
           
           <button id="accbtn"
             class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-            <i class="material-icons" role="presentation">arrow_drop_down</i>
+            
+            <i class="material-icons md-light arrow" role="presentation">arrow_drop_down</i>
             <span class="visuallyhidden">Accounts</span>
           </button>
            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
