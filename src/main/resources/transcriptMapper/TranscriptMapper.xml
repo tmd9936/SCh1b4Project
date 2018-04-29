@@ -82,7 +82,7 @@
 		where 
 			contents_num = #{contents_num}
 		and 
-			status = 1;
+			status = 1
 	
 	</select>
 	
@@ -95,7 +95,7 @@
 		where 
 			contents_num = #{contents_num}
 		and 
-			status = 0;
+			status = 0
 	</select>
 	
 	

@@ -1,5 +1,7 @@
 package com.h1b4.www.member.service;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -87,6 +89,18 @@ public class MemberService {
 			 return false;
 		 }
 		 return true;
+	 }
+	 
+	 
+	 //회원 포인트 수정
+	 public void updatePnt(String member_id, String pntType){
+		 logger.info("회원포인트 수정 시작");
+		 
+		 HashMap<String, Object> map = new HashMap<>();
+		 map.put("pntType", pntType);
+		 map.put("member_id", member_id);
+		 dao.updateMemberExp(map);
+		 
 	 }
 	
 }

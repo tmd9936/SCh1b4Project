@@ -1,5 +1,6 @@
 package com.h1b4.www.contents.controller;
 
+import java.awt.Dialog.ModalExclusionType;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -224,6 +225,23 @@ public class ContentsController {
 		
 		logger.info("북마크 삭제 종료");
 	}
+	
+	//Publish 목록
+	@RequestMapping(value="publishList", method = RequestMethod.GET)
+	public String goPublishList(HttpSession session, Model model){
+		ArrayList<Contents> list = null;
+		String loginId = (String)session.getAttribute("loginId");
+		
+		list = service.selectPublishList(loginId);
+		
+		if(list != null){
+			model.addAttribute("pubList", list);
+		}
+		
+		return "/publish/publishList";
+		
+	}
+	
 	
 
 }

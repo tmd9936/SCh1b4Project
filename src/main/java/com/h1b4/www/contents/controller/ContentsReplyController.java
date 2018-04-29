@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.h1b4.www.contents.service.ContentReplyService;
+import com.h1b4.www.member.dao.MemberDAO;
+import com.h1b4.www.member.service.MemberService;
 import com.h1b4.www.utils.PageNavigator;
 import com.h1b4.www.vo.ContentsReply;
+import com.h1b4.www.vo.Member;
 
 @Controller
 @RequestMapping(value="contents")
@@ -31,7 +34,11 @@ public class ContentsReplyController {
 	/*@Autowired
 	ContentsReplyDAO contentsreplydao;*/
 	
+	@Autowired
+	MemberService memberService;
 	
+	@Autowired
+	MemberDAO memberDao;
 
 	@ResponseBody
 	@RequestMapping(value="contentsReplyInsert", method = RequestMethod.POST)
@@ -39,6 +46,13 @@ public class ContentsReplyController {
 		logger.info("댓글 입력 시작");	
 		String loginId = (String)session.getAttribute("loginId");
 		contentsreply.setMember_id(loginId);
+		
+		
+		memberService.updatePnt(loginId, "reply");
+		
+		Member member = memberDao.searchMemberOne(loginId);
+		
+		session.setAttribute("point", member.getPoint());
 		
 		contentReplyService.insertContentsReply(contentsreply);
 		System.out.println(contentsreply);

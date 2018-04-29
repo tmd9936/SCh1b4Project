@@ -249,6 +249,12 @@ li:enabled:active{
 	right : -328px;
 	top : -27px;
 }
+.subheading{
+	background-color: #d9d9db;
+	text-align: center;
+	width: 100%;
+	
+}
 
 </style>
 </head>
@@ -256,16 +262,15 @@ li:enabled:active{
 	<div class="container">
 		<div class="mdl-grid" id="infoRow">
 			<div class="mdl-cell mdl-cell--4-col">
-
-				<b>Keyboard controls</b>
+				<div class="subheading">Keyboard controls</div>
 
 				<p>Tab : 재생/정지</p>
 
 				<p>Ctrl + X : 내용 복사</p>
 
-				<p>Shift + Tab : 재생/정지 (구현예정)</p>
+				<p>화살표 ↓ : 자막 시작점</p>
 
-
+				<p>화살표 ↑ : 자막 종료점</p>
 			</div>
 			<div class="mdl-cell mdl-cell--5-col" id="playerSection">
 				<div class="transcript-float-video"></div>
@@ -287,6 +292,7 @@ li:enabled:active{
 
 			</div>
 			<div class="mdl-cell mdl-cell--3-col">
+				<div class="subheading">단계영역</div>
 				<div>
 					<ol>
 						<li id="firstRow">Type what you hear <br>
@@ -409,11 +415,7 @@ li:enabled:active{
 		<div id="editRow" class="mdl-grid">
 
 			<div class="mdl-cell mdl-cell--4-col">
-				<div>
-					<c:if test="${tsList != null }">
-						<button id="cloneBtn">Clone</button>
-					</c:if>
-				</div>
+				<div class="subheading">자료영역</div>
 				<div id="transcripts">
 					<ul class="demo-list-item mdl-list">
 						<c:forEach items="${tsList }" var="list">
@@ -433,12 +435,19 @@ li:enabled:active{
 
 			<div class="mdl-cell mdl-cell--5-col">
 				<!-- <form action="syncedTranscript"> -->
-				<div>편집영역</div>
+				<div class="subheading">편집영역</div>
 				<div id="insertCell">
-					
 						<div id="transcriptPlace">
 							<ul class="demo-list-item mdl-list" id="sortableEditList">
-							
+								<c:forEach items="${editList }" var="list">
+									<li class='transcriptDiv'><i class='material-icons md-18'><span class='dragEditList'>format list numbered</span></i>
+									<input class='transcriptTextArea mdl-textfield__input' type='text' data-num="+length+" value="${list.ts_text }"></input>
+									<input type='hidden' value="${list.ts_text }" />
+									<span class='timing_start_point'>${list.ts_start }</span>
+									<input type='hidden' class='timing_start_point_hidden' value="${list.ts_start }">
+									<i class='material-icons md-18'><span class='delEditList'>close</span></i>
+									<span class='timing_end_point'>${list.ts_start + list.ts_dur }</span><input type='hidden' class='timing_end_point_hidden' value="${list.ts_start + list.ts_dur }"></li>
+								</c:forEach>
 							</ul>
 						</div>
 						<div id="genSubtitle">+ New subtitle</div>
@@ -447,7 +456,7 @@ li:enabled:active{
 			</div>
 
 			<div id="notes" class="mdl-cell mdl-cell--3-col">
-				<div>정보영역</div>
+				<div class="subheading">정보영역</div>
 				<input type="hidden" id="contents_num" value="${param.contents_num }">
 				<br>
 				<div class="framed">
@@ -461,7 +470,7 @@ li:enabled:active{
 					<div id="YouTube-player-errors"></div>
 					<div id="YouTube-player-fixed-infos"></div>
 				</div>
-				<button class="">Save status</button>
+				<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Save status</button>
 				
 			</div>
 		</div>
@@ -758,7 +767,8 @@ function youTubePlayerDisplayInfos() {
        
        
        //start, duration
-/*       var check = $('.timing_start_hidden');
+       
+       var check = $('.timing_start_hidden');
         var dur =  $('.timing_dur_hidden');
         var text = $('.timing_text_hidden');
         
@@ -1501,6 +1511,25 @@ function youTubePlayerVolumeChange(volume) {
 	$('#transcriptDiv').on('click',function(){
 		
 	});
+	
+	
+function playsound2(start7,dur7,num){
+	done = false;
+	var currentTime;
+	switch(num){
+	case 1:
+		currentTime = youTubePlayer.getCurrentTime()+3;
+		console.log(currentTime);
+		break;
+	case 0:
+		currentTime = youTubePlayer.getCurrentTime()-3;
+		console.log(currentTime);
+		break;
+	}
+	dur = dur7*1500;
+	youTubePlayer.seekTo(currentTime,true);// 유튜브 시작위치
+	youTubePlayer.playVideo(); //유튜브 재생
+}
 </script>
 
 
