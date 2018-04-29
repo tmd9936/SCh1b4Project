@@ -419,8 +419,8 @@ function LearnTheWords(tslist){
 			
 			var str = '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="'+(i+1)+'. 재생" onclick="javascript:playsound('+start+','+dur+')">'
 			if(dur>10){
-				str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="5sec 뒤로" onclick="javascript:playsound2('+start+','+dur+',0)">'
-				str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="5sec 앞으로" onclick="javascript:playsound2('+start+','+dur+',1)">'
+				str += '<br><input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="3sec 뒤로" onclick="javascript:playsound2('+start+','+dur+',0)">'
+				str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="3sec 앞으로" onclick="javascript:playsound2('+start+','+dur+',1)"><br>'
 			}
 			str += ' <input type="hidden" id="answers'+num+'">';
 			str += ' <div id="outputDiv'+num+'" style="display: inline;" data-value="1"></div>';
@@ -453,11 +453,11 @@ function playsound2(start7,dur7,num){
 	var currentTime;
 	switch(num){
 	case 1:
-		currentTime = youTubePlayer.getCurrentTime()+5;
+		currentTime = youTubePlayer.getCurrentTime()+3;
 		console.log(currentTime);
 		break;
 	case 0:
-		currentTime = youTubePlayer.getCurrentTime()-5;
+		currentTime = youTubePlayer.getCurrentTime()-3;
 		console.log(currentTime);
 		break;
 	}
@@ -629,10 +629,10 @@ function answer(num,i){
  		//다이얼로그 내부 구문을 완성하고
  		var str = '<dialog class="mdl-dialog" id="viewInho">';
  		str += '<h4 class="mdl-dialog__title"> Study sentence </h4>';
- 		str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="재생" onclick="javascript:suzukikun(\''+sentence+'\')">';
+ 		str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="재생" onclick="javascript:suzukikun('+contents_num+',\''+sentence+'\')">';
  		str += ' <div class="mdl-dialog__content"></div>';
- 		str += '<div class="mdl-dialog__underContent" style="display: none"></div>';
- 		str += '<div class="mdl-dialog__underunder" style="display: none"></div>'
+ 		str += '<div id="saveVoca" style="display: none"></div>';
+ 		str += '<div class=	"mdl-dialog__underunder" style="display: none"></div>'
  		str += ' <div class="mdl-dialog__actions"><button type="button" class="mdl-button">확인</button>';
  		//str += ' <button type="button" class="mdl-button close">아니요</button>
  		str += '</div>';
@@ -641,7 +641,7 @@ function answer(num,i){
  		//넣은 다음에 출력
  		 $(document).ready(function(){
  		 $('.mdl-dialog__content').html(color);
- 		 //$('.mdl-dialog__underContent').html(explanation);
+ 		 
  		 })
  		div.innerHTML = str;
  		var dialog = document.getElementById('viewInho');
@@ -651,6 +651,7 @@ function answer(num,i){
  		    dialog.showModal(); 	
  		 dialog.querySelector('.mdl-dialog__actions').addEventListener('click', function() {
  			$('.mdl-dialog__underunder').html('');
+ 			$('#saveVoca').html('');
  		      dialog.close();
  		    });
 	         // window.open("../transcript/wordDetail?words="+words+"&ts_num="+ts_num+"&contents_num="+contents_num+"&explanation="+explanation, "wordDetail", "width=578, height=215, toolbar=no, menubar=no, scrollbars=no, location=no, status=no, resizable=no" );
@@ -675,7 +676,8 @@ function answer(num,i){
  			console.log("kanji :"+kanji);console.log("part :"+part);console.log("mean :"+mean);
  			$('.mdl-dialog__underunder').html("원문 : "+kanji+" 품사 : "+part+" 의미 : "+mean);
  			$('.mdl-dialog__underunder').show();
- 			
+ 			$('#saveVoca').html('<input type="button" class="mdl-button mdl-js-button mdl-button--primary" value="저장하기" onclick="javascript:saveToVoca('+ts_num+','+contents_num+',\''+sentence+'\')">');
+ 			$('#saveVoca').show();
  			// $('.mdl-dialog__underContent').show();
  			
  			 
@@ -684,32 +686,33 @@ function answer(num,i){
  	}
  	
  	
- 	function suzukikun(sentence){
+ 	function suzukikun(contents_num,sentence){
+ 		/*
  		console.log("sentence옴:"+sentence);
- 		 $(document).ready(function(){
- 	        $.ajax({
+ 		location.href="../transcript/suzuki?sentence="+sentence+"&contents_num="+contents_num;
+ 		*/
+ 		
+ 		$(document).ready(function(){
+ 			
+ 			 $.ajax({
  	            type : "POST",
- 	            url : "https://api.apigw.smt.docomo.ne.jp/crayon/v1/textToSpeech?APIKEY=55684a6c72694d576b7134376a493250466a47476c36676559657649794678563731336353763330384c37",
- 	           dataType : 'json',
- 	            ContentType : "application/json",
+ 	            url : "../transcript/suzuki",
+ 	            ContentType : "application/json; charset=utf-8",
+ 	            dataType : 'application/mpeg',
  	            data : {
- 	            	   "Command":"AP_Synth",
- 	            	   "SpeakerID":"1",
- 	            	   "StyleID":"1",
- 	            	  //"AudioFileFormat":"2",
- 	            	  "TextData":"sentence"
+ 	               "sentence": sentence,	//여기가 문자열
+ 	               "contents_num" : contents_num 
  	              },
- 	              
- 	            //성공한다면
  	            success : function(obj){
  	            	console.log(obj);
- 	            	//location.href="../transcript/suzuki?data="+obj;
+ 	            	
  	            },
  	            error : function(){
  	            	console.log("fail");
  	            }
  	        });
  		 })
+ 		
  	}
 function GoLive() {
 	/* var user_id = document.getElementById(""); */

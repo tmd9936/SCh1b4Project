@@ -1,11 +1,10 @@
 
 package com.h1b4.www.transcript.controller;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
+import java.io.*;
 import java.net.URI;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -14,9 +13,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -151,21 +147,64 @@ public class TranscriptController {
 //		
 //		return "transcript/wordDetail";
 //	}
-	@RequestMapping(value="suzuki", method=RequestMethod.GET)
-	public String suzuki(String data) {
-		System.out.println("무사히 여기로 도착");
-		File file = new File(data);
-		System.out.println(file.exists());
-		try {
-			AudioInputStream stream = AudioSystem.getAudioInputStream(file);
-            Clip clip = AudioSystem.getClip();
-            clip.open(stream);
-            clip.start();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
+	@ResponseBody
+	@RequestMapping(value="suzuki", method=RequestMethod.POST)
+	public String suzuki(@RequestParam(value="sentence")String sentence,@RequestParam(value="contents_num")String contents_num) {
+		System.out.println("무사히 여기로 도착1");
+		        String clientId = "07Y3WutHWeMsdGPtw6AK";//애플리케이션 클라이언트 아이디값";
+		        String clientSecret = "pvT5lX8Twe";//애플리케이션 클라이언트 시크릿값";
+		        try {
+		            String text = URLEncoder.encode(sentence, "UTF-8"); 
+		            String apiURL = "https://openapi.naver.com/v1/voice/tts.bin";
+		            URL url = new URL(apiURL);
+		            HttpURLConnection con = (HttpURLConnection)url.openConnection();
+		            con.setRequestMethod("POST");
+		            con.setRequestProperty("X-Naver-Client-Id", clientId);
+		            con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
+		            // post request
+		            String postParams = "speaker=yuri&speed=0&text=" + text;
+		            con.setDoOutput(true);
+		            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+		            wr.writeBytes(postParams);
+		            wr.flush();
+		            wr.close();
+		            System.out.println("무사히 여기로 도착2");
+		            int responseCode = con.getResponseCode();
+		            BufferedReader br;
+		            if(responseCode==200) { // 정상 호출
+		                InputStream is = con.getInputStream();
+		                int read = 0;
+		                byte[] bytes = new byte[1024];
+		                // 랜덤한 이름으로 mp3 파일 생성
+		                String tempname = Long.valueOf(new Date().getTime()).toString();
+		                File f = new File(tempname + ".mp3");
+		                f.createNewFile();
+		                System.out.println("무사히 여기로 도착3");
+		                String bip = tempname+".mp3";
+		                OutputStream outputStream = new FileOutputStream(f);
+		                while ((read =is.read(bytes)) != -1) {
+		                    outputStream.write(bytes, 0, read);
+		                }
+		                System.out.println("outputStream:"+outputStream);
+		                System.out.println("is :"+is);
+		                System.out.println("bip :"+bip);
+		                is.close();
+		            } else {  // 에러 발생
+		                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+		                String inputLine;
+		                StringBuffer response = new StringBuffer();
+		                while ((inputLine = br.readLine()) != null) {
+		                    response.append(inputLine);
+		                }
+		                br.close();
+		                System.out.println(response.toString());
+		            }
+		        } catch (Exception e) {
+		            System.out.println(e);
+		        }
 		
-		return "../contents/studySpace";
+		        System.out.println("마지막");
+		return "";
 		
 	}
 	
