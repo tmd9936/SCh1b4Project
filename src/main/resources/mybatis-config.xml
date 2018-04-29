@@ -13,6 +13,7 @@
 		<typeAlias type="com.h1b4.www.vo.ContentsReply" alias="contentsreply"/>
 		<typeAlias type="com.h1b4.www.vo.Bookmark" alias="bookmark"/>
 		<typeAlias type="com.h1b4.www.vo.Category" alias="category"/>
+		<typeAlias type="com.h1b4.www.vo.Voca" alias="voca"/>
 	</typeAliases>
 	
 	<mappers>
@@ -20,5 +21,6 @@
 		<mapper resource="memberMapper/MemberMapper.xml"/>
 		<mapper resource="transcriptMapper/ContentsMapper.xml" />
 		<mapper resource="transcriptMapper/TranscriptMapper.xml" />
+		<mapper resource="transcriptMapper/VocaMapper.xml" />
 	</mappers>
 </configuration>
