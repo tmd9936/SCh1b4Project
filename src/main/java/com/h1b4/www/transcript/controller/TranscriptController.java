@@ -22,6 +22,9 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 import javax.net.ssl.HttpsURLConnection;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -45,7 +48,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.JsonObject;
 import com.h1b4.www.transcript.dao.TranscriptMapper;
 import com.h1b4.www.transcript.service.TranscriptService;
-import com.h1b4.www.utils.Aitalk;
 import com.h1b4.www.utils.programs.ConsoleMain;
 import com.h1b4.www.vo.Transcript;
 import com.h1b4.www.youtube.download.YoutubeDownService;
@@ -150,13 +152,20 @@ public class TranscriptController {
 //		return "transcript/wordDetail";
 //	}
 	@RequestMapping(value="suzuki", method=RequestMethod.GET)
-	public String suzuki(String contents_num,String ts_num) {
+	public String suzuki(String data) {
 		System.out.println("무사히 여기로 도착");
-		Transcript ts = transcriptService.tsnum(Integer.parseInt(contents_num), Integer.parseInt(ts_num));
-		System.out.println("스즈키ts"+ts);
-		Aitalk at = new Aitalk();
-		at.Voice(ts.getTs_text());
-		return "../contents/studySpace?contents_num="+contents_num;
+		File file = new File(data);
+		System.out.println(file.exists());
+		try {
+			AudioInputStream stream = AudioSystem.getAudioInputStream(file);
+            Clip clip = AudioSystem.getClip();
+            clip.open(stream);
+            clip.start();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "../contents/studySpace";
 		
 	}
 	

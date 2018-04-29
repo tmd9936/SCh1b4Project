@@ -629,7 +629,7 @@ function answer(num,i){
  		//다이얼로그 내부 구문을 완성하고
  		var str = '<dialog class="mdl-dialog" id="viewInho">';
  		str += '<h4 class="mdl-dialog__title"> Study sentence </h4>';
- 		str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="재생" onclick="javascript:suzukikun('+contents_num+','+ts_num+')">';
+ 		str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="재생" onclick="javascript:suzukikun(\''+sentence+'\')">';
  		str += ' <div class="mdl-dialog__content"></div>';
  		str += '<div class="mdl-dialog__underContent" style="display: none"></div>';
  		str += '<div class="mdl-dialog__underunder" style="display: none"></div>'
@@ -684,8 +684,32 @@ function answer(num,i){
  	}
  	
  	
- 	function suzukikun(contents_num, ts_num){
- 		location.href="../transcript/suzuki?contents_num="+contents_num+"&ts_num="+ts_num;
+ 	function suzukikun(sentence){
+ 		console.log("sentence옴:"+sentence);
+ 		 $(document).ready(function(){
+ 	        $.ajax({
+ 	            type : "POST",
+ 	            url : "https://api.apigw.smt.docomo.ne.jp/crayon/v1/textToSpeech?APIKEY=55684a6c72694d576b7134376a493250466a47476c36676559657649794678563731336353763330384c37",
+ 	           dataType : 'json',
+ 	            ContentType : "application/json",
+ 	            data : {
+ 	            	   "Command":"AP_Synth",
+ 	            	   "SpeakerID":"1",
+ 	            	   "StyleID":"1",
+ 	            	  //"AudioFileFormat":"2",
+ 	            	  "TextData":"sentence"
+ 	              },
+ 	              
+ 	            //성공한다면
+ 	            success : function(obj){
+ 	            	console.log(obj);
+ 	            	//location.href="../transcript/suzuki?data="+obj;
+ 	            },
+ 	            error : function(){
+ 	            	console.log("fail");
+ 	            }
+ 	        });
+ 		 })
  	}
 function GoLive() {
 	/* var user_id = document.getElementById(""); */
