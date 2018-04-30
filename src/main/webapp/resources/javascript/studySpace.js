@@ -385,11 +385,12 @@ function GoSpeakTheLine(){
 			str +=	'}';
 			str	+= '</style>';
 			
-			
-			
-		$('.divNewView').html(str);
+		$('#divNewView').removeAttr('style');	
+		$('#divNewView').html('');	
+		$('#divNewView').html(str);
 		$('.speachView').css('visibility','visible');
 		speakSpace = true;
+		learnSpace=false;
 	}else{
 		$('.divNewView').html('');
 		$('.speachView').css('visibility','hidden');
@@ -400,41 +401,45 @@ function GoSpeakTheLine(){
 
 
 function LearnTheWords(tslist){
-	var div = document.getElementById("divNewGSTL");
+	var div = document.getElementById("divNewView");
 	div.style.overflow = "scroll";
 	if(!learnSpace){
-	var str3 = '<div class="Notice">';
-	str3 += '</div>';
-	$('.divNewView').html(str3);
-	div.innerHTML  = str3;
-	div.style.width="598px";
-	div.style.height="700px";
-	div.style.border="1px solid";
-	var str2='';
-		for (var i = 0; i < tslist.length; i++) {
-			var num  = tslist[i].ts_num;
-			var text = tslist[i].ts_text;
-			var start = tslist[i].ts_start-1;
-			var dur = tslist[i].ts_dur+1;
-			
-			var str = '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="'+(i+1)+'. 재생" onclick="javascript:playsound('+start+','+dur+')">'
-			if(dur>10){
-				str += '<br><input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="3sec 뒤로" onclick="javascript:playsound2('+start+','+dur+',0)">'
-				str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="3sec 앞으로" onclick="javascript:playsound2('+start+','+dur+',1)"><br>'
+		var str3 = '<div class="Notice">';
+		str3 += '</div>';
+		$('.divNewView').html(str3);
+		$('.secondView').removeAttr('style');	
+		div.innerHTML  = str3;
+		div.style.width="598px";
+		div.style.height="700px";
+		div.style.border="1px solid";
+		var str2='';
+			for (var i = 0; i < tslist.length; i++) {
+				var num  = tslist[i].ts_num;
+				var text = tslist[i].ts_text;
+				var start = tslist[i].ts_start-1;
+				var dur = tslist[i].ts_dur+1;
+				
+				
+				var str = '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="'+(i+1)+'. 재생" onclick="javascript:playsound('+start+','+dur+')">'
+				if(dur>10){
+					str += '<br><input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="3sec 뒤로" onclick="javascript:playsound2('+start+','+dur+',0)">'
+					str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="3sec 앞으로" onclick="javascript:playsound2('+start+','+dur+',1)"><br>'
+				}
+				str += ' <input type="hidden" id="answers'+num+'">';
+				str += ' <div id="outputDiv'+num+'" style="display: inline;" data-value="1"></div>';
+				str += '<div id="list'+num+'" style="display: none;"></div>';
+				str += '<div style="display: none;" id="inputAnswer'+num+'">정답을 입력 :&nbsp;&nbsp;&nbsp;<input id="yourText'+num+'" type="text"   style="border-left: none; border-right: none; border-top: none; "></div><br>';
+				this.test(num,text);
+				str2 += str;
 			}
-			str += ' <input type="hidden" id="answers'+num+'">';
-			str += ' <div id="outputDiv'+num+'" style="display: inline;" data-value="1"></div>';
-			str += '<div id="list'+num+'" style="display: none;"></div>';
-			str += '<div style="display: none;" id="inputAnswer'+num+'">정답을 입력 :&nbsp;&nbsp;&nbsp;<input id="yourText'+num+'" type="text"   style="border-left: none; border-right: none; border-top: none; "></div><br>';
-			this.test(num,text);
-			str2 += str;
-		}
+			
 		
 	
-
-	$('.secondView').html(str2);
-	div.style.display="block";
-	learnSpace=true;
+		$('.divNewView').html(str2);
+		div.style.display="block";
+		learnSpace=true;
+		$('.speachView').css('visibility','hidden');
+		speakSpace = false;
 	}else{
 		div.innerHTML='';
 		div.style.display="none";
