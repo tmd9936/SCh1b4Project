@@ -100,7 +100,9 @@ public class TranscriptService {
 			tsList = tsdao.selectList(contents_num);
 			//랜덤으로 10개만 받고
 			int i=10;
-			
+			if(tsList.size()<=10) {
+				i=tsList.size();
+			}
 			//근데 문제로 만들 수 없을 내용(명사나 동사가 포함되지 않은)은 걸러낸다.
 			while(i>0) {
 				int num = r.nextInt(tsList.size());

@@ -401,7 +401,9 @@ function GoSpeakTheLine(){
 
 
 function LearnTheWords(tslist){
+
 	var div = document.getElementById("divNewView");
+
 	div.style.overflow = "scroll";
 	if(!learnSpace){
 		var str3 = '<div class="Notice">';
@@ -445,8 +447,6 @@ function LearnTheWords(tslist){
 		div.style.display="none";
 		learnSpace=false;
 	}
-
-	
 
 }
 

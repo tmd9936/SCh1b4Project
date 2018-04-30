@@ -277,8 +277,10 @@ public class TranscriptController {
 		String member_id = (String)session.getAttribute("loginId");
 		// 세션에서 멤버아이디 가져와야됨
 		//String member_id = "h1b4";
+
 		//String ytFileName = "mG68_hkc29po";
 		//double per = 0;
+
 		
 		return transcriptService.pitchCompare(base64data, member_id, youService);
 	}
@@ -343,6 +345,7 @@ public class TranscriptController {
         model.addAttribute("contents_num", contents_num);
         return "transcript/wordDetail";
 	}
+
 
 	@RequestMapping(value="goEditSpace", method = RequestMethod.GET)
 	public String goEditSpace(Model model, int contents_num){
