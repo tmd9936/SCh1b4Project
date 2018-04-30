@@ -39,8 +39,10 @@
         <mvc:interceptor>
             <mvc:mapping path="/member/updateForm"/>
             <mvc:mapping path="/contents/BookMark"/>
-            <mvc:mapping path="/publish/editSpace"/>
-            <mvc:mapping path="/publish/publishList"/>
+            <mvc:mapping path="/contents/editSpace"/>
+            <mvc:mapping path="/contents/publishList"/>
+            <mvc:mapping path="/contents/studySpace"/>
+            
             <beans:ref bean="loginInterceptor"/>            
         </mvc:interceptor>
     </mvc:interceptors>

@@ -15,7 +15,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		//세션 획득
 		HttpSession session = request.getSession();
 		//값이 있는지 판단
-		String member_id = (String)session.getAttribute("member_id");
+		String member_id = (String)session.getAttribute("loginId");
 		if(member_id == null){	
 			//로그인이 되어있지 않을 경우에는 로그인 폼으로 이동
 			
