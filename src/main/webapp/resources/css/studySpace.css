@@ -14,7 +14,9 @@
 	border-radius: 15px;
 	
 }
-
+.mdl-dialog__underunder{
+	font-size: large;
+}
 #divNewGSTL{
 	
 	width: 300px;

@@ -3,6 +3,7 @@ package com.h1b4.www.transcript.controller;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javazoom.jl.player.Player;
 
 import java.io.*;
 import java.net.URI;
@@ -19,9 +20,12 @@ import java.net.URLEncoder;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpSession;
+import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.SourceDataLine;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -210,6 +214,13 @@ public class TranscriptController {
 	@ResponseBody
 	@RequestMapping(value="suzuki", method=RequestMethod.POST)
 	public String suzuki(@RequestParam(value="sentence")String sentence,@RequestParam(value="contents_num")String contents_num) {
+		System.out.println(sentence);
+		String tempname =Long.valueOf(new Date().getTime()).toString();
+		tempname += ".mp3";
+		String PATH = "C:\\Users\\SCIT\\Desktop\\";
+		String temp = PATH+""+tempname;
+		SourceDataLine sdl=null;
+		AudioInputStream ais = null;
 		System.out.println("무사히 여기로 도착1");
 		        String clientId = "07Y3WutHWeMsdGPtw6AK";//애플리케이션 클라이언트 아이디값";
 		        String clientSecret = "pvT5lX8Twe";//애플리케이션 클라이언트 시크릿값";
@@ -236,19 +247,33 @@ public class TranscriptController {
 		                int read = 0;
 		                byte[] bytes = new byte[1024];
 		                // 랜덤한 이름으로 mp3 파일 생성
-		                String tempname = Long.valueOf(new Date().getTime()).toString();
-		                File f = new File(tempname + ".mp3");
+		               // tempname = Long.valueOf(new Date().getTime()).toString();
+		                String suzuki = "suzuki";
+		                //File f = new File(suzuki + ".mp3");
+		                File f = new File(tempname);
 		                f.createNewFile();
 		                System.out.println("무사히 여기로 도착3");
-		                String bip = tempname+".mp3";
-		                OutputStream outputStream = new FileOutputStream(f);
+		                //String bip = PATH+""+suzuki+".mp3";
+		                
+		                OutputStream outputStream = new FileOutputStream(new File("C:\\Users\\SCIT\\Desktop\\"+tempname));
+		                
 		                while ((read =is.read(bytes)) != -1) {
 		                    outputStream.write(bytes, 0, read);
 		                }
-		                System.out.println("outputStream:"+outputStream);
-		                System.out.println("is :"+is);
-		                System.out.println("bip :"+bip);
-		                is.close();
+		                System.out.println("bip :"+temp);
+		               FileInputStream fis = new FileInputStream(temp);
+		                Player playMP3 = new Player(fis);
+
+		                playMP3.play();
+		                System.out.println(4);
+		                /*
+		                File e = new File(PATH+""+bip);
+		                ais = AudioSystem.getAudioInputStream(e);
+		                AudioFormat format = ais.getFormat();
+		                DataLine.Info info = new DataLine.Info(SourceDataLine.class, format);
+		                sdl = (SourceDataLine)AudioSystem.getLine(info);
+		                sdl.open(format);
+		                */
 		            } else {  // 에러 발생
 		                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
 		                String inputLine;
@@ -262,13 +287,60 @@ public class TranscriptController {
 		        } catch (Exception e) {
 		            System.out.println(e);
 		        }
-		
-		        System.out.println("마지막");
-		return "";
+		        /*
+		        sdl.start();
+		        int nBytesRead=0;
+		        final int EXTERNAL_BUFFER_SIZE = 524288;
+		        byte[] abData = new byte[EXTERNAL_BUFFER_SIZE];
+		        try {
+		        	while(nBytesRead != -1) {
+		        		nBytesRead = ais.read(abData, 0, abData.length);
+		        		if(nBytesRead >= 0)
+		        			sdl.write(abData, 0, nBytesRead);
+		        	}
+		        }catch(Exception e) {
+		        	e.printStackTrace();
+		        }finally {
+		        	sdl.drain();
+		        	sdl.close();
+		        }
+		        */
+		        System.out.println("마지막temp"+temp);
+		        return temp;
 		
 	}
 
-
+	@ResponseBody
+	@RequestMapping(value="checkMP3", method=RequestMethod.POST)
+	public void checkMP3(@RequestParam(value="tempname") String tempname) {
+		System.out.println("tempname123"+tempname);
+		//String bip = "C:/Users/SCIT/Desktop/suzuki.mp3";
+		
+		String temp1 = tempname.replaceAll("\\\\","/");
+		//String bip = "C:/Users/SCIT/Desktop/"+temp1;
+		String bip = temp1;
+		System.out.println("temp1"+temp1);
+		System.out.println("bip"+bip);
+		try {
+			FileInputStream fis = new FileInputStream(bip);
+			Player playMP3 = new Player(fis);
+         playMP3.close();
+         fis.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		File file = new File(bip);
+        if( file.exists() ){
+            if(file.delete()){
+                System.out.println("파일삭제 성공");
+            }else{
+                System.out.println("파일삭제 실패");
+            }
+        }else{
+            System.out.println("파일이 존재하지 않습니다.");
+        }
+	}
 
 	@RequestMapping(value = "streamOnMic", method = RequestMethod.POST)
 	@ResponseBody

@@ -417,14 +417,15 @@ function LearnTheWords(tslist){
 			var text = tslist[i].ts_text;
 			var start = tslist[i].ts_start-1;
 			var dur = tslist[i].ts_dur+1;
-			
-			var str = '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="'+(i+1)+'. 재생" onclick="javascript:playsound('+start+','+dur+')">'
-			if(dur>10){
-				str += '<br><input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="3sec 뒤로" onclick="javascript:playsound2('+start+','+dur+',0)">'
-				str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="3sec 앞으로" onclick="javascript:playsound2('+start+','+dur+',1)"><br>'
-			}
+			var str='';
+			if(dur>10){str += '<hr/>';}
+			str = '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="듣기" onclick="javascript:playsound('+start+','+dur+')" name="a'+num+'">'
 			str += ' <input type="hidden" id="answers'+num+'">';
 			str += ' <div id="outputDiv'+num+'" style="display: inline;" data-value="1"></div>';
+			if(dur>10){
+				str += ' <input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="<<" onclick="javascript:playsound2('+start+','+dur+',0)" name="a'+num+'">';
+				str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value=">>" onclick="javascript:playsound2('+start+','+dur+',1)" name="a'+num+'">';
+			}
 			str += '<div id="list'+num+'" style="display: none;"></div>';
 			str += '<div style="display: none;" id="inputAnswer'+num+'">정답을 입력 :&nbsp;&nbsp;&nbsp;<input id="yourText'+num+'" type="text"   style="border-left: none; border-right: none; border-top: none; "></div><br>';
 			this.test(num,text);
@@ -486,8 +487,8 @@ function playsound2(start7,dur7,num){
 
 
 function test(num,text){
+	var flag;
 	var oneWordAnswer=[];
-	
     var object;
     var compare=[];
     compare.push(text);
@@ -495,7 +496,7 @@ function test(num,text){
     $(document).ready(function(){
         $.ajax({
             type : "POST",
-            url : "https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=766258364c33527044357054725a7149306e684c4a4243764c384673444c355a2e554863662f306f696238",
+            url : "https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=366d3053312e464373564256676e4734546d324639766459634d6d7977366e494c323844634e6b69565837",
             ContentType : "application/json; charset=utf-8",
             dataType : 'json',
             data : {
@@ -520,11 +521,9 @@ function test(num,text){
 		                switch(c){
 		               case 0:
 		                 list += '원문: '+item2;
-		                 console.log("item 원문 판별 : "+item2);
 		                 //list += item2;
 		                 compare.push(item2);
 		                 if(item2.length>=2){
-		                	 console.log("item 이녀석 저장: "+item2);	 
 		                 oneWord2 = item2+':';
 		                 }
 		                 c++;
@@ -535,17 +534,14 @@ function test(num,text){
 	           		       //list += item2;
 	        	          if(oneWord2!=''){
 	        	          oneWord3 = item2+':';
-	        	          console.log("oneWord3의상태 :"+oneWord3);
 	        	          }
 	        	          c++;
 		                 break;
 		               case 2:
 		                 list += ' 읽기: '+item2+'<br>';
-		                 console.log(item2+'<br>');
 		                 //list += item2;
 		                 if(oneWord2!=''){
 		                 oneWord4 = item2;
-		                 console.log("oneWord4의상태 :"+oneWord4);
 		                 }
 		                 c=0;
 		                 break;
@@ -553,7 +549,6 @@ function test(num,text){
 		             });
 		              if(oneWord2!=''){
 		            	  oneWord =oneWord2+""+oneWord3+""+oneWord4;
-		            	  console.log("총합의상태 :"+oneWord);
 		            	  oneWordAnswer.push(oneWord);
 		            	  console.log("저장 직후의 상태 :"+oneWordAnswer);
 		              }
@@ -568,9 +563,15 @@ function test(num,text){
 	        	if(compare[i].length<2)continue;
 	          		//일치하는 부분을 답 입력 칸으로 변-환
 	          	    text = text.replace(compare[i],'<input type="text" id="'+num+''+i+'" onkeypress="answer('+num+','+i+')"; size="5"; style="border-left: none; border-right: none; border-top: none;">'+' ');
-	         }
+	          	}
 	          	//문제가 만들어지지 않았다면
-	          	if(!text.includes('<input type="text"') )return;
+	          	if(!text.includes('<input type="text"') ){
+	          		var failed = document.getElementsByName("a"+num);
+	          		for (var i = 0; i < failed.length; i++) {
+						failed[i].style.display="none";
+					}
+	          		return;
+	          	}
 	          	
 	          	
     $('#outputDiv'+num).html(text);
@@ -586,6 +587,12 @@ function test(num,text){
 
 //유저가 답을 입력한다. 여기에는 정답과, 문제 칸을 특정할 수 있는 조합을 불러와야 한다.
 function answer(num,i){
+	var contents_num;
+	$(document).ready(function(){
+	contents_num = $('#contents_num').val();
+	console.log('contents_num.value'+contents_num);
+	})
+	
  		//엔터를 입력했다면
 	if(event.keyCode==13){
 		
@@ -615,13 +622,15 @@ function answer(num,i){
 			document.getElementById('view'+num).style.display="none";
 		}
 		x.onclick = function(){
-			viewInfo(compare,num,contents_num)
+			
+			viewInfo(compare,num,contents_num);
+			
 			};
 	}
 }
  	//다이얼로그 띄워서 정보 보기
  	function viewInfo(words,ts_num,contents_num){
- 		
+ 		console.log("viewInfo"+contents_num);
  		//words, explanation 가져옴 div 만들어서 밑에 붙임 (거기에 다이얼로그)
  		console.log("words:"+words);
  		var div = document.createElement('div');
@@ -632,6 +641,8 @@ function answer(num,i){
  		// 다이얼로그
  		//데이터 밸류를 가져와서
  		var sentence = words[0];
+ 		var read = sentence;
+ 		//var sentence = document.getElementById('answers'+ts_num).value[0];
  		var answers=[];
  		for(var i=1;i<words.length;i++){
  			if(words[i].length<2)continue;
@@ -644,10 +655,11 @@ function answer(num,i){
  			var str = '<span  style="color: red; cursor:pointer" onclick="javascript:checkWord('+contents_num+','+ts_num+','+j+')">'+answers[j]+'</span>';
  			color = color.replace(answers[j],str);
  		}
+ 		console.log("read"+read);
  		//다이얼로그 내부 구문을 완성하고
  		var str = '<dialog class="mdl-dialog" id="viewInho">';
  		str += '<h4 class="mdl-dialog__title"> Study sentence </h4>';
- 		str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="재생" onclick="javascript:suzukikun('+contents_num+',\''+sentence+'\')">';
+ 		str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="재생" onclick="javascript:suzukikun('+contents_num+',\''+read+'\')">';
  		str += ' <div class="mdl-dialog__content"></div>';
  		str += '<div id="saveVoca" style="display: none"></div>';
  		str += '<div class=	"mdl-dialog__underunder" style="display: none"></div>'
@@ -671,11 +683,12 @@ function answer(num,i){
  			$('.mdl-dialog__underunder').html('');
  			$('#saveVoca').html('');
  		      dialog.close();
+ 		     checkMP3();
  		    });
 	         // window.open("../transcript/wordDetail?words="+words+"&ts_num="+ts_num+"&contents_num="+contents_num+"&explanation="+explanation, "wordDetail", "width=578, height=215, toolbar=no, menubar=no, scrollbars=no, location=no, status=no, resizable=no" );
  	}  
  	
- 	
+ 	//단어를 체크
  	function checkWord(contents_num,ts_num,j){
  		$(document).ready(function(){
  			console.log("j :"+j);
@@ -694,7 +707,7 @@ function answer(num,i){
  			console.log("kanji :"+kanji);console.log("part :"+part);console.log("mean :"+mean);
  			$('.mdl-dialog__underunder').html("원문 : "+kanji+" 품사 : "+part+" 의미 : "+mean);
  			$('.mdl-dialog__underunder').show();
- 			$('#saveVoca').html('<input type="button" class="mdl-button mdl-js-button mdl-button--primary" value="저장하기" onclick="javascript:saveToVoca('+ts_num+','+contents_num+',\''+sentence+'\')">');
+ 			$('#saveVoca').html('<input type="button" class="mdl-button mdl-js-button mdl-button--primary" value="저장하기" onclick="javascript:saveVoca('+ts_num+','+contents_num+',\''+sentence+'\')">');
  			$('#saveVoca').show();
  			// $('.mdl-dialog__underContent').show();
  			
@@ -702,36 +715,61 @@ function answer(num,i){
  		})
  	 		 
  	}
- 	
- 	
+ 	function saveVoca(ts_num,contents_num,sentence){
+ 		//단어 저장 ajax로
+ 	}
+	//음성합성
  	function suzukikun(contents_num,sentence){
  		/*
  		console.log("sentence옴:"+sentence);
  		location.href="../transcript/suzuki?sentence="+sentence+"&contents_num="+contents_num;
  		*/
- 		
+ 		console.log("contents_num in suzukikun"+contents_num);
+ 		console.log("sentence in suzukikun"+sentence);
  		$(document).ready(function(){
  			
  			 $.ajax({
  	            type : "POST",
  	            url : "../transcript/suzuki",
- 	            ContentType : "application/json; charset=utf-8",
- 	            dataType : 'application/mpeg',
+ 	            ContentType : "text/plain",
+ 	           dataType : 'json',
  	            data : {
  	               "sentence": sentence,	//여기가 문자열
  	               "contents_num" : contents_num 
  	              },
- 	            success : function(obj){
- 	            	console.log(obj);
+ 	            success : function(temp){
+ 	            	console.log("completetempname"+temp);
+ 	            	checkMP3(temp);
  	            	
+ 	            },
+ 	            error : function(){
+ 	            	console.log("fail");
+ 	            },
+ 	        });
+ 		 })
+ 		
+ 	}
+ 	function checkMP3(tempname){
+ 		console.log("tempname"+tempname);
+ 		$(document).ready(function(){
+ 			$.ajax({
+ 	            type : "POST",
+ 	            url : "../transcript/checkMP3",
+ 	            ContentType : "application/json; charset=utf-8",
+ 	           dataType : 'json',
+ 	            data : {
+ 	            	"tempname" : tempname
+ 	            	},
+ 	            success : function(){
+ 	            	console.log("success");
  	            },
  	            error : function(){
  	            	console.log("fail");
  	            }
  	        });
- 		 })
- 		
+ 		})
  	}
+ 
 
 function GoLive(){
 	
