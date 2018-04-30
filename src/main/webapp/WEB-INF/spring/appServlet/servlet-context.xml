@@ -2,6 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:websocket="http://www.springframework.org/schema/websocket"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
@@ -30,6 +31,22 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="com.h1b4.www" />
+	
+	<!-- LoginInterceptor 클래스 파일을 bean에 등록  -->
+    <beans:bean id="loginInterceptor" class="com.h1b4.www.common.interceptor.LoginInterceptor"></beans:bean>
+	  <!-- 인터셉터 설정 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/member/updateForm"/>
+            <mvc:mapping path="/contents/BookMark"/>
+            <mvc:mapping path="/contents/editSpace"/>
+            <mvc:mapping path="/contents/publishList"/>
+            <mvc:mapping path="/contents/studySpace"/>
+            
+            <beans:ref bean="loginInterceptor"/>            
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 	
 	<websocket:handlers>
         <websocket:mapping path="/echo" handler="myHandler"/>

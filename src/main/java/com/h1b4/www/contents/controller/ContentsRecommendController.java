@@ -25,7 +25,7 @@ public class ContentsRecommendController {
 	public void insertRecommend(int contents_num, HttpSession session)
 	{
 		logger.info("추천 입력 시작");
-		String member_id = "test001";//(String)session.getAttribute("member_id");
+		String member_id = (String)session.getAttribute("loginId");
 		Emotion emotion = new Emotion();
 		emotion.setMember_id(member_id);
 		emotion.setContents_num(contents_num);
@@ -50,7 +50,7 @@ public class ContentsRecommendController {
 	public Boolean selectRecommendOrNot(int contents_num, HttpSession session){
 		logger.info("추천 여부 확인");
 		
-		String member_id = "test001";//(String)session.getAttribute("loginId");
+		String member_id = (String)session.getAttribute("loginId");
 		
 		if(member_id == ""){
 			return false;
@@ -75,8 +75,8 @@ public class ContentsRecommendController {
 		logger.info("추천 삭제 시작");
 		
 		Emotion emotion = new Emotion();
-		
-		emotion.setMember_id("h1b4");
+		String member_id = (String)session.getAttribute("loginId");
+		emotion.setMember_id(member_id);
 		emotion.setContents_num(contents_num);
 		
 		service.deleteRecommend(emotion);
