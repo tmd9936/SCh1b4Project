@@ -156,7 +156,9 @@
 		  
 	    <!--오른쪽 리스트 클릭시 새롭게 생성되는 부분   -->
 	    <div id="divNewGSTL" class="secondView">
+
 	    	<div class="divNewView" id="divNewView" >
+
 	    	</div>
 	    	
 			<div class="speachView">
@@ -320,9 +322,7 @@
 	  
 	<div class="KindOfStudy" id="KindOfStudy">
 	 
-<!-- 
-	 <h5>연관 비디오</h5>		
- -->
+
 	 	<div class="KindOfStudy_List">
 	
 	 <!-- 	
@@ -378,18 +378,7 @@
 		
 		<div class="ShowReplyLeft">
 		
-
-		
-		</div>
-		
-		
-		<div class="ShowReplyRight">
-		
-		
-		</div>
-		
-		
-		<div class="insertReply">
+<div class="insertReply">
 	
 		
 		<form id="insertContentsReply" >
@@ -413,6 +402,17 @@
 	 			
 	 			
 		</div>	
+		
+		
+		</div>
+		
+		
+		<div class="ShowReplyRight">
+		
+		
+		</div>
+		
+		
 	    
 
 </div>

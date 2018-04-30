@@ -54,17 +54,9 @@
 <link rel="stylesheet"
   href="<c:url value="/resources/css/styles.css"></c:url>">
 
-
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.2.1.js" />"></script>   
  
 
- 
-<script>
- 
-
-
-
-</script>
 
 <style>
 .material-icons.md-18 { font-size: 18px; }

@@ -487,7 +487,7 @@ function test(num,text){
     $(document).ready(function(){
         $.ajax({
             type : "POST",
-            url : "https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=766258364c33527044357054725a7149306e684c4a4243764c384673444c355a2e554863662f306f696238",
+            url : "https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=366d3053312e464373564256676e4734546d324639766459634d6d7977366e494c323844634e6b69565837",
             ContentType : "application/json; charset=utf-8",
             dataType : 'json',
             data : {
@@ -725,11 +725,13 @@ function answer(num,i){
  		
  	}
 
+ var GoLiveState = false;
+ 
 function GoLive(){
+	var div = document.getElementById("divNewView");
+	//var teacher_name = document.getElementById("teacher_name");
 	
-	var div = document.getElementById("divNewGSTL");
-	var teacher_name = document.getElementById("teacher_name");
-	
+	if(!GoLiveState){
 	$.ajax({
 		
 		url : "selectAllTeacherList",
@@ -739,28 +741,22 @@ function GoLive(){
 			var str = '';
 			
 			/*초대할 친구 목록*/
-			str += '<div class ="chat_box" >';
+			str += '<div class ="chat_box">';
 			str += '<div class="chat_head" id="chat_head">Chatbox</div>';
 			str += '<div calss="chat_body" id="chat_body">';
 			
 			$.each(obj, function(index, item){
 				
-				str += '<div class="user" id="user'+index+'" data_index="'+index+'">'+item.teacher_name+'</div>';
-				console.log(item.teacher_name);
+				str += '<div class="user" id="user'+index+'" teacher_id ="'+item.teacher_id+'"data_index="'+index+'" >'+item.teacher_name+'</div>';
+				
 			});
 			
 			str += '</div>';
 			str += '</div>';
-			str += '<style type="text/css">'; 
-			str += '.secondView{'
-			str += 'width: 640px;';
-			str += 'height: 500px;';
-			str += 'border:1px solid;';
-			str += '}';
-			str	+='</style>';
-			div.innerHTML = str;
-			console.log(str);
 			
+		
+			
+			div.innerHTML = str;
 			
 			$('#chat_head').on('click' ,function(){
 				
@@ -769,7 +765,7 @@ function GoLive(){
 			});
 			
 			init3();
-			
+			GoLiveState = true;
 			
 		},
 		error : function(error){
@@ -777,40 +773,36 @@ function GoLive(){
 		}
 			
 		});/*선생님 리스트 불러오기 종료*/
-	    
-	
+	}else{
+		GoLiveState = false;
+		str = '';
+		div.innerHTML = str;
+		
+	}
 
 }
 
 
 
 function init3(){
-	var index = $(this).attr('data_index');
+	
 	
     /*유저 목록 클릭시*/
     //$('#user'+index+'').on('click', function(){
-    	
+	var teacher_id = $(this).attr('teacher_id');
+	var index = $(this).attr('data_index');
+	console.log(index);
+	
 	$('.user').on('click', function(){
-    	var div = document.getElementById("divNewGSTL");
-
+    	var div = document.getElementById("divNewView");
+    	
     	var str = '<div id="local-Videos-Container"></div>';
     	str += '<div id="remote-Videos-Container"></div>';
-    	
-    	/*초대할 친구 목록
-    	str += '<div class ="chat_box" >';
-    	str += '<div class="chat_head" id="chat_head">Chatbox</div>';
-    	str += '<div calss="chat_body" id="chat_body">';
-    	
-    	str += '<div class="user" id="user">Krishna Teja</div>';
-    	
-    	str += '</div>';
-    	str += '</div>';
-    	*/
     	
     	/*메시지 박스 */
     	str += '<input type="hidden" id="to" />';
     	
-    	str += '<div class="msg_box" style="right:290px">';
+    	str += '<div class="msg_box" >';
     	str += '<div class="msg_head" id="msg_head">Krishna Teja';
     	str += '<div class="close" id="close">x</div>';
     	str += '</div>';
@@ -849,14 +841,13 @@ function init3(){
     			$('.msg_box').hide();
     			
     		});
-    				
     	
     	// 테스트 시작
         var connection = new RTCMultiConnection();
 
      // or a free signaling server
      connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
-
+     
      // if you want audio+video conferencing
      connection.session = {
          audio: true,
@@ -873,23 +864,16 @@ function init3(){
      roomid.value = connection.token(); 
     	 //(Math.random() * 1000).toString().replace('.','');
      
-    
-     
      document.getElementById('btn-open-or-join-room').onclick = function(){
     	 this.disabled = true;
     	 connection.openOrJoin(roomid.value || 'predefiend-roomid', function(isRoomExists, roomid) {
           	  alert(isRoomExists ? 'You joined room' : 'You created room');
         	});
-    	 
      }
-     
-     //var localVideosContainer = document.getElementById('local-videos-container');
-     
-     //var remoteVideosContainer = document.getElementById('remote-videos-container');
-     
+    
      connection.onstream = function(event){
     	 var video = event.mediaElement;
-    	 
+    	 console.log(event);
     	 if(event.type === 'local'){
     		 $('#local-Videos-Container').html(video);
     	 }
@@ -901,22 +885,14 @@ function init3(){
      };
      
      
+
+     /*화면 공유 시작*/
      
-     /*
-     var roomid = document.getElementById('txt-roomid');
-     roomid.value = connection.token();
-     
-     document.getElementById('btn-open-or-join-room').onclick = function(){
-    	 
-    	 this.disabled = true;
-    	 connection.openOrJoin(roomid.value || 'predefiend-roomid');
-     }
-     */
-    
-     
-    	 //테스트 종료 
-        
+   
+        /*화면 공유 종료 */
     	
+     
+     /*소켓 메세지, 방 생성 */
     	var sock = null;
     	var message = {};
     	
@@ -1474,7 +1450,7 @@ function init2(){
 			
 			var reply_num = $(this).attr('data_num');
 			console.log(reply_num);
-			alert(reply_num);
+			//alert(reply_num);
 			$.ajax({
 				
 				url : "contentsReplyDelete",
@@ -1522,7 +1498,7 @@ function init2(){
             	
             	var reply_num = $('#reply_num').val();
             	var reply_text2 = $('#reply_text2').val();
-            	alert(reply_text2);
+            	//alert(reply_text2);
             	$.ajax({
             	
             		url : "contentsReplyUpdate",
@@ -1536,7 +1512,7 @@ function init2(){
             		}),
             		
             		success : function(){
-            			alert("수정완료");
+            			//alert("수정완료");
             			$(this).attr('value', '수정');
             			$('#div'+reply_num).attr('value', reply_text2);
             			
