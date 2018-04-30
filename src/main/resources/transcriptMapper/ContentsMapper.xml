@@ -17,7 +17,7 @@
  			,category
  			,contents_url
  			,contents_hits
- 		
+ 			,member_id
  		from 
  			contents
  		where 
@@ -36,6 +36,7 @@
  			,category
  			,contents_url
  			,contents_hits
+ 			,member_id
  		
  		from 
  			contents
@@ -57,6 +58,10 @@
  			,contents_hits
  			,deletestate
  			,category
+			,member_id
+			
+ 			
+ 			
  		)values(
  			#{contents_num}
  			,#{contents_title}
@@ -66,6 +71,8 @@
  			,#{contents_hits}
  			,#{deletestate}
  			,#{category}
+			,#{member_id}
+			
  		)
  	</insert>
  	

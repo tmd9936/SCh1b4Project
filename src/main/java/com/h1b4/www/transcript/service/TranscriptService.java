@@ -363,9 +363,9 @@ public class TranscriptService {
 		 return youtubeUrl[1];
 	 }
 
-	public ArrayList<Transcript> selectEditList(Transcript ts) {
+	public ArrayList<Transcript> selectEditList(int contents_num) {
 
-		ArrayList<Transcript> tsList = tsdao.selectE(ts);
+		ArrayList<Transcript> tsList = tsdao.selectEdit(contents_num);
 
 		if (tsList == null) {
 			System.out.println("자막 값 없음");
@@ -377,10 +377,10 @@ public class TranscriptService {
 		return tsList;
 	}
 	
-	public ArrayList<Transcript> selectTranscript(Transcript ts){
+	public ArrayList<Transcript> selectTranscript(int contents_num){
 		 
 		 
-		 ArrayList<Transcript> tsList =  tsdao.selectT(ts);
+		 ArrayList<Transcript> tsList =  tsdao.selectTrans(contents_num);
 		 
 		 if(tsList == null){
 			 System.out.println("자막 값 없음");

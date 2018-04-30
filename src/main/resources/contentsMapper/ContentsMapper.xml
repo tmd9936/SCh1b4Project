@@ -161,4 +161,16 @@
 	
 	</select>	
 	
+	<!-- 멤버별 publish 한 컨텐츠 조회 -->
+	<select id="selectPublishList" parameterType="String" resultType="contents">
+		select 
+			*
+			from
+			contents
+		where
+			member_id = #{member_id}
+	
+	
+	</select>
+	
 </mapper>

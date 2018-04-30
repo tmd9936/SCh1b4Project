@@ -233,4 +233,20 @@ public class ContentsDAO {
 		
 		logger.info("DAO 북마크 삭제 종료");
 	}
+	
+	
+	//로그인 ID 로 publish 목록 불러오기
+	public ArrayList<Contents> selectPublishList(String member_id){
+		ArrayList<Contents> list = null;
+		ContentsMapper mapper = sqlSession.getMapper(ContentsMapper.class);
+		
+		try {
+			list = mapper.selectPublishList(member_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
 }

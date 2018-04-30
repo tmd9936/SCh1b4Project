@@ -7,7 +7,7 @@ create table member(
     ,member_password varchar2(20) not null
     ,member_name varchar2(20) not null
     ,nation varchar2(20) not null
-    ,point varchar(2) default 0
+    ,point number default 0
 );
 
 drop table teacher;
@@ -47,6 +47,7 @@ create table transcript(
     ,ts_start varchar2(20) not null
     ,ts_dur varchar2(20) not null
     ,ts_text varchar2(1000) not null
+    ,status number default 0	
     ,constraint contents_fk foreign key(contents_num)
         references contents(contents_num) on delete cascade
 );

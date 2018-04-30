@@ -7,6 +7,9 @@
 		.mdl-card--expand{
 			cursor: pointer;
 		}
+		.contentsCard{
+			
+		}
 		
 	 </style>
 	 
@@ -74,7 +77,7 @@
     	<br>
 			<div class="inWrap">
 				<div class="fInner swiper-container swiper-container-horizontal swiper-container-free-mode">
-					<ul class="swiper-wrapper" style="transform: translate3d(-2019px, 0px, 0px); transition-duration: 0ms;">
+					<ul class="swiper-wrapper " style="transform: translate3d(-2019px, 0px, 0px); transition-duration: 0ms;">
 						<c:forEach var="category" items="${categoryList }" varStatus="status">
 							<c:choose>
 								<c:when test="${status.count == 1 }">

@@ -143,10 +143,10 @@ public class TranscriptController {
 	 * function : 자막 불러오기 Parametr : contents_num Return :ts 객체
 	 */
 	@RequestMapping(value = "tsselect", method = RequestMethod.GET)
-	public String selectT(Transcript ts, Model model) {
+	public String selectT(int contents_num, Model model) {
 
 		// TODO: 자막 Select
-		 ArrayList<Transcript> traList = transcriptService.selectTranscript(ts);
+		 ArrayList<Transcript> traList = transcriptService.selectTranscript(contents_num);
 		 
 		 model.addAttribute("tsList", traList);
 
@@ -157,11 +157,11 @@ public class TranscriptController {
 	/**
 	 * function : 편집용 자막 불러오기 Parametr : contents_num Return :ts 객체
 	 */
-	@RequestMapping(value = "editselect", method = RequestMethod.GET)
-	public String editselectT(Transcript ts, Model model) {
+	@RequestMapping(value = "editSelect", method = RequestMethod.GET)
+	public String editselectT(int contents_num, Model model) {
 
 		// TODO: 자막 Select
-		 ArrayList<Transcript> traList = transcriptService.selectEditList(ts);
+		 ArrayList<Transcript> traList = transcriptService.selectEditList(contents_num);
 		 
 		 model.addAttribute("editList", traList);
 
@@ -344,31 +344,19 @@ public class TranscriptController {
         return "transcript/wordDetail";
 	}
 
-
-
-	
-	
 	@RequestMapping(value="goEditSpace", method = RequestMethod.GET)
-	public String goEditSpace(Model model, Transcript ts){
+	public String goEditSpace(Model model, int contents_num){
 		
-		ArrayList<Transcript> tsList =  transcriptService.selectTranscript(ts);
+		ArrayList<Transcript> tsList =  transcriptService.selectTranscript(contents_num);
 		
-		String youtubeUrl = transcriptService.selectContentsUrl(ts.getContents_num());
+		ArrayList<Transcript> editList = transcriptService.selectEditList(contents_num);
+		String youtubeUrl = transcriptService.selectContentsUrl(contents_num);
 		
 		model.addAttribute("url", youtubeUrl);
 		model.addAttribute("tsList", tsList);
+		model.addAttribute("editList", editList);
 		
 		return "publish/editSpace";
-	}
-	
-	//편집공간 자막 한줄씩 넣기((사용안함))
-	@RequestMapping(value = "insertTsOne" , method = RequestMethod.POST)
-	@ResponseBody
-	public boolean insertTsOne(Transcript transcript){
-	
-			
-		
-		return false;
 	}
 	
 	@RequestMapping(value= "deleteTs" , method = RequestMethod.POST)
