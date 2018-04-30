@@ -407,13 +407,18 @@ function LearnTheWords(tslist){
 	div.style.overflow = "scroll";
 	if(!learnSpace){
 	var str3 = '<div class="Notice">';
+	str3 += '<input type="button" class="mdl-button mdl-js-button mdl-button--primary" value="타임구하기" onclick="javascript:getTime()">';
+	str3 += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="<<" onclick="javascript:playsound2(0)">';
+	str3 += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value=">>" onclick="javascript:playsound2(1)">';
+	str3 += '</hr>';
 	str3 += '</div>';
-	$('.divNewView').html(str3);
-	div.innerHTML  = str3;
+	//$('.divNewView').html(str3);
+	//div.innerHTML  = str3;
 	div.style.width="598px";
 	div.style.height="700px";
 	div.style.border="1px solid";
 	var str2='';
+	str2 += str3;
 		for (var i = 0; i < tslist.length; i++) {
 			var num  = tslist[i].ts_num;
 			var text = tslist[i].ts_text;
@@ -423,11 +428,9 @@ function LearnTheWords(tslist){
 			if(dur>10){str += '<hr/>';}
 			str = '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="듣기" onclick="javascript:playsound('+start+','+dur+')" name="a'+num+'">'
 			str += ' <input type="hidden" id="answers'+num+'">';
-			str += ' <div id="outputDiv'+num+'" style="display: inline;" data-value="1"></div>';
-			if(dur>10){
-				str += ' <input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="<<" onclick="javascript:playsound2('+start+','+dur+',0)" name="a'+num+'">';
-				str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value=">>" onclick="javascript:playsound2('+start+','+dur+',1)" name="a'+num+'">';
-			}
+			str += ' <input type="hidden" id="kana'+num+'">';
+			str += ' <div id="outputDiv'+num+'" style="display: inline;" ></div>';
+			
 			str += '<div id="list'+num+'" style="display: none;"></div>';
 			str += '<div style="display: none;" id="inputAnswer'+num+'">정답을 입력 :&nbsp;&nbsp;&nbsp;<input id="yourText'+num+'" type="text"   style="border-left: none; border-right: none; border-top: none; "></div><br>';
 			this.test(num,text);
@@ -447,7 +450,10 @@ function LearnTheWords(tslist){
 	}
 
 }
-
+function getTime(){
+	var currentTime = youTubePlayer.getCurrentTime();
+	alert(currentTime);
+}
 function playsound(start7,dur7){
 	done = false;
 	dur = dur7*2000;
@@ -455,20 +461,17 @@ function playsound(start7,dur7){
 	youTubePlayer.playVideo(); //유튜브 재생
 }
 
-function playsound2(start7,dur7,num){
+function playsound2(num){
 	done = false;
 	var currentTime;
 	switch(num){
 	case 1:
 		currentTime = youTubePlayer.getCurrentTime()+3;
-		console.log(currentTime);
 		break;
 	case 0:
 		currentTime = youTubePlayer.getCurrentTime()-3;
-		console.log(currentTime);
 		break;
 	}
-	dur = dur7*1500;
 	youTubePlayer.seekTo(currentTime,true);// 유튜브 시작위치
 	youTubePlayer.playVideo(); //유튜브 재생
 }
@@ -480,7 +483,9 @@ function test(num,text){
 	var oneWordAnswer=[];
     var object;
     var compare=[];
+    var kana=[];
     compare.push(text);
+    kana.push(text);
     //문장을 API를 이용해 분해,분석 하자.
     $(document).ready(function(){
         $.ajax({
@@ -528,6 +533,7 @@ function test(num,text){
 		                 break;
 		               case 2:
 		                 list += ' 읽기: '+item2+'<br>';
+		                 kana.push(item2);
 		                 //list += item2;
 		                 if(oneWord2!=''){
 		                 oneWord4 = item2;
@@ -544,14 +550,21 @@ function test(num,text){
 		         });
 		         $('#list'+num).text(oneWordAnswer);
 		         
+		         //히든 칸에 답을 입력한다
 		         var answers = document.getElementById('answers'+num);
 		        	answers.value = compare;
+		         var kanas = document.getElementById('kana'+num);
+		         	kanas.value = kana;
+		        	
+		        	
 		          //문제가 만들어지는 공간마다 답 입력칸을 만들어 준다.
 	          	for (var i = 1; i < compare.length; i++) {
 	          		//너무 짧은 건 넘기고
 	        	if(compare[i].length<2)continue;
 	          		//일치하는 부분을 답 입력 칸으로 변-환
-	          	    text = text.replace(compare[i],'<input type="text" id="'+num+''+i+'" onkeypress="answer('+num+','+i+')"; size="5"; style="border-left: none; border-right: none; border-top: none;">'+' ');
+	        	var holder = compare[i].length;
+	          	    text = text.replace(compare[i],'<input type="text" id="'+num+''+i+'" onkeypress="answer('+num+','+i+')"; placeholder="'+holder+'"size="'+holder+'"; style="border-left: none; border-right: none; border-top: none;">'+' ');
+	          	    console.log('compare['+i+'] :'+compare[i]);
 	          	}
 	          	//문제가 만들어지지 않았다면
 	          	if(!text.includes('<input type="text"') ){
@@ -587,39 +600,48 @@ function answer(num,i){
 		
 		var yourAnswer = document.getElementById(num+''+i);
 		var correctAnswer = document.getElementById('answers'+num);
+		var correctKana = document.getElementById('kana'+num);
 		var compare = [];
+		var kana = [];
 		compare = correctAnswer.value.split(",");
-		console.log("compare[i] :"+compare[i]);
+		kana = correctKana.value.split(",");
+		console.log("compare["+i+"] :"+compare[i]);
+		console.log("kana["+i+"] :"+kana[i]);
 		var x = document.createElement("INPUT");
 		
-		//답이 일치하지 않으면
-		if(yourAnswer.value != compare[i]){
+		//답이 일치하면
+		if(yourAnswer.value == compare[i] || yourAnswer.value == kana[i]){
+
+			yourAnswer.disabled=true;
+			if(document.getElementById('view'+num)!=null)
+			document.getElementById('view'+num).style.display="none";
+			console.log('1번'+'view'+num);
+			console.log('2번'+'view'+(num+1));
+			document.getElementById('view'+(num+1)).focus();
+			//일치하면
+		}else{
 			if(document.getElementById('view'+num)== null){
 				x.setAttribute("id","view"+num);
 				x.setAttribute("type", "button");
 				x.setAttribute("value","정보 보기");
 				x.setAttribute("class","mdl-button mdl-js-button mdl-button--accent");
+				x.setAttribute("data-value",num);
 				document.getElementById('outputDiv'+num).appendChild(x);
-				
 			}
 			document.getElementById('view'+num).style.display="block";
-			
-			//일치하면
-		}else{
-			yourAnswer.disabled=true;
-			if(document.getElementById('view'+num)!=null)
-			document.getElementById('view'+num).style.display="none";
 		}
 		x.onclick = function(){
-			
-			viewInfo(compare,num,contents_num);
+			console.log("data-value :"+this.getAttribute("data-value"));
+			var mynum = this.dataset.value;
+			console.log("mynum"+mynum);
+			viewInfo(compare,mynum,contents_num);
 			
 			};
 	}
 }
  	//다이얼로그 띄워서 정보 보기
  	function viewInfo(words,ts_num,contents_num){
- 		console.log("viewInfo"+contents_num);
+ 		console.log("viewInfo"+ts_num);
  		//words, explanation 가져옴 div 만들어서 밑에 붙임 (거기에 다이얼로그)
  		console.log("words:"+words);
  		var div = document.createElement('div');
@@ -648,7 +670,7 @@ function answer(num,i){
  		//다이얼로그 내부 구문을 완성하고
  		var str = '<dialog class="mdl-dialog" id="viewInho">';
  		str += '<h4 class="mdl-dialog__title"> Study sentence </h4>';
- 		str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="재생" onclick="javascript:suzukikun('+contents_num+',\''+read+'\')">';
+ 		str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="재생" onclick="javascript:suzukikun('+contents_num+','+ts_num+')">';
  		str += ' <div class="mdl-dialog__content"></div>';
  		str += '<div id="saveVoca" style="display: none"></div>';
  		str += '<div class=	"mdl-dialog__underunder" style="display: none"></div>'
@@ -671,6 +693,7 @@ function answer(num,i){
  		 dialog.querySelector('.mdl-dialog__actions').addEventListener('click', function() {
  			$('.mdl-dialog__underunder').html('');
  			$('#saveVoca').html('');
+ 			div.innerHTML="";
  		      dialog.close();
  		     checkMP3();
  		    });
@@ -708,27 +731,26 @@ function answer(num,i){
  		//단어 저장 ajax로
  	}
 	//음성합성
- 	function suzukikun(contents_num,sentence){
+ 	function suzukikun(contents_num,ts_num){
  		/*
  		console.log("sentence옴:"+sentence);
  		location.href="../transcript/suzuki?sentence="+sentence+"&contents_num="+contents_num;
  		*/
  		console.log("contents_num in suzukikun"+contents_num);
- 		console.log("sentence in suzukikun"+sentence);
+ 		console.log("ts_num in suzukikun"+ts_num);
  		$(document).ready(function(){
  			
  			 $.ajax({
  	            type : "POST",
  	            url : "../transcript/suzuki",
- 	            ContentType : "text/plain",
+ 	           ContentType : "application/json; charset=utf-8",
  	           dataType : 'json',
  	            data : {
- 	               "sentence": sentence,	//여기가 문자열
- 	               "contents_num" : contents_num 
+ 	               "contents_num": contents_num,	//여기가 문자열
+ 	               "ts_num" : ts_num 
  	              },
- 	            success : function(temp){
- 	            	console.log("completetempname"+temp);
- 	            	checkMP3(temp);
+ 	            success : function(){
+ 	            	checkMP3();
  	            	
  	            },
  	            error : function(){
@@ -738,17 +760,11 @@ function answer(num,i){
  		 })
  		
  	}
- 	function checkMP3(tempname){
- 		console.log("tempname"+tempname);
+ 	function checkMP3(){
  		$(document).ready(function(){
  			$.ajax({
  	            type : "POST",
  	            url : "../transcript/checkMP3",
- 	            ContentType : "application/json; charset=utf-8",
- 	           dataType : 'json',
- 	            data : {
- 	            	"tempname" : tempname
- 	            	},
  	            success : function(){
  	            	console.log("success");
  	            },

@@ -2,7 +2,10 @@
 
 
 /* 메세지  시작 */
-
+input.placeholder{
+	color: graytext;
+	text-align: center;
+}
 video{
 	
 	width: 100%;
@@ -35,6 +38,7 @@ body{
 	background: #16a085;
 	font-family: sans-serif;
 	margin:0px;
+	font-size: large;
 	
 }
 

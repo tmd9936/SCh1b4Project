@@ -213,9 +213,12 @@ public class TranscriptController {
 //	}
 	@ResponseBody
 	@RequestMapping(value="suzuki", method=RequestMethod.POST)
-	public String suzuki(@RequestParam(value="sentence")String sentence,@RequestParam(value="contents_num")String contents_num) {
-		System.out.println(sentence);
-		String tempname =Long.valueOf(new Date().getTime()).toString();
+	public void suzuki(@RequestParam(value="contents_num")String contents_num,@RequestParam(value="ts_num")String ts_num) {
+		
+		Transcript ts = transcriptService.tsnum(Integer.parseInt(contents_num), Integer.parseInt(ts_num));
+		String sentence = ts.getTs_text();
+		//String tempname =Long.valueOf(new Date().getTime()).toString();
+		String tempname = "suzuki";
 		tempname += ".mp3";
 		String PATH = "C:\\Users\\SCIT\\Desktop\\";
 		String temp = PATH+""+tempname;
@@ -249,22 +252,23 @@ public class TranscriptController {
 		                // 랜덤한 이름으로 mp3 파일 생성
 		               // tempname = Long.valueOf(new Date().getTime()).toString();
 		                String suzuki = "suzuki";
-		                //File f = new File(suzuki + ".mp3");
-		                File f = new File(tempname);
+		                File f = new File(suzuki + ".mp3");
+		                //File f = new File(tempname);
 		                f.createNewFile();
 		                System.out.println("무사히 여기로 도착3");
-		                //String bip = PATH+""+suzuki+".mp3";
+		                String bip = PATH+""+suzuki+".mp3";
 		                
-		                OutputStream outputStream = new FileOutputStream(new File("C:\\Users\\SCIT\\Desktop\\"+tempname));
+		                OutputStream outputStream = new FileOutputStream(new File(bip));
 		                
 		                while ((read =is.read(bytes)) != -1) {
 		                    outputStream.write(bytes, 0, read);
 		                }
-		                System.out.println("bip :"+temp);
-		               FileInputStream fis = new FileInputStream(temp);
+		                System.out.println("bip :"+bip);
+		               FileInputStream fis = new FileInputStream(bip);
 		                Player playMP3 = new Player(fis);
 
 		                playMP3.play();
+		                playMP3.close();
 		                System.out.println(4);
 		                /*
 		                File e = new File(PATH+""+bip);
@@ -305,22 +309,18 @@ public class TranscriptController {
 		        	sdl.close();
 		        }
 		        */
-		        System.out.println("마지막temp"+temp);
-		        return temp;
+		        System.out.println("마지막bip"+temp);
 		
 	}
 
 	@ResponseBody
 	@RequestMapping(value="checkMP3", method=RequestMethod.POST)
-	public void checkMP3(@RequestParam(value="tempname") String tempname) {
-		System.out.println("tempname123"+tempname);
-		//String bip = "C:/Users/SCIT/Desktop/suzuki.mp3";
+	public void checkMP3() {
+		String bip = "C:/Users/SCIT/Desktop/suzuki.mp3";
 		
-		String temp1 = tempname.replaceAll("\\\\","/");
+		//String temp1 = tempname.replaceAll("\\\\","/");
 		//String bip = "C:/Users/SCIT/Desktop/"+temp1;
-		String bip = temp1;
-		System.out.println("temp1"+temp1);
-		System.out.println("bip"+bip);
+		//String bip = temp1;
 		try {
 			FileInputStream fis = new FileInputStream(bip);
 			Player playMP3 = new Player(fis);
