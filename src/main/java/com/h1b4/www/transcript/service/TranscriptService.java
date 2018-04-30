@@ -107,7 +107,7 @@ public class TranscriptService {
 				temp = tsList.get(num);
 				String body = "{\"sentence\":\""+temp.getTs_text()+"\",\"info_filter\":\"form|pos|read\",\"pos_filter\":\"名詞|連用詞|動詞活用語尾|動詞接尾辞|動詞語幹\"}";
 				try {
-					URI uri = new URI("https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=766258364c33527044357054725a7149306e684c4a4243764c384673444c355a2e554863662f306f696238");
+					URI uri = new URI("https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=366d3053312e464373564256676e4734546d324639766459634d6d7977366e494c323844634e6b69565837");
 					URL url = uri.toURL();
 					HttpsURLConnection huc = (HttpsURLConnection)url.openConnection();
 					huc.setRequestMethod("POST");

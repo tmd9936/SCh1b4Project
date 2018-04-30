@@ -53,23 +53,12 @@
 <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
 <link rel="stylesheet"
   href="<c:url value="/resources/css/styles.css"></c:url>">
-<script src="path/to/jquery.js"></script>
-<script src="<c:url value="/resources/dist/jquery.mmenu.js" />"></script>
-<link href=" <c:url value="/resources/dist/jquery.mmenu.css" />" rel="stylesheet" />
+
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.2.1.js" />"></script>   
  
 
  
-<script>
- 
 
-$(document).ready(function() {
-   $("#my-menu").mmenu({
-      // options
-   });
-});
-
-</script>
 
 <style>
 .material-icons.md-18 { font-size: 18px; }
