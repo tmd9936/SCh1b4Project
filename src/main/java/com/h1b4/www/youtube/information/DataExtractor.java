@@ -28,7 +28,7 @@ public class DataExtractor {
 	 * @return contents를 리턴
 	 * @throws IOException
 	 */
-	public Contents getVideoData(String videoUrl) throws IOException {
+	public Contents getVideoData(String videoUrl, String loginId) throws IOException {
 
 		Document doc = Jsoup.connect(videoUrl).header("User-Agent", "Chrome").get();
 
@@ -108,6 +108,7 @@ public class DataExtractor {
 		contents.setThumbnail(videoThumbnail);
 		contents.setEndtime(dur);
 		contents.setDeletestate("no");
+		contents.setMember_id(loginId);
 
 		return contents;
 	}

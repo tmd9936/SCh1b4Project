@@ -12,6 +12,7 @@ import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,9 +65,12 @@ public class YoutubeController {
 	}
 	
 	@RequestMapping(value="ytDown", method= RequestMethod.GET)
-	public String writeGcs(HttpServletResponse resp, HttpServletRequest req,String youtube) throws IOException, Exception{
+	public String writeGcs(HttpServletResponse resp, HttpServletRequest req,String youtube, HttpSession session) throws IOException, Exception{
 		logger.info("유튭 다운 시작");
-		int result = downService.download(youtube);
+		
+		String loginId = (String)session.getAttribute("loginId");
+		
+		int result = downService.download(youtube, loginId);
 		System.out.println(result);
 		/*if(result == 0 || result == -1) {
 			return "test";

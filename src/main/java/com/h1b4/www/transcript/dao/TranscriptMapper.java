@@ -15,9 +15,9 @@ public interface TranscriptMapper {
 	
 	public void insertEditList(List<Transcript> ts);
 	
-	public ArrayList<Transcript> selectT(Transcript ts);
+	public ArrayList<Transcript> selectT(int contents_num);
 
-	public ArrayList<Transcript> selectE(Transcript ts);
+	public ArrayList<Transcript> selectE(int contents_num);
 	
 	public int insertTsOne(Transcript transcript);
 	

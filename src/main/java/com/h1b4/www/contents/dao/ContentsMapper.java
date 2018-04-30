@@ -45,4 +45,8 @@ public interface ContentsMapper {
 	
 	//해당 컨테츠 북마크 여부 확인  
 	public Bookmark selectBookmarkOrNot(Bookmark bookmark);
+	
+	//Select By MemberId for Publish
+	public ArrayList<Contents> selectPublishList(String member_id);
+	
 }

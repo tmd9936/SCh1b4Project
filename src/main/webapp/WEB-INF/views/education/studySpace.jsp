@@ -317,9 +317,9 @@
 	  
 	<div class="KindOfStudy" id="KindOfStudy">
 	 
-
+<!-- 
 	 <h5>연관 비디오</h5>		
-
+ -->
 	 	<div class="KindOfStudy_List">
 	
 	 <!-- 	

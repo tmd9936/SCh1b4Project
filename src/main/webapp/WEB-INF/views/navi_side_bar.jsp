@@ -242,10 +242,11 @@ margin-left: -24px;
           <i class="mdl-color-text--blue-grey-400 material-icons"  role="presentation">playlist_add</i>영상추가</a>
         <a class="mdl-navigation__link"  href="../contents/BookMark">
           <i class="mdl-color-text--blue-grey-400 material-icons"  role="presentation">bookmark</i>Bookmark</a>
+        <a class="mdl-navigation__link"  href="../contents/publishList">
+          <i class="mdl-color-text--blue-grey-400 material-icons"  role="presentation">flag</i>Edit</a>
         <a class="mdl-navigation__link"  href="">
           <i class="mdl-color-text--blue-grey-400 material-icons"  role="presentation">forum</i>Forums</a>
-        <a class="mdl-navigation__link"  href="">
-          <i class="mdl-color-text--blue-grey-400 material-icons"  role="presentation">flag</i>Updates</a>
+        
         
         
         <div class="mdl-layout-spacer"></div>

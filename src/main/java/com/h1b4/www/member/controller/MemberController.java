@@ -1,6 +1,8 @@
 package com.h1b4.www.member.controller;
 
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;

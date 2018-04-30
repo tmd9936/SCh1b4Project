@@ -47,5 +47,23 @@
 	where
 		member_id = #{member_id}
 	</update>
+	
+	<!-- Update Query For Member's POINT -->
+	<update id="updateMemberPnt" parameterType="hashmap">
+		update member
+		set
+		<if test="pntType == 'publish'">
+			point = point +3
+		</if>
+		<if test="pntType == 'reply'">
+			point = point +1
+		</if>
+		<if test="pntType == 'recommend'">
+			point = point +2
+		</if>
+		where
+			member_id = #{member_id}
+			
+	</update>
   	
   </mapper>

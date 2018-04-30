@@ -1,10 +1,13 @@
 package com.h1b4.www.member.dao;
 
+import java.util.HashMap;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.h1b4.www.vo.Member;
+
 
 @Repository
 public class MemberDAO {
@@ -57,4 +60,16 @@ public class MemberDAO {
 		
 		return result;		
 	}
+	
+	//멤버 포인트
+		public void updateMemberExp(HashMap<String, Object> map){
+			MemberMapper mapper = sqlsession.getMapper(MemberMapper.class);
+			
+			try {
+				mapper.updateMemberPnt(map);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
 }
