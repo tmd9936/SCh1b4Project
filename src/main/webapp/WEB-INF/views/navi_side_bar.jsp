@@ -27,7 +27,7 @@
 
 <!-- Add to homescreen for Chrome on Android -->
 <meta name="mobile-web-app-capable" content="yes">
-<link rel="icon" sizes="192x192" href="images/android-desktop.png">
+
 <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
  
  
@@ -36,7 +36,7 @@
   content="images/touch/ms-touch-icon-144x144-precomposed.png">
 <meta name="msapplication-TileColor" content="#3372DF">
  
-<link rel="shortcut icon" href="images/favicon.png">
+
  
 <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
 <!-- 
@@ -53,23 +53,10 @@
 <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
 <link rel="stylesheet"
   href="<c:url value="/resources/css/styles.css"></c:url>">
-<script src="path/to/jquery.js"></script>
-<script src="<c:url value="/resources/dist/jquery.mmenu.js" />"></script>
-<link href=" <c:url value="/resources/dist/jquery.mmenu.css" />" rel="stylesheet" />
+
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.2.1.js" />"></script>   
  
 
- 
-<script>
- 
-
-$(document).ready(function() {
-   $("#my-menu").mmenu({
-      // options
-   });
-});
-
-</script>
 
 <style>
 .material-icons.md-18 { font-size: 18px; }
@@ -141,6 +128,13 @@ margin-left: -24px;
     position: absolute
     }
  
+ material-icons{
+ color: white;
+ }
+ .arrow{
+ 	margin: 0px auto;
+ }
+ 
 </style>
 
 </head>
@@ -207,7 +201,8 @@ margin-left: -24px;
           
           <button id="accbtn"
             class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-            <i class="material-icons" role="presentation">arrow_drop_down</i>
+            
+            <i class="material-icons md-light arrow" role="presentation">arrow_drop_down</i>
             <span class="visuallyhidden">Accounts</span>
           </button>
            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
@@ -239,10 +234,11 @@ margin-left: -24px;
           <i class="mdl-color-text--blue-grey-400 material-icons"  role="presentation">playlist_add</i>영상추가</a>
         <a class="mdl-navigation__link"  href="../contents/BookMark">
           <i class="mdl-color-text--blue-grey-400 material-icons"  role="presentation">bookmark</i>Bookmark</a>
+        <a class="mdl-navigation__link"  href="../contents/publishList">
+          <i class="mdl-color-text--blue-grey-400 material-icons"  role="presentation">flag</i>Edit</a>
         <a class="mdl-navigation__link"  href="">
           <i class="mdl-color-text--blue-grey-400 material-icons"  role="presentation">forum</i>Forums</a>
-        <a class="mdl-navigation__link"  href="">
-          <i class="mdl-color-text--blue-grey-400 material-icons"  role="presentation">flag</i>Updates</a>
+        
         
         
         <div class="mdl-layout-spacer"></div>

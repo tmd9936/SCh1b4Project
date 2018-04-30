@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.h1b4.www.contents.service.ContentReplyService;
+import com.h1b4.www.member.dao.MemberDAO;
+import com.h1b4.www.member.service.MemberService;
 import com.h1b4.www.utils.PageNavigator;
 import com.h1b4.www.vo.ContentsReply;
+import com.h1b4.www.vo.Member;
 
 @Controller
 @RequestMapping(value="contents")
@@ -31,14 +34,25 @@ public class ContentsReplyController {
 	/*@Autowired
 	ContentsReplyDAO contentsreplydao;*/
 	
+	@Autowired
+	MemberService memberService;
 	
+	@Autowired
+	MemberDAO memberDao;
 
 	@ResponseBody
 	@RequestMapping(value="contentsReplyInsert", method = RequestMethod.POST)
-	public void contentsReplyInsert(@RequestBody ContentsReply contentsreply){
+	public void contentsReplyInsert(@RequestBody ContentsReply contentsreply, HttpSession session){
 		logger.info("댓글 입력 시작");	
+		String loginId = (String)session.getAttribute("loginId");
+		contentsreply.setMember_id(loginId);
 		
-		contentsreply.setMember_id("h1b4");
+		
+		memberService.updatePnt(loginId, "reply");
+		
+		Member member = memberDao.searchMemberOne(loginId);
+		
+		session.setAttribute("point", member.getPoint());
 		
 		contentReplyService.insertContentsReply(contentsreply);
 		System.out.println(contentsreply);
@@ -101,10 +115,10 @@ public class ContentsReplyController {
 	
 	@ResponseBody
 	@RequestMapping(value="contentsReplyDelete", method = RequestMethod.POST)
-	public void contentsReplyDelete(@RequestBody ContentsReply contentsreply){
+	public void contentsReplyDelete(@RequestBody ContentsReply contentsreply, HttpSession session){
 		logger.info("댓글 삭제 시작");
-		
-		contentsreply.setMember_id("h1b4");
+		String loginId = (String)session.getAttribute("loginId");
+		contentsreply.setMember_id(loginId);
 		System.out.println(contentsreply);
 		contentReplyService.deleteContentsReply(contentsreply);
 		
@@ -114,9 +128,10 @@ public class ContentsReplyController {
 	
 	@ResponseBody
 	@RequestMapping(value="contentsReplyUpdate", method = RequestMethod.POST)
-	public void updateReply(@RequestBody ContentsReply contentsreply){
+	public void updateReply(@RequestBody ContentsReply contentsreply, HttpSession session){
 		logger.info("댓글 수정 시작");
-		contentsreply.setMember_id("h1b4");
+		String loginId = (String)session.getAttribute("loginId");
+		contentsreply.setMember_id(loginId);
 		System.out.println(contentsreply);
 		contentReplyService.updateContentsReply(contentsreply);
 		logger.info("댓글 수정 종료");

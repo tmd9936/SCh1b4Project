@@ -7,6 +7,9 @@
 		.mdl-card--expand{
 			cursor: pointer;
 		}
+		.contentsCard{
+			
+		}
 		
 	 </style>
 	 
@@ -74,17 +77,17 @@
     	<br>
 			<div class="inWrap">
 				<div class="fInner swiper-container swiper-container-horizontal swiper-container-free-mode">
-					<ul class="swiper-wrapper" style="transform: translate3d(-2019px, 0px, 0px); transition-duration: 0ms;">
+					<ul class="swiper-wrapper " style="transform: translate3d(-2019px, 0px, 0px); transition-duration: 0ms;">
 						<c:forEach var="category" items="${categoryList }" varStatus="status">
 							<c:choose>
 								<c:when test="${status.count == 1 }">
-									<li class="swiper-slide swiper-slide-active"><a href="#"><span>${category.category_kr }</span></a></li>
+									<li class="swiper-slide swiper-slide-active category"><a href="#"><span>${category.category_kr }</span></a></li>
 								</c:when>
 								<c:when test="${status.count == 2 }">
-									<li class="swiper-slide swiper-slide-next"><a href="#"><span>${category.category_kr }</span></a></li>
+									<li class="swiper-slide swiper-slide-next category"><a href="#"><span>${category.category_kr }</span></a></li>
 								</c:when>
 								<c:otherwise>
-									<li class="swiper-slide"><a href="#"><span>${category.category_kr }</span></a></li>
+									<li class="swiper-slide category"><a href="#"><span>${category.category_kr }</span></a></li>
 								</c:otherwise>
 							</c:choose>
 							

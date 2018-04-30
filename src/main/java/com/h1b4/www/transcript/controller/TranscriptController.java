@@ -143,10 +143,10 @@ public class TranscriptController {
 	 * function : 자막 불러오기 Parametr : contents_num Return :ts 객체
 	 */
 	@RequestMapping(value = "tsselect", method = RequestMethod.GET)
-	public String selectT(Transcript ts, Model model) {
+	public String selectT(int contents_num, Model model) {
 
 		// TODO: 자막 Select
-		 ArrayList<Transcript> traList = transcriptService.selectTranscript(ts);
+		 ArrayList<Transcript> traList = transcriptService.selectTranscript(contents_num);
 		 
 		 model.addAttribute("tsList", traList);
 
@@ -157,11 +157,11 @@ public class TranscriptController {
 	/**
 	 * function : 편집용 자막 불러오기 Parametr : contents_num Return :ts 객체
 	 */
-	@RequestMapping(value = "editselect", method = RequestMethod.GET)
-	public String editselectT(Transcript ts, Model model) {
+	@RequestMapping(value = "editSelect", method = RequestMethod.GET)
+	public String editselectT(int contents_num, Model model) {
 
 		// TODO: 자막 Select
-		 ArrayList<Transcript> traList = transcriptService.selectEditList(ts);
+		 ArrayList<Transcript> traList = transcriptService.selectEditList(contents_num);
 		 
 		 model.addAttribute("editList", traList);
 
@@ -275,142 +275,14 @@ public class TranscriptController {
 	public HashMap<String, Object> streamOnMic(@RequestBody String base64data,HttpSession session) {
 		
 		String member_id = (String)session.getAttribute("loginId");
-		
-
 		// 세션에서 멤버아이디 가져와야됨
 		//String member_id = "h1b4";
-		String ytFileName = "mG68_hkc29po";
-		double per = 0;
+
+		//String ytFileName = "mG68_hkc29po";
+		//double per = 0;
+
 		
-		try {
-
-			System.out.println("incoming message ...");
-			// int size = base64data.split("\n").length;
-			String s[] = base64data.split("\n");
-
-			String base64 = s[3].replace("\r", "");
-			String contents_num = s[7].replace("\r", "");
-			int start = (int) Float.parseFloat(s[11].replace("\r", ""));
-			float dur = Float.parseFloat(s[15].replace("\r", ""));
-			// int end =
-			// (int)(Float.parseFloat(s[11].replace("\r",""))+Float.parseFloat(s[15].replace("\r","")));
-
-			System.out.println(contents_num + " " + start + " " + dur);
-			byte[] decodedByte = org.apache.commons.codec.binary.Base64.decodeBase64(base64.split(",")[1].getBytes());
-
-			// String test = base64data.split(",")[1].substring(0,
-			// base64data.compareTo("------WebKitFormBoundary"));
-			// System.out.println(t);
-
-			/*
-			 * File file = new File("c:/tmp/"+member_id); if(!file.isDirectory()) {
-			 * file.mkdir(); }
-			 */
-
-			FileOutputStream fos = new FileOutputStream("c:/tmp/test/" + member_id + ytFileName + ".wav");
-
-			// 저장할 파일명을 오늘 날짜의 년월일로 생성
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-			String savedFilename = sdf.format(new Date());
-
-			savedFilename += member_id;
-
-			File safile = new File("c:/tmp/test/" + savedFilename + ".wav");
-			if (safile.isFile()) {
-				safile.delete();
-			}
-
-			// 유저아이디 붙히기
-			String command = "ffmpeg -ss " + start + " -t " + dur + " -i c:/tmp/test/" + ytFileName
-					+ ".wav -acodec copy " + savedFilename + ".wav";
-
-			youService.commandffmpeg(command);
-
-			fos.write(decodedByte);
-			fos.flush();
-			fos.close();
-
-			ConsoleMain consoleMain = new ConsoleMain(savedFilename + ".wav", member_id);
-			List<Double> ytArr = consoleMain.getData();
-
-			ConsoleMain consoleMain2 = new ConsoleMain(member_id + ytFileName + ".wav", member_id);
-			List<Double> memArr = consoleMain2.getData();
-				
-			System.out.println("size = " + ytArr.size()); 
-			System.out.println("size = " + memArr.size());
-			
-			
-			if(ytArr.size() > memArr.size()) {
-				for(int i=memArr.size(); i<ytArr.size(); i++) {
-					memArr.add(0.0);
-				}
-			}else {
-				memArr = memArr.subList(0, ytArr.size());
-			}
-			
-			int val = 200;
-			
-			System.out.println("size = " + ytArr.size());
-			System.out.println("size = " + memArr.size());
-			
-			int cnt = ytArr.size()/5;
-			int a = 0;
-			int b = 0;
-			
-			int x = 0;
-			int y = 0;
-			int ok = 0; // 횟수
-			
-			if(cnt == 0) {
-				for(int i = 0; i<ytArr.size(); i++) {
-					a += ytArr.get(i); 
-				}
-				for(int j = 0; j<memArr.size(); j++) {
-					b += memArr.get(j);
-				}
-				
-				per = (a>b) ? b/a : a/b;
-			}else {
-				for(int i=0; i<cnt; i++) {
-					for(a=b; a<b+5; a++) {
-						x += ytArr.get(a);
-						y += memArr.get(b);
-					}
-					if(y>x-val && y<x+val) {
-						ok++;
-					}
-					b +=5;
-					x=0;
-					y=0;
-				}
-				for(int i=cnt*5; i<ytArr.size(); i++) {
-					x += ytArr.get(i);
-					y += memArr.get(i);	
-				}
-				if(y>x-val && y<x+val) {
-					ok++;
-				}
-			}
-			
-			per = ((ok*1.0)/(cnt*1.0))*100;
-			HashMap<String, Object> resultMap = new HashMap<>();
-			resultMap.put("per", per);
-			resultMap.put("ytArr", ytArr);
-			resultMap.put("memArr",memArr);
-			
-			return resultMap;
-		} catch (Exception e) {
-			e.printStackTrace();
-			// TODO: handle exception
-		}
-
-		System.out.println("로그");
-		if (!base64data.equals("")) {
-			
-			return null;
-
-		}
-		return null;
+		return transcriptService.pitchCompare(base64data, member_id, youService);
 	}
 
 
@@ -475,29 +347,19 @@ public class TranscriptController {
 	}
 
 
-	
-	
 	@RequestMapping(value="goEditSpace", method = RequestMethod.GET)
-	public String goEditSpace(Model model, Transcript ts){
+	public String goEditSpace(Model model, int contents_num){
 		
-		ArrayList<Transcript> tsList =  transcriptService.selectTranscript(ts);
+		ArrayList<Transcript> tsList =  transcriptService.selectTranscript(contents_num);
 		
-		String youtubeUrl = transcriptService.selectContentsUrl(ts.getContents_num());
+		ArrayList<Transcript> editList = transcriptService.selectEditList(contents_num);
+		String youtubeUrl = transcriptService.selectContentsUrl(contents_num);
 		
 		model.addAttribute("url", youtubeUrl);
 		model.addAttribute("tsList", tsList);
+		model.addAttribute("editList", editList);
 		
 		return "publish/editSpace";
-	}
-	
-	//편집공간 자막 한줄씩 넣기((사용안함))
-	@RequestMapping(value = "insertTsOne" , method = RequestMethod.POST)
-	@ResponseBody
-	public boolean insertTsOne(Transcript transcript){
-	
-			
-		
-		return false;
 	}
 	
 	@RequestMapping(value= "deleteTs" , method = RequestMethod.POST)

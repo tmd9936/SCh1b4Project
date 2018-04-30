@@ -1,5 +1,7 @@
 package com.h1b4.www.member.dao;
 
+import java.util.HashMap;
+
 import com.h1b4.www.vo.Contents;
 import com.h1b4.www.vo.Member;
 
@@ -13,4 +15,7 @@ public interface MemberMapper {
 	
 	//회원정보 수정
 	public int updateMember(Member member);
+	
+	//회원 Pnt(포인트)업데이트
+	public void updateMemberPnt(HashMap<String, Object> map);
 }

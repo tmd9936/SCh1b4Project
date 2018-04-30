@@ -11,13 +11,15 @@ public class Contents {
 	private String category;
 	private String contents_url;
 	private int contents_hits;
+	private String member_id;
+	
 	
 	public Contents() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public Contents(int contents_num, String contents_title, String endtime, String thumbnail, String deletestate,
-			String deletedate, String deleteid, String category, String contents_url, int contents_hits) {
+			String deletedate, String deleteid, String category, String contents_url, int contents_hits, String member_id) {
 		super();
 		this.contents_num = contents_num;
 		this.contents_title = contents_title;
@@ -29,6 +31,15 @@ public class Contents {
 		this.category = category;
 		this.contents_url = contents_url;
 		this.contents_hits = contents_hits;
+		this.member_id = member_id;
+	}
+
+	public String getMember_id() {
+		return member_id;
+	}
+
+	public void setMember_id(String member_id) {
+		this.member_id = member_id;
 	}
 
 	public int getContents_num() {
@@ -116,7 +127,7 @@ public class Contents {
 		return "Contents [contents_num=" + contents_num + ", contents_title=" + contents_title + ", endtime=" + endtime
 				+ ", thumbnail=" + thumbnail + ", deletestate=" + deletestate + ", deletedate=" + deletedate
 				+ ", deleteid=" + deleteid + ", category=" + category + ", contents_url=" + contents_url
-				+ ", contents_hits=" + contents_hits + "]";
+				+ ", contents_hits=" + contents_hits + ", member_id=" + member_id + "]";
 	}
 	
 	

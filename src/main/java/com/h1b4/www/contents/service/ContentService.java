@@ -140,5 +140,14 @@ public class ContentService {
 		return boomark2;
 	}
 	
+	//멤버별 아이디로 Publish 리스트 가져오기
+	public ArrayList<Contents> selectPublishList(String member_id){
+		logger.info("Select Publish List");
+		ArrayList<Contents> list = dao.selectPublishList(member_id);
+		
+		return list;
+	}
+	
+	
 }	
 

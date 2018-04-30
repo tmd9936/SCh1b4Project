@@ -58,7 +58,7 @@ public class YoutubeDownService {
 	 * @param askExportPath
 	 * @return String
 	 */
-	public int download(String youtubeUrl) {
+	public int download(String youtubeUrl, String loginId) {
 		System.out.println("Downloading~");
 		url = youtubeUrl;
 		if (contentsDAO == null) {
@@ -80,7 +80,7 @@ public class YoutubeDownService {
 		// 영상이 contants에 없을 때 contents 생성하고 contents의 번호 리턴
 		DataExtractor extractor = new DataExtractor();
 		try {
-			con = extractor.getVideoData(youtubeUrl);
+			con = extractor.getVideoData(youtubeUrl, loginId);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
