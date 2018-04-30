@@ -25,7 +25,7 @@ public class ContentsRecommendController {
 	public void insertRecommend(int contents_num, HttpSession session)
 	{
 		logger.info("추천 입력 시작");
-		String member_id = (String)session.getAttribute("member_id");
+		String member_id = (String)session.getAttribute("loginId");
 		Emotion emotion = new Emotion();
 		emotion.setMember_id(member_id);
 		emotion.setContents_num(contents_num);
