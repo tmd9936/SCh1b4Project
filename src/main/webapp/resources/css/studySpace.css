@@ -307,10 +307,11 @@ border:1px solid;
 padding-left: 5px;
 cursor: pointer;
 
+
 }
 
 
-.Voca&Plan{
+.Voca{
 clear:right;
 color : gray;
 border:1px solid;
@@ -318,17 +319,18 @@ padding-left: 5px;
 
 }
 
-.VocabQuiz{
+.Vocab{
 float: left;
-height : 55px;
-weight : 150px;
-color : gray;
+height : 73px;
+width: 109px;
+color : white;
 border:1px solid;
 cursor: pointer;
+background-color: black;
 
 }
 
-.LessonPlan
+/* .LessonPlan
 {
 float: left;
 height : 55px;
@@ -337,7 +339,7 @@ color : gray;
 border:1px solid;
 cursor: pointer;
 
-}
+} */
 
 .KindOfStudy{
 
