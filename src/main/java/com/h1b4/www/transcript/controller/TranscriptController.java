@@ -8,6 +8,7 @@ import javazoom.jl.player.Player;
 import java.io.*;
 import java.net.URI;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,7 +47,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.api.client.json.Json;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.h1b4.www.transcript.dao.TranscriptMapper;
 import com.h1b4.www.transcript.service.TranscriptService;
 import com.h1b4.www.utils.programs.ConsoleMain;
@@ -220,13 +227,20 @@ public class TranscriptController {
 		//String tempname =Long.valueOf(new Date().getTime()).toString();
 		String tempname = "suzuki";
 		tempname += ".mp3";
-		String PATH = "C:\\Users\\SCIT\\Desktop\\";
+		String PATH = "C:\\temp\\transcript\\";
 		String temp = PATH+""+tempname;
 		SourceDataLine sdl=null;
 		AudioInputStream ais = null;
 		System.out.println("무사히 여기로 도착1");
 		        String clientId = "07Y3WutHWeMsdGPtw6AK";//애플리케이션 클라이언트 아이디값";
 		        String clientSecret = "pvT5lX8Twe";//애플리케이션 클라이언트 시크릿값";
+		        
+		        File tmp_dir = new File(PATH);
+				if(!tmp_dir.isDirectory()) {
+					tmp_dir.mkdir();
+				}
+		        
+		        
 		        try {
 		            String text = URLEncoder.encode(sentence, "UTF-8"); 
 		            String apiURL = "https://openapi.naver.com/v1/voice/tts.bin";
@@ -316,8 +330,15 @@ public class TranscriptController {
 	@ResponseBody
 	@RequestMapping(value="checkMP3", method=RequestMethod.POST)
 	public void checkMP3() {
-		String bip = "C:/Users/SCIT/Desktop/suzuki.mp3";
+		String PATH = "C:/temp/transcript/";
+		String bip = PATH+"suzuki.mp3";
 		
+		
+		File tmp_dir = new File(PATH);
+		if(!tmp_dir.isDirectory()) {
+			tmp_dir.mkdir();
+		}
+        
 		//String temp1 = tempname.replaceAll("\\\\","/");
 		//String bip = "C:/Users/SCIT/Desktop/"+temp1;
 		//String bip = temp1;
@@ -357,22 +378,25 @@ public class TranscriptController {
 		return transcriptService.pitchCompare(base64data, member_id, youService);
 	}
 
-
-	@RequestMapping(value="wordDetail", method=RequestMethod.GET)
-	public String wordDetail(String[] words,int ts_num,int contents_num,String explanation, Model model) {
-
-
+	@ResponseBody
+	@RequestMapping(value="wordDetail", method=RequestMethod.POST)
+	public String wordDetail(@RequestParam(value="words")String words) {
+		System.out.println("wordsinJAVA:"+words);
         String clientId = "ApXjZWS0hsBZjfMcPmq6";
         String clientSecret = "7A01nsIhTY";
         String result="";
         String word="";
+        String how="";
+        /*
         for (String string : words) {
 			word += string+"";
 		}
         System.out.println(word);
+		*/
         try {
-            String text = URLEncoder.encode(word, "UTF-8");
-            String apiURL = "https://openapi.naver.com/v1/language/translate";
+           String text = URLEncoder.encode(words, "UTF-8");
+            //String text = words;
+        	String apiURL = "https://openapi.naver.com/v1/language/translate";
             URL url = new URL(apiURL);
             HttpURLConnection con = (HttpURLConnection)url.openConnection();
             con.setRequestMethod("POST");
@@ -381,7 +405,8 @@ public class TranscriptController {
             // post request
             
             
-            String postParams = "source=ko&target=ja&text=" + text;
+            String postParams = "source=ja&target=ko&text=" + text;
+            System.out.println("postParams"+postParams);
             con.setDoOutput(true);
             DataOutputStream wr = new DataOutputStream(con.getOutputStream());
             wr.writeBytes(postParams);
@@ -400,22 +425,35 @@ public class TranscriptController {
                 response.append(inputLine);
             }
             br.close();
+            System.out.println(response);
+            word = response.toString();
+            how = URLDecoder.decode(word,"UTF-8");
+            System.out.println("how"+how);
+            word = how.substring(113);
+            String[] words1 = word.split("\"");
+            System.out.println(words1[0]);
+            
+            word = words1[0];
+            System.out.println("word"+word);
+            /*
+            
             String answer = response.substring(112);
+            System.out.println(answer);
             String[] words1;
             words1 = answer.split("\"");  
-            
-           
             result = words1[1];
+            System.out.println(result);
+            word = java.net.URLDecoder.decode(result, "UTF-8");
+            //word = result;
+            System.out.println(word);
+            */
         } catch (Exception e) {
             //System.out.println(e);
         	System.out.println("입력이 올바르지 않습니다");
         }
-        Transcript ts= transcriptService.tsnum(contents_num, ts_num);
-        model.addAttribute("ts", ts);
-        model.addAttribute("explanation", explanation);
-        model.addAttribute("result", result);
-        model.addAttribute("contents_num", contents_num);
-        return "transcript/wordDetail";
+        //word.toString();
+        
+        return word;
 	}
 
 

@@ -671,6 +671,7 @@ function answer(num,i){
  		var str = '<dialog class="mdl-dialog" id="viewInho">';
  		str += '<h4 class="mdl-dialog__title"> Study sentence </h4>';
  		str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="재생" onclick="javascript:suzukikun('+contents_num+','+ts_num+')">';
+ 		str += ' <input type="button" class="mdl-button mdl-js-button mdl-button--primary" value="한글 번역" onclick="javascript:wordDetail(\''+words+'\')">';
  		str += ' <div class="mdl-dialog__content"></div>';
  		str += '<div id="saveVoca" style="display: none"></div>';
  		str += '<div class=	"mdl-dialog__underunder" style="display: none"></div>'
@@ -699,6 +700,34 @@ function answer(num,i){
  		    });
 	         // window.open("../transcript/wordDetail?words="+words+"&ts_num="+ts_num+"&contents_num="+contents_num+"&explanation="+explanation, "wordDetail", "width=578, height=215, toolbar=no, menubar=no, scrollbars=no, location=no, status=no, resizable=no" );
  	}  
+ 	
+ 	//한글 번역
+ 	function wordDetail(word){
+ 		$(document).ready(function(){
+ 			var tong = word.split(",");
+ 			console.log("tong"+tong);
+ 			var words = tong[0];
+ 			console.log('words:'+words);
+ 			
+			 $.ajax({
+	            type : "POST",
+	            url : "../transcript/wordDetail",
+	           ContentType : "application/json; charset=utf-8",
+	            dataType : "text",
+	            data : {
+	               "words" : words, 
+	              },
+	            success : function(sentence){
+	            	var text =sentence;
+	            	console.log("text"+text);
+	            	$('.mdl-dialog__content').html(text);
+	            },
+	            error : function(){
+	            	console.log("fail");
+	            },
+	        });
+		 })
+ 	}
  	
  	//단어를 체크
  	function checkWord(contents_num,ts_num,j){

@@ -104,7 +104,8 @@
 </script>
 
 <!-- js 적용  -->
-<script type="text/javascript" src="<c:url value="/resources/javascript/studySpace.js"></c:url>"></script>
+<script language=JavaScript src="<c:url value="/resources/javascript/studySpace.js" ></c:url>" charset='UTF-8'></script>
+<script type="text/javascript" src="<c:url value="/resources/javascript/studySpace.js" ></c:url>" charset='UTF-8'></script>
 
 <!-- css 적용 -->
 <link href ="<c:url value="/resources/css/studySpace.css"/>" type="text/css" rel="stylesheet">
