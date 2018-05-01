@@ -70,7 +70,6 @@
 }
 .demo-card-square>.mdl-card__title {
   color: #fff;
-  
 }
 .demo-card-image.mdl-card {
   width: 256px;
@@ -124,7 +123,7 @@ table {
    text-align: center;
 }
 header i{
-margin-left: -24px;
+	margin-left: -24px;
     position: absolute
     }
  
@@ -134,7 +133,9 @@ margin-left: -24px;
  .arrow{
  	margin: 0px auto;
  }
- 
+ #searchBtn{
+ 	margin-left: 0px;
+ }
 </style>
 
 </head>
@@ -150,8 +151,8 @@ margin-left: -24px;
         <a href="../"><img src="<c:url value="/resources/images/2_Flat_logo_on_transparent_248x68.png" />" name="logo" class="logo"></a>
         <div class="mdl-layout-spacer"></div>
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-          <label class="mdl-button mdl-js-button mdl-button--icon" id="searchBtn" for="search">
-            <i class="material-icons">search</i>
+          <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
+            <i class="material-icons"  id="searchBtn">search</i>
           </label>
           <div class="mdl-textfield__expandable-holder">
             <!-- 검색할 텍스트 입력 -->  
@@ -236,9 +237,6 @@ margin-left: -24px;
           <i class="mdl-color-text--blue-grey-400 material-icons"  role="presentation">bookmark</i>Bookmark</a>
         <a class="mdl-navigation__link"  href="../contents/publishList">
           <i class="mdl-color-text--blue-grey-400 material-icons"  role="presentation">flag</i>Edit</a>
-        <a class="mdl-navigation__link"  href="">
-          <i class="mdl-color-text--blue-grey-400 material-icons"  role="presentation">forum</i>Forums</a>
-        
         
         
         <div class="mdl-layout-spacer"></div>
