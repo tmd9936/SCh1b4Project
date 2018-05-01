@@ -8,7 +8,7 @@
 </head>
 <body>
 <script type="text/javascript">
-var wsUri = "ws://10.10.15.46:8888/www/websocket/echo";
+var wsUri = "ws://10.10.15.32:8888/www/websocket/echo";
 
 function init() {
     output = document.getElementById("output");
@@ -36,7 +36,7 @@ function onError(evt) {
     writeToScreen('ERROR: ' + evt.data);
 }
 function doSend(message) {
-	alert("들어옴?");
+	//alert("들어옴?");
     writeToScreen("Message Sent: " + message);
     websocket.send(message);
     //websocket.close();
