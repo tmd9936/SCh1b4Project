@@ -155,11 +155,11 @@
 		where
 		    b.contents_num = c.contents_num
 		    and
-		   	b.member_id = #{loginId}
+		   	b.member_id = #{loginId}	
 		group by
-		    c.contents_num, c.contents_title , c.thumbnail , c.category, c.contents_url , c.contents_hits
+		    c.contents_num, c.contents_title , c.thumbnail , c.category, c.contents_url , c.contents_hits, b.bookmark_num
 		order by 
-			b.bookmark_num desc	
+			b.bookmark_num desc
 	</select>	
 	
 	<!-- 멤버별 publish 한 컨텐츠 조회 -->

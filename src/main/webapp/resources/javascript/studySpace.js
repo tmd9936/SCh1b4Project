@@ -959,9 +959,7 @@ function lUP(){
  		var div = document.getElementById("divNewView");
  		var contents_num = $('#contents_num').val();
  		
- 		alert("확인");
  	 		if(!VocabState){
- 	 			
  	 			
  	 				
  	 	 		var str = '';
