@@ -359,11 +359,18 @@ public class TranscriptController {
 		return "publish/editSpace";
 	}
 	
+	@ResponseBody
 	@RequestMapping(value= "deleteTs" , method = RequestMethod.POST)
-	public String deleteTranscript(int contents_num){
+	public boolean deleteTranscript(int contents_num){
 		int result = transcriptService.deleteTranscript(contents_num);
 		
-		return "";
+		boolean resultFlag = false;
+		
+		if(result == 1){
+			resultFlag = true;
+		}
+		
+		return resultFlag;
 	}
 }
 

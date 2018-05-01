@@ -207,6 +207,7 @@ html {
 
 .transcriptTextArea mdl-textfield__input {
 font-size: 1rem;
+max-width: 320px;
 }
 .timing_start_point{
 font-size: 0.89rem;
@@ -230,7 +231,7 @@ li:enabled:active{
 .delEditList{
 	position: relative;
     top: -24px;
-    right: -400px;
+    right: -560px;
    }
    
 .transcriptDiv{
@@ -240,20 +241,23 @@ li:enabled:active{
 
 .timing_start_point{
 	position : relative;
-	right : -383px;
+	right : -543px;
 	top : -42px;
 }
    
   .timing_end_point{
 	position : relative;
-	right : -328px;
+	right : -488px;
 	top : -27px;
 }
 .subheading{
 	background-color: #d9d9db;
 	text-align: center;
 	width: 100%;
-	
+	font-weight: bold;
+}
+p{
+	text-align: center;
 }
 
 </style>
@@ -265,12 +269,10 @@ li:enabled:active{
 				<div class="subheading">Keyboard controls</div>
 
 				<p>Tab : 재생/정지</p>
-
 				<p>Ctrl + X : 내용 복사</p>
-
 				<p>화살표 ↓ : 자막 시작점</p>
-
 				<p>화살표 ↑ : 자막 종료점</p>
+				<p>엔터 : 편집영역 생성 </p>
 			</div>
 			<div class="mdl-cell mdl-cell--5-col" id="playerSection">
 				<div class="transcript-float-video"></div>
@@ -295,102 +297,19 @@ li:enabled:active{
 				<div class="subheading">단계영역</div>
 				<div>
 					<ol>
-						<li id="firstRow">Type what you hear <br>
+						<li id="firstRow">편집영역에 셋팅<br>
 						<button	class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="startBtn">Start Sync!</button>
 						</li>
 						<hr>
-						<li class="disabled" id="secondRow"> Sync Timing <br>
+						<li class="disabled" id="secondRow"> 자막 싱크 조정 <br>
 						</li>
 						<hr>
-						<li class="disabled" id="thirdRow">Review and Complete <br>
+						<li class="disabled" id="thirdRow">리뷰 및 발행 <br>
 						</li>
 					</ol>
 					
 					<script type="text/javascript">
-						$('#startBtn').on('click',function(){
-							var str = '';
-							str += '<button	class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="syncBtn">Start Review!</button>'
-							
-							$('#startBtn').closest("li").attr('class','disabled');
-							$('#startBtn').css('display','none');
-							$('#playRow').css('display','inherit');
-							$('#secondRow').append(str);
-							$('#secondRow').attr('class','active');
-							$('#syncBtn').on('click', function(){
-								var str = '';
-								str += '<button	class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="publishBtn">Publish</button>'
-								$('#syncBtn').closest("li").attr('class','disabled');
-								$('#syncBtn').css('display','none');
-								
-								$('#thirdRow').append(str);
-								$('#thirdRow').attr('class','active');
-								
-								
-							 	$('#publishBtn').on('click',function(){
-									var num = $('#contents_num').val();
-									var startTiming = document.getElementsByClassName('timing_start_point');
-									var endTiming = document.getElementsByClassName('timing_end_point');
-									var text = 	document.getElementsByClassName('transcriptTextArea mdl-textfield__input');
-									var array = new Array();
-									var obj = {};
-									for(let i = 0 ; i < startTiming.length ; i++){
-										obj = {"ts_start" : ""+startTiming[i].innerHTML  , "ts_dur": ""+Number(endTiming[i].innerHTML) - Number(startTiming[i].innerHTML) , "ts_text": ""+text[i].value, "contents_num" : "" + num}
-										array.push(obj);
-									}
-									console.log(JSON.stringify(array));
-									
-									$.ajaxSettings.traditional = true; //배열 형태로 서버쪽 전송을 위한 설정
-
-									$.ajax({
-										url : "insertTs",
-										type : "POST",
-										dataType : "json",
-										contentType : "application/json",
-										data :JSON.stringify(array),
-										
-										success : function(data){
-											alert('성공');
-											$(location).attr('href','/www');
-										},
-										error : function(err){
-											console.log(err);
-										}
-									});
-									
-									 
-									
-								/* 	
-									 $.ajax({
-									url : "deleteTs",
-									type : "POST",
-									data : {
-										contents_num : num
-									},
-									success : function(data){
-										var selected 
-										if(data){
-											var aJsonArray = new Array();
-											var aJson = new Object();
-											aJson.ts_start = "";
-											aJson.ts_dur = "";
-											aJson.ts_text = "";
-											
-											$('.transcriptDiv').each(function{
-											console.log($(this).val());
-										});
-											
-										}
-									},
-									error : function(err){
-										console.log(err);
-									}
-								}); */ 
-							}); 
-									
-									
-							});
-							
-					});
+						
 						
 					</script>
 						
@@ -420,7 +339,7 @@ li:enabled:active{
 					<ul class="demo-list-item mdl-list">
 						<c:forEach items="${tsList }" var="list">
 							<li class="mdl-list__item"><span class="timing_text">${list.ts_text }</span>
-								<input type="hidden" class="timing_text_hidden"	value="${list.ts_text }">
+								<input type="hidden" value="${list.ts_text }">
 								<div id="tt${list.ts_num }" class="material-icons md-18">assignment</div>
 								<div class="mdl-tooltip" for="tt${list.ts_num }">
 									<span class="timing_start">start : ${list.ts_start }</span><br>
@@ -441,8 +360,8 @@ li:enabled:active{
 							<ul class="demo-list-item mdl-list" id="sortableEditList">
 								<c:forEach items="${editList }" var="list">
 									<li class='transcriptDiv'><i class='material-icons md-18'><span class='dragEditList'>format list numbered</span></i>
-									<input class='transcriptTextArea mdl-textfield__input' type='text' data-num="+length+" value="${list.ts_text }"></input>
-									<input type='hidden' value="${list.ts_text }" />
+									<input class='transcriptTextArea mdl-textfield__input' type='text' data-num="+length+" value="${list.ts_text }" />
+									<input type='hidden' class="timing_text_hidden" value="${list.ts_text }" />
 									<span class='timing_start_point'>${list.ts_start }</span>
 									<input type='hidden' class='timing_start_point_hidden' value="${list.ts_start }">
 									<i class='material-icons md-18'><span class='delEditList'>close</span></i>
@@ -470,8 +389,63 @@ li:enabled:active{
 					<div id="YouTube-player-errors"></div>
 					<div id="YouTube-player-fixed-infos"></div>
 				</div>
-				<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Save status</button>
+				<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" id="statusBtn">상태 저장</button>
+				<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" id="homeBtn">홈으로</button>
+				<script>
+				$('#statusBtn').on('click',function(){
+					if(confirm('저장하시겠습니까?')){
+						
+					
+					var num = $('#contents_num').val();
+					var startTiming = document.getElementsByClassName('timing_start_point');
+					var endTiming = document.getElementsByClassName('timing_end_point');
+					var text = 	document.getElementsByClassName('transcriptTextArea mdl-textfield__input');
+					var array = new Array();
+					
+					if(startTiming == null || startTiming == undefined){
+						
+						alert('편집영역에서 작업해주세요');
+						return;
+					}
+					
+					var obj = {};
+					for(let i = 0 ; i < startTiming.length ; i++){
+						obj = {"ts_start" : ""+startTiming[i].innerHTML  , "ts_dur": ""+Number(endTiming[i].innerHTML) - Number(startTiming[i].innerHTML) , "ts_text": ""+text[i].value, "contents_num" : "" + num, "status" : 1}
+						array.push(obj);
+					}
+					console.log(JSON.stringify(array));
+					
+					$.ajaxSettings.traditional = true; //배열 형태로 서버쪽 전송을 위한 설정
+
+					$.ajax({
+						url : "insertEdit",
+						type : "POST",
+						dataType : "json",
+						contentType : "application/json",
+						data :JSON.stringify(array),
+						
+						success : function(){
+							alert('저장되었습니다');
+							
+						},
+						error : function(err){
+							console.log(err);
+						}
+					});
+					}
+					
+				});
 				
+				
+				$('#homeBtn').on('click',function(){
+					if(confirm('작업에서 빠져나오시겠습니까?')){
+						location.href = "/www";	
+					}
+					
+				});
+				
+				
+				</script>
 			</div>
 		</div>
 	</div>
@@ -493,7 +467,6 @@ var canvasOnce = 0;
 //ProgressBar x 좌표 변수
 var progressBar = 0;
 
-
 //DisplayFlag
 var displayFlag = 0;
 
@@ -501,6 +474,10 @@ var displayFlag = 0;
 var syncIndex = 0;
 //syncFlag
 var syncFlag = false;
+//reviewFlag
+var reviewFlag = false;
+//시간에 따른 좌우 포지션 변화
+var timeSlide = 0;
 
 
 var lengthGeneral = $('.transcriptDiv').length;
@@ -509,7 +486,7 @@ $('#genSubtitle').on('click', function(){
 	var str = '';
 	str += "<li class='transcriptDiv'><i class='material-icons md-18'><span class='dragEditList'>format list numbered</span></i>"
 	str += "<input class='transcriptTextArea mdl-textfield__input' type='text' data-num="+lengthGeneral+"></input>";
-	str += "<span class='timing_start_point'><c:if test="youTubePlayerActive()">"+console.log(youTubePlayer.getCurrentTime())+"</c:if></span>";
+	str += "<span class='timing_start_point'></span>";
 	str += "<input type='hidden' class='timing_start_point_hidden'>"
 	str += "<i class='material-icons md-18'><span class='delEditList'>close</span></i>"
 	str += "<span class='timing_end_point'></span></li>"
@@ -517,9 +494,120 @@ $('#genSubtitle').on('click', function(){
 	delListEdit();
 	getValueOfSort();
 	sortEditDiv();
-	setTextSubtitle();
+	//setTextSubtitle();
 	}); 
 	
+
+$('#startBtn').on('click',function(){
+	
+	var inputLength = $('.transcriptTextArea').attr('value');
+	var spanStartLength = $('.timing_start_point');
+	var spanEndLength = $('.timing_end_point');
+	
+	 if(inputLength == '' ||inputLength == undefined){
+		 alert('편집영역에 자막을 추가해주세요');
+		return;
+	} 
+	 
+	
+	 
+	var str = '';
+	str += '<button	class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="syncBtn">Start Review!</button>'
+	$('#startBtn').closest("li").attr('class','disabled');
+	$('#startBtn').css('display','none');
+	$('#playRow').css('display','inherit');
+	$('#secondRow').append(str);
+	$('#secondRow').attr('class','active');
+	$('#syncBtn').on('click', function(){
+		reviewFlag = true;
+		for(let i = 0 ; i < spanStartLength.length ; i ++){
+			 console.log(spanStartLength[i].innerHTML);
+			 if(spanStartLength[i].innerHTML == '' || spanEndLength[i].innerHTML == ''
+				 || spanEndLength[i].innerHTML == null|| spanEndLength[i].innerHTML == null){
+				 alert('자막의 싱크를 맞춰 주세요');										 
+				 spanStartLength[i].focus();
+				 return;
+			 }
+		 }
+		
+		var str = '';
+		str += '<button	class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" style="top: -20px; left: 100px;" id="publishBtn">Publish</button>';
+		$('#syncBtn').closest("li").attr('class','disabled');
+		$('#syncBtn').css('display','none');
+		
+		$('#thirdRow').append(str);
+		$('#thirdRow').attr('class','active');
+		
+		
+	 	$('#publishBtn').on('click',function(){
+	 		var inputLength = $('.transcriptTextArea').attr('value');
+	 		var spanStartLength = $('.timing_start_point');
+	 		var spanEndLength = $('.timing_end_point');
+	 		
+	 		if(inputLength == '' ||inputLength == undefined){
+	 			 alert('편집영역에 자막을 추가해주세요');
+	 			return;
+	 		} 
+	 		
+			for(let i = 0 ; i < spanStartLength.length ; i ++){
+				 console.log(spanStartLength[i].innerHTML);
+				 if(spanStartLength[i].innerHTML == '' || spanEndLength[i].innerHTML == ''
+					 || spanEndLength[i].innerHTML == null|| spanEndLength[i].innerHTML == null){
+					 alert('자막의 싱크를 맞춰 주세요');										 
+					 spanStartLength[i].focus();
+					 return;
+				 }
+			 }
+	 		
+	 		
+	 		
+	 		var num = $('#contents_num').val();		
+	 		 $.ajax({
+					url : "deleteTs",
+					type : "POST",
+					data : {
+						contents_num : num
+					},
+					success : function(data){
+							
+						
+						var startTiming = document.getElementsByClassName('timing_start_point');
+						var endTiming = document.getElementsByClassName('timing_end_point');
+						var text = 	document.getElementsByClassName('transcriptTextArea mdl-textfield__input');
+						var array = new Array();
+						var obj = {};
+						for(let i = 0 ; i < startTiming.length ; i++){
+							obj = {"ts_start" : ""+startTiming[i].innerHTML  , "ts_dur": ""+Number(endTiming[i].innerHTML) - Number(startTiming[i].innerHTML) , "ts_text": ""+text[i].value, "contents_num" : "" + num}
+							array.push(obj);
+						}
+						
+						//$.ajaxSettings.traditional = true; //배열 형태로 서버쪽 전송을 위한 설정
+
+						$.ajax({
+							url : "insertTs",
+							type : "POST",
+							contentType : "application/json",
+							data :JSON.stringify(array),
+							
+							success : function(data){
+								$(location).attr('href','../contents/studySpace?contents_num='+num);
+							},
+							error : function(err){
+								alert('실패');
+								console.log(err);
+							}
+						});	
+						
+						
+					},
+					error : function(err){
+						console.log(err);
+					}
+				});  
+	}); 
+	});
+	
+});
 
 
 /**
@@ -650,8 +738,6 @@ function youTubePlayerCurrentTimeChange(currentTime) {
     if (youTubePlayerActive()) {
         youTubePlayer.seekTo(currentTime*youTubePlayer.getDuration()/100, true);
         
-       
-        
     }
 }
 
@@ -717,7 +803,7 @@ function youTubePlayerDisplayInfos() {
        *
        */ 
         if(state === 1){
-        	$("#YouTube-player-progress").animate({left:(progressBar == 0 ? -current*70 : (3800*progressBar)-current*70 )+"px"},5);
+        	$("#YouTube-player-progress").animate({left:(progressBar == 0 ? timeSlide -current*70 : (progressBar*3851)-current*70 )+"px"},5);
         		progressStatus++;
         		//progressBar++;
         		
@@ -734,17 +820,12 @@ function youTubePlayerDisplayInfos() {
         			progressBar++;
         		}
         
-      
-        	
-        		
-        	if(transDivStatus === 1){
+        	if(transDivStatus == 1){
         		$(".subtitle").animate({left:startPoint*70 - current*70+"px"},5);	
         	
         	}
-        	
-        	
-        	if(state === 0){
-        		progressBar = 0;
+        	if(state == 0){
+        		
         		//자막 시작&끝 포인트
         		startPoint = 0;
         		endPoint = 0;
@@ -760,22 +841,25 @@ function youTubePlayerDisplayInfos() {
         		syncIndex = 0;
         		//syncFlag
         		syncFlag = false;
+        		//자동 그리기
+        		progressStatus = 0;
         	}
         	
         }
        
        
        
-       //start, duration
-       
-       var check = $('.timing_start_hidden');
-        var dur =  $('.timing_dur_hidden');
-        var text = $('.timing_text_hidden');
+       //start, end
+       if(reviewFlag){
+
+    	   var check = $('.timing_start_point');
+        var end =  $('.timing_end_point');
+        var text = $('input[type="text"]');
         
  
         for(let i = 0 ; i < check.length ; i++){
-        	var startPoint = check[i].value;
-        	var endPoint = Number(startPoint)+ Number(dur[i].value);
+        	var startPoint = check[i].innerHTML;
+        	var endPoint = end[i].innerHTML;
         	
      
         	if(startPoint <= current && endPoint > current ){
@@ -787,10 +871,8 @@ function youTubePlayerDisplayInfos() {
         		transcriptDisplayOrNot(false);	
         	}
         	
-        
-      	  
-      	
         } 
+       }
         
        
         
@@ -1002,9 +1084,22 @@ function youTubePlayerVolumeChange(volume) {
 	}
 	
 	function drawItAgain(totalTime, current) {
+		/* $('#YouTube-player-progress').remove();
+		var divv = document.createElement("div");
+		document.body.appendChild(divv);
+		divv.id = 'YouTube-player-progress';
+		document.getElementById('playDiv').appendChild(divv);
+		$("#timeViewer").remove();
+		var canv = document.createElement("canvas");
+		canv.id = 'timeViewer';
+		document.body.appendChild(canv);
+		document.getElementById('YouTube-player-progress').appendChild(canv); */
+		
 		var canvas = document.getElementById('timeViewer');
 	    var c = canvas.getContext('2d'); 
-	   
+	    if(current < 0){
+	    	current = 0;
+	    }
 	    
 	    canvas.width = 15000;
 	    
@@ -1020,7 +1115,6 @@ function youTubePlayerVolumeChange(volume) {
 	    var currentSecond =  current - (currentMinute * 60 +  currentHour * 60*60);
 	    
 	    
-	 
 	    //시간 표시를 위한 타임스탬프
 	    var timeStamp = 0;
 	    var hourStamp = currentHour;
@@ -1045,7 +1139,6 @@ function youTubePlayerVolumeChange(volume) {
 	    console.log(secStamp);
 	   
 	    
-	    
 	    while(timeStamp <= differentStamp){
 			if(secStamp >= 60){
 	    		minuteStamp++;
@@ -1055,8 +1148,8 @@ function youTubePlayerVolumeChange(volume) {
 	    		hourStamp++;
 	    		minuteStamp = 0;
 	    	}
+			
 			//글자 설정
-	    
 			c.font= 'bold 30px Consolas';
 			c.fillStyle="gray";
 			c.fillText( 
@@ -1263,7 +1356,7 @@ function youTubePlayerVolumeChange(volume) {
 	*  Div 시작위치점 잡는 함수  + duration 에 맞게 길이 설정 해주는 함수
 	*/
 	
-/* 	function setFloatDiv(startTime, duration, count){
+	/* 	function setFloatDiv(startTime, duration, count){
 		
 		if(count == 1){
 		
@@ -1403,7 +1496,8 @@ function youTubePlayerVolumeChange(volume) {
 		    return '';
 		} */
         
-	
+		setSyncIndex();
+		
         // Set timer to display infos
         setInterval(youTubePlayerDisplayInfos, 50);
     }
@@ -1426,11 +1520,20 @@ function youTubePlayerVolumeChange(volume) {
 		    console.log(e.which);
 		    	
 		  }
+		  if(e.which == 37){
+			  //left Arrow pressed
+			 // $("#playDiv").animate({right:"+=5"},"fast");
+			  playsound2(youTubePlayer.getCurrentTime(),youTubePlayer.getDuration() ,0)
+			  console.log(e.which);
+			  timeSlide += 40;
+		  }
 		  if(e.which == 39){
 			  //right Arrow pressed
-			  $("#playDiv").animate({right:"+=5"},"fast");
+			 //$("#playDiv").animate({right:"+=5"},"fast");
+			  timeSlide -= 40;
+			  playsound2(youTubePlayer.getCurrentTime(),youTubePlayer.getDuration(),1)
 			  console.log(e.which);
-	  }
+		  }	
 		  if(e.which == 9){
 			  if(youTubePlayer.getPlayerState() === 1){
 				  youTubePlayerPause(); 
@@ -1447,6 +1550,7 @@ function youTubePlayerVolumeChange(volume) {
 			//  setTranscriptDiv(youTubePlayer.getCurrentTime(),syncIndex ,e.which);
 			  setStartPoint(youTubePlayer.getCurrentTime());
 		//	  setPositionNextSub();
+			
 		  }
 		  
 		  if(e.which == 38){
@@ -1461,9 +1565,9 @@ function youTubePlayerVolumeChange(volume) {
 				var length = $('.transcriptDiv').length;
 				var str = '';
 				str += "<li class='transcriptDiv'><i class='material-icons md-18'><span class='dragEditList'>format list numbered</span></i>"
-				str += "<input class='transcriptTextArea mdl-textfield__input' type='text' data-num="+length+"></input>";
+				str += "<input class='transcriptTextArea mdl-textfield__input' type='text' data-num="+length+" />";
 				str += "<input type='hidden' value="+ length +" />";
-				str += "<span class='timing_start_point'><c:if test="youTubePlayerActive()">"+console.log(youTubePlayer.getCurrentTime())+"</c:if></span>";
+				str += "<span class='timing_start_point'></span>";
 				str += "<input type='hidden' class='timing_start_point_hidden'>"
 				str += "<i class='material-icons md-18'><span class='delEditList'>close</span></i>";
 				str += "<span class='timing_end_point'></span><input type='hidden' class='timing_end_point_hidden'></li>";
@@ -1472,6 +1576,7 @@ function youTubePlayerVolumeChange(volume) {
 				delListEdit();
 				getValueOfSort();
 			    sortEditDiv();
+			    setSyncIndex();
 			   // setTextSubtitle();
 		  }
 		  
@@ -1487,9 +1592,9 @@ function youTubePlayerVolumeChange(volume) {
 			var length = $('.transcriptDiv').length;
 			var str = '';
 			str += "<li class='transcriptDiv'><i class='material-icons md-18'><span class='dragEditList'>format list numbered</span></i>"
-			str += "<input class='transcriptTextArea mdl-textfield__input' type='text' data-num="+length+" value="+text+"></input>";
+			str += "<input class='transcriptTextArea mdl-textfield__input' type='text' data-num="+length+" value="+text+" />";
 			str += "<input type='hidden' value="+ length +" />";
-			str += "<span class='timing_start_point'><c:if test="youTubePlayerActive()">"+console.log(youTubePlayer.getCurrentTime())+"</c:if> </span>";
+			str += "<span class='timing_start_point'></span>";
 			str += "<input type='hidden' class='timing_start_point_hidden'>"
 			str += "<i class='material-icons md-18'><span class='delEditList'>close</span></i>"
 			str += "<span class='timing_end_point'><input type='hidden' class='timing_end_point_hidden'></span></li>";
@@ -1499,11 +1604,11 @@ function youTubePlayerVolumeChange(volume) {
 			delListEdit();
 			getValueOfSort();
 			sortEditDiv();
+			setSyncIndex();
 		//	setTextSubtitle();
 			  return false;
 			  
 		  }
-		  
 		  
 	});
 
@@ -1513,26 +1618,41 @@ function youTubePlayerVolumeChange(volume) {
 	});
 	
 	
-function playsound2(start7,dur7,num){
-	done = false;
-	var currentTime;
-	switch(num){
-	case 1:
-		currentTime = youTubePlayer.getCurrentTime()+3;
-		console.log(currentTime);
-		break;
-	case 0:
-		currentTime = youTubePlayer.getCurrentTime()-3;
-		console.log(currentTime);
-		break;
+	function playsound2(start7,dur7,num){
+		done = false;
+		var currentTime;
+		switch(num){
+		case 1:
+			currentTime = youTubePlayer.getCurrentTime()+3;
+			break;
+		case 0:
+			currentTime = youTubePlayer.getCurrentTime()-3;
+			break;
+		}
+		dur = dur7*1500;
+		youTubePlayer.seekTo(currentTime,true);// 유튜브 시작위치
+		youTubePlayer.playVideo(); //유튜브 재생
 	}
-	dur = dur7*1500;
-	youTubePlayer.seekTo(currentTime,true);// 유튜브 시작위치
-	youTubePlayer.playVideo(); //유튜브 재생
+
+function setSyncIndex(){
+	$('.dragEditList').on('click', function(){
+		
+		var index = $('.dragEditList').index(this);
+		
+		syncIndex = index;
+			
+		});
+		
+	}
+	
+	/**
+	*  boolean타입의 flag를 받아 주는 함수 
+	*/
+function setReviewFlag(flag){
+	reviewFlag = flag;
 }
+
 </script>
-
-
 
 </body>
 </html>

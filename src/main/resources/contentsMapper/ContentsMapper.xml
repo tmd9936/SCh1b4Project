@@ -169,7 +169,8 @@
 			contents
 		where
 			member_id = #{member_id}
-	
+		order by 
+			contents_num desc
 	
 	</select>
 	

@@ -7,6 +7,8 @@
 		.mdl-card--expand{
 			cursor: pointer;
 		}
+		.contentsCard{
+		}
 		
 	 </style>
 	 
@@ -78,13 +80,13 @@
 						<c:forEach var="category" items="${categoryList }" varStatus="status">
 							<c:choose>
 								<c:when test="${status.count == 1 }">
-									<li class="swiper-slide swiper-slide-active"><a href="#"><span>${category.category_kr }</span></a></li>
+									<li class="swiper-slide swiper-slide-active category"><a href="#"><span>${category.category_kr }</span></a></li>
 								</c:when>
 								<c:when test="${status.count == 2 }">
-									<li class="swiper-slide swiper-slide-next"><a href="#"><span>${category.category_kr }</span></a></li>
+									<li class="swiper-slide swiper-slide-next category"><a href="#"><span>${category.category_kr }</span></a></li>
 								</c:when>
 								<c:otherwise>
-									<li class="swiper-slide"><a href="#"><span>${category.category_kr }</span></a></li>
+									<li class="swiper-slide category"><a href="#"><span>${category.category_kr }</span></a></li>
 								</c:otherwise>
 							</c:choose>
 							
