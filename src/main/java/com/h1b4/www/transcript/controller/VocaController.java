@@ -38,7 +38,7 @@ public class VocaController {
 	@RequestMapping(value="selectAllVoca", method = RequestMethod.GET)
 	public ArrayList<Voca> selectAllVoca(int contents_num, HttpSession session){
 		logger.info("단어장 목록 출력 시작");
-		
+		System.out.println(contents_num);
 		String member_id = (String)session.getAttribute("loginId");
 		Voca voca = new Voca();
 		voca.setMember_id(member_id);
