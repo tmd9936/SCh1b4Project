@@ -501,7 +501,7 @@ function getTime(contents_num){
         	 makeLearnWord(ts);
          },
          error : function(){
-        	 alert('fail');
+        	 //alert('fail');
          }
 	 });
 	})
@@ -680,17 +680,20 @@ function answer(num,i){
 				x.setAttribute("value","정보 보기");
 				x.setAttribute("class","mdl-button mdl-js-button mdl-button--accent");
 				x.setAttribute("data-value",num);
+				x.setAttribute('onclick','viewInfo(\''+compare+'\','+num+','+contents_num+');'+onclick);
 				document.getElementById('outputDiv'+num).appendChild(x);
 			}
 			document.getElementById('view'+num).style.display="block";
 		}
+		/*
 		x.onclick = function(){
 			console.log("data-value :"+this.getAttribute("data-value"));
+			console.log("compare"+compare);
 			var mynum = this.dataset.value;
 			console.log("mynum"+mynum);
 			viewInfo(compare,mynum,contents_num);
-			
 			};
+		 */
 	}
 }
 //1포인트 업
@@ -720,13 +723,15 @@ function lUP(){
  		
  		// 다이얼로그
  		//데이터 밸류를 가져와서
- 		var sentence = words[0];
+ 		var temp1 = words.split(",");
+ 		var sentence = temp1[0];
  		var read = sentence;
+ 		//var sentence = words[0];
  		//var sentence = document.getElementById('answers'+ts_num).value[0];
  		var answers=[];
- 		for(var i=1;i<words.length;i++){
- 			if(words[i].length<2)continue;
- 			answers.push(words[i]);
+ 		for(var i=1;i<temp1.length;i++){
+ 			if(temp1[i].length<2)continue;
+ 			answers.push(temp1[i]);
  		}
  		console.log("sentence"+sentence);
  		console.log("answers"+answers);
@@ -739,8 +744,8 @@ function lUP(){
  		//다이얼로그 내부 구문을 완성하고
  		var str = '<dialog class="mdl-dialog" id="viewInho">';
  		str += '<h4 class="mdl-dialog__title"> Study sentence </h4>';
- 		str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="재생" onclick="javascript:suzukikun('+contents_num+','+ts_num+')">';
- 		str += ' <input type="button" class="mdl-button mdl-js-button mdl-button--primary" id="korean" value="한글 번역" onclick="javascript:wordDetail(\''+words+'\')">';
+ 		str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="재생" onclick="javascript:suzukikun('+ts_num+')">';
+ 		str += ' <input type="button" class="mdl-button mdl-js-button mdl-button--primary" id="korean" value="한글 번역" onclick="javascript:wordDetail(\''+temp1+'\')">';
  		str += '<br><div id="transhidden" style="none"></div>'
  		str += ' <div class="mdl-dialog__content"></div>';
  		str += '<div id="saveVoca" style="display: none"></div>';
@@ -751,11 +756,14 @@ function lUP(){
  		str += '</dialog>';
  		
  		//넣은 다음에 출력
- 		 $(document).ready(function(){
+// 		var x = document.getElementsByClassName('.mdl-dialog__content');
+// 		console.log("x:"+x.length);
+// 		x.innerHTML(color); 
+ 		div.innerHTML = str;
+ 		$(document).ready(function(){
  		 $('.mdl-dialog__content').html(color);
  		 
  		 })
- 		div.innerHTML = str;
  		var dialog = document.getElementById('viewInho');
  		 if (! dialog.showModal) {
 	    	  dialogPolyfill.registerDialog(dialog);
@@ -896,7 +904,7 @@ function lUP(){
  		//단어 저장 ajax로
  	}
 	//음성합성
- 	function suzukikun(contents_num,ts_num){
+ 	function suzukikun(ts_num){
 
  		/*
  		console.log("sentence옴:"+sentence);
@@ -905,6 +913,7 @@ function lUP(){
  		console.log("contents_num in suzukikun"+contents_num);
  		console.log("ts_num in suzukikun"+ts_num);
  		$(document).ready(function(){
+ 			var contents_num = $('#contents_num').val();
  			
  			 $.ajax({
  	            type : "POST",
@@ -1316,19 +1325,16 @@ function WatchTheVideo(){
 	alert(youTubePlayer.getPlayerState());
 	
 	 if(youTubePlayer.getPlayerState() == 1){
-			alert("정지")	;	 
 		 //youTubePlayer.stopVideo();
 			 youTubePlayer.pauseVideo();
 			}
 	
 	else if(youTubePlayer.getPlayerState() == 2 || youTubePlayer.getPlayerState() == 5){
-		alert("재생");
 		youTubePlayerPlay();
 	}
 	 
 	else if(youTubePlayer.getPlayerState() == 3){
 		
-		alert("버퍼링");
 		youTubePlayerPlay();
 	}
 	
