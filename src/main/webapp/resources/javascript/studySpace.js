@@ -412,7 +412,7 @@ function LearnTheWords(tslist){
 	div.style.border="1px solid";
 	if(!learnSpace){
 	var str3 = '<div class="Notice">';
-	str3 += '<input type="button" class="mdl-button mdl-js-button mdl-button--primary" value="타임구하기" onclick="javascript:getTime('+contents_num+')">';
+	str3 += '<input type="button" class="mdl-button mdl-js-button mdl-button--primary" value="문제생성" onclick="javascript:getTime('+contents_num+')">';
 	str3 += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="<<" onclick="javascript:playsound2(0)">';
 	str3 += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value=">>" onclick="javascript:playsound2(1)">';
 	str3 += '</hr>';
@@ -480,9 +480,7 @@ function makeLearnWord(ts){
 			str2 += str;
 			str3 = $('.divNewView').html()
 			str2 += str3;
-			
 			$('.divNewView').html(str2);
-	
 }
 
 function getTime(contents_num){
@@ -527,7 +525,6 @@ function playsound2(num){
 	youTubePlayer.seekTo(currentTime,true);// 유튜브 시작위치
 	youTubePlayer.playVideo(); //유튜브 재생
 }
-
 
 
 function test(num,text){
@@ -614,9 +611,11 @@ function test(num,text){
 	          		//너무 짧은 건 넘기고
 	        	if(compare[i].length<2)continue;
 	          		//일치하는 부분을 답 입력 칸으로 변-환
+	        	flag++;
 	        	var holder = compare[i].length;
 	          	    text = text.replace(compare[i],'<input type="text" id="'+num+''+i+'" onkeypress="answer('+num+','+i+')"; placeholder="'+holder+'"size="'+holder+'"; style="border-left: none; border-right: none; border-top: none;">'+' ');
 	          	    console.log('compare['+i+'] :'+compare[i]);
+	          	    compare.push(flag);
 	          	}
 	          	//문제가 만들어지지 않았다면
 	          	if(!text.includes('<input type="text"') ){
@@ -658,6 +657,7 @@ function answer(num,i){
 		compare = correctAnswer.value.split(",");
 		kana = correctKana.value.split(",");
 		console.log("compare["+i+"] :"+compare[i]);
+		console.log("flag :"+compare.length);
 		console.log("kana["+i+"] :"+kana[i]);
 		var x = document.createElement("INPUT");
 		
@@ -669,8 +669,8 @@ function answer(num,i){
 			document.getElementById('view'+num).style.display="none";
 			console.log('1번'+'view'+num);
 			console.log('2번'+'view'+(num+1));
-			document.getElementById('view'+(num+1)).focus();
-			//일치하면
+			lUP();	
+			//틀리면
 		}else{
 			if(document.getElementById('view'+num)== null){
 				x.setAttribute("id","view"+num);
@@ -690,6 +690,20 @@ function answer(num,i){
 			
 			};
 	}
+}
+function lUP(){
+	$(document).ready(function(){
+		$.ajax({
+ 	            type : "POST",
+ 	            url : "../member/lUP",
+ 	            success : function(){
+ 	            	alert('1포인트 업');
+ 	            },
+ 	            error : function(){
+ 	            	console.log("포인트 업 실패");
+ 	            },
+ 	        });
+	})
 }
  	//다이얼로그 띄워서 정보 보기
  	function viewInfo(words,ts_num,contents_num){

@@ -102,5 +102,6 @@ public class MemberService {
 		 dao.updateMemberExp(map);
 		 
 	 }
+	 
 	
 }

@@ -2,9 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!DOCTYPE html>
-<html>
-<head>
+<jsp:include page="../navi_side_bar.jsp"></jsp:include>
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/study.css"></c:url>"> 
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -108,8 +106,7 @@
 
 <!-- css 적용 -->
 <link href ="<c:url value="/resources/css/studySpace.css"/>" type="text/css" rel="stylesheet">
-</head>
-<body>
+
 
 
 <input type="hidden" id="filename" class="filename" value="${filename}">
@@ -435,5 +432,4 @@
 
 
 <!-- 여기까지가 페이지의 코드 -->
-</body>
-</html>
+<jsp:include page="../navi_side_bar_bot.jsp"></jsp:include>
