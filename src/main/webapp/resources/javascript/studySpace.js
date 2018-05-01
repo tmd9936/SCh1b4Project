@@ -850,7 +850,7 @@ function lUP(){
  			$('.mdl-dialog__underunder').html("원문 : "+kanji+" 품사 : "+part+" 의미 : "+mean);
  			$('.mdl-dialog__underunder').show();
 
- 			$('#saveVoca').html('<input type="button" class="mdl-button mdl-js-button mdl-button--primary" value="저장하기" onclick="javascript:saveVoca('+ts_num+','+contents_num+',\''+sentence+'\')">');
+ 			$('#saveVoca').html('<input type="button" id ="saveToVoca"class="mdl-button mdl-js-button mdl-button--primary" value="저장하기" onclick="javascript:saveVoca('+ts_num+','+contents_num+',\''+sentence+'\')">');
 
  			$('#saveVoca').show();
  			// $('.mdl-dialog__underContent').show();
@@ -858,6 +858,8 @@ function lUP(){
  			
  			/*단어장 저장 시작*/
  			$('#saveToVoca').on('click', function(){
+ 				var contents_num = $('#contents_num').val();
+ 				
  					console.log("ts:"+kanji);
  					console.log("ts:"+part);
  					console.log("ts:"+mean);
@@ -955,13 +957,16 @@ function lUP(){
  	/*단어장 리스트 시작*/
  	function Vocab(){
  		var div = document.getElementById("divNewView");
+ 		var contents_num = $('#contents_num').val();
+ 		
+ 		alert("확인");
  	 		if(!VocabState){
  	 			
- 	 			var contents_num = $('#contents_num').val();
+ 	 			
  	 				
  	 	 		var str = '';
- 	 			initAllVoca();
- 	 		
+ 	 	 		initAllVoca();
+ 	 			
  	 		}else{
  	 			VocabState = false;
  	 			str = '';
@@ -971,7 +976,6 @@ function lUP(){
  		
  	 		
  	 		function initAllVoca(){
- 	 			
  	 			$.ajax({
  	 		 		
  	 	 			url : "selectAllVoca",
