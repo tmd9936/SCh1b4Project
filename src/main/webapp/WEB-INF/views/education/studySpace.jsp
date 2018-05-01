@@ -248,15 +248,16 @@
 	  <div class="LearningList3"  id="LearningList3" style="color: white; background-color: rgb(0, 166, 140);" align="center" 
 	  onclick="javascript:GoSpeakTheLine()">Speak the lines</div>
 	  
-	  <div class="LearningList4"  id="LearningList4" style="color: white; background-color: maroon;" align="center"  
+	  <div class="LearningList4"  id="LearningList4"   style="color: white; background-color: maroon;" align="center" 
 	  onclick="javascript:GoLive()">GoLive!</div>
 	  
 
 	  <div class="Voca&Plan"> 
 	  
-	  <div class="VocabQuiz"  id="VocabQuiz">VocabQuiz</div>
+	  <div class="Vocab"  id="Vocab"  align="center" 
+	   onclick="javascript:Vocab()">Vocab</div>
 	  
-	   <div class="LessonPlan" id="LessonPlan">LessonPlan</div>
+	  <!--  <div class="LessonPlan" id="LessonPlan">LessonPlan</div> -->
 	  </div>
 	   
 	  			
@@ -387,7 +388,6 @@
 		
 		<form id="insertContentsReply" >
 			<input type="hidden" id="member_id" value="${sessionScope.userId }"> 
-			<input type="hidden" id="contents_num" value="">
 			
 			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 		<input class="mdl-textfield__input" type="text" id="reply_text">

@@ -671,7 +671,6 @@ function answer(num,i){
  	function checkWord(contents_num,ts_num,j){
  		$(document).ready(function(){
  			console.log("j :"+j);
- 			
  			var list= $('#list'+ts_num).text();
  			console.log("list :"+list);
  			var compare=[];
@@ -686,15 +685,64 @@ function answer(num,i){
  			console.log("kanji :"+kanji);console.log("part :"+part);console.log("mean :"+mean);
  			$('.mdl-dialog__underunder').html("원문 : "+kanji+" 품사 : "+part+" 의미 : "+mean);
  			$('.mdl-dialog__underunder').show();
- 			$('#saveVoca').html('<input type="button" class="mdl-button mdl-js-button mdl-button--primary" value="저장하기" onclick="javascript:saveToVoca('+ts_num+','+contents_num+',\''+sentence+'\')">');
+ 			$('#saveVoca').html('<input type="button" id="saveToVoca" class="mdl-button mdl-js-button mdl-button--primary" value="저장하기" >');
+ 			//onclick="javascript:saveToVoca('+ts_num+','+contents_num+',\''+sentence+'\')"
  			$('#saveVoca').show();
  			// $('.mdl-dialog__underContent').show();
- 			
  			 
+ 			
+ 			/*단어장 저장 시작*/
+ 			$('#saveToVoca').on('click', function(){
+ 					console.log("ts:"+kanji);
+ 					console.log("ts:"+part);
+ 					console.log("ts:"+mean);
+ 					console.log("ts:"+contents_num);
+ 				$.ajax({
+ 				
+ 					url : "insertVoca",
+ 					type : "POST",
+ 					contentType : "application/json; charset=utf-8",
+ 					data : JSON.stringify({
+ 						contents_num : contents_num,
+ 						kanji :kanji,
+ 						part : part,
+ 						mean : mean
+ 					}),
+ 					success : function(){
+ 						console.log("단어장에 저장 완료 ");
+ 						
+ 						
+ 						
+ 					},
+ 					error : function(err){
+ 						
+ 						console.log(err);
+ 					}
+
+
+ 					
+ 					
+ 				})
+ 				
+ 				
+ 				
+ 				
+ 			});/*단어장 저장 끝*/
+ 			
+ 			
  		})
+ 		
  	 		 
  	}
+ 
  	
+ 		
+ 		$('#saveToVoca').on('click', function(){
+ 			
+ 			console.log("확인");	
+ 			
+ 		});
+ 		
  	
  	function suzukikun(contents_num,sentence){
  		/*
@@ -725,6 +773,108 @@ function answer(num,i){
  		
  	}
 
+ 	 var VocabState = false;
+ 	/*단어장 리스트 시작*/
+ 	function Vocab(){
+ 		var div = document.getElementById("divNewView");
+ 	 		if(!VocabState){
+ 	 			
+ 	 			var contents_num = $('#contents_num').val();
+ 	 				
+ 	 	 		var str = '';
+ 	 			initAllVoca();
+ 	 		
+ 	 		}else{
+ 	 			VocabState = false;
+ 	 			str = '';
+ 	 			div.innerHTML = str;
+ 	 			
+ 	 		}
+ 		
+ 	 		
+ 	 		function initAllVoca(){
+ 	 			
+ 	 			$.ajax({
+ 	 		 		
+ 	 	 			url : "selectAllVoca",
+ 	 	 			type : "GET",
+ 	 	 			data:{
+ 	 					contents_num : contents_num
+ 	 				},
+ 	 				dataType : "json",
+ 	 				success: function(vocaList){
+ 	 					
+ 	 	 	            
+ 	 	 	        str +=  '<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">'
+ 	 	 	        str  += '<tr>';
+ 	 	 	        str  += '<th>번호</th>';
+ 	 	 	        str  += '<th>한자</th>';
+ 	 	 	        str  += '<th>품사</th>';
+ 	 	 	        str  += '<th>의미</th>';
+ 	 	 	        str  += '<th>날짜</th>';
+ 	 	 	        str  += '</tr>';    
+ 	 	 	        
+ 	 	 	             $.each(vocaList ,function(index, item){
+ 	 	 	            	 	index = index+1;
+ 	 	 	           str += '<tr>'; 	 	
+ 	 	 	           str += '<td>'+index+'</td>';
+ 	 	 	           str += '<td>'+item.kanji+'</td>';
+ 	 	 	           str += '<td>'+item.part+'</td>';
+ 	 	 	           str += '<td>'+item.mean+'</td>';
+ 	 	 	           str += '<td>'+item.vocadate+'</td>';
+ 	 	 	           str += '<td><input type="button" value="삭제" class="deleteVoca mdl-button mdl-js-button mdl-button--raised mdl-button--colored" data_num="'+item.voca_num+'"></td>';
+ 	 	 	           str  += '</tr>';    	 
+ 	 	 	             	})
+ 	 	 	             	
+ 	 	 	           str += '</table>';  	
+ 	 	 	             	div.innerHTML = str; 	
+ 	 	 	             	VocabState = true;
+ 	 	 	                
+ 	 	 	               /*   삭제 시작*/
+ 	 	 			   		$('.deleteVoca').on('click', function(){
+ 	 	 			   			
+ 	 	 			   			var voca_num = $(this).attr('data_num');
+ 	 	 			   			
+ 	 	 			   			$.ajax({
+ 	 	 			   				
+ 	 	 			   				url : "deleteVoca",
+ 	 	 			   				type : "POST",
+ 	 	 			   				data : {
+ 	 	 			   				voca_num : voca_num
+ 	 	 			   				},
+ 	 	 			   				success : function(){
+ 	 	 			   					console.log("단어 삭제 성공");
+ 	 	 			   					str = '';
+ 	 	 			   					div.innerHTML = str; 	
+ 	 	 			   					
+ 	 	 			   					initAllVoca();
+ 	 	 			   				    
+ 	 	 			   				},
+ 	 	 			   				
+ 	 	 			   				error : function(error){
+ 	 	 			   					console.log(error);
+ 	 	 			   				}
+ 	 	 			   				
+ 	 	 			   			});
+ 	 	 			   			
+ 	 	 			   		});
+ 	 	 	                
+ 	 	 	                
+ 	 	 	                
+ 	 	 	        	},
+ 	 	 	        	
+ 	 	 	        error : function(error){
+ 	 	 	        	console.log(error);
+ 	 	 	        }	
+ 	 	 	        	
+ 	 	 	        });
+ 	 		}
+ 	 		
+ 	}
+ 	
+ 	/*단어장 리스트 종료*/
+ 	
+ 	/*채팅 시작*/
  var GoLiveState = false;
  
 function GoLive(){
@@ -747,14 +897,15 @@ function GoLive(){
 			
 			$.each(obj, function(index, item){
 				
-				str += '<div class="user" id="user'+index+'" teacher_id ="'+item.teacher_id+'"data_index="'+index+'" >'+item.teacher_name+'</div>';
-				
+				str += '<div class="user" id="user'+index+'" data_index="'+index+'" teacher_name="'+item.teacher_name+'">';
+				//onclick="javascript:init3('+index+')"
+				str += ''+item.teacher_name+'';
+				str += '</div>';
+				                                                                                                           
 			});
 			
 			str += '</div>';
 			str += '</div>';
-			
-		
 			
 			div.innerHTML = str;
 			
@@ -763,7 +914,6 @@ function GoLive(){
 				$('#chat_body').slideToggle('slow');
 				//$('#chat_body').css('height','0px');
 			});
-			
 			init3();
 			GoLiveState = true;
 			
@@ -777,57 +927,60 @@ function GoLive(){
 		GoLiveState = false;
 		str = '';
 		div.innerHTML = str;
+	    
+	 // stop any single stream: audio or video or screen
+ 		connection.streams.stop('audio');
+ 		connection.streams.stop('video');
+
+ 		// stop multiple streams
+ 		connection.streams.stop({
+ 		  remote: true,
+ 		  video: true,
+ 		  screen: true
+ 		});
 		
 	}
 
 }
 
-
-
 function init3(){
-	
-	
     /*유저 목록 클릭시*/
-    //$('#user'+index+'').on('click', function(){
-	var teacher_id = $(this).attr('teacher_id');
-	var index = $(this).attr('data_index');
-	console.log(index);
 	
-	$('.user').on('click', function(){
+	$(".user").on('click', function(){
     	var div = document.getElementById("divNewView");
+    	//var teacher_name = $(this).attr('teacher_name');
+    	
     	
     	var str = '<div id="local-Videos-Container"></div>';
     	str += '<div id="remote-Videos-Container"></div>';
     	
     	/*메시지 박스 */
-    	str += '<input type="hidden" id="to" />';
     	
     	str += '<div class="msg_box" >';
-    	str += '<div class="msg_head" id="msg_head">Krishna Teja';
+    	str += '<div class="msg_head" id="msg_head">';
+    	str += '대화창';
     	str += '<div class="close" id="close">x</div>';
     	str += '</div>';
     	
     	str += '<div id="msg_wrap">';
     	
     	str += '<div class="msg_body">';
-    	str += '<div class="msg_a">입장!</div>';
-    	
-    	str += '<div class="msg_b">입장!</div>';
-    	
+   	
     	str += '<div class ="msg_insert" id="chatMessage" style="overFlow: auto; max-height: 500px;">';	
     	str += '</div>';
     	
     	str += '</div>';
     	str += '<div class="msg_footer"><input type="text" class="msg_input" id="message" placeholder="메시지 내용"/></div>';
-    	//str += '<input type="button" id="sendMessage" value="전송"/>';
+    	str += '<input type="hidden" id="to" value="">';
     	
     	str += '<div class="btn-open-or-join-room" id="btn-open-or-join-room">';
 		str += 'Open Or JoinRoom';
 		str += '<div>';
-		str += '<input id="txt-roomid" placeholder ="Unique Room ID">';
+		str += '<div><input id="txt-roomid" placeholder ="Unique Room ID"><div>';
 		
     	str += '</div>';
     	str += '</div>';
+    	
     	div.innerHTML = str;
     	
     		$('#msg_head').on('click' ,function(){
@@ -884,82 +1037,79 @@ function init3(){
     	 
      };
      
-     
-
-     /*화면 공유 시작*/
-     
-   
-        /*화면 공유 종료 */
-    	
-     
      /*소켓 메세지, 방 생성 */
-    	var sock = null;
-    	var message = {};
-    	
-    		sock = new SockJS("/www/echo");
-    		
-    	  	console.log(sock);
-    	  	
-    	    sock.onopen = function() {
-    	    	
-    	        message={};
-    	        message.message = "반갑습니다.";
-    	        message.type = "all";
-    	        message.to = "all";
-    	        sock.send(JSON.stringify(message)); 
-    	        
-    	        }
-    	     
-    	    sock.onmessage = function(evt) {
-    	        console.log(evt);
-    	        
-    	        $("<div class ='msg_a'>"+evt.data+"</div>").insertBefore('.msg_insert');
+ 	var sock = null;
+ 	var message = {};
+ 	
+ 		sock = new SockJS("/www/echo");
+ 		
+ 	  	console.log(sock);
+ 	  	
+ 	    sock.onopen = function() {
+ 	    	
+ 	        message={};
+ 	        message.message = "반갑습니다.";
+ 	        message.type = "one";
+ 	        message.to = "all";
+ 	        sock.send(JSON.stringify(message)); 
+ 	        
+ 	        }
+ 	     
+ 	    sock.onmessage = function(evt) {
+ 	        console.log(evt);
+ 	        
+ 	        $("<div class ='msg_a'>"+evt.data+"</div>").insertBefore('.msg_insert');
 	             $('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
 	             
-    	    	
-    	    };
-    	     
-    	    sock.onclose = function() {
-    	    	
-    	        // sock.send("채팅을 종료합니다.");
-    	    }
-    	     
-    	     $("#message").keydown(function (key) {
-    	         if (key.keyCode == 13) {
-    	        	 var msg=$(this).val();
-    	        	 $(this).val('');
-    	        	 $("<div class ='msg_b'>"+msg+"</div>").insertBefore('.msg_insert');
-    	             $('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
-    	             
-    	             message={};
-     	            message.message = msg;
-     	            message.type = "all";
-     	            message.to = "all";
-     	             
-     	            var to = $("#to").val();
-     	            if ( to != "") {
-     	                message.type = "one";
-     	                message.to = to;
-     	            }
-     	            
-     	           sock.send(JSON.stringify(message));
-     	            
-    	         }
-    	         
-    	      });
-    	  
-    	    
-    	    $('#user').on('click', function(){
-    	    	
-    	    	$('.msg_box').show();
-    	    });
-    	    
-    	 
-        			
-    	    
-    });
+ 	    	
+ 	    };
+ 	     
+ 	    sock.onclose = function() {
+ 	    	
+ 	         sock.send("채팅을 종료합니다.");
+ 	    }
+ 	     
+ 	     $("#message").keydown(function (key) {
+ 	         if (key.keyCode == 13) {
+ 	        	 var msg=$(this).val();
+ 	        	 $(this).val('');
+ 	        	 $("<div class ='msg_b'>"+msg+"</div>").insertBefore('.msg_insert');
+ 	             $('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
+ 	             
+ 	             message={};
+  	            message.message = msg;
+  	            message.type = "all";
+  	            message.to = "all";
+  	             
+  	            var to = $("#to").val();
+  	            if ( to != "") {
+  	                message.type = "one";
+  	                message.to = to;
+  	            }
+  	            
+  	           sock.send(JSON.stringify(message));
+  	            
+ 	         }
+ 	         
+ 	      });
+ 	  
+ 	    
+ 	    $('#user').on('click', function(){
+ 	    	
+ 	    	$('.msg_box').show();
+ 	    });
+     			
+ 	    
+     
+     
+     
+     
+	});
+    
+     
+    };
 
-}/*init3() 종료*/
+/*init3() 종료*/
     
 
 
@@ -1011,9 +1161,7 @@ function WatchTheVideo(){
 		youTubePlayerPlay();
 	}
 	
-	
 }
-
 
 $(function(){
 	/*댓글 리스트 출력*/
