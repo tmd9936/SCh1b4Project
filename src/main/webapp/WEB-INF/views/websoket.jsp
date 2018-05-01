@@ -36,6 +36,7 @@ function onError(evt) {
     writeToScreen('ERROR: ' + evt.data);
 }
 function doSend(message) {
+	alert("들어옴?");
     writeToScreen("Message Sent: " + message);
     websocket.send(message);
     //websocket.close();
