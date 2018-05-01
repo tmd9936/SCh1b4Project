@@ -339,19 +339,19 @@ p{
 					<ul class="demo-list-item mdl-list">
 						<c:forEach items="${tsList }" var="list">
 							<li class="mdl-list__item"><span class="timing_text">${list.ts_text }</span>
-								<input type="hidden" value="${list.ts_text }">
-								<div id="tt${list.ts_num }" class="material-icons md-18">assignment</div>
+								<input id="tsText${list.ts_num }" type="hidden" value="${list.ts_text }">
+								<div id="tt${list.ts_num }" class="material-icons md-18" onclick="copyOriginal('${list.ts_num }')">assignment</div>
 								<div class="mdl-tooltip" for="tt${list.ts_num }">
 									<span class="timing_start">start : ${list.ts_start }</span><br>
-									<span class="timing_dur">duration : ${list.ts_dur }</span> 
-									<input class="timing_start_hidden" type="hidden" value="${list.ts_start }">
-									<input class="timing_dur_hidden" type="hidden"	value="${list.ts_dur }">
+									<span class="timing_dur" >duration : ${list.ts_dur }</span> 
+									<input class="timing_start_hidden" type="hidden"  id="tsStart${list.ts_num }" value="${list.ts_start }">
+									<input class="timing_dur_hidden" type="hidden" id="tsDur${list.ts_num }"	value="${list.ts_dur }">
 								</div></li>
 						</c:forEach>
 					</ul>
 				</div>
 			</div>
-
+			
 			<div class="mdl-cell mdl-cell--5-col">
 				<!-- <form action="syncedTranscript"> -->
 				<div class="subheading">편집영역</div>
@@ -394,14 +394,11 @@ p{
 				<script>
 				$('#statusBtn').on('click',function(){
 					if(confirm('저장하시겠습니까?')){
-						
-					
 					var num = $('#contents_num').val();
 					var startTiming = document.getElementsByClassName('timing_start_point');
 					var endTiming = document.getElementsByClassName('timing_end_point');
 					var text = 	document.getElementsByClassName('transcriptTextArea mdl-textfield__input');
 					var array = new Array();
-					
 					if(startTiming == null || startTiming == undefined){
 						
 						alert('편집영역에서 작업해주세요');
@@ -410,8 +407,9 @@ p{
 					
 					var obj = {};
 					for(let i = 0 ; i < startTiming.length ; i++){
-						obj = {"ts_start" : ""+startTiming[i].innerHTML  , "ts_dur": ""+Number(endTiming[i].innerHTML) - Number(startTiming[i].innerHTML) , "ts_text": ""+text[i].value, "contents_num" : "" + num, "status" : 1}
+						obj = {"ts_start" : ""+startTiming[i].innerHTML  , "ts_dur": (Number(endTiming[i].innerHTML) - Number(startTiming[i].innerHTML)) , "ts_text": ""+text[i].value, "contents_num" : "" + num, "status" : 1}
 						array.push(obj);
+						
 					}
 					console.log(JSON.stringify(array));
 					
@@ -480,6 +478,32 @@ var reviewFlag = false;
 var timeSlide = 0;
 
 
+function copyOriginal(num){
+	
+		var ts_start = $('#tsStart'+num).val();
+		var ts_dur = $('#tsDur'+num).val();
+		var text = $('#tsText'+num).val();
+		var length = $('.transcriptDiv').length;
+		var str = '';
+		str += "<li class='transcriptDiv'><i class='material-icons md-18'><span class='dragEditList'>format list numbered</span></i>"
+		str += "<input class='transcriptTextArea mdl-textfield__input' type='text' data-num="+length+" value="+text+" />";
+		str += "<input type='hidden' value="+ length +" />";
+		str += "<span class='timing_start_point'>"+ts_start+"</span>";
+		str += "<input type='hidden' class='timing_start_point_hidden' value="+ts_start+">"
+		str += "<i class='material-icons md-18'><span class='delEditList'>close</span></i>"
+		str += "<span class='timing_end_point'>"+(Number(ts_start)+Number(ts_dur))+"</span><input type='hidden' class='timing_end_point_hidden' value="+(Number(ts_start)+Number(ts_dur))+"></li>";
+		$('#transcriptPlace ul').append(str);
+		$('input[data-num='+length+']').focus();
+		delListEdit();
+		getValueOfSort();
+		sortEditDiv();
+		setSyncIndex();
+
+}
+
+
+
+
 var lengthGeneral = $('.transcriptDiv').length;
 $('#genSubtitle').on('click', function(){
 	var length = $('.transcriptDiv').length;
@@ -508,9 +532,6 @@ $('#startBtn').on('click',function(){
 		 alert('편집영역에 자막을 추가해주세요');
 		return;
 	} 
-	 
-	
-	 
 	var str = '';
 	str += '<button	class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="syncBtn">Start Review!</button>'
 	$('#startBtn').closest("li").attr('class','disabled');
@@ -519,7 +540,9 @@ $('#startBtn').on('click',function(){
 	$('#secondRow').append(str);
 	$('#secondRow').attr('class','active');
 	$('#syncBtn').on('click', function(){
+		
 		reviewFlag = true;
+		
 		for(let i = 0 ; i < spanStartLength.length ; i ++){
 			 console.log(spanStartLength[i].innerHTML);
 			 if(spanStartLength[i].innerHTML == '' || spanEndLength[i].innerHTML == ''
@@ -558,10 +581,8 @@ $('#startBtn').on('click',function(){
 					 return;
 				 }
 			 }
-	 		
-	 		
-	 		
-	 		var num = $('#contents_num').val();		
+	 				 		
+	 	 	var num = $('#contents_num').val();		
 	 		 $.ajax({
 					url : "deleteTs",
 					type : "POST",
@@ -603,7 +624,7 @@ $('#startBtn').on('click',function(){
 					error : function(err){
 						console.log(err);
 					}
-				});  
+				});   
 	}); 
 	});
 	
@@ -848,11 +869,12 @@ function youTubePlayerDisplayInfos() {
         }
        
        
+       if(reviewFlag){
+    	   
        
        //start, end
-       if(reviewFlag){
-
-    	   var check = $('.timing_start_point');
+		console.log('ff');
+    	var check = $('.timing_start_point');
         var end =  $('.timing_end_point');
         var text = $('input[type="text"]');
         
@@ -1597,7 +1619,7 @@ function youTubePlayerVolumeChange(volume) {
 			str += "<span class='timing_start_point'></span>";
 			str += "<input type='hidden' class='timing_start_point_hidden'>"
 			str += "<i class='material-icons md-18'><span class='delEditList'>close</span></i>"
-			str += "<span class='timing_end_point'><input type='hidden' class='timing_end_point_hidden'></span></li>";
+			str += "<span class='timing_end_point'></span><input type='hidden' class='timing_end_point_hidden'></li>";
 			$('#transcriptPlace ul').append(str);
 			$('input[data-num='+length+']').focus();
 			  
