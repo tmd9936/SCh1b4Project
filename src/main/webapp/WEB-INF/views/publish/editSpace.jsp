@@ -485,7 +485,7 @@ $('#genSubtitle').on('click', function(){
 	var length = $('.transcriptDiv').length;
 	var str = '';
 	str += "<li class='transcriptDiv'><i class='material-icons md-18'><span class='dragEditList'>format list numbered</span></i>"
-	str += "<input class='transcriptTextArea mdl-textfield__input' type='text' data-num="+lengthGeneral+"></input>";
+	str += "<input class='transcriptTextArea mdl-textfield__input' type='text' data-num="+lengthGeneral+" />";
 	str += "<span class='timing_start_point'></span>";
 	str += "<input type='hidden' class='timing_start_point_hidden'>"
 	str += "<i class='material-icons md-18'><span class='delEditList'>close</span></i>"
