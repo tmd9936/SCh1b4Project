@@ -1,8 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<<<<<<< Updated upstream
 
 <jsp:include page="../navi_side_bar.jsp"></jsp:include>
+=======
+ <jsp:include page="../navi_side_bar.jsp"></jsp:include>
+>>>>>>> Stashed changes
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/study.css"></c:url>"> 
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -432,4 +436,8 @@
 
 
 <!-- 여기까지가 페이지의 코드 -->
+<<<<<<< Updated upstream
 <jsp:include page="../navi_side_bar_bot.jsp"></jsp:include>
+=======
+   <jsp:include page="../navi_side_bar_bot.jsp"></jsp:include>
+>>>>>>> Stashed changes
