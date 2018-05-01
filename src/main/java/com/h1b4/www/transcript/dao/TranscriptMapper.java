@@ -24,8 +24,9 @@ public interface TranscriptMapper {
 	public String selectContentsUrl(int contents_num);
 	
 	public int deleteTranscript (int contents_num);
-
-	//자막 전체 불러오기
+	//전체 리스트 가져옵니다
+	public ArrayList<Transcript> takeAllList(int contents_num);
+	//자막 전체 불러오기(중 10개만)
 	public ArrayList<Transcript> selectList(int contents_num);
 	//문제풀기 용 자막
 	public Transcript tsnum(@Param("contents_num")int contents_num,@Param("ts_num")int ts_num);

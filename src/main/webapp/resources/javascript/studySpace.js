@@ -385,13 +385,15 @@ function GoSpeakTheLine(){
 			str +=	'}';
 			str	+= '</style>';
 			
-			
-			
-		$('.divNewView').html(str);
+		$('#divNewView').removeAttr('style');	
+		$('#divNewView').html('');	
+		$('#divNewView').html(str);
 		$('.speachView').css('visibility','visible');
 		speakSpace = true;
+		learnSpace=false;
 	}else{
 		$('.divNewView').html('');
+		$('.startEndBtn').css('visibility','hidden');
 		$('.speachView').css('visibility','hidden');
 		speakSpace = false;
 	}
@@ -400,30 +402,37 @@ function GoSpeakTheLine(){
 
 
 function LearnTheWords(tslist){
-	var div = document.getElementById("divNewGSTL");
+	var contents_num;
+	
+	contents_num = document.getElementById('contents_num').value;
+	var div = document.getElementById("divNewView");
+
 	div.style.overflow = "scroll";
-	if(!learnSpace){
-	var str3 = '<div class="Notice">';
-	str3 += '</div>';
-	$('.divNewView').html(str3);
-	div.innerHTML  = str3;
 	div.style.width="598px";
 	div.style.height="700px";
 	div.style.border="1px solid";
+	if(!learnSpace){
+	var str3 = '<div class="Notice">';
+	str3 += '<input type="button" class="mdl-button mdl-js-button mdl-button--primary" value="문제생성" onclick="javascript:getTime('+contents_num+')">';
+	str3 += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="<<" onclick="javascript:playsound2(0)">';
+	str3 += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value=">>" onclick="javascript:playsound2(1)">';
+	str3 += '</hr>';
+	str3 += '</div>';
+	//$('.divNewView').html(str3);
+	//div.innerHTML  = str3;
 	var str2='';
+	str2 += str3;
 		for (var i = 0; i < tslist.length; i++) {
 			var num  = tslist[i].ts_num;
 			var text = tslist[i].ts_text;
 			var start = tslist[i].ts_start-1;
 			var dur = tslist[i].ts_dur+1;
-			
-			var str = '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="'+(i+1)+'. 재생" onclick="javascript:playsound('+start+','+dur+')">'
-			if(dur>10){
-				str += '<br><input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="3sec 뒤로" onclick="javascript:playsound2('+start+','+dur+',0)">'
-				str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="3sec 앞으로" onclick="javascript:playsound2('+start+','+dur+',1)"><br>'
-			}
+			var str='';
+			str = '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="듣기" onclick="javascript:playsound('+start+','+dur+')" name="a'+num+'">'
 			str += ' <input type="hidden" id="answers'+num+'">';
-			str += ' <div id="outputDiv'+num+'" style="display: inline;" data-value="1"></div>';
+			str += ' <input type="hidden" id="kana'+num+'">';
+			str += ' <div id="outputDiv'+num+'" style="display: inline;" ></div>';
+			
 			str += '<div id="list'+num+'" style="display: none;"></div>';
 			str += '<div style="display: none;" id="inputAnswer'+num+'">정답을 입력 :&nbsp;&nbsp;&nbsp;<input id="yourText'+num+'" type="text"   style="border-left: none; border-right: none; border-top: none; "></div><br>';
 			this.test(num,text);
@@ -431,20 +440,72 @@ function LearnTheWords(tslist){
 		}
 		
 	
-
-	$('.secondView').html(str2);
-	div.style.display="block";
-	learnSpace=true;
+		$('.divNewView').html(str2);
+		div.style.display="block";
+		learnSpace=true;
+		$('.speachView').css('visibility','hidden');
+		$('.startEndBtn').css('visibility','hidden');
+		speakSpace = false;
 	}else{
 		div.innerHTML='';
 		div.style.display="none";
 		learnSpace=false;
 	}
-
 	
-
+}
+function makeLearnWord(ts){
+	$('.Notice').remove();
+	var str4 = '<div class="Notice">';
+	str4 += '<input type="button" class="mdl-button mdl-js-button mdl-button--primary" value="타임구하기" onclick="javascript:getTime('+contents_num+')">';
+	str4 += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="<<" onclick="javascript:playsound2(0)">';
+	str4 += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value=">>" onclick="javascript:playsound2(1)">';
+	str4 += '</hr>';
+	str4 += '</div>';
+	//$('.divNewView').html(str3);
+	//div.innerHTML  = str3;
+	var str2='';
+	str2 += str4;
+	var str3='';
+			var num  = ts.ts_num;
+			var text = ts.ts_text;
+			var start = ts.ts_start-1;
+			var dur = ts.ts_dur+1;
+			var str='';
+			str = '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="듣기" onclick="javascript:playsound('+start+','+dur+')" name="a'+num+'">'
+			str += ' <input type="hidden" id="answers'+num+'">';
+			str += ' <input type="hidden" id="kana'+num+'">';
+			str += ' <div id="outputDiv'+num+'" style="display: inline;" ></div>';
+			
+			str += '<div id="list'+num+'" style="display: none;"></div>';
+			str += '<div style="display: none;" id="inputAnswer'+num+'">정답을 입력 :&nbsp;&nbsp;&nbsp;<input id="yourText'+num+'" type="text"   style="border-left: none; border-right: none; border-top: none; "></div><br>';
+			this.test(num,text);
+			str2 += str;
+			str3 = $('.divNewView').html()
+			str2 += str3;
+			$('.divNewView').html(str2);
 }
 
+function getTime(contents_num){
+	var currentTime = youTubePlayer.getCurrentTime();
+	$(document).ready(function(){
+	$.ajax({
+         type : "POST",
+         url : "../transcript/getTt",
+         ContentType : "application/json; charset=utf-8",
+         data : {
+        	 "contents_num" : contents_num,
+        	 "currentTime" : currentTime
+         },
+         success : function(ts){
+        	 console.log(JSON.stringify(ts));
+        	 makeLearnWord(ts);
+         },
+         error : function(){
+        	 //alert('fail');
+         }
+	 });
+	})
+}
 function playsound(start7,dur7){
 	done = false;
 	dur = dur7*2000;
@@ -452,37 +513,35 @@ function playsound(start7,dur7){
 	youTubePlayer.playVideo(); //유튜브 재생
 }
 
-function playsound2(start7,dur7,num){
+function playsound2(num){
 	done = false;
 	var currentTime;
 	switch(num){
 	case 1:
 		currentTime = youTubePlayer.getCurrentTime()+3;
-		console.log(currentTime);
 		break;
 	case 0:
 		currentTime = youTubePlayer.getCurrentTime()-3;
-		console.log(currentTime);
 		break;
 	}
-	dur = dur7*1500;
 	youTubePlayer.seekTo(currentTime,true);// 유튜브 시작위치
 	youTubePlayer.playVideo(); //유튜브 재생
 }
 
 
-
 function test(num,text){
+	var flag;
 	var oneWordAnswer=[];
-	
     var object;
     var compare=[];
+    var kana=[];
     compare.push(text);
+    kana.push(text);
     //문장을 API를 이용해 분해,분석 하자.
     $(document).ready(function(){
         $.ajax({
             type : "POST",
-            url : "https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=766258364c33527044357054725a7149306e684c4a4243764c384673444c355a2e554863662f306f696238",
+            url : "https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=6b612f392f7967397036713151474445533866346141694d7646516a6c366a2f5a5a576231615a36526836",
             ContentType : "application/json; charset=utf-8",
             dataType : 'json',
             data : {
@@ -507,11 +566,9 @@ function test(num,text){
 		                switch(c){
 		               case 0:
 		                 list += '원문: '+item2;
-		                 console.log("item 원문 판별 : "+item2);
 		                 //list += item2;
 		                 compare.push(item2);
 		                 if(item2.length>=2){
-		                	 console.log("item 이녀석 저장: "+item2);	 
 		                 oneWord2 = item2+':';
 		                 }
 		                 c++;
@@ -522,17 +579,15 @@ function test(num,text){
 	           		       //list += item2;
 	        	          if(oneWord2!=''){
 	        	          oneWord3 = item2+':';
-	        	          console.log("oneWord3의상태 :"+oneWord3);
 	        	          }
 	        	          c++;
 		                 break;
 		               case 2:
 		                 list += ' 읽기: '+item2+'<br>';
-		                 console.log(item2+'<br>');
+		                 kana.push(item2);
 		                 //list += item2;
 		                 if(oneWord2!=''){
 		                 oneWord4 = item2;
-		                 console.log("oneWord4의상태 :"+oneWord4);
 		                 }
 		                 c=0;
 		                 break;
@@ -540,24 +595,38 @@ function test(num,text){
 		             });
 		              if(oneWord2!=''){
 		            	  oneWord =oneWord2+""+oneWord3+""+oneWord4;
-		            	  console.log("총합의상태 :"+oneWord);
 		            	  oneWordAnswer.push(oneWord);
 		            	  console.log("저장 직후의 상태 :"+oneWordAnswer);
 		              }
 		         });
 		         $('#list'+num).text(oneWordAnswer);
 		         
+		         //히든 칸에 답을 입력한다
 		         var answers = document.getElementById('answers'+num);
 		        	answers.value = compare;
+		         var kanas = document.getElementById('kana'+num);
+		         	kanas.value = kana;
+		        	
+		        	
 		          //문제가 만들어지는 공간마다 답 입력칸을 만들어 준다.
 	          	for (var i = 1; i < compare.length; i++) {
 	          		//너무 짧은 건 넘기고
 	        	if(compare[i].length<2)continue;
 	          		//일치하는 부분을 답 입력 칸으로 변-환
-	          	    text = text.replace(compare[i],'<input type="text" id="'+num+''+i+'" onkeypress="answer('+num+','+i+')"; size="5"; style="border-left: none; border-right: none; border-top: none;">'+' ');
-	         }
+	        	flag++;
+	        	var holder = compare[i].length;
+	          	    text = text.replace(compare[i],'<input type="text" id="'+num+''+i+'" onkeypress="answer('+num+','+i+')"; placeholder="'+holder+'"size="'+holder+'"; style="border-left: none; border-right: none; border-top: none;">'+' ');
+	          	    console.log('compare['+i+'] :'+compare[i]);
+	          	}
+	          	compare.push(flag);
 	          	//문제가 만들어지지 않았다면
-	          	if(!text.includes('<input type="text"') )return;
+	          	if(!text.includes('<input type="text"') ){
+	          		var failed = document.getElementsByName("a"+num);
+	          		for (var i = 0; i < failed.length; i++) {
+						failed[i].style.display="none";
+					}
+	          		return;
+	          	}
 	          	
 	          	
     $('#outputDiv'+num).html(text);
@@ -573,42 +642,78 @@ function test(num,text){
 
 //유저가 답을 입력한다. 여기에는 정답과, 문제 칸을 특정할 수 있는 조합을 불러와야 한다.
 function answer(num,i){
+	var contents_num;
+	$(document).ready(function(){
+	contents_num = $('#contents_num').val();
+	console.log('contents_num.value'+contents_num);
+	})
+	
  		//엔터를 입력했다면
 	if(event.keyCode==13){
 		
 		var yourAnswer = document.getElementById(num+''+i);
 		var correctAnswer = document.getElementById('answers'+num);
+		var correctKana = document.getElementById('kana'+num);
 		var compare = [];
+		var kana = [];
 		compare = correctAnswer.value.split(",");
-		console.log("compare[i] :"+compare[i]);
+		kana = correctKana.value.split(",");
+		console.log("compare["+i+"] :"+compare[i]);
+		console.log("flag :"+compare.length);
+		console.log("kana["+i+"] :"+kana[i]);
 		var x = document.createElement("INPUT");
 		
-		//답이 일치하지 않으면
-		if(yourAnswer.value != compare[i]){
+		//답이 일치하면
+		if(yourAnswer.value == compare[i] || yourAnswer.value == kana[i]){
+
+			yourAnswer.disabled=true;
+			if(document.getElementById('view'+num)!=null)
+			document.getElementById('view'+num).style.display="none";
+			console.log('1번'+'view'+num);
+			console.log('2번'+'view'+(num+1));
+			lUP();	
+			//틀리면
+		}else{
 			if(document.getElementById('view'+num)== null){
 				x.setAttribute("id","view"+num);
 				x.setAttribute("type", "button");
 				x.setAttribute("value","정보 보기");
 				x.setAttribute("class","mdl-button mdl-js-button mdl-button--accent");
+				x.setAttribute("data-value",num);
+				x.setAttribute('onclick','viewInfo(\''+compare+'\','+num+','+contents_num+');'+onclick);
 				document.getElementById('outputDiv'+num).appendChild(x);
-				
 			}
 			document.getElementById('view'+num).style.display="block";
-			
-			//일치하면
-		}else{
-			yourAnswer.disabled=true;
-			if(document.getElementById('view'+num)!=null)
-			document.getElementById('view'+num).style.display="none";
 		}
+		/*
 		x.onclick = function(){
-			viewInfo(compare,num,contents_num)
+			console.log("data-value :"+this.getAttribute("data-value"));
+			console.log("compare"+compare);
+			var mynum = this.dataset.value;
+			console.log("mynum"+mynum);
+			viewInfo(compare,mynum,contents_num);
 			};
+		 */
 	}
+}
+//1포인트 업
+function lUP(){
+	$(document).ready(function(){
+		$.ajax({
+ 	            type : "POST",
+ 	            url : "../member/lUP",
+ 	            success : function(){
+ 	            	alert('1포인트 업');
+ 	            },
+ 	            error : function(){
+ 	            	console.log("포인트 업 실패");
+ 	            },
+ 	        });
+	})
 }
  	//다이얼로그 띄워서 정보 보기
  	function viewInfo(words,ts_num,contents_num){
- 		
+ 		console.log("viewInfo"+ts_num);
  		//words, explanation 가져옴 div 만들어서 밑에 붙임 (거기에 다이얼로그)
  		console.log("words:"+words);
  		var div = document.createElement('div');
@@ -618,11 +723,15 @@ function answer(num,i){
  		
  		// 다이얼로그
  		//데이터 밸류를 가져와서
- 		var sentence = words[0];
+ 		var temp1 = words.split(",");
+ 		var sentence = temp1[0];
+ 		var read = sentence;
+ 		//var sentence = words[0];
+ 		//var sentence = document.getElementById('answers'+ts_num).value[0];
  		var answers=[];
- 		for(var i=1;i<words.length;i++){
- 			if(words[i].length<2)continue;
- 			answers.push(words[i]);
+ 		for(var i=1;i<temp1.length;i++){
+ 			if(temp1[i].length<2)continue;
+ 			answers.push(temp1[i]);
  		}
  		console.log("sentence"+sentence);
  		console.log("answers"+answers);
@@ -631,10 +740,13 @@ function answer(num,i){
  			var str = '<span  style="color: red; cursor:pointer" onclick="javascript:checkWord('+contents_num+','+ts_num+','+j+')">'+answers[j]+'</span>';
  			color = color.replace(answers[j],str);
  		}
+ 		console.log("read"+read);
  		//다이얼로그 내부 구문을 완성하고
  		var str = '<dialog class="mdl-dialog" id="viewInho">';
  		str += '<h4 class="mdl-dialog__title"> Study sentence </h4>';
- 		str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="재생" onclick="javascript:suzukikun('+contents_num+',\''+sentence+'\')">';
+ 		str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="재생" onclick="javascript:suzukikun('+ts_num+')">';
+ 		str += ' <input type="button" class="mdl-button mdl-js-button mdl-button--primary" id="korean" value="한글 번역" onclick="javascript:wordDetail(\''+temp1+'\')">';
+ 		str += '<br><div id="transhidden" style="none"></div>'
  		str += ' <div class="mdl-dialog__content"></div>';
  		str += '<div id="saveVoca" style="display: none"></div>';
  		str += '<div class=	"mdl-dialog__underunder" style="display: none"></div>'
@@ -644,11 +756,14 @@ function answer(num,i){
  		str += '</dialog>';
  		
  		//넣은 다음에 출력
- 		 $(document).ready(function(){
+// 		var x = document.getElementsByClassName('.mdl-dialog__content');
+// 		console.log("x:"+x.length);
+// 		x.innerHTML(color); 
+ 		div.innerHTML = str;
+ 		$(document).ready(function(){
  		 $('.mdl-dialog__content').html(color);
  		 
  		 })
- 		div.innerHTML = str;
  		var dialog = document.getElementById('viewInho');
  		 if (! dialog.showModal) {
 	    	  dialogPolyfill.registerDialog(dialog);
@@ -657,16 +772,69 @@ function answer(num,i){
  		 dialog.querySelector('.mdl-dialog__actions').addEventListener('click', function() {
  			$('.mdl-dialog__underunder').html('');
  			$('#saveVoca').html('');
+ 			div.innerHTML="";
  		      dialog.close();
+ 		     checkMP3();
  		    });
 	         // window.open("../transcript/wordDetail?words="+words+"&ts_num="+ts_num+"&contents_num="+contents_num+"&explanation="+explanation, "wordDetail", "width=578, height=215, toolbar=no, menubar=no, scrollbars=no, location=no, status=no, resizable=no" );
  	}  
  	
+ 	//한글 번역
+ 	function wordDetail(word){
+ 		$(document).ready(function(){
+ 			if($('#korean').val()=='되돌리기'){
+ 				$('#translate').hide();
+ 				$('.mdl-dialog__content').show();
+            	$('.mdl-dialog__underunder').show();
+            	$('#saveVoca').show();
+ 				$('#korean').val('한글 번역');
+ 				$("#transhidden").hide();
+ 				return;
+ 			}
+ 			
+ 			var tong = word.split(",");
+ 			console.log("tong"+tong);
+ 			var words = tong[0];
+ 			console.log('words:'+words);
+ 			
+			 $.ajax({
+	            type : "POST",
+	            url : "../transcript/wordDetail",
+	           ContentType : "application/json; charset=utf-8",
+	            //dataType : "json",
+	            data : {
+	               "words" : words, 
+	              },
+	            success : function(sentence){
+	            	var Ca = /\+/g;
+	            	var ajaxName=decodeURIComponent( sentence.replace(Ca, " ") );
+	            	//var ajaxName = decodeURIComponent( sentence );
+	            	console.log("ajaxname"+ajaxName);
+	            	var str = '<br><div id="translate"></div>';
+	            	$("#transhidden").show();
+	            	$("#transhidden").html(str);
+	            	$('#translate').html(ajaxName);
+	            	$('.mdl-dialog__underunder').append(str);
+	            	$('.mdl-dialog__content').hide();
+	            	$('.mdl-dialog__underunder').hide();
+	            	$('#saveVoca').hide();
+	            	$('#korean').val("되돌리기");
+	            	
+	            	$(document).ready(function(){
+	            		$('.mdl-button mdl-js-button mdl-button--primary')
+	            	})
+	            },
+	            error : function(){
+	            	console.log("fail");
+	            },
+	        });
+		 })
+ 	}
  	
+ 	//단어를 체크
  	function checkWord(contents_num,ts_num,j){
  		$(document).ready(function(){
  			console.log("j :"+j);
- 			
  			var list= $('#list'+ts_num).text();
  			console.log("list :"+list);
  			var compare=[];
@@ -681,50 +849,217 @@ function answer(num,i){
  			console.log("kanji :"+kanji);console.log("part :"+part);console.log("mean :"+mean);
  			$('.mdl-dialog__underunder').html("원문 : "+kanji+" 품사 : "+part+" 의미 : "+mean);
  			$('.mdl-dialog__underunder').show();
- 			$('#saveVoca').html('<input type="button" class="mdl-button mdl-js-button mdl-button--primary" value="저장하기" onclick="javascript:saveToVoca('+ts_num+','+contents_num+',\''+sentence+'\')">');
+
+ 			$('#saveVoca').html('<input type="button" class="mdl-button mdl-js-button mdl-button--primary" value="저장하기" onclick="javascript:saveVoca('+ts_num+','+contents_num+',\''+sentence+'\')">');
+
  			$('#saveVoca').show();
  			// $('.mdl-dialog__underContent').show();
- 			
  			 
+ 			
+ 			/*단어장 저장 시작*/
+ 			$('#saveToVoca').on('click', function(){
+ 					console.log("ts:"+kanji);
+ 					console.log("ts:"+part);
+ 					console.log("ts:"+mean);
+ 					console.log("ts:"+contents_num);
+ 				$.ajax({
+ 				
+ 					url : "insertVoca",
+ 					type : "POST",
+ 					contentType : "application/json; charset=utf-8",
+ 					data : JSON.stringify({
+ 						contents_num : contents_num,
+ 						kanji :kanji,
+ 						part : part,
+ 						mean : mean
+ 					}),
+ 					success : function(){
+ 						console.log("단어장에 저장 완료 ");
+ 						
+ 						
+ 						
+ 					},
+ 					error : function(err){
+ 						
+ 						console.log(err);
+ 					}
+
+
+ 					
+ 					
+ 				})
+ 				
+ 				
+ 				
+ 				
+ 			});/*단어장 저장 끝*/
+ 			
+ 			
  		})
+ 		
  	 		 
  	}
- 	
- 	
- 	function suzukikun(contents_num,sentence){
+
+ 	function saveVoca(ts_num,contents_num,sentence){
+ 		//단어 저장 ajax로
+ 	}
+	//음성합성
+ 	function suzukikun(ts_num){
+
  		/*
  		console.log("sentence옴:"+sentence);
  		location.href="../transcript/suzuki?sentence="+sentence+"&contents_num="+contents_num;
  		*/
- 		
+ 		console.log("contents_num in suzukikun"+contents_num);
+ 		console.log("ts_num in suzukikun"+ts_num);
  		$(document).ready(function(){
+ 			var contents_num = $('#contents_num').val();
  			
  			 $.ajax({
  	            type : "POST",
  	            url : "../transcript/suzuki",
- 	            ContentType : "application/json; charset=utf-8",
- 	            dataType : 'application/mpeg',
+ 	           ContentType : "application/json; charset=utf-8",
+ 	           dataType : 'json',
  	            data : {
- 	               "sentence": sentence,	//여기가 문자열
- 	               "contents_num" : contents_num 
+ 	               "contents_num": contents_num,	//여기가 문자열
+ 	               "ts_num" : ts_num 
  	              },
- 	            success : function(obj){
- 	            	console.log(obj);
+ 	            success : function(){
+ 	            	checkMP3();
  	            	
+ 	            },
+ 	            error : function(){
+ 	            	console.log("fail");
+ 	            },
+ 	        });
+ 		 })
+ 		
+ 	}
+ 	function checkMP3(){
+ 		$(document).ready(function(){
+ 			$.ajax({
+ 	            type : "POST",
+ 	            url : "../transcript/checkMP3",
+ 	            success : function(){
+ 	            	console.log("success");
  	            },
  	            error : function(){
  	            	console.log("fail");
  	            }
  	        });
- 		 })
- 		
+ 		})
  	}
+ 
 
+ 	 var VocabState = false;
+ 	/*단어장 리스트 시작*/
+ 	function Vocab(){
+ 		var div = document.getElementById("divNewView");
+ 	 		if(!VocabState){
+ 	 			
+ 	 			var contents_num = $('#contents_num').val();
+ 	 				
+ 	 	 		var str = '';
+ 	 			initAllVoca();
+ 	 		
+ 	 		}else{
+ 	 			VocabState = false;
+ 	 			str = '';
+ 	 			div.innerHTML = str;
+ 	 			
+ 	 		}
+ 		
+ 	 		
+ 	 		function initAllVoca(){
+ 	 			
+ 	 			$.ajax({
+ 	 		 		
+ 	 	 			url : "selectAllVoca",
+ 	 	 			type : "GET",
+ 	 	 			data:{
+ 	 					contents_num : contents_num
+ 	 				},
+ 	 				dataType : "json",
+ 	 				success: function(vocaList){
+ 	 					
+ 	 	 	            
+ 	 	 	        str +=  '<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">'
+ 	 	 	        str  += '<tr>';
+ 	 	 	        str  += '<th>번호</th>';
+ 	 	 	        str  += '<th>한자</th>';
+ 	 	 	        str  += '<th>품사</th>';
+ 	 	 	        str  += '<th>의미</th>';
+ 	 	 	        str  += '<th>날짜</th>';
+ 	 	 	        str  += '</tr>';    
+ 	 	 	        
+ 	 	 	             $.each(vocaList ,function(index, item){
+ 	 	 	            	 	index = index+1;
+ 	 	 	           str += '<tr>'; 	 	
+ 	 	 	           str += '<td>'+index+'</td>';
+ 	 	 	           str += '<td>'+item.kanji+'</td>';
+ 	 	 	           str += '<td>'+item.part+'</td>';
+ 	 	 	           str += '<td>'+item.mean+'</td>';
+ 	 	 	           str += '<td>'+item.vocadate+'</td>';
+ 	 	 	           str += '<td><input type="button" value="삭제" class="deleteVoca mdl-button mdl-js-button mdl-button--raised mdl-button--colored" data_num="'+item.voca_num+'"></td>';
+ 	 	 	           str  += '</tr>';    	 
+ 	 	 	             	})
+ 	 	 	             	
+ 	 	 	           str += '</table>';  	
+ 	 	 	             	div.innerHTML = str; 	
+ 	 	 	             	VocabState = true;
+ 	 	 	                
+ 	 	 	               /*   삭제 시작*/
+ 	 	 			   		$('.deleteVoca').on('click', function(){
+ 	 	 			   			
+ 	 	 			   			var voca_num = $(this).attr('data_num');
+ 	 	 			   			
+ 	 	 			   			$.ajax({
+ 	 	 			   				
+ 	 	 			   				url : "deleteVoca",
+ 	 	 			   				type : "POST",
+ 	 	 			   				data : {
+ 	 	 			   				voca_num : voca_num
+ 	 	 			   				},
+ 	 	 			   				success : function(){
+ 	 	 			   					console.log("단어 삭제 성공");
+ 	 	 			   					str = '';
+ 	 	 			   					div.innerHTML = str; 	
+ 	 	 			   					
+ 	 	 			   					initAllVoca();
+ 	 	 			   				    
+ 	 	 			   				},
+ 	 	 			   				
+ 	 	 			   				error : function(error){
+ 	 	 			   					console.log(error);
+ 	 	 			   				}
+ 	 	 			   				
+ 	 	 			   			});
+ 	 	 			   			
+ 	 	 			   		});
+ 	 	 	                
+ 	 	 	                
+ 	 	 	                
+ 	 	 	        	},
+ 	 	 	        	
+ 	 	 	        error : function(error){
+ 	 	 	        	console.log(error);
+ 	 	 	        }	
+ 	 	 	        	
+ 	 	 	        });
+ 	 		}
+ 	 		
+ 	}
+ 	
+ 	/*단어장 리스트 종료*/
+ 	
+ 	/*채팅 시작*/
+ var GoLiveState = false;
+ 
 function GoLive(){
+	var div = document.getElementById("divNewView");
+	//var teacher_name = document.getElementById("teacher_name");
 	
-	var div = document.getElementById("divNewGSTL");
-	var teacher_name = document.getElementById("teacher_name");
-	
+	if(!GoLiveState){
 	$.ajax({
 		
 		url : "selectAllTeacherList",
@@ -734,37 +1069,33 @@ function GoLive(){
 			var str = '';
 			
 			/*초대할 친구 목록*/
-			str += '<div class ="chat_box" >';
+			str += '<div class ="chat_box">';
 			str += '<div class="chat_head" id="chat_head">Chatbox</div>';
 			str += '<div calss="chat_body" id="chat_body">';
 			
 			$.each(obj, function(index, item){
 				
-				str += '<div class="user" id="user'+index+'" data_index="'+index+'">'+item.teacher_name+'</div>';
-				console.log(item.teacher_name);
+				str += '<div class="user" id="user'+index+'" data_index="'+index+'" teacher_name="'+item.teacher_name+'">';
+				//onclick="javascript:init3('+index+')"
+				str += ''+item.teacher_name+'';
+				str += '</div>';
+				                                                                                                           
 			});
 			
 			str += '</div>';
 			str += '</div>';
-			str += '<style type="text/css">'; 
-			str += '.secondView{'
-			str += 'width: 640px;';
-			str += 'height: 500px;';
-			str += 'border:1px solid;';
-			str += '}';
-			str	+='</style>';
-			div.innerHTML = str;
-			console.log(str);
 			
+			div.innerHTML = str;
 			
 			$('#chat_head').on('click' ,function(){
 				
 				$('#chat_body').slideToggle('slow');
 				//$('#chat_body').css('height','0px');
 			});
-			
 			init3();
-			
+			GoLiveState = true;
+			$('.speachView').css('visibility','hidden');
+			$('.startEndBtn').css('visibility','hidden');
 			
 		},
 		error : function(error){
@@ -772,65 +1103,64 @@ function GoLive(){
 		}
 			
 		});/*선생님 리스트 불러오기 종료*/
+	}else{
+		GoLiveState = false;
+		str = '';
+		div.innerHTML = str;
 	    
-	
+	 // stop any single stream: audio or video or screen
+ 		connection.streams.stop('audio');
+ 		connection.streams.stop('video');
+
+ 		// stop multiple streams
+ 		connection.streams.stop({
+ 		  remote: true,
+ 		  video: true,
+ 		  screen: true
+ 		});
+		
+	}
 
 }
 
-
-
 function init3(){
-	var index = $(this).attr('data_index');
-	
     /*유저 목록 클릭시*/
-    //$('#user'+index+'').on('click', function(){
+	
+	$(".user").on('click', function(){
+    	var div = document.getElementById("divNewView");
+    	//var teacher_name = $(this).attr('teacher_name');
     	
-	$('.user').on('click', function(){
-    	var div = document.getElementById("divNewGSTL");
-
+    	
     	var str = '<div id="local-Videos-Container"></div>';
     	str += '<div id="remote-Videos-Container"></div>';
     	
-    	/*초대할 친구 목록
-    	str += '<div class ="chat_box" >';
-    	str += '<div class="chat_head" id="chat_head">Chatbox</div>';
-    	str += '<div calss="chat_body" id="chat_body">';
-    	
-    	str += '<div class="user" id="user">Krishna Teja</div>';
-    	
-    	str += '</div>';
-    	str += '</div>';
-    	*/
-    	
     	/*메시지 박스 */
-    	str += '<input type="hidden" id="to" />';
     	
-    	str += '<div class="msg_box" style="right:290px">';
-    	str += '<div class="msg_head" id="msg_head">Krishna Teja';
+    	str += '<div class="msg_box" >';
+    	str += '<div class="msg_head" id="msg_head">';
+    	str += '대화창';
     	str += '<div class="close" id="close">x</div>';
     	str += '</div>';
     	
     	str += '<div id="msg_wrap">';
     	
     	str += '<div class="msg_body">';
-    	str += '<div class="msg_a">입장!</div>';
-    	
-    	str += '<div class="msg_b">입장!</div>';
-    	
+   	
     	str += '<div class ="msg_insert" id="chatMessage" style="overFlow: auto; max-height: 500px;">';	
     	str += '</div>';
     	
     	str += '</div>';
     	str += '<div class="msg_footer"><input type="text" class="msg_input" id="message" placeholder="메시지 내용"/></div>';
-    	//str += '<input type="button" id="sendMessage" value="전송"/>';
+    	str += '<input type="hidden" id="to" value="">';
     	
     	str += '<div class="btn-open-or-join-room" id="btn-open-or-join-room">';
 		str += 'Open Or JoinRoom';
 		str += '<div>';
-		str += '<input id="txt-roomid" placeholder ="Unique Room ID">';
+		str += '<div><input id="txt-roomid" placeholder ="Unique Room ID"><div>';
 		
     	str += '</div>';
     	str += '</div>';
+    	
     	div.innerHTML = str;
     	
     		$('#msg_head').on('click' ,function(){
@@ -844,14 +1174,13 @@ function init3(){
     			$('.msg_box').hide();
     			
     		});
-    				
     	
     	// 테스트 시작
         var connection = new RTCMultiConnection();
 
      // or a free signaling server
      connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
-
+     
      // if you want audio+video conferencing
      connection.session = {
          audio: true,
@@ -868,23 +1197,16 @@ function init3(){
      roomid.value = connection.token(); 
     	 //(Math.random() * 1000).toString().replace('.','');
      
-    
-     
      document.getElementById('btn-open-or-join-room').onclick = function(){
     	 this.disabled = true;
     	 connection.openOrJoin(roomid.value || 'predefiend-roomid', function(isRoomExists, roomid) {
           	  alert(isRoomExists ? 'You joined room' : 'You created room');
         	});
-    	 
      }
-     
-     //var localVideosContainer = document.getElementById('local-videos-container');
-     
-     //var remoteVideosContainer = document.getElementById('remote-videos-container');
-     
+    
      connection.onstream = function(event){
     	 var video = event.mediaElement;
-    	 
+    	 console.log(event);
     	 if(event.type === 'local'){
     		 $('#local-Videos-Container').html(video);
     	 }
@@ -895,90 +1217,79 @@ function init3(){
     	 
      };
      
-     
-     
-     /*
-     var roomid = document.getElementById('txt-roomid');
-     roomid.value = connection.token();
-     
-     document.getElementById('btn-open-or-join-room').onclick = function(){
-    	 
-    	 this.disabled = true;
-    	 connection.openOrJoin(roomid.value || 'predefiend-roomid');
-     }
-     */
-    
-     
-    	 //테스트 종료 
-        
-    	
-    	var sock = null;
-    	var message = {};
-    	
-    		sock = new SockJS("/www/echo");
-    		
-    	  	console.log(sock);
-    	  	
-    	    sock.onopen = function() {
-    	    	
-    	        message={};
-    	        message.message = "반갑습니다.";
-    	        message.type = "all";
-    	        message.to = "all";
-    	        sock.send(JSON.stringify(message)); 
-    	        
-    	        }
-    	     
-    	    sock.onmessage = function(evt) {
-    	        console.log(evt);
-    	        
-    	        $("<div class ='msg_a'>"+evt.data+"</div>").insertBefore('.msg_insert');
+     /*소켓 메세지, 방 생성 */
+ 	var sock = null;
+ 	var message = {};
+ 	
+ 		sock = new SockJS("/www/echo");
+ 		
+ 	  	console.log(sock);
+ 	  	
+ 	    sock.onopen = function() {
+ 	    	
+ 	        message={};
+ 	        message.message = "반갑습니다.";
+ 	        message.type = "one";
+ 	        message.to = "all";
+ 	        sock.send(JSON.stringify(message)); 
+ 	        
+ 	        }
+ 	     
+ 	    sock.onmessage = function(evt) {
+ 	        console.log(evt);
+ 	        
+ 	        $("<div class ='msg_a'>"+evt.data+"</div>").insertBefore('.msg_insert');
 	             $('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
 	             
-    	    	
-    	    };
-    	     
-    	    sock.onclose = function() {
-    	    	
-    	        // sock.send("채팅을 종료합니다.");
-    	    }
-    	     
-    	     $("#message").keydown(function (key) {
-    	         if (key.keyCode == 13) {
-    	        	 var msg=$(this).val();
-    	        	 $(this).val('');
-    	        	 $("<div class ='msg_b'>"+msg+"</div>").insertBefore('.msg_insert');
-    	             $('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
-    	             
-    	             message={};
-     	            message.message = msg;
-     	            message.type = "all";
-     	            message.to = "all";
-     	             
-     	            var to = $("#to").val();
-     	            if ( to != "") {
-     	                message.type = "one";
-     	                message.to = to;
-     	            }
-     	            
-     	           sock.send(JSON.stringify(message));
-     	            
-    	         }
-    	         
-    	      });
-    	  
-    	    
-    	    $('#user').on('click', function(){
-    	    	
-    	    	$('.msg_box').show();
-    	    });
-    	    
-    	 
-        			
-    	    
-    });
+ 	    	
+ 	    };
+ 	     
+ 	    sock.onclose = function() {
+ 	    	
+ 	         sock.send("채팅을 종료합니다.");
+ 	    }
+ 	     
+ 	     $("#message").keydown(function (key) {
+ 	         if (key.keyCode == 13) {
+ 	        	 var msg=$(this).val();
+ 	        	 $(this).val('');
+ 	        	 $("<div class ='msg_b'>"+msg+"</div>").insertBefore('.msg_insert');
+ 	             $('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
+ 	             
+ 	             message={};
+  	            message.message = msg;
+  	            message.type = "all";
+  	            message.to = "all";
+  	             
+  	            var to = $("#to").val();
+  	            if ( to != "") {
+  	                message.type = "one";
+  	                message.to = to;
+  	            }
+  	            
+  	           sock.send(JSON.stringify(message));
+  	            
+ 	         }
+ 	         
+ 	      });
+ 	  
+ 	    
+ 	    $('#user').on('click', function(){
+ 	    	
+ 	    	$('.msg_box').show();
+ 	    });
+     			
+ 	    
+     
+     
+     
+     
+	});
+    
+     
+    };
 
-}/*init3() 종료*/
+/*init3() 종료*/
     
 
 
@@ -1014,25 +1325,20 @@ function WatchTheVideo(){
 	alert(youTubePlayer.getPlayerState());
 	
 	 if(youTubePlayer.getPlayerState() == 1){
-			alert("정지")	;	 
 		 //youTubePlayer.stopVideo();
 			 youTubePlayer.pauseVideo();
 			}
 	
 	else if(youTubePlayer.getPlayerState() == 2 || youTubePlayer.getPlayerState() == 5){
-		alert("재생");
 		youTubePlayerPlay();
 	}
 	 
 	else if(youTubePlayer.getPlayerState() == 3){
 		
-		alert("버퍼링");
 		youTubePlayerPlay();
 	}
 	
-	
 }
-
 
 $(function(){
 	/*댓글 리스트 출력*/
@@ -1469,7 +1775,7 @@ function init2(){
 			
 			var reply_num = $(this).attr('data_num');
 			console.log(reply_num);
-			alert(reply_num);
+			//alert(reply_num);
 			$.ajax({
 				
 				url : "contentsReplyDelete",
@@ -1517,7 +1823,7 @@ function init2(){
             	
             	var reply_num = $('#reply_num').val();
             	var reply_text2 = $('#reply_text2').val();
-            	alert(reply_text2);
+            	//alert(reply_text2);
             	$.ajax({
             	
             		url : "contentsReplyUpdate",
@@ -1531,7 +1837,7 @@ function init2(){
             		}),
             		
             		success : function(){
-            			alert("수정완료");
+            			//alert("수정완료");
             			$(this).attr('value', '수정');
             			$('#div'+reply_num).attr('value', reply_text2);
             			

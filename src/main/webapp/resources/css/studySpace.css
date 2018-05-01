@@ -2,28 +2,43 @@
 
 
 /* 메세지  시작 */
+input.placeholder{
+	color: graytext;
+	text-align: center;
+}
+video{
+	
+	width: 100%;
+	border-radius: 15px;
+}
+
+ #divNewGSTL{
+ 	
+	border-radius: 15px;
+	/* width: 300px;
+	height: 300px; */
+} 
 
 #local-Videos-Container{
 	
-	width: 20%;
-	border-radius: 15px;
+	width: 300px;
+	height: 80%;
 }
-#remote-Videos-Container{
-	
-	width: 20%;
-	border-radius: 15px;
-	
+.mdl-dialog__underunder{
+	font-size: large;
 }
-
 #divNewGSTL{
 	
 	width: 300px;
-	height: 300px;
+	height: 80%;
 }
+
+
 body{
 	background: #16a085;
 	font-family: sans-serif;
 	margin:0px;
+	font-size: large;
 	
 }
 
@@ -38,7 +53,7 @@ body{
 	right:20px;
 	background: white;
 	width : 250px;
-	height : 400px;
+	height : auto;
 	border-radius: 5px 5px 0px 0px;
 	
 }
@@ -71,11 +86,11 @@ body{
 }
 
 .msg_box{
-	background:white;
+ 	background:white;
 	width: 250px;
-	bottom: -5px;
+	bottom: -5px; 
 }
-
+ 
 .close{
 	width:10px;
 	float: right;
@@ -213,11 +228,7 @@ float:left;
  
  .secondView{
  	float:right;
- 	 
- 	width: 300px;
- 	height: 338px;
- 	border:1px solid;
-	 	
+
  }
  
  .LeftList{
@@ -296,10 +307,11 @@ border:1px solid;
 padding-left: 5px;
 cursor: pointer;
 
+
 }
 
 
-.Voca&Plan{
+.Voca{
 clear:right;
 color : gray;
 border:1px solid;
@@ -307,17 +319,18 @@ padding-left: 5px;
 
 }
 
-.VocabQuiz{
+.Vocab{
 float: left;
-height : 55px;
-weight : 150px;
-color : gray;
+height : 73px;
+width: 109px;
+color : white;
 border:1px solid;
 cursor: pointer;
+background-color: black;
 
 }
 
-.LessonPlan
+/* .LessonPlan
 {
 float: left;
 height : 55px;
@@ -326,7 +339,7 @@ color : gray;
 border:1px solid;
 cursor: pointer;
 
-}
+} */
 
 .KindOfStudy{
 
@@ -353,6 +366,7 @@ padding-top: 5px;
 padding: 10px;
 width: 60%;
 
+
 }
 
 .ShowReplyLeft{
@@ -366,12 +380,15 @@ float: right;
 
 .insertReply{
 clear: left;
+width:600px;
+margin-left: 20%;
 }
 
 .replyList{
-	width:80%;
+	width:600px;
 	display:inline-block;
 	clear: left;
+	margin-left: 20%;
 }
 .Watch_the_video{
  background-size: 1px;

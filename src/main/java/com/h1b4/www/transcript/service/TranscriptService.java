@@ -78,12 +78,13 @@ public class TranscriptService {
 		}
 		return datas;
 	}
-
-	/*
-	 * public ArrayList<Transcript> selectTranscript(){
-	 * 
-	 * return list; }
-	 */
+	
+	//전체리스트 가져옵니다
+	public ArrayList<Transcript> takeAllList(int contents_num){
+		ArrayList<Transcript> tsList = new ArrayList<>();
+		tsList = tsdao.takeAllList(contents_num);
+		return tsList;
+	}
 
 	//전체리스트 가져오기
 		//여기서 리스트를 다 가져오면 너무 많으니까 몇 개만 추려서 가져온다
@@ -100,14 +101,17 @@ public class TranscriptService {
 			tsList = tsdao.selectList(contents_num);
 			//랜덤으로 10개만 받고
 			int i=10;
-			
+			if(tsList.size()<=10) {
+				i=tsList.size();
+			}
 			//근데 문제로 만들 수 없을 내용(명사나 동사가 포함되지 않은)은 걸러낸다.
 			while(i>0) {
 				int num = r.nextInt(tsList.size());
 				temp = tsList.get(num);
-				String body = "{\"sentence\":\""+temp.getTs_text()+"\",\"info_filter\":\"form|pos|read\",\"pos_filter\":\"名詞|連用詞|動詞活用語尾|動詞接尾辞|動詞語幹\"}";
+				//String body = "{\"sentence\":\""+temp.getTs_text()+"\",\"info_filter\":\"form|pos|read\",\"pos_filter\":\"名詞|連用詞|動詞活用語尾|動詞接尾辞|動詞語幹\"}";
+				String body = "{\"sentence\":\""+temp.getTs_text()+"\",\"info_filter\":\"form|pos|read\"}";
 				try {
-					URI uri = new URI("https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=766258364c33527044357054725a7149306e684c4a4243764c384673444c355a2e554863662f306f696238");
+					URI uri = new URI("https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=6b612f392f7967397036713151474445533866346141694d7646516a6c366a2f5a5a576231615a36526836");
 					URL url = uri.toURL();
 					HttpsURLConnection huc = (HttpsURLConnection)url.openConnection();
 					huc.setRequestMethod("POST");
@@ -127,9 +131,11 @@ public class TranscriptService {
 						int word = page.indexOf(":[")+3;	
 						String meishi = page.substring(word);
 						System.out.println(meishi);
+						/*
 						if(meishi.length()<20) {
 							continue;
 						}
+						*/
 						if(meishi.length()>400) {
 							tempList.add(temp);
 							return tempList;

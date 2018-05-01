@@ -2,7 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
- <jsp:include page="../navi_side_bar.jsp"></jsp:include>
+
+<jsp:include page="../navi_side_bar.jsp"></jsp:include>
+
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/study.css"></c:url>"> 
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -84,7 +86,7 @@
 			json.ts_text = "${ts.ts_text}";
 			tslist.push(json);
 		</c:forEach>
-		
+		console.log("10문제용 tslist확인:"+tslist);
 		var str = "";
 		var container;
 		var left = 0;
@@ -102,10 +104,11 @@
 </script>
 
 <!-- js 적용  -->
-<script type="text/javascript" src="<c:url value="/resources/javascript/studySpace.js"></c:url>"></script>
+<script type="text/javascript" src="<c:url value="/resources/javascript/studySpace.js" ></c:url>" charset='UTF-8'></script>
 
 <!-- css 적용 -->
 <link href ="<c:url value="/resources/css/studySpace.css"/>" type="text/css" rel="stylesheet">
+
 
 
 <input type="hidden" id="filename" class="filename" value="${filename}">
@@ -156,10 +159,15 @@
 		  
 	    <!--오른쪽 리스트 클릭시 새롭게 생성되는 부분   -->
 	    <div id="divNewGSTL" class="secondView">
-	    	
-	    	<div class="divNewView">
+
+	    	<div class="divNewView" id="divNewView" >
+
 	    	</div>
+	    	
 			<div class="speachView">
+				<div class="speachText">
+				
+				</div>
 				<div id="info" style="visibility: hidden;">
 				<p id="info_start" style="display: none;">Click on the
 					microphone icon and begin speaking for as long as you like.</p>
@@ -239,15 +247,16 @@
 	  <div class="LearningList3"  id="LearningList3" style="color: white; background-color: rgb(0, 166, 140);" align="center" 
 	  onclick="javascript:GoSpeakTheLine()">Speak the lines</div>
 	  
-	  <div class="LearningList4"  id="LearningList4" style="color: white; background-color: maroon;" align="center"  
+	  <div class="LearningList4"  id="LearningList4"   style="color: white; background-color: maroon;" align="center" 
 	  onclick="javascript:GoLive()">GoLive!</div>
 	  
 
 	  <div class="Voca&Plan"> 
 	  
-	  <div class="VocabQuiz"  id="VocabQuiz">VocabQuiz</div>
+	  <div class="Vocab"  id="Vocab"  align="center" 
+	   onclick="javascript:Vocab()">Vocab</div>
 	  
-	   <div class="LessonPlan" id="LessonPlan">LessonPlan</div>
+	  <!--  <div class="LessonPlan" id="LessonPlan">LessonPlan</div> -->
 	  </div>
 	   
 	  			
@@ -317,9 +326,7 @@
 	  
 	<div class="KindOfStudy" id="KindOfStudy">
 	 
-<!-- 
-	 <h5>연관 비디오</h5>		
- -->
+
 	 	<div class="KindOfStudy_List">
 	
 	 <!-- 	
@@ -375,23 +382,11 @@
 		
 		<div class="ShowReplyLeft">
 		
-
-		
-		</div>
-		
-		
-		<div class="ShowReplyRight">
-		
-		
-		</div>
-		
-		
-		<div class="insertReply">
+<div class="insertReply">
 	
 		
 		<form id="insertContentsReply" >
 			<input type="hidden" id="member_id" value="${sessionScope.userId }"> 
-			<input type="hidden" id="contents_num" value="">
 			
 			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 		<input class="mdl-textfield__input" type="text" id="reply_text">
@@ -410,6 +405,17 @@
 	 			
 	 			
 		</div>	
+		
+		
+		</div>
+		
+		
+		<div class="ShowReplyRight">
+		
+		
+		</div>
+		
+		
 	    
 
 </div>
@@ -428,4 +434,5 @@
 
 
 <!-- 여기까지가 페이지의 코드 -->
-    <jsp:include page="../navi_side_bar_bot.jsp"></jsp:include>
+
+<jsp:include page="../navi_side_bar_bot.jsp"></jsp:include>
