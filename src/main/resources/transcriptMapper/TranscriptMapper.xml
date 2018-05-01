@@ -109,6 +109,18 @@
 		
 	</select>
 	<!-- 전체 리스트 불러오기 -->
+	<select id="takeAllList" resultType="transcript" parameterType="int">
+	SELECT contents_num
+					,ts_num
+					,ts_start
+					,ts_dur
+					,ts_text
+					,status
+	FROM transcript 
+	WHERE contents_num = #{contents_num} AND status = 0
+	</select>
+	
+	<!-- 전체 리스트 중 10개만 불러오기 -->
 	<select id="selectList" resultType="transcript" parameterType="int">
 	SELECT contents_num
 					,ts_num

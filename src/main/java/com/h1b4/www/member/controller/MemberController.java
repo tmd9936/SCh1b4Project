@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -132,5 +133,15 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="lUP", method=RequestMethod.POST)
+	public void letsUpdatePnt(HttpSession session) {
+		String member_id = null;
+		String pntType = "reply";
+	
+		member_id = (String)session.getAttribute("loginId");
+		
+		service.updatePnt(member_id, pntType);
+	}
 	
 }

@@ -2,7 +2,10 @@
 
 
 /* 메세지  시작 */
-
+input.placeholder{
+	color: graytext;
+	text-align: center;
+}
 video{
 	
 	width: 100%;
@@ -21,8 +24,11 @@ video{
 	width: 300px;
 	height: 80%;
 }
-
-#remote-Videos-Container{
+.mdl-dialog__underunder{
+	font-size: large;
+}
+#divNewGSTL{
+	
 	width: 300px;
 	height: 80%;
 }
@@ -32,6 +38,7 @@ body{
 	background: #16a085;
 	font-family: sans-serif;
 	margin:0px;
+	font-size: large;
 	
 }
 

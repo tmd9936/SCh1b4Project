@@ -113,8 +113,20 @@ public void insertTsList(List<Transcript> tsList){
 		return result;
 	}
 	
-
-	//자막 전체 불러오기
+	//순수하게 전체 불러오기
+	public ArrayList<Transcript> takeAllList(int contents_num){
+		TranscriptMapper mapper = sqlSession.getMapper(TranscriptMapper.class);
+		ArrayList<Transcript> transcriptList = null;
+		try {
+			transcriptList = mapper.takeAllList(contents_num);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return transcriptList;
+	}
+	
+	//자막 전체 불러오기 ( 그 중에서 10개만)
 		public ArrayList<Transcript> selectList(int contents_num){
 			TranscriptMapper mapper = sqlSession.getMapper(TranscriptMapper.class);
 			ArrayList<Transcript> transcriptList = null;
