@@ -315,14 +315,13 @@ cursor: pointer;
 clear:right;
 color : gray;
 border:1px solid;
-padding-left: 5px;
 
 }
 
 .Vocab{
-float: left;
-height : 73px;
-width: 109px;
+
+height : 71px;
+width: 142px;
 color : white;
 border:1px solid;
 cursor: pointer;
@@ -381,14 +380,14 @@ float: right;
 .insertReply{
 clear: left;
 width:600px;
-margin-left: 20%;
+margin-left: 45%;
 }
 
 .replyList{
 	width:600px;
 	display:inline-block;
 	clear: left;
-	margin-left: 20%;
+	margin-left: 30%;
 }
 .Watch_the_video{
  background-size: 1px;
