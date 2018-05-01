@@ -784,7 +784,7 @@ function lUP(){
  		$(document).ready(function(){
  			if($('#korean').val()=='되돌리기'){
  				$('#translate').hide();
- 				$('.mdl-dialog__content').show();
+ 				//$('.mdl-dialog__content').show();
             	$('.mdl-dialog__underunder').show();
             	$('#saveVoca').show();
  				$('#korean').val('한글 번역');
@@ -815,7 +815,7 @@ function lUP(){
 	            	$("#transhidden").html(str);
 	            	$('#translate').html(ajaxName);
 	            	$('.mdl-dialog__underunder').append(str);
-	            	$('.mdl-dialog__content').hide();
+	            	//$('.mdl-dialog__content').hide();
 	            	$('.mdl-dialog__underunder').hide();
 	            	$('#saveVoca').hide();
 	            	$('#korean').val("되돌리기");
