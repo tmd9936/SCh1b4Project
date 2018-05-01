@@ -6,7 +6,65 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   <mapper namespace="com.h1b4.www.transcript.dao.VocaMapper">
-  
-  
+  	
+  	<insert id="insertVoca" parameterType="voca">
+  		insert into 
+  			voca
+  			(
+  			voca_num
+ 			,contents_num
+ 			,member_id
+ 			,kanji
+ 			,part
+ 			,mean
+ 			
+  			)values(
+  			voca_seq.nextval
+  			,#{contents_num}
+  			,#{member_id}
+  			,#{kanji}
+  			,#{part}
+  			,#{mean}
+  			
+  			)
+  	</insert>
+  	
+  	<select id="selectAllVoca" resultType="voca" parameterType="voca">
+  		
+  	select
+  		voca_num
+  		,contents_num
+  		,member_id
+  		,kanji
+  		,part
+  		,mean
+  		,example
+  		,memo
+  		,to_char(vocadate, 'yyyy/MM/dd') vocadate
+  	from
+  		voca
+  	
+  	where
+  		contents_num = #{contents_num}
+  		and
+  		member_id = #{member_id}
+  	
+  	order by
+  		voca_num desc
+  	</select>
+  	
+  	<delete id="deleteVoca" parameterType="voca">
+  	delete
+  		voca
+  	
+  	where
+  		voca_num = #{voca_num}
+  		and
+  		member_id = #{member_id}	
+  	
+  	</delete>
+  	
+  	
+  	
   
   </mapper>

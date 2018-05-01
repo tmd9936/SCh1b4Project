@@ -34,7 +34,7 @@ public class TeacherController {
 	
 	
 	@ResponseBody
-	@RequestMapping(value="selectOneTeacher", method=RequestMethod.POST)
+	@RequestMapping(value="selectOneTeacher", method=RequestMethod.GET)
 	public Teacher selectOneTeacher(String teacher_id){
 		logger.info("선택된 선생님 정보  출력 시작");
 		Teacher teacher = teacherService.selectOneTeacher(teacher_id);
