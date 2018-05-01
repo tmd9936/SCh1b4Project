@@ -78,12 +78,13 @@ public class TranscriptService {
 		}
 		return datas;
 	}
-
-	/*
-	 * public ArrayList<Transcript> selectTranscript(){
-	 * 
-	 * return list; }
-	 */
+	
+	//전체리스트 가져옵니다
+	public ArrayList<Transcript> takeAllList(int contents_num){
+		ArrayList<Transcript> tsList = new ArrayList<>();
+		tsList = tsdao.takeAllList(contents_num);
+		return tsList;
+	}
 
 	//전체리스트 가져오기
 		//여기서 리스트를 다 가져오면 너무 많으니까 몇 개만 추려서 가져온다
@@ -110,7 +111,7 @@ public class TranscriptService {
 				//String body = "{\"sentence\":\""+temp.getTs_text()+"\",\"info_filter\":\"form|pos|read\",\"pos_filter\":\"名詞|連用詞|動詞活用語尾|動詞接尾辞|動詞語幹\"}";
 				String body = "{\"sentence\":\""+temp.getTs_text()+"\",\"info_filter\":\"form|pos|read\"}";
 				try {
-					URI uri = new URI("https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=366d3053312e464373564256676e4734546d324639766459634d6d7977366e494c323844634e6b69565837");
+					URI uri = new URI("https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=6b612f392f7967397036713151474445533866346141694d7646516a6c366a2f5a5a576231615a36526836");
 					URL url = uri.toURL();
 					HttpsURLConnection huc = (HttpsURLConnection)url.openConnection();
 					huc.setRequestMethod("POST");

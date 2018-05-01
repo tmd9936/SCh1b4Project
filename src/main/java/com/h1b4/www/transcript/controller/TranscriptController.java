@@ -232,8 +232,8 @@ public class TranscriptController {
 		SourceDataLine sdl=null;
 		AudioInputStream ais = null;
 		System.out.println("무사히 여기로 도착1");
-		        String clientId = "07Y3WutHWeMsdGPtw6AK";//애플리케이션 클라이언트 아이디값";
-		        String clientSecret = "pvT5lX8Twe";//애플리케이션 클라이언트 시크릿값";
+		        String clientId = "JECW3QfRGDdXpXyUsYky";//애플리케이션 클라이언트 아이디값";
+		        String clientSecret = "xA8ieywNDU";//애플리케이션 클라이언트 시크릿값";
 		        
 		        File tmp_dir = new File(PATH);
 				if(!tmp_dir.isDirectory()) {
@@ -284,6 +284,7 @@ public class TranscriptController {
 		                playMP3.play();
 		                playMP3.close();
 		                System.out.println(4);
+		                
 		                /*
 		                File e = new File(PATH+""+bip);
 		                ais = AudioSystem.getAudioInputStream(e);
@@ -362,7 +363,35 @@ public class TranscriptController {
             System.out.println("파일이 존재하지 않습니다.");
         }
 	}
-
+	
+	//시간대가 일치하는 문장 한 개만 가져갑니다
+	@RequestMapping(value="getTt",method=RequestMethod.POST)
+	@ResponseBody
+	public Transcript getTs(@RequestParam(value="contents_num")String contents_num,@RequestParam(value="currentTime")String currentTime) {
+		double ct = Double.parseDouble(currentTime);
+		int cn = Integer.parseInt(contents_num);
+		
+		ArrayList<Transcript> tsList = new ArrayList<>();
+		Transcript ts=null;
+		
+		tsList = transcriptService.takeAllList(cn);
+		for(int i=0;i<tsList.size();i++) {
+			double transcriptct = Double.parseDouble(tsList.get(i).getTs_start());
+			if(transcriptct>ct) {
+				System.out.println("transcriptct"+transcriptct);
+				System.out.println("ct"+ct);
+				try {
+				ts = tsList.get((i-1));
+				}catch(Exception e) {
+					e.printStackTrace();
+					ts=tsList.get(i);
+				}
+				break;
+			}
+		}
+		
+		return ts;
+	}
 	@RequestMapping(value = "streamOnMic", method = RequestMethod.POST)
 	@ResponseBody
 	public HashMap<String, Object> streamOnMic(@RequestBody String base64data,HttpSession session) {
@@ -382,8 +411,8 @@ public class TranscriptController {
 	@RequestMapping(value="wordDetail", method=RequestMethod.POST)
 	public String wordDetail(@RequestParam(value="words")String words) {
 		System.out.println("wordsinJAVA:"+words);
-        String clientId = "ApXjZWS0hsBZjfMcPmq6";
-        String clientSecret = "7A01nsIhTY";
+        String clientId = "JECW3QfRGDdXpXyUsYky";
+        String clientSecret = "xA8ieywNDU";
         String result="";
         String word="";
         String how="";
@@ -427,16 +456,17 @@ public class TranscriptController {
             br.close();
             System.out.println(response);
             word = response.toString();
-            how = URLDecoder.decode(word,"UTF-8");
+           // how = URLDecoder.decode(word,"UTF-8");
+            //how= word;
             System.out.println("how"+how);
-            word = how.substring(113);
-            String[] words1 = word.split("\"");
+            how = word.substring(113);
+            String[] words1 = how.split("\"");
             System.out.println(words1[0]);
             
             word = words1[0];
             System.out.println("word"+word);
+            how  = URLEncoder.encode(word, "UTF-8");
             /*
-            
             String answer = response.substring(112);
             System.out.println(answer);
             String[] words1;
@@ -452,8 +482,8 @@ public class TranscriptController {
         	System.out.println("입력이 올바르지 않습니다");
         }
         //word.toString();
-        
-        return word;
+      
+        return how;
 	}
 
 

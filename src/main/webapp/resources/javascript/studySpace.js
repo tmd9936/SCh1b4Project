@@ -401,22 +401,24 @@ function GoSpeakTheLine(){
 
 
 function LearnTheWords(tslist){
-
+	var contents_num;
+	
+	contents_num = document.getElementById('contents_num').value;
 	var div = document.getElementById("divNewView");
 
 	div.style.overflow = "scroll";
+	div.style.width="598px";
+	div.style.height="700px";
+	div.style.border="1px solid";
 	if(!learnSpace){
 	var str3 = '<div class="Notice">';
-	str3 += '<input type="button" class="mdl-button mdl-js-button mdl-button--primary" value="타임구하기" onclick="javascript:getTime()">';
+	str3 += '<input type="button" class="mdl-button mdl-js-button mdl-button--primary" value="타임구하기" onclick="javascript:getTime('+contents_num+')">';
 	str3 += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="<<" onclick="javascript:playsound2(0)">';
 	str3 += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value=">>" onclick="javascript:playsound2(1)">';
 	str3 += '</hr>';
 	str3 += '</div>';
 	//$('.divNewView').html(str3);
 	//div.innerHTML  = str3;
-	div.style.width="598px";
-	div.style.height="700px";
-	div.style.border="1px solid";
 	var str2='';
 	str2 += str3;
 		for (var i = 0; i < tslist.length; i++) {
@@ -425,7 +427,6 @@ function LearnTheWords(tslist){
 			var start = tslist[i].ts_start-1;
 			var dur = tslist[i].ts_dur+1;
 			var str='';
-			if(dur>10){str += '<hr/>';}
 			str = '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="듣기" onclick="javascript:playsound('+start+','+dur+')" name="a'+num+'">'
 			str += ' <input type="hidden" id="answers'+num+'">';
 			str += ' <input type="hidden" id="kana'+num+'">';
@@ -448,11 +449,62 @@ function LearnTheWords(tslist){
 		div.style.display="none";
 		learnSpace=false;
 	}
-
+	
 }
-function getTime(){
+function makeLearnWord(ts){
+	$('.Notice').remove();
+	var str4 = '<div class="Notice">';
+	str4 += '<input type="button" class="mdl-button mdl-js-button mdl-button--primary" value="타임구하기" onclick="javascript:getTime('+contents_num+')">';
+	str4 += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="<<" onclick="javascript:playsound2(0)">';
+	str4 += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value=">>" onclick="javascript:playsound2(1)">';
+	str4 += '</hr>';
+	str4 += '</div>';
+	//$('.divNewView').html(str3);
+	//div.innerHTML  = str3;
+	var str2='';
+	str2 += str4;
+	var str3='';
+			var num  = ts.ts_num;
+			var text = ts.ts_text;
+			var start = ts.ts_start-1;
+			var dur = ts.ts_dur+1;
+			var str='';
+			str = '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="듣기" onclick="javascript:playsound('+start+','+dur+')" name="a'+num+'">'
+			str += ' <input type="hidden" id="answers'+num+'">';
+			str += ' <input type="hidden" id="kana'+num+'">';
+			str += ' <div id="outputDiv'+num+'" style="display: inline;" ></div>';
+			
+			str += '<div id="list'+num+'" style="display: none;"></div>';
+			str += '<div style="display: none;" id="inputAnswer'+num+'">정답을 입력 :&nbsp;&nbsp;&nbsp;<input id="yourText'+num+'" type="text"   style="border-left: none; border-right: none; border-top: none; "></div><br>';
+			this.test(num,text);
+			str2 += str;
+			str3 = $('.divNewView').html()
+			str2 += str3;
+			
+			$('.divNewView').html(str2);
+	
+}
+
+function getTime(contents_num){
 	var currentTime = youTubePlayer.getCurrentTime();
-	alert(currentTime);
+	$(document).ready(function(){
+	$.ajax({
+         type : "POST",
+         url : "../transcript/getTt",
+         ContentType : "application/json; charset=utf-8",
+         data : {
+        	 "contents_num" : contents_num,
+        	 "currentTime" : currentTime
+         },
+         success : function(ts){
+        	 console.log(JSON.stringify(ts));
+        	 makeLearnWord(ts);
+         },
+         error : function(){
+        	 alert('fail');
+         }
+	 });
+	})
 }
 function playsound(start7,dur7){
 	done = false;
@@ -490,7 +542,7 @@ function test(num,text){
     $(document).ready(function(){
         $.ajax({
             type : "POST",
-            url : "https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=366d3053312e464373564256676e4734546d324639766459634d6d7977366e494c323844634e6b69565837",
+            url : "https://api.apigw.smt.docomo.ne.jp/gooLanguageAnalysis/v1/morph?APIKEY=6b612f392f7967397036713151474445533866346141694d7646516a6c366a2f5a5a576231615a36526836",
             ContentType : "application/json; charset=utf-8",
             dataType : 'json',
             data : {
@@ -671,7 +723,8 @@ function answer(num,i){
  		var str = '<dialog class="mdl-dialog" id="viewInho">';
  		str += '<h4 class="mdl-dialog__title"> Study sentence </h4>';
  		str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="재생" onclick="javascript:suzukikun('+contents_num+','+ts_num+')">';
- 		str += ' <input type="button" class="mdl-button mdl-js-button mdl-button--primary" value="한글 번역" onclick="javascript:wordDetail(\''+words+'\')">';
+ 		str += ' <input type="button" class="mdl-button mdl-js-button mdl-button--primary" id="korean" value="한글 번역" onclick="javascript:wordDetail(\''+words+'\')">';
+ 		str += '<br><div id="transhidden" style="none"></div>'
  		str += ' <div class="mdl-dialog__content"></div>';
  		str += '<div id="saveVoca" style="display: none"></div>';
  		str += '<div class=	"mdl-dialog__underunder" style="display: none"></div>'
@@ -704,6 +757,16 @@ function answer(num,i){
  	//한글 번역
  	function wordDetail(word){
  		$(document).ready(function(){
+ 			if($('#korean').val()=='되돌리기'){
+ 				$('#translate').hide();
+ 				$('.mdl-dialog__content').show();
+            	$('.mdl-dialog__underunder').show();
+            	$('#saveVoca').show();
+ 				$('#korean').val('한글 번역');
+ 				$("#transhidden").hide();
+ 				return;
+ 			}
+ 			
  			var tong = word.split(",");
  			console.log("tong"+tong);
  			var words = tong[0];
@@ -713,14 +776,28 @@ function answer(num,i){
 	            type : "POST",
 	            url : "../transcript/wordDetail",
 	           ContentType : "application/json; charset=utf-8",
-	            dataType : "text",
+	            //dataType : "json",
 	            data : {
 	               "words" : words, 
 	              },
 	            success : function(sentence){
-	            	var text =sentence;
-	            	console.log("text"+text);
-	            	$('.mdl-dialog__content').html(text);
+	            	var Ca = /\+/g;
+	            	var ajaxName=decodeURIComponent( sentence.replace(Ca, " ") );
+	            	//var ajaxName = decodeURIComponent( sentence );
+	            	console.log("ajaxname"+ajaxName);
+	            	var str = '<br><div id="translate"></div>';
+	            	$("#transhidden").show();
+	            	$("#transhidden").html(str);
+	            	$('#translate').html(ajaxName);
+	            	$('.mdl-dialog__underunder').append(str);
+	            	$('.mdl-dialog__content').hide();
+	            	$('.mdl-dialog__underunder').hide();
+	            	$('#saveVoca').hide();
+	            	$('#korean').val("되돌리기");
+	            	
+	            	$(document).ready(function(){
+	            		$('.mdl-button mdl-js-button mdl-button--primary')
+	            	})
 	            },
 	            error : function(){
 	            	console.log("fail");
