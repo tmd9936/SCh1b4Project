@@ -393,6 +393,7 @@ function GoSpeakTheLine(){
 		learnSpace=false;
 	}else{
 		$('.divNewView').html('');
+		$('.startEndBtn').css('visibility','hidden');
 		$('.speachView').css('visibility','hidden');
 		speakSpace = false;
 	}
@@ -443,6 +444,7 @@ function LearnTheWords(tslist){
 		div.style.display="block";
 		learnSpace=true;
 		$('.speachView').css('visibility','hidden');
+		$('.startEndBtn').css('visibility','hidden');
 		speakSpace = false;
 	}else{
 		div.innerHTML='';
@@ -1083,6 +1085,8 @@ function GoLive(){
 			});
 			init3();
 			GoLiveState = true;
+			$('.speachView').css('visibility','hidden');
+			$('.startEndBtn').css('visibility','hidden');
 			
 		},
 		error : function(error){
