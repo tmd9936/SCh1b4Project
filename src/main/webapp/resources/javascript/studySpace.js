@@ -615,8 +615,8 @@ function test(num,text){
 	        	var holder = compare[i].length;
 	          	    text = text.replace(compare[i],'<input type="text" id="'+num+''+i+'" onkeypress="answer('+num+','+i+')"; placeholder="'+holder+'"size="'+holder+'"; style="border-left: none; border-right: none; border-top: none;">'+' ');
 	          	    console.log('compare['+i+'] :'+compare[i]);
-	          	    compare.push(flag);
 	          	}
+	          	compare.push(flag);
 	          	//문제가 만들어지지 않았다면
 	          	if(!text.includes('<input type="text"') ){
 	          		var failed = document.getElementsByName("a"+num);
@@ -691,6 +691,7 @@ function answer(num,i){
 			};
 	}
 }
+//1포인트 업
 function lUP(){
 	$(document).ready(function(){
 		$.ajax({
