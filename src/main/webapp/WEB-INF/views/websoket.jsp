@@ -8,7 +8,7 @@
 </head>
 <body>
 <script type="text/javascript">
-var wsUri = "ws://10.10.16.32:8888/www/websocket/echo";
+var wsUri = "ws://10.10.15.46:8888/www/websocket/echo";
 
 function init() {
     output = document.getElementById("output");
