@@ -8,7 +8,7 @@
 			cursor: pointer;
 		}
 		.contentsCard{
-			
+
 		}
 		
 	 </style>
