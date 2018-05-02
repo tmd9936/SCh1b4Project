@@ -374,13 +374,13 @@ function textCompares(ttsList,ytList){
 					son++;
 				}
 			}
-			parent++;
 		}
+		parent++;
 	}
 	if(ytList.length <= ttsList.length){
-		parent += ttsList.length- ytList.length-1;
+		parent += ttsList.length- ytList.length;
 	}else{
-		parent += ytList.length-ttsList.length-1;
+		parent += ytList.length-ttsList.length;
 	}
 	
 	textPer = ((son*1.0)/(parent*1.0))*100;
