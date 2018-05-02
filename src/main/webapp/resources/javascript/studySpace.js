@@ -391,6 +391,7 @@ function GoSpeakTheLine(){
 		$('.speachView').css('visibility','visible');
 		speakSpace = true;
 		learnSpace=false;
+		
 	}else{
 		$('.divNewView').html('');
 		$('.speachView').css('visibility','hidden');
@@ -445,6 +446,7 @@ function LearnTheWords(tslist){
 	}else{
 		div.innerHTML='';
 		div.style.display="none";
+		$('.speachView').css('visibility','hidden');
 		learnSpace=false;
 	}
 
@@ -927,6 +929,8 @@ function GoLive(){
 		GoLiveState = false;
 		str = '';
 		div.innerHTML = str;
+		
+	    
 	    
 	 // stop any single stream: audio or video or screen
  		connection.streams.stop('audio');
@@ -1037,7 +1041,7 @@ function init3(){
     	 
      };
      
-     /*소켓 메세지, 방 생성 */
+  /*   소켓 메세지, 방 생성 
  	var sock = null;
  	var message = {};
  	
@@ -1091,9 +1095,59 @@ function init3(){
   	            
  	         }
  	         
- 	      });
+ 	      });*/
  	  
- 	    
+     var wsUri = "ws://10.10.16.32:8888/www/websocket/echo";
+
+     function init() {
+         output = document.getElementById("output");
+     }
+     function send_message() {
+         websocket = new WebSocket(wsUri);
+         websocket.onopen = function(evt) {
+             //onOpen(evt)
+         	message={};
+     	        message.message = "반갑습니다.";
+     	        message.type = "one";
+     	        message.to = "all";
+     	        websocket.send(JSON.stringify(message)); 
+             
+         };
+         
+         websocket.onmessage = function(evt) {
+         	  $("<div class ='msg_a'>"+evt.data+"</div>").insertBefore('.msg_insert');
+               $('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
+         };
+         websocket.onerror = function(evt) {
+             onError(evt)
+         };
+         
+         $("#message").keydown(function (key) {
+              if (key.keyCode == 13) {
+             	 var msg=$(this).val();
+             	 $(this).val('');
+             	 $("<div class ='msg_b'>"+msg+"</div>").insertBefore('.msg_insert');
+                  $('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
+                  
+                  message={};
+     	            message.message = msg;
+     	            message.type = "all";
+     	            message.to = "all";
+     	             
+     	            var to = $("#to").val();
+     	            if ( to != "") {
+     	                message.type = "one";
+     	                message.to = to;
+     	            }
+     	            
+     	            websocket.send(JSON.stringify(message));
+     	            
+              }
+              
+           });
+       
+     }
+
  	    $('#user').on('click', function(){
  	    	
  	    	$('.msg_box').show();

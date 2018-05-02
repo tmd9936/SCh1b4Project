@@ -8,7 +8,7 @@
 </head>
 <body>
 <script type="text/javascript">
-var wsUri = "ws://10.10.16.32:8888/www/websocket/echo";
+var wsUri = "ws://10.10.15.230:8888/www/websocket/echo";
 
 function init() {
     output = document.getElementById("output");
@@ -16,15 +16,53 @@ function init() {
 function send_message() {
     websocket = new WebSocket(wsUri);
     websocket.onopen = function(evt) {
-        onOpen(evt)
+        //onOpen(evt)
+    	message={};
+	        message.message = "반갑습니다.";
+	        message.type = "one";
+	        message.to = "all";
+	        websocket.send(JSON.stringify(message)); 
+        
     };
+    
     websocket.onmessage = function(evt) {
-        onMessage(evt)
+    	  $("<div class ='msg_a'>"+evt.data+"</div>").insertBefore('.msg_insert');
+          $('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
     };
     websocket.onerror = function(evt) {
         onError(evt)
     };
+    
+    $("#message").keydown(function (key) {
+         if (key.keyCode == 13) {
+        	 var msg=$(this).val();
+        	 $(this).val('');
+        	 $("<div class ='msg_b'>"+msg+"</div>").insertBefore('.msg_insert');
+             $('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
+             
+             message={};
+	            message.message = msg;
+	            message.type = "all";
+	            message.to = "all";
+	             
+	            var to = $("#to").val();
+	            if ( to != "") {
+	                message.type = "one";
+	                message.to = to;
+	            }
+	            
+	            websocket.send(JSON.stringify(message));
+	            
+         }
+         
+      });
+  
+    
+    
 }
+
+
+
 function onOpen(evt) {
     writeToScreen("Connected to Endpoint!");
     doSend(textID.value);

@@ -232,11 +232,10 @@
 	<!--교육 메뉴  -->	
 
 	  <div class="LearningList1" id="LearningList1" style="color: white; background-color: blue;" align="center"  
-
 	  onclick="javascript:WatchTheVideo()">
 	  
-	  <span class="Watch_the_video"><!--이미지 넣을 곳   --></span>
-	  								<!-- <img src="<c:url value="/resources/images/if_icon-play.jpg" />" > -->
+	  <span class="Watch_the_video"><img src="<c:url value="/resources/icon/ic_play_circle_filled_black.png"/>"></span>
+	  								 
 	  Watch the video
 	  </div>
 	  

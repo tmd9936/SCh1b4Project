@@ -309,7 +309,6 @@ clear:right;
 color : gray;
 border:1px solid;
 padding-left: 5px;
-
 }
 
 .Vocab{
@@ -323,6 +322,7 @@ background-color: black;
 
 }
 
+
 /* .LessonPlan
 {
 float: left;
@@ -331,7 +331,6 @@ weight : 150px;
 color : gray;
 border:1px solid;
 cursor: pointer;
-
 } */
 
 .KindOfStudy{
