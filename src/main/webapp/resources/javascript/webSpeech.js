@@ -2,6 +2,9 @@
  * 
  */
 
+var conComplete = false;
+var pitchComplete = false;
+var textComplete = false;
 
 (function(e, p) {
 	var m = location.href.match(/platform=(win8|win|mac|linux|cros)/);
@@ -14,6 +17,11 @@
 })(document.documentElement, window.navigator.userAgent)
 
 	
+	function CompleteFalse(){
+		conComplete = false;
+		pitchComplete = false;
+		textComplete = false;
+	}
 
 	function __log(e, data) {
 		log.innerHTML += e + " " + (data || '') + '\n';
@@ -111,6 +119,9 @@
 						draw(data.ytArr,ytPitch,'youtube');
 						draw(data.memArr,memPitch,'member');
 						//$('.perContainer').html(data.per);
+						if(parseFloat(data.per) >50){
+							pitchComplete = true;
+						}
 						$('.pitchPercent').html(data.per);
 					},
 					error: function(e){			
@@ -431,8 +442,17 @@ function hyngteaso(ytText,tts,textCompares){
                     });
                     var persent = textCompares(ytList,ttsList);
                     //alert(persent.toFixed(3));
+                    if(parseFloat(persent) > 80){
+                    	textComplete = true;
+                    }
                    $('.textPercent').html(persent.toFixed(3));
                    speechdialog.showModal();
+                   
+                   if(textComplete && pitchComplete){
+                	   conComplete = true;
+                	   alert('완벽합니다!');
+                   }
+                   CompleteFalse();
                     
                 },//success 끝
                 error : function(){
