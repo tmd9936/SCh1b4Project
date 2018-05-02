@@ -5,7 +5,7 @@
 var youTubePlayer;
 var done = true;
 var dur = 3000;
-
+var correctCount = 10;
 var ts_num = '';
 var spTime = (100/allTime)/4; //seekPointTime 0.25초에 crub이 가는 시간 
 var intervals = new Array();
@@ -403,10 +403,8 @@ function GoSpeakTheLine(){
 
 function LearnTheWords(tslist){
 	var contents_num;
-	
 	contents_num = document.getElementById('contents_num').value;
 	var div = document.getElementById("divNewView");
-
 	div.style.overflow = "scroll";
 	div.style.width="598px";
 	div.style.height="700px";
@@ -416,7 +414,7 @@ function LearnTheWords(tslist){
 	str3 += '<input type="button" class="mdl-button mdl-js-button mdl-button--primary" value="문제생성" onclick="javascript:getTime('+contents_num+')">';
 	str3 += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="<<" onclick="javascript:playsound2(0)">';
 	str3 += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value=">>" onclick="javascript:playsound2(1)">';
-	str3 += '</hr>';
+	str3 += '<hr>';
 	str3 += '</div>';
 	//$('.divNewView').html(str3);
 	//div.innerHTML  = str3;
@@ -665,12 +663,18 @@ function answer(num,i){
 		
 		//답이 일치하면
 		if(yourAnswer.value == compare[i] || yourAnswer.value == kana[i]){
-
+			
 			yourAnswer.disabled=true;
 			if(document.getElementById('view'+num)!=null)
 			document.getElementById('view'+num).style.display="none";
 			console.log('1번'+'view'+num);
 			console.log('2번'+'view'+(num+1));
+			var count = correctCount;
+			correctCount = count-1; 
+			if(correctCount<=0){
+				alert('학습을 훌륭히 수행하셨습니다\n10포인트 업!!');
+				correctCount = 10;
+			}
 			lUP();	
 			//틀리면
 		}else{
@@ -703,7 +707,6 @@ function lUP(){
  	            type : "POST",
  	            url : "../member/lUP",
  	            success : function(){
- 	            	alert('1포인트 업');
  	            },
  	            error : function(){
  	            	console.log("포인트 업 실패");
