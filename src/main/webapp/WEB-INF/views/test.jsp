@@ -20,7 +20,7 @@
 	content="A front-end template that helps you build fast, modern mobile web apps.">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-<title>日本語 Edu Center</title>
+<title>JAPANESE CENTRAL</title>
 
 <!-- Add to homescreen for Chrome on Android -->
 <meta name="mobile-web-app-capable" content="yes">
@@ -113,7 +113,7 @@
 <body>
 
 	<h1>Test Page</h1>
-	<button>편집</button>
+	<button>編集</button>
 </body>
 
 

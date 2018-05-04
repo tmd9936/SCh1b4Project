@@ -41,13 +41,13 @@ ul {
 	<br>
 	<br>
 
-	<button id="startBtn" onclick="startRecording(this);">시작</button>
-	<button id="endBtn" onclick="stopRecording(this);" disabled>종료</button>
+	<button id="startBtn" onclick="startRecording(this);">スタート</button>
+	<button id="endBtn" onclick="stopRecording(this);" disabled>終了</button>
 
 	<h3>録音ファイル</h3>
 	<ul id="recordingslist"></ul>
 
-	<h3>로그</h3>
+	<h3>ログ</h3>
 	<pre id="log"></pre>
 	
 	<input type="hidden" id="streamVoice" name="voice">
@@ -55,7 +55,7 @@ ul {
 
 	<form action="/www/transcript/streamOnMic" method="post" id="sendVoice"
 		enctype="multipart/form-data"> 
-		<input type="submit" value="가즈아">
+		<input type="submit" value="送る">
 	</form>
 	<a href="webSTT">webSTT</a>
 	<div id="ytPitch" style="height: 250px; width: 40%;" class="pitchContainer"></div>

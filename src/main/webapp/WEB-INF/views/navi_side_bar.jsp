@@ -217,8 +217,8 @@ header i{
         <div id="inform" style="float: left;width: 100%; margin: 5px 5px;">  
           <table>
           <tr>
-            <td><span> <a href="../member/loginForm"><i class="material-icons md-18">input</i>  로그인</a></span></td>
-              <td><span><a href="../member/joinForm"><i class="material-icons md-18">face</i>  회원가입</a></span></td>
+            <td><span> <a href="../member/loginForm"><i class="material-icons md-18">input</i>  ログイン　</a></span></td>
+              <td><span><a href="../member/joinForm"><i class="material-icons md-18">face</i>  会員登録　</a></span></td>
           </tr>
           </table>
         </div>
@@ -232,7 +232,7 @@ header i{
           <i class="mdl-color-text--blue-grey-400 material-icons"
           role="presentation">home</i>Home</a>
         <a class="mdl-navigation__link" href="../contents/ytDownPage">
-          <i class="mdl-color-text--blue-grey-400 material-icons"  role="presentation">playlist_add</i>영상추가</a>
+          <i class="mdl-color-text--blue-grey-400 material-icons"  role="presentation">playlist_add</i>映像追加</a>
         <a class="mdl-navigation__link"  href="../contents/BookMark">
           <i class="mdl-color-text--blue-grey-400 material-icons"  role="presentation">bookmark</i>Bookmark</a>
         <a class="mdl-navigation__link"  href="../contents/publishList">

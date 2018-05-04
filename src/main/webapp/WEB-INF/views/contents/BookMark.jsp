@@ -34,7 +34,7 @@
 		<c:choose>
         	
         	<c:when test="${sessionScope.loginId == null }">	
-				<h1>로그인 이후 사용해 주세요</h1>        	
+				<h1>　ログインの後ご利用ください　</h1>        	
         	</c:when>
         	
         	<c:otherwise>

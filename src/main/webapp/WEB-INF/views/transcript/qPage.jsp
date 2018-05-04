@@ -18,7 +18,7 @@
 	<div style="float: left;">${ts.ts_text}</div> <br><br>
 	 <div id="outputDiv${ts.ts_num }" >
 	 </div>
-	 <input type="button" value="문제 생성해보기" onclick='javascript:test("${ts.ts_num}","${ts.ts_text }")'>
+	 <input type="button" value="問題を生成" onclick='javascript:test("${ts.ts_num}","${ts.ts_text }")'>
 	 <input type="text" id="mondai${ts.ts_num }" value="${ts.ts_num }" name="qNum">
 	 <br>
 	</c:forEach>
@@ -86,7 +86,7 @@ function test(num,text) {
 					}
 				},
 				error : function(){
-					alert("실패");
+					alert("失敗");
 				}
 			});
 		})
@@ -94,9 +94,9 @@ function test(num,text) {
 		var eTest = document.getElementById('test');
 		var eInput = document.getElementById('input');
 		if(eTest.value == eInput.value){
-			alert('오올');
+			alert('正解');
 		}else{
-			alert('안맞음');
+			alert('不正解');
 		}
 	}
 }

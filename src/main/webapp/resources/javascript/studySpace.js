@@ -2,6 +2,13 @@
  * 
  */
 
+
+//document.write("<script src='b.js'></script>");
+
+
+
+
+
 var youTubePlayer;
 var done = true;
 var dur = 3000;
@@ -367,7 +374,7 @@ function GoSpeakTheLine(){
 	if(!speakSpace){
 		
 		var str = '<div class="Notice typo-styles__demo mdl-typography--headline">';  
-			str +=  "비디오에서 SPEAK1할 문장을 선택하세요:";
+			str +=  "動画から SPEAKする文章をお選びください:";
 			str += '</div>';
 			/*str +=' <button id="start_button">시작</button>';
 			str += '<button id="endBtn" onclick="stopRecording(this);" disabled>종료</button>';
@@ -411,7 +418,7 @@ function LearnTheWords(tslist){
 	div.style.border="1px solid";
 	if(!learnSpace){
 	var str3 = '<div class="Notice">';
-	str3 += '<input type="button" class="mdl-button mdl-js-button mdl-button--primary" value="문제생성" onclick="javascript:getTime('+contents_num+')">';
+	str3 += '<input type="button" class="mdl-button mdl-js-button mdl-button--primary" value="問題生成" onclick="javascript:getTime('+contents_num+')">';
 	str3 += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="<<" onclick="javascript:playsound2(0)">';
 	str3 += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value=">>" onclick="javascript:playsound2(1)">';
 	str3 += '<hr>';
@@ -426,13 +433,13 @@ function LearnTheWords(tslist){
 			var start = tslist[i].ts_start-1;
 			var dur = tslist[i].ts_dur+1;
 			var str='';
-			str = '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="듣기" onclick="javascript:playsound('+start+','+dur+')" name="a'+num+'">'
+			str = '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="再生" onclick="javascript:playsound('+start+','+dur+')" name="a'+num+'">'
 			str += ' <input type="hidden" id="answers'+num+'">';
 			str += ' <input type="hidden" id="kana'+num+'">';
 			str += ' <div id="outputDiv'+num+'" style="display: inline;" ></div>';
 			
 			str += '<div id="list'+num+'" style="display: none;"></div>';
-			str += '<div style="display: none;" id="inputAnswer'+num+'">정답을 입력 :&nbsp;&nbsp;&nbsp;<input id="yourText'+num+'" type="text"   style="border-left: none; border-right: none; border-top: none; "></div><br>';
+			str += '<div style="display: none;" id="inputAnswer'+num+'">正解を入力 :&nbsp;&nbsp;&nbsp;<input id="yourText'+num+'" type="text"   style="border-left: none; border-right: none; border-top: none; "></div><br>';
 			this.test(num,text);
 			str2 += str;
 		}
@@ -454,10 +461,10 @@ function LearnTheWords(tslist){
 function makeLearnWord(ts){
 	$('.Notice').remove();
 	var str4 = '<div class="Notice">';
-	str4 += '<input type="button" class="mdl-button mdl-js-button mdl-button--primary" value="타임구하기" onclick="javascript:getTime('+contents_num+')">';
+	str4 += '<input type="button" class="mdl-button mdl-js-button mdl-button--primary" value="問題生成" onclick="javascript:getTime('+contents_num+')">';
 	str4 += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="<<" onclick="javascript:playsound2(0)">';
 	str4 += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value=">>" onclick="javascript:playsound2(1)">';
-	str4 += '</hr>';
+	str4 += '<hr>';
 	str4 += '</div>';
 	//$('.divNewView').html(str3);
 	//div.innerHTML  = str3;
@@ -469,13 +476,13 @@ function makeLearnWord(ts){
 			var start = ts.ts_start-1;
 			var dur = ts.ts_dur+1;
 			var str='';
-			str = '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="듣기" onclick="javascript:playsound('+start+','+dur+')" name="a'+num+'">'
+			str = '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="再生" onclick="javascript:playsound('+start+','+dur+')" name="a'+num+'">'
 			str += ' <input type="hidden" id="answers'+num+'">';
 			str += ' <input type="hidden" id="kana'+num+'">';
 			str += ' <div id="outputDiv'+num+'" style="display: inline;" ></div>';
 			
 			str += '<div id="list'+num+'" style="display: none;"></div>';
-			str += '<div style="display: none;" id="inputAnswer'+num+'">정답을 입력 :&nbsp;&nbsp;&nbsp;<input id="yourText'+num+'" type="text"   style="border-left: none; border-right: none; border-top: none; "></div><br>';
+			str += '<div style="display: none;" id="inputAnswer'+num+'">正解を入力 :&nbsp;&nbsp;&nbsp;<input id="yourText'+num+'" type="text"   style="border-left: none; border-right: none; border-top: none; "></div><br>';
 			this.test(num,text);
 			str2 += str;
 			str3 = $('.divNewView').html()
@@ -563,7 +570,7 @@ function test(num,text){
 		              $.each(item,function(index2,item2){
 		                switch(c){
 		               case 0:
-		                 list += '원문: '+item2;
+		                 list += '原文: '+item2;
 		                 //list += item2;
 		                 compare.push(item2);
 		                 if(item2.length>=2){
@@ -572,7 +579,7 @@ function test(num,text){
 		                 c++;
 		                 break;
 	    	           case 1:
-	        	          list += ' 품사: '+item2;
+	        	          list += ' 品詞: '+item2;
 	        	          console.log(item2);
 	           		       //list += item2;
 	        	          if(oneWord2!=''){
@@ -581,7 +588,7 @@ function test(num,text){
 	        	          c++;
 		                 break;
 		               case 2:
-		                 list += ' 읽기: '+item2+'<br>';
+		                 list += ' 読み: '+item2+'<br>';
 		                 kana.push(item2);
 		                 //list += item2;
 		                 if(oneWord2!=''){
@@ -613,7 +620,8 @@ function test(num,text){
 	          		//일치하는 부분을 답 입력 칸으로 변-환
 	        	flag++;
 	        	var holder = compare[i].length;
-	          	    text = text.replace(compare[i],'<input type="text" id="'+num+''+i+'" onkeypress="answer('+num+','+i+')"; placeholder="'+holder+'"size="'+holder+'"; style="border-left: none; border-right: none; border-top: none;">'+' ');
+	        	
+	          	    text = text.replace(compare[i],'<div style="display: inline;" class="mdl-textfield mdl-js-textfield is-upgraded" data-upgraded=",MaterialTextfield"><input type="text" id="'+num+''+i+'" onkeypress="answer('+num+','+i+')"; class="mdl-textfield__input"; placeholder="'+holder+'"style="border-left: none; border-right: none; border-top: none; width:90px; display: inline; font-size: 15px; "></div>'+' ');
 	          	    console.log('compare['+i+'] :'+compare[i]);
 	          	}
 	          	compare.push(flag);
@@ -672,7 +680,7 @@ function answer(num,i){
 			var count = correctCount;
 			correctCount = count-1; 
 			if(correctCount<=0){
-				alert('학습을 훌륭히 수행하셨습니다\n10포인트 업!!');
+				alert('学習を完了しました\n10ポイントアップ!!');
 				correctCount = 10;
 			}
 			lUP();	
@@ -681,7 +689,7 @@ function answer(num,i){
 			if(document.getElementById('view'+num)== null){
 				x.setAttribute("id","view"+num);
 				x.setAttribute("type", "button");
-				x.setAttribute("value","정보 보기");
+				x.setAttribute("value","情報確認");
 				x.setAttribute("class","mdl-button mdl-js-button mdl-button--accent");
 				x.setAttribute("data-value",num);
 				x.setAttribute('onclick','viewInfo(\''+compare+'\','+num+','+contents_num+');'+onclick);
@@ -709,7 +717,7 @@ function lUP(){
  	            success : function(){
  	            },
  	            error : function(){
- 	            	console.log("포인트 업 실패");
+ 	            	console.log("ポイントアップエラー");
  	            },
  	        });
 	})
@@ -747,13 +755,13 @@ function lUP(){
  		//다이얼로그 내부 구문을 완성하고
  		var str = '<dialog class="mdl-dialog" id="viewInho">';
  		str += '<h4 class="mdl-dialog__title"> Study sentence </h4>';
- 		str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="재생" onclick="javascript:suzukikun('+ts_num+')">';
- 		str += ' <input type="button" class="mdl-button mdl-js-button mdl-button--primary" id="korean" value="한글 번역" onclick="javascript:wordDetail(\''+temp1+'\')">';
+ 		str += '<input class="mdl-button mdl-js-button mdl-button--primary" type="button" value="再生" onclick="javascript:suzukikun('+ts_num+')">';
+ 		str += ' <input type="button" class="mdl-button mdl-js-button mdl-button--primary" id="korean" value="ハングル翻訳" onclick="javascript:wordDetail(\''+temp1+'\')">';
  		str += '<br><div id="transhidden" style="none"></div>'
  		str += ' <div class="mdl-dialog__content"></div>';
  		str += '<div id="saveVoca" style="display: none"></div>';
  		str += '<div class=	"mdl-dialog__underunder" style="display: none"></div>'
- 		str += ' <div class="mdl-dialog__actions"><button type="button" class="mdl-button">확인</button>';
+ 		str += ' <div class="mdl-dialog__actions"><button type="button" class="mdl-button">確認</button>';
  		//str += ' <button type="button" class="mdl-button close">아니요</button>
  		str += '</div>';
  		str += '</dialog>';
@@ -785,12 +793,12 @@ function lUP(){
  	//한글 번역
  	function wordDetail(word){
  		$(document).ready(function(){
- 			if($('#korean').val()=='되돌리기'){
+ 			if($('#korean').val()=='戻す'){
  				$('#translate').hide();
  				//$('.mdl-dialog__content').show();
             	$('.mdl-dialog__underunder').show();
             	$('#saveVoca').show();
- 				$('#korean').val('한글 번역');
+ 				$('#korean').val('ハングル翻訳');
  				$("#transhidden").hide();
  				return;
  			}
@@ -821,7 +829,7 @@ function lUP(){
 	            	//$('.mdl-dialog__content').hide();
 	            	$('.mdl-dialog__underunder').hide();
 	            	$('#saveVoca').hide();
-	            	$('#korean').val("되돌리기");
+	            	$('#korean').val("戻す");
 	            	
 	            	$(document).ready(function(){
 	            		$('.mdl-button mdl-js-button mdl-button--primary')
@@ -850,10 +858,10 @@ function lUP(){
  			part = sentence[1];
  			mean = sentence[2];
  			console.log("kanji :"+kanji);console.log("part :"+part);console.log("mean :"+mean);
- 			$('.mdl-dialog__underunder').html("원문 : "+kanji+" 품사 : "+part+" 의미 : "+mean);
+ 			$('.mdl-dialog__underunder').html("原文 : "+kanji+" 品詞 : "+part+" 意味 : "+mean);
  			$('.mdl-dialog__underunder').show();
 
- 			$('#saveVoca').html('<input type="button" id ="saveToVoca"class="mdl-button mdl-js-button mdl-button--primary" value="저장하기" onclick="javascript:saveVoca('+ts_num+','+contents_num+',\''+sentence+'\')">');
+ 			$('#saveVoca').html('<input type="button" id ="saveToVoca"class="mdl-button mdl-js-button mdl-button--primary" value="セーブ" onclick="javascript:saveVoca('+ts_num+','+contents_num+',\''+sentence+'\')">');
 
  			$('#saveVoca').show();
  			// $('.mdl-dialog__underContent').show();
@@ -879,7 +887,7 @@ function lUP(){
  						mean : mean
  					}),
  					success : function(){
- 						console.log("단어장에 저장 완료 ");
+ 						console.log("単語帳にセーブしました");
  						
  						
  						
@@ -990,11 +998,11 @@ function lUP(){
  	 	 	            
  	 	 	        str +=  '<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">'
  	 	 	        str  += '<tr>';
- 	 	 	        str  += '<th>번호</th>';
- 	 	 	        str  += '<th>한자</th>';
- 	 	 	        str  += '<th>품사</th>';
- 	 	 	        str  += '<th>의미</th>';
- 	 	 	        str  += '<th>날짜</th>';
+ 	 	 	        str  += '<th>番号</th>';
+ 	 	 	        str  += '<th>漢字</th>';
+ 	 	 	        str  += '<th>品詞</th>';
+ 	 	 	        str  += '<th>意味</th>';
+ 	 	 	        str  += '<th>日付</th>';
  	 	 	        str  += '</tr>';    
  	 	 	        
  	 	 	             $.each(vocaList ,function(index, item){
@@ -1005,7 +1013,7 @@ function lUP(){
  	 	 	           str += '<td>'+item.part+'</td>';
  	 	 	           str += '<td>'+item.mean+'</td>';
  	 	 	           str += '<td>'+item.vocadate+'</td>';
- 	 	 	           str += '<td><input type="button" value="삭제" class="deleteVoca mdl-button mdl-js-button mdl-button--raised mdl-button--colored" data_num="'+item.voca_num+'"></td>';
+ 	 	 	           str += '<td><input type="button" value="削除" class="deleteVoca mdl-button mdl-js-button mdl-button--raised mdl-button--colored" data_num="'+item.voca_num+'"></td>';
  	 	 	           str  += '</tr>';    	 
  	 	 	             	})
  	 	 	             	
@@ -1155,7 +1163,7 @@ function init3(){
     	str += '</div>';
     	
     	str += '</div>';
-    	str += '<div class="msg_footer"><input type="text" class="msg_input" id="message" placeholder="메시지 내용"/></div>';
+    	str += '<div class="msg_footer"><input type="text" class="msg_input" id="message" placeholder="メッセージ内容"/></div>';
     	str += '<input type="hidden" id="to" value="">';
     	
     	str += '<div class="btn-open-or-join-room" id="btn-open-or-join-room">';
@@ -1233,7 +1241,7 @@ function init3(){
  	    sock.onopen = function() {
  	    	
  	        message={};
- 	        message.message = "반갑습니다.";
+ 	        message.message = "ようこそ.";
  	        message.type = "one";
  	        message.to = "all";
  	        sock.send(JSON.stringify(message)); 
@@ -1251,7 +1259,7 @@ function init3(){
  	     
  	    sock.onclose = function() {
  	    	
- 	         sock.send("채팅을 종료합니다.");
+ 	         sock.send("チャットを終了します.");
  	    }
  	     
  	     $("#message").keydown(function (key) {
@@ -1423,7 +1431,7 @@ $(function(){
 		var reply_text = $('#reply_text').val();
 		
 		if(reply_text.length == 0){
-			alert("댓글 내용을 입력해주세요~");
+			alert("コメントを入力してください");
 			return;
 		}
 		
@@ -1441,7 +1449,7 @@ $(function(){
 			}),
 			success : function(){
 				
-				alert("댓글 등록 완료");
+				alert("コメント登録");
 				
 				$('#reply_text').val('');
 				/*댓글 리스트 출력*/
@@ -1504,7 +1512,7 @@ $(function(){
 					});//THUMBSUP 함수 내부 1 AJAX
 		
 				}else{
-					alert("추천한 게시물은 다시 추천 불가 !");
+					alert("いいね！をもう押しました。");
 					
 				}
 				
@@ -1543,7 +1551,7 @@ $(function(){
 						success: function(){
 							var contents_num = $('#contents_num').val();
 						$('#bookMark').attr('src','/www/resources/icon/bookmark_black.svg');
-						alert("북마크 등록");
+						alert("ブックマーク登録");
 						
 						},
 						error: function(err){
@@ -1565,7 +1573,7 @@ $(function(){
 							success :function(){
 								var contents_num = $('#contents_num').val();
 								$('#bookMark').attr('src','/www/resources/icon/bookmark_border_black.svg');
-								alert("북마크 삭제");
+								alert("ブックマーク削除");
 							},
 							error : function(err){
 								console.log(err);
@@ -1630,7 +1638,7 @@ function init2(){
 	    			
 	    			dataType : "json",
 	    			success : function(obj){
-	    				console.log("추가 페이지 리스트 ");
+	    				console.log("追加ページリスト ");
 	    					console.log(obj);
 	    				
 	    				var str = '';
@@ -1666,8 +1674,8 @@ function init2(){
 	    						str +=  '</div>';
 	    						str +=	'</span>';
 	    						str +=  '</span>';
-	    						str +=  '<span class="mdl-list__item-secondary-content"><input type="button" value="삭제" class="deleteContentsReply mdl-button mdl-js-button mdl-button--raised mdl-button--colored" data_num="'+item.reply_num+'"></span>';	
-	    						str +=  '<span class="mdl-list__item-secondary-content"><input type="button" value="수정" class= "updateContentsReplyForm mdl-button mdl-js-button mdl-button--raised mdl-button--colored" data_num="'+item.reply_num+'" data_text="'+item.reply_text+'" data_index="'+index+'"></span>';		
+	    						str +=  '<span class="mdl-list__item-secondary-content"><input type="button" value="削除" class="deleteContentsReply mdl-button mdl-js-button mdl-button--raised mdl-button--colored" data_num="'+item.reply_num+'"></span>';	
+	    						str +=  '<span class="mdl-list__item-secondary-content"><input type="button" value="修正" class= "updateContentsReplyForm mdl-button mdl-js-button mdl-button--raised mdl-button--colored" data_num="'+item.reply_num+'" data_text="'+item.reply_text+'" data_index="'+index+'"></span>';		
 	    						str +=  '</li>';
 	    						
 	    					  if(page <= obj.navi.currentPage){
@@ -1730,7 +1738,7 @@ function init2(){
 	    		   			
 	    		   			str = '<input type="hidden" id ="reply_num"  value="'+reply_num+'">';
 	    		            str += '<input type="text" id ="reply_text2"  value="'+reply_text+'" >';
-	    		            str += '<input type="button" value="수정완료" id="updateContentsReply" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">';
+	    		            str += '<input type="button" value="修正完了" id="updateContentsReply" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">';
 	    		   			
 	    		               $('.updateContentsReplyFormDiv'+index).html(str);
 	    		               console.log(str);
@@ -1820,8 +1828,8 @@ function init2(){
 		str +=  '</div>';
 		str +=	'</span>';
 		str +=  '</span>';
-		str +=  '<span class="mdl-list__item-secondary-content"><input type="button" value="삭제" class="deleteContentsReply mdl-button mdl-js-button mdl-button--raised mdl-button--colored" data_num="'+item.reply_num+'"></span>';	
-		str +=  '<span class="mdl-list__item-secondary-content"><input type="button" value="수정" class= "updateContentsReplyForm mdl-button mdl-js-button mdl-button--raised mdl-button--colored" data_num="'+item.reply_num+'" data_text="'+item.reply_text+'" data_index="'+index+'"></span>';		
+		str +=  '<span class="mdl-list__item-secondary-content"><input type="button" value="削除" class="deleteContentsReply mdl-button mdl-js-button mdl-button--raised mdl-button--colored" data_num="'+item.reply_num+'"></span>';	
+		str +=  '<span class="mdl-list__item-secondary-content"><input type="button" value="修正" class= "updateContentsReplyForm mdl-button mdl-js-button mdl-button--raised mdl-button--colored" data_num="'+item.reply_num+'" data_text="'+item.reply_text+'" data_index="'+index+'"></span>';		
 		str +=  '</li>';
 		
 		/*
@@ -1881,7 +1889,7 @@ function init2(){
 			$('#div'+reply_num).focus();
 			$('#div'+reply_num).removeAttr('readonly');
 			
-			$(this).attr('value', '수정완료');
+			$(this).attr('value', '修正完了');
 			$(this).attr('class', 'mdl-button mdl-js-button mdl-button--raised mdl-button--accent');
 			
 			var str = '';
@@ -1910,7 +1918,7 @@ function init2(){
             		
             		success : function(){
             			//alert("수정완료");
-            			$(this).attr('value', '수정');
+            			$(this).attr('value', '修正');
             			$('#div'+reply_num).attr('value', reply_text2);
             			
             			init2();

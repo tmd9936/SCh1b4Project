@@ -86,7 +86,7 @@
 			json.ts_text = "${ts.ts_text}";
 			tslist.push(json);
 		</c:forEach>
-		console.log("10문제용 tslist확인:"+tslist);
+		console.log("10問題 tslist確認:"+tslist);
 		var str = "";
 		var container;
 		var left = 0;
@@ -119,24 +119,17 @@
 	<ul id="recordingslist"></ul>
 
 	<pre id="log"></pre>
-<!-- <button id="startBtn" onclick="startRecording(this);">시작</button>
-	<button id="endBtn" onclick="stopRecording(this);" disabled>종료</button>
-	<div id="ytPitch" style="height: 250px; width: 40%;" class="pitchContainer"></div>
-	
-	<div id="memPitch" style="height: 250px; width: 40%;" class="pitchContainer"></div> -->
-
-
 
 		<dialog class="mdl-dialog" id="percentDialog">
-			<h4 class="mdl-dialog__title">결과</h4>
+			<h4 class="mdl-dialog__title">結果</h4>
 			<div class="mdl-dialog__content">
      		 	<table class="mdl-data-table mdl-js-data-table">
      		 		<tr>
-     		 			<th>Text</th>
+     		 			<th>テキスト</th>
      		 			<td class="textPercent"> </td>
      		 		</tr>
      		 		<tr>
-     		 			<th>Pitch</th>
+     		 			<th>ピッチ</th>
      		 			<td class="pitchPercent"> </td>
      		 		</tr>
      		 	</table>
@@ -145,7 +138,7 @@
 				<div id="memPitch" style="height: 250px; width: 90%;" class="pitchContainer"></div>
     		</div>
     		<div class="mdl-dialog__actions">
-      			<button type="button" class="mdl-button close" id="closeButton">Close</button>
+      			<button type="button" class="mdl-button close" id="closeButton">閉じる</button>
     		</div>
 		</dialog>
 
@@ -199,8 +192,8 @@
 				<div class="browser-landing" id="main">
 					<div class="compact marquee">
 						<div class="startEndBtn" style="visibility: hidden;">
-							<button id="startBtn" onclick="startRecording(this);" class="mdl-button mdl-js-button">시작</button>
-							<button id="endBtn" onclick="stopRecording(this);" disabled class="mdl-button mdl-js-button">종료</button>
+							<button id="startBtn" onclick="startRecording(this);" class="mdl-button mdl-js-button">スタート</button>
+							<button id="endBtn" onclick="stopRecording(this);" disabled class="mdl-button mdl-js-button">終了</button>
 						</div>
 						
 						<div id="results" >
@@ -393,7 +386,7 @@
 		<label class="mdl-textfield__label" for="text">Text...</label>
 		</div>
 		<input type="button" id="formButton" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
-		value="댓글달기">
+		value="コメント">
 		</form> 
 		
 		 </div>
