@@ -540,8 +540,10 @@ function test(num,text){
     var object;
     var compare=[];
     var kana=[];
+    var hinshi=[];
     compare.push(text);
     kana.push(text);
+    hinshi.push(text);
     //문장을 API를 이용해 분해,분석 하자.
     $(document).ready(function(){
         $.ajax({
@@ -580,6 +582,7 @@ function test(num,text){
 		                 break;
 	    	           case 1:
 	        	          list += ' 品詞: '+item2;
+	        	          hinshi.push(item2);
 	        	          console.log(item2);
 	           		       //list += item2;
 	        	          if(oneWord2!=''){
@@ -621,7 +624,7 @@ function test(num,text){
 	        	flag++;
 	        	var holder = compare[i].length;
 	        	
-	          	    text = text.replace(compare[i],'<div style="display: inline;" class="mdl-textfield mdl-js-textfield is-upgraded" data-upgraded=",MaterialTextfield"><input type="text" id="'+num+''+i+'" onkeypress="answer('+num+','+i+')"; class="mdl-textfield__input"; placeholder="'+holder+'"style="border-left: none; border-right: none; border-top: none; width:90px; display: inline; font-size: 15px; "></div>'+' ');
+	          	    text = text.replace(compare[i],'<div style="display: inline;" class="mdl-textfield mdl-js-textfield is-upgraded" data-upgraded=",MaterialTextfield"><input type="text" id="'+num+''+i+'" onkeypress="answer('+num+','+i+')"; class="mdl-textfield__input"; placeholder="'+holder+','+hinshi[i]+'"style="border-left: none; border-right: none; border-top: none; width:90px; display: inline; font-size: 15px; text-align : center;"></div>'+' ');
 	          	    console.log('compare['+i+'] :'+compare[i]);
 	          	}
 	          	compare.push(flag);
@@ -671,7 +674,9 @@ function answer(num,i){
 		
 		//답이 일치하면
 		if(yourAnswer.value == compare[i] || yourAnswer.value == kana[i]){
-			
+			yourAnswer.value = compare[i];
+			//yourAnswer.style.textAlign = "center";
+			yourAnswer.style.color = "#ff0000"; 
 			yourAnswer.disabled=true;
 			if(document.getElementById('view'+num)!=null)
 			document.getElementById('view'+num).style.display="none";
@@ -761,7 +766,7 @@ function lUP(){
  		str += ' <div class="mdl-dialog__content"></div>';
  		str += '<div id="saveVoca" style="display: none"></div>';
  		str += '<div class=	"mdl-dialog__underunder" style="display: none"></div>'
- 		str += ' <div class="mdl-dialog__actions"><button type="button" class="mdl-button">確認</button>';
+ 		str += ' <div class="mdl-dialog__actions"><button type="button" class="mdl-button" style="font-weight:bold; font-size:12pt;">確認</button>';
  		//str += ' <button type="button" class="mdl-button close">아니요</button>
  		str += '</div>';
  		str += '</dialog>';
