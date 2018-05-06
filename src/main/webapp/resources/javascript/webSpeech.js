@@ -107,7 +107,7 @@ var textComplete = false;
 				fd.append("start",start);
 				fd.append("dur",dur);
 				fd.append("filename",filename);
-				
+				console.log('base64data'+base64data);
 				$.ajax({			
 					type : 'POST',
 					url : '../transcript/streamOnMic',
@@ -183,6 +183,10 @@ var textComplete = false;
 	};
 	
 	$('#start_button').on('click', function() {
+		context.resume().then(() => {
+		    console.log('Playback resumed successfully');
+		  });
+		 var context = new AudioContext();
 		startRecording(this);
 		startButton(event);
 	});

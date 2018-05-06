@@ -185,10 +185,14 @@ public class TranscriptService {
 			// base64data.compareTo("------WebKitFormBoundary"));
 			// System.out.println(t);
 
-			/*
+			/* 
 			 * File file = new File("c:/tmp/"+member_id); if(!file.isDirectory()) {
 			 * file.mkdir(); }
 			 */
+			File memFile = new File("c:/tmp/test/" + member_id + ytFileName + ".wav");
+			if(memFile.isFile()) {
+				memFile.delete();
+			}
 
 			FileOutputStream fos = new FileOutputStream("c:/tmp/test/" + member_id + ytFileName + ".wav");
 
