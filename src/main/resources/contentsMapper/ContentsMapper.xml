@@ -19,7 +19,7 @@
 	from
 	    contents c, category g
 	where
-	    g.category_kr = #{category_kr} 
+	    g.category = #{category} 
 	    and 
 	    c.category = g.category
 	</select>

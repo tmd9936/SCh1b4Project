@@ -622,7 +622,7 @@ function test(num,text){
 	        	if(compare[i].length<2)continue;
 	          		//일치하는 부분을 답 입력 칸으로 변-환
 	        	flag++;
-	        	var holder = compare[i].length;
+	        	var holder = kana[i].length;
 	        	
 	          	    text = text.replace(compare[i],'<div style="display: inline;" class="mdl-textfield mdl-js-textfield is-upgraded" data-upgraded=",MaterialTextfield"><input type="text" id="'+num+''+i+'" onkeypress="answer('+num+','+i+')"; class="mdl-textfield__input"; placeholder="'+holder+','+hinshi[i]+'"style="border-left: none; border-right: none; border-top: none; width:90px; display: inline; font-size: 15px; text-align : center;"></div>'+' ');
 	          	    console.log('compare['+i+'] :'+compare[i]);
