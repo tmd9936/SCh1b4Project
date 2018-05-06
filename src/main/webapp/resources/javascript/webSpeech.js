@@ -351,8 +351,8 @@ function textCompares(ttsList,ytList){
 	console.log(ytList);
 	console.log(ttsList);*/
 	
-	var son = 1;
-	var parent = 1;
+	var son = 0;
+	var parent = 0;
 	if(ytList.length == 0 || ttsList.length == 0){
 		alert('스트링 오류입니다.');
 		return 0;
@@ -363,14 +363,14 @@ function textCompares(ttsList,ytList){
 		if(ytList[0] == ttsList[0]){
 			son++;
 		}
-		parent = ttsList.length-1
+		parent = ttsList.length;
 		textPer = ((son*1.0)/(parent*1.0))*100;
 		return textPer;
 	}else if(ttsList.length == 1){
 		if(ytList[0] == ttsList[0]){
 			son++;
 		}
-		parent = ytList.length-1
+		parent = ytList.length;
 		textPer = ((son*1.0)/(parent*1.0))*100;
 		return textPer;
 	}
