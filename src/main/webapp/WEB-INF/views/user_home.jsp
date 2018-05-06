@@ -81,13 +81,13 @@
 						<c:forEach var="category" items="${categoryList }" varStatus="status">
 							<c:choose>
 								<c:when test="${status.count == 1 }">
-									<li class="swiper-slide swiper-slide-active category"><a href="#"><span>${category.category_kr }</span></a></li>
+									<li class="swiper-slide swiper-slide-active category"><a href="#"><span>${category.category }</span></a></li>
 								</c:when>
 								<c:when test="${status.count == 2 }">
-									<li class="swiper-slide swiper-slide-next category"><a href="#"><span>${category.category_kr }</span></a></li>
+									<li class="swiper-slide swiper-slide-next category"><a href="#"><span>${category.category }</span></a></li>
 								</c:when>
 								<c:otherwise>
-									<li class="swiper-slide category"><a href="#"><span>${category.category_kr }</span></a></li>
+									<li class="swiper-slide category"><a href="#"><span>${category.category }</span></a></li>
 								</c:otherwise>
 							</c:choose>
 							
@@ -108,7 +108,7 @@
 		</section>	
     
           
-       	 <a>최신순</a>
+       	 <a><h3>最新順</h3> </a>
           <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
 				<c:forEach var="list" items="${result }" end="7">
 				
@@ -130,7 +130,7 @@
 				</c:forEach>					
 			</div>
         
-        <a>랜덤순</a>
+        <a><h3>ランダム順</h3> </a>
           <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
 				<c:forEach var="rnd" items="${rnd }" >
 				<div  class="contentsCard" value="${rnd.contents_num }">
@@ -156,7 +156,7 @@
         	<!-- 카테골별 3개씩 select 실패 -->
 	        <%-- <c:forEach var="category" items="${categoryList }">
 	        	
-				<p>${category.category_kr }</p>
+				<p>${category.category }</p>
 				<div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
 				
 					<!-- 카테고리 맞는 영상이 있는 만큼 생성

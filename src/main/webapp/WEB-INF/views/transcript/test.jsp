@@ -62,10 +62,9 @@
 	  console.log(contents_num);
 	    var uanswer = document.getElementById('uanswer'+ts_num);
 	    if(answer==uanswer.value){
-	      alert('정-답');
+	      alert('正解');
 	      uanswer.disabled=true;
 	    }else{
-	      alert('새창 띄우고 단어 + 품사 + 설명 + 뜻');
 	          window.open("wordDetail?ts_num="+ts_num+"&contents_num="+contents_num, "wordDetail", "width=578, height=215, toolbar=no, menubar=no, scrollbars=no, location=no, status=no, resizable=no" );  
 	    }
 	  }
@@ -99,18 +98,18 @@
               $.each(item,function(index2,item2){
                 switch(c){
                 case 0:
-                  list += '원문: '+item2;
+                  list += '原文: '+item2;
                   //list += item2;
                   compare.push(item2);
                   c++;
                   break;
                 case 1:
-                  list += ' 품사: '+item2;
+                  list += ' 品詞: '+item2;
                   //list += item2;
                   c++;
                   break;
                 case 2:
-                  list += ' 읽기: '+item2;
+                  list += ' 読み: '+item2;
                   //list += item2;
                   c=0;
                   break;
@@ -129,7 +128,7 @@
           return true;
         },
         error : function(){
-          alert("실패");
+          alert("失敗");
           return false;
         }
         

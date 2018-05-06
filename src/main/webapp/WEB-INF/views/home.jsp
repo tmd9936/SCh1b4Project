@@ -42,16 +42,16 @@ function goSpeechTest() {
 </head>
 <body>
 	<h1>하이</h1>
-	<p><a href="member/user_home_test">홈페이지</a></p>
+	<p><a href="member/user_home_test">ゲームページ</a></p>
 	<form action="ytDown" method="get">
 		주소 : <input type="text" name="youtube" id="youtube">
-		<input type="submit" value="완료">
+		<input type="submit" value="終了">
 	</form>
 	 <p>ㅎㅎ</p>
-	<input type="button" id="subtitle" value="자막얻기">
+	<input type="button" id="subtitle" value="GET　TRANSCRIPT">
 	
 
-	<input type="button" value="문제만들기테스트" onclick="javascript:gotoTest()">
+	<input type="button" value="MAKING QUIZ TEST" onclick="javascript:gotoTest()">
 	
 	
 	<input type="button" value="javatest" onclick="loation.href='transcript/javaTest'">
@@ -78,7 +78,7 @@ function goSpeechTest() {
 	<a href="transcript/goEditSpace?contents_num=322">editSpace</a> 
 
 
-	<p><a href="test">테스트</a></p>
+	<p><a href="test">テスト</a></p>
 	
 
 

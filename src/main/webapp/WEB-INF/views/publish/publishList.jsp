@@ -34,11 +34,11 @@
 		<c:choose>
         	
         	<c:when test="${sessionScope.loginId == null }">	
-				<h1>로그인 이후 사용해 주세요</h1>        	
+				<h1>ログインの後ご利用ください。</h1>        	
         	</c:when>
         	
         	<c:otherwise>
-        	<h4>자막 편집</h4>
+        	<h4>字幕編集</h4>
             <c:forEach var="list" items="${pubList }" varStatus="status">
         	<div class="mdl-grid mdl-cell mdl-cell--12-col mdl-cell--4-col-tablet mdl-card mdl-shadow--4dp">
                     <div class="mdl-card__media mdl-cell mdl-cell--10-col-tablet">

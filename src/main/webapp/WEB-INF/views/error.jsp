@@ -42,10 +42,10 @@ body{
 	
 	<div class="main">
 	<i class="fa fa-exclamation-triangle"></i>
-	<h1>Oops!We got an error</h1>
+	<h1>エラーが発生しました。</h1>
 	<div class="msg-container">
-		<h2>message</h2>
-		<p><a href="../">홈페이지</a></p>
+		<h2>画面に戻ります</h2>
+		<p><a href="../">ホームページ</a></p>
 	</div>
 	
 </div>

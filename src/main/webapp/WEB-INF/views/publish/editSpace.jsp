@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Edit Space</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -268,11 +268,11 @@ p{
 			<div class="mdl-cell mdl-cell--4-col">
 				<div class="subheading">Keyboard controls</div>
 
-				<p>Tab : Àç»ı/Á¤Áö</p>
-				<p>Ctrl + X : ³»¿ë º¹»ç</p>
-				<p>È­»ìÇ¥ ¡é : ÀÚ¸· ½ÃÀÛÁ¡</p>
-				<p>È­»ìÇ¥ ¡è : ÀÚ¸· Á¾·áÁ¡</p>
-				<p>¿£ÅÍ : ÆíÁı¿µ¿ª »ı¼º </p>
+				<p>Tab : å†ç”Ÿï¼åœæ­¢</p>
+				<p>Ctrl + X : å†…å®¹ã‚³ãƒ”ãƒ¼</p>
+				<p>çŸ¢å° â†“ : å­—å¹•ã‚¹ã‚¿ãƒ¼ãƒˆãƒã‚¤ãƒ³ãƒˆ</p>
+				<p>çŸ¢å° â†‘ : å­—å¹•ã‚¨ãƒ³ãƒ‰ãƒã‚¤ãƒ³ãƒˆ</p>
+				<p>ã‚¨ãƒ³ã‚¿ãƒ¼ : ç·¨é›†é ˜åŸŸç”Ÿæˆ </p>
 			</div>
 			<div class="mdl-cell mdl-cell--5-col" id="playerSection">
 				<div class="transcript-float-video"></div>
@@ -294,17 +294,17 @@ p{
 
 			</div>
 			<div class="mdl-cell mdl-cell--3-col">
-				<div class="subheading">´Ü°è¿µ¿ª</div>
+				<div class="subheading">é ˜åŸŸ</div>
 				<div>
 					<ol>
-						<li id="firstRow">ÆíÁı¿µ¿ª¿¡ ¼ÂÆÃ<br>
+						<li id="firstRow">ç·¨é›†é ˜åŸŸã¸ã‚»ãƒƒãƒ†ã‚£ãƒ³ã‚°<br>
 						<button	class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="startBtn">Start Sync!</button>
 						</li>
 						<hr>
-						<li class="disabled" id="secondRow"> ÀÚ¸· ½ÌÅ© Á¶Á¤ <br>
+						<li class="disabled" id="secondRow"> å­—å¹•Syncèª¿æ•´ <br>
 						</li>
 						<hr>
-						<li class="disabled" id="thirdRow">¸®ºä ¹× ¹ßÇà <br>
+						<li class="disabled" id="thirdRow">ãƒ¬ãƒ“ãƒ¥ãƒ¼ãƒ»ç™ºè¡Œ <br>
 						</li>
 					</ol>
 					
@@ -334,7 +334,7 @@ p{
 		<div id="editRow" class="mdl-grid">
 
 			<div class="mdl-cell mdl-cell--4-col">
-				<div class="subheading">ÀÚ·á¿µ¿ª</div>
+				<div class="subheading">è³‡æ–™é ˜åŸŸ</div>
 				<div id="transcripts">
 					<ul class="demo-list-item mdl-list">
 						<c:forEach items="${tsList }" var="list">
@@ -354,7 +354,7 @@ p{
 			
 			<div class="mdl-cell mdl-cell--5-col">
 				<!-- <form action="syncedTranscript"> -->
-				<div class="subheading">ÆíÁı¿µ¿ª</div>
+				<div class="subheading">ç·¨é›†é ˜åŸŸ</div>
 				<div id="insertCell">
 						<div id="transcriptPlace">
 							<ul class="demo-list-item mdl-list" id="sortableEditList">
@@ -375,7 +375,7 @@ p{
 			</div>
 
 			<div id="notes" class="mdl-cell mdl-cell--3-col">
-				<div class="subheading">Á¤º¸¿µ¿ª</div>
+				<div class="subheading">æƒ…å ±é ˜åŸŸ</div>
 				<input type="hidden" id="contents_num" value="${param.contents_num }">
 				<br>
 				<div class="framed">
@@ -389,11 +389,11 @@ p{
 					<div id="YouTube-player-errors"></div>
 					<div id="YouTube-player-fixed-infos"></div>
 				</div>
-				<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" id="statusBtn">»óÅÂ ÀúÀå</button>
-				<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" id="homeBtn">È¨À¸·Î</button>
+				<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" id="statusBtn">çŠ¶æ…‹ã‚»ãƒ¼ãƒ–</button>
+				<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" id="homeBtn">ãƒ›ãƒ¼ãƒ ã¸</button>
 				<script>
 				$('#statusBtn').on('click',function(){
-					if(confirm('ÀúÀåÇÏ½Ã°Ú½À´Ï±î?')){
+					if(confirm('ã‚»ãƒ¼ãƒ–ã—ã¾ã™ã‹?')){
 					var num = $('#contents_num').val();
 					var startTiming = document.getElementsByClassName('timing_start_point');
 					var endTiming = document.getElementsByClassName('timing_end_point');
@@ -401,7 +401,7 @@ p{
 					var array = new Array();
 					if(startTiming == null || startTiming == undefined){
 						
-						alert('ÆíÁı¿µ¿ª¿¡¼­ ÀÛ¾÷ÇØÁÖ¼¼¿ä');
+						alert('ç·¨é›†é ˜åŸŸã§ä½œæ¥­ã‚’è¡Œã£ã¦ãã ã•ã„');
 						return;
 					}
 					
@@ -413,7 +413,7 @@ p{
 					}
 					console.log(JSON.stringify(array));
 					
-					$.ajaxSettings.traditional = true; //¹è¿­ ÇüÅÂ·Î ¼­¹öÂÊ Àü¼ÛÀ» À§ÇÑ ¼³Á¤
+					$.ajaxSettings.traditional = true; //ë°°ì—´ í˜•íƒœë¡œ ì„œë²„ìª½ ì „ì†¡ì„ ìœ„í•œ ì„¤ì •
 
 					$.ajax({
 						url : "insertEdit",
@@ -423,7 +423,7 @@ p{
 						data :JSON.stringify(array),
 						
 						success : function(){
-							alert('ÀúÀåµÇ¾ú½À´Ï´Ù');
+							alert('ã‚»ãƒ¼ãƒ–ã—ã¾ã—ãŸ');
 							
 						},
 						error : function(err){
@@ -436,7 +436,7 @@ p{
 				
 				
 				$('#homeBtn').on('click',function(){
-					if(confirm('ÀÛ¾÷¿¡¼­ ºüÁ®³ª¿À½Ã°Ú½À´Ï±î?')){
+					if(confirm('ä½œæ¥­ã‚’çµ‚äº†ã—ã¾ã™ã‹?')){
 						location.href = "/www";	
 					}
 					
@@ -451,18 +451,18 @@ p{
 	
 <script>
 
-//ÆíÁı»óÅÂ ¾Ë¸²
+//í¸ì§‘ìƒíƒœ ì•Œë¦¼
 var phase= 0;
 
-//ÀÚ¸· ½ÃÀÛ&³¡ Æ÷ÀÎÆ®
+//ìë§‰ ì‹œì‘&ë í¬ì¸íŠ¸
 var startPoint = 0;
 var endPoint = 0;
-//ÀÚ¸· div »óÅÂ Àü¿ªº¯¼ö
+//ìë§‰ div ìƒíƒœ ì „ì—­ë³€ìˆ˜
 var transDivStatus = 0;
-//Canvas ±×¸®±â Àü¿ªº¯¼ö
+//Canvas ê·¸ë¦¬ê¸° ì „ì—­ë³€ìˆ˜
 var canvasOnce = 0;
 
-//ProgressBar x ÁÂÇ¥ º¯¼ö
+//ProgressBar x ì¢Œí‘œ ë³€ìˆ˜
 var progressBar = 0;
 
 //DisplayFlag
@@ -474,7 +474,7 @@ var syncIndex = 0;
 var syncFlag = false;
 //reviewFlag
 var reviewFlag = false;
-//½Ã°£¿¡ µû¸¥ ÁÂ¿ì Æ÷Áö¼Ç º¯È­
+//ì‹œê°„ì— ë”°ë¥¸ ì¢Œìš° í¬ì§€ì…˜ ë³€í™”
 var timeSlide = 0;
 
 
@@ -529,7 +529,7 @@ $('#startBtn').on('click',function(){
 	var spanEndLength = $('.timing_end_point');
 	
 	 if(inputLength == '' ||inputLength == undefined){
-		 alert('ÆíÁı¿µ¿ª¿¡ ÀÚ¸·À» Ãß°¡ÇØÁÖ¼¼¿ä');
+		 alert('ç·¨é›†é ˜åŸŸã«å­—å¹•ã‚’è¿½åŠ ã—ã¦ãã ã•ã„');
 		return;
 	} 
 	var str = '';
@@ -547,7 +547,7 @@ $('#startBtn').on('click',function(){
 			 console.log(spanStartLength[i].innerHTML);
 			 if(spanStartLength[i].innerHTML == '' || spanEndLength[i].innerHTML == ''
 				 || spanEndLength[i].innerHTML == null|| spanEndLength[i].innerHTML == null){
-				 alert('ÀÚ¸·ÀÇ ½ÌÅ©¸¦ ¸ÂÃç ÁÖ¼¼¿ä');										 
+				 alert('å­—å¹•ã®Syncã‚’åˆã‚ã›ã¦ãã ã•ã„');										 
 				 spanStartLength[i].focus();
 				 return;
 			 }
@@ -568,7 +568,7 @@ $('#startBtn').on('click',function(){
 	 		var spanEndLength = $('.timing_end_point');
 	 		
 	 		if(inputLength == '' ||inputLength == undefined){
-	 			 alert('ÆíÁı¿µ¿ª¿¡ ÀÚ¸·À» Ãß°¡ÇØÁÖ¼¼¿ä');
+	 			 alert('ç·¨é›†é ˜åŸŸã«å­—å¹•ã‚’è¿½åŠ ã—ã¦ãã ã•ã„');
 	 			return;
 	 		} 
 	 		
@@ -576,7 +576,7 @@ $('#startBtn').on('click',function(){
 				 console.log(spanStartLength[i].innerHTML);
 				 if(spanStartLength[i].innerHTML == '' || spanEndLength[i].innerHTML == ''
 					 || spanEndLength[i].innerHTML == null|| spanEndLength[i].innerHTML == null){
-					 alert('ÀÚ¸·ÀÇ ½ÌÅ©¸¦ ¸ÂÃç ÁÖ¼¼¿ä');										 
+					 alert('å­—å¹•ã®Syncã‚’åˆã‚ã›ã¦ãã ã•ã„');										 
 					 spanStartLength[i].focus();
 					 return;
 				 }
@@ -602,7 +602,7 @@ $('#startBtn').on('click',function(){
 							array.push(obj);
 						}
 						
-						//$.ajaxSettings.traditional = true; //¹è¿­ ÇüÅÂ·Î ¼­¹öÂÊ Àü¼ÛÀ» À§ÇÑ ¼³Á¤
+						//$.ajaxSettings.traditional = true; //ë°°ì—´ í˜•íƒœë¡œ ì„œë²„ìª½ ì „ì†¡ì„ ìœ„í•œ ì„¤ì •
 
 						$.ajax({
 							url : "insertTs",
@@ -614,7 +614,7 @@ $('#startBtn').on('click',function(){
 								$(location).attr('href','../contents/studySpace?contents_num='+num);
 							},
 							error : function(err){
-								alert('½ÇÆĞ');
+								alert('å¤±æ•—');
 								console.log(err);
 							}
 						});	
@@ -811,7 +811,7 @@ function youTubePlayerDisplayInfos() {
     if (youTubePlayerActive()) {
         var state = youTubePlayer.getPlayerState();
 
-        //½Ã°£ Á¤º¸ (ÇöÀç ¹éºĞÀ² -> ¹Ğ¸®ÃÊ ´ÜÀ§·Î º¯°æ ¿¹Á¤)
+        //ì‹œê°„ ì •ë³´ (í˜„ì¬ ë°±ë¶„ìœ¨ -> ë°€ë¦¬ì´ˆ ë‹¨ìœ„ë¡œ ë³€ê²½ ì˜ˆì •)
         
         var current = youTubePlayer.getCurrentTime();
         var duration = youTubePlayer.getDuration();
@@ -820,7 +820,7 @@ function youTubePlayerDisplayInfos() {
                               : 0);
         
        /**
-       *	 div ¿òÁ÷ÀÌ±â 
+       *	 div ì›€ì§ì´ê¸° 
        *
        */ 
         if(state === 1){
@@ -835,8 +835,8 @@ function youTubePlayerDisplayInfos() {
         			c.clearRect(0, 0, canvas.width, canvas.height);
         			$("#YouTube-player-progress").css('left','-1000');
         			drawItAgain(duration, current);
-        			console.log(duration+"±æÀÌ");
-        			console.log(current+"ÇöÀç À§Ä¡");
+        			console.log(duration+"é•·ã•");
+        			console.log(current+"ç¾åœ¨ã®ä½ç½®");
         			progressStatus = 0;
         			progressBar++;
         		}
@@ -847,14 +847,14 @@ function youTubePlayerDisplayInfos() {
         	}
         	if(state == 0){
         		
-        		//ÀÚ¸· ½ÃÀÛ&³¡ Æ÷ÀÎÆ®
+        		//ìë§‰ ì‹œì‘&ë í¬ì¸íŠ¸
         		startPoint = 0;
         		endPoint = 0;
-        		//ÀÚ¸· div »óÅÂ Àü¿ªº¯¼ö
+        		//ìë§‰ div ìƒíƒœ ì „ì—­ë³€ìˆ˜
         		transDivStatus = 0;
-        		//Canvas ±×¸®±â Àü¿ªº¯¼ö
+        		//Canvas ê·¸ë¦¬ê¸° ì „ì—­ë³€ìˆ˜
         		canvasOnce = 0;
-        		//ProgressBar x ÁÂÇ¥ º¯¼ö
+        		//ProgressBar x ì¢Œí‘œ ë³€ìˆ˜
         		progressBar = 0;
         		//DisplayFlag
         		displayFlag = 0;
@@ -862,7 +862,7 @@ function youTubePlayerDisplayInfos() {
         		syncIndex = 0;
         		//syncFlag
         		syncFlag = false;
-        		//ÀÚµ¿ ±×¸®±â
+        		//ìë™ ê·¸ë¦¬ê¸°
         		progressStatus = 0;
         	}
         	
@@ -898,7 +898,7 @@ function youTubePlayerDisplayInfos() {
         
        
         
-        //Äµ¹ö½º ±×¸®±â
+        //ìº”ë²„ìŠ¤ ê·¸ë¦¬ê¸°
         if(canvasOnce < 1){
         	drawIt(duration);
         	console.log(duration);
@@ -908,17 +908,17 @@ function youTubePlayerDisplayInfos() {
         }
         
         
-        //Typing ÁßÀÎ textarea div ¿¡ ¿Å±â±â
+        //Typing ì¤‘ì¸ textarea div ì— ì˜®ê¸°ê¸°
       /*  var text =  $(".transcriptTextArea").val();
         $(".transcript-float-video").text(text); */
         
-        //div·Î Àç»ı ±¸°£ Á¶Á¤ÇÏ±â
+        //divë¡œ ì¬ìƒ êµ¬ê°„ ì¡°ì •í•˜ê¸°
      /*    $('editRow').createElement("button", {
         	
         } */
         
         
-        //ÀÚ¸·DIV º¸ÀÌ±â ¾Èº¸ÀÌ±â È£Ãâ
+        //ìë§‰DIV ë³´ì´ê¸° ì•ˆë³´ì´ê¸° í˜¸ì¶œ
        
         
       /*   if(timing_start  <= current &&  timing_end >= current ){
@@ -931,7 +931,7 @@ function youTubePlayerDisplayInfos() {
         }
          */
          /**
-         *	DIV ¸¸µå´Â ÇÔ¼ö È£Ãâ
+         *	DIV ë§Œë“œëŠ” í•¨ìˆ˜ í˜¸ì¶œ
          */
         
         if(syncIndex == $('.transcriptDiv').length-1){
@@ -940,7 +940,7 @@ function youTubePlayerDisplayInfos() {
         	var numOfTransDiv = $('.transcriptDiv').length-1;
      
         	if (lastIndex > numOfTransDiv + 5){
-        		console.log("¸®ÅÏ");
+        		console.log("ãƒªã‚¿ãƒ¼ãƒ³");
         		return;	
         	}
         	createSubtitleDiv(numOfTransDiv);	
@@ -1060,7 +1060,7 @@ function youTubePlayerVolumeChange(volume) {
     }
 }
 /**
- * div À§¿¡ ´«±İ Ç¥½ÃÇÏ±â
+ * div ìœ„ì— ëˆˆê¸ˆ í‘œì‹œí•˜ê¸°
  * 
  */
 	function drawIt(totalTime) {
@@ -1070,12 +1070,12 @@ function youTubePlayerVolumeChange(volume) {
 	    
 	    canvas.width = 15000;
 	    
-	   //½Ã, ºĞ, ÃÊ °è»ê
+	   //ì‹œ, ë¶„, ì´ˆ ê³„ì‚°
 	    var hour = Math.floor(totalTime / 3600);
 	    var minute = Math.floor(totalTime / 60) - (hour * 60);
 	    var second =  totalTime - (minute * 60 +  hour * 60*60);
 	   
-	    //½Ã°£ Ç¥½Ã¸¦ À§ÇÑ Å¸ÀÓ½ºÅÆÇÁ
+	    //ì‹œê°„ í‘œì‹œë¥¼ ìœ„í•œ íƒ€ì„ìŠ¤íƒ¬í”„
 	    var timeStamp = 0;
 	    var hourStamp = 0;
 	    var minuteStamp = 0;
@@ -1090,7 +1090,7 @@ function youTubePlayerVolumeChange(volume) {
 	    		hourStamp++;
 	    		minuteStamp = 0;
 	    	}
-			//±ÛÀÚ ¼³Á¤
+			//ê¸€ì ì„¤ì •
 	    	c.fillStyle="gray";
 			c.font= 'bold 30px Consolas';
 	    	c.fillText( 
@@ -1125,19 +1125,19 @@ function youTubePlayerVolumeChange(volume) {
 	    
 	    canvas.width = 15000;
 	    
-	   //½Ã, ºĞ, ÃÊ °è»ê
+	   //ì‹œ, ë¶„, ì´ˆ ê³„ì‚°
 	    var hour = Math.floor(totalTime / 3600);
 	    var minute = Math.floor(totalTime / 60) - (hour * 60);
 	    var second =  totalTime - (minute * 60 +  hour * 60*60);
 	    
 	    
-	    //ÇöÀç ½Ã°£À» ½ÃºĞÃÊ·Î °è»ê
+	    //í˜„ì¬ ì‹œê°„ì„ ì‹œë¶„ì´ˆë¡œ ê³„ì‚°
 	    var currentHour = Math.floor(current / 3600);
 	    var currentMinute = Math.floor(current / 60) - (hour * 60);
 	    var currentSecond =  current - (currentMinute * 60 +  currentHour * 60*60);
 	    
 	    
-	    //½Ã°£ Ç¥½Ã¸¦ À§ÇÑ Å¸ÀÓ½ºÅÆÇÁ
+	    //ì‹œê°„ í‘œì‹œë¥¼ ìœ„í•œ íƒ€ì„ìŠ¤íƒ¬í”„
 	    var timeStamp = 0;
 	    var hourStamp = currentHour;
 	    var minuteStamp = currentMinute;
@@ -1145,7 +1145,7 @@ function youTubePlayerVolumeChange(volume) {
 	    
 	    var differentStamp = totalTime - current;
 	    
-	    //½ÌÅ© ¸ÂÃçÁÖ±â À§ÇÑ Stamp ¼³Á¤
+	    //ì‹±í¬ ë§ì¶°ì£¼ê¸° ìœ„í•œ Stamp ì„¤ì •
 	    if((secStamp ) < 0){
 			secStamp = secStamp + 50 ;
 	    	if(--minuteStamp < 0){
@@ -1171,7 +1171,7 @@ function youTubePlayerVolumeChange(volume) {
 	    		minuteStamp = 0;
 	    	}
 			
-			//±ÛÀÚ ¼³Á¤
+			//ê¸€ì ì„¤ì •
 			c.font= 'bold 30px Consolas';
 			c.fillStyle="gray";
 			c.fillText( 
@@ -1187,7 +1187,7 @@ function youTubePlayerVolumeChange(volume) {
 	}
 	
 	/*
-		Äµ¹ö½º Áö¿ì±â
+		ìº”ë²„ìŠ¤ ì§€ìš°ê¸°
 	*
 	*/
 	
@@ -1196,13 +1196,13 @@ function youTubePlayerVolumeChange(volume) {
 	}
 	
 	
-	//¼ıÀÚ 01 ·Î Ç¥ÇöÇÏ´Â ÇÔ¼ö 
+	//ìˆ«ì 01 ë¡œ í‘œí˜„í•˜ëŠ” í•¨ìˆ˜ 
 	function pad(n, width){
 		n = n+ '';
 		return n.length >= width ? n : new Array(width - n.length + 1 ).join('0')+n;
 	}
 
-	//ÀÚ¸· º¸ÀÌ±â ¼û±â±â
+	//ìë§‰ ë³´ì´ê¸° ìˆ¨ê¸°ê¸°
  	function transcriptDisplayOrNot(flag) {
 		
 		if(flag){
@@ -1212,7 +1212,7 @@ function youTubePlayerVolumeChange(volume) {
 		}
 	}
 	
-	//°³º° ÀÚ¸· Àü¼Û
+	//ê°œë³„ ìë§‰ ì „ì†¡
 /* 	function insertATranscript{
 		$.ajax({
 			type:"post",
@@ -1232,7 +1232,7 @@ function youTubePlayerVolumeChange(volume) {
 	*/
 	
 	/*
-	 *	Div ¿¡ ÆíÁı¿µ¿ª ÅØ½ºÆ® ºÙ¿©³Ö±â
+	 *	Div ì— í¸ì§‘ì˜ì—­ í…ìŠ¤íŠ¸ ë¶™ì—¬ë„£ê¸°
 	 *
 	 **/
 	/* function setTextSubtitle() {
@@ -1261,19 +1261,19 @@ function youTubePlayerVolumeChange(volume) {
 	} */
 	
 	/**
-		¿ŞÂÊ ºÒ·¯¿Â ÀÚ¸·À» ÆíÁı¿µ¿ªÀ¸·Î º¹»çÇÏ±â
+		ì™¼ìª½ ë¶ˆëŸ¬ì˜¨ ìë§‰ì„ í¸ì§‘ì˜ì—­ìœ¼ë¡œ ë³µì‚¬í•˜ê¸°
 	*/
 	
 	$('#cloneBtn').on('click', function(){
 		var cloneElements = $('#transcripts').clone();
-		// º¯¼ö cloneElements¸¦ ¸¸µé¾î º¹»çµÈ ¿ä¼ÒµéÀ» ÀúÀå
+		// ë³€ìˆ˜ cloneElementsë¥¼ ë§Œë“¤ì–´ ë³µì‚¬ëœ ìš”ì†Œë“¤ì„ ì €ì¥
 		cloneElements .appendTo('#insertCell');
-		// º¹»çÇÑ ¿ä¼ÒµéÀ» buttons2 Å¬·¡½º¸íÀÇ ÀÚ½Ä¿ä¼Ò·Î ³Ö±â
+		// ë³µì‚¬í•œ ìš”ì†Œë“¤ì„ buttons2 í´ë˜ìŠ¤ëª…ì˜ ìì‹ìš”ì†Œë¡œ ë„£ê¸°
 	});
 	
 	
 	/**
-	 *  ÀÚ¸· ½ÃÀÛ Á¡ ¼³Á¤
+	 *  ìë§‰ ì‹œì‘ ì  ì„¤ì •
 	 *
 	 */
 	function setStartPoint(current){
@@ -1294,7 +1294,7 @@ function youTubePlayerVolumeChange(volume) {
 	}
 	
 	/**
-	 * ÀÚ¸· Á¾·á Á¡ ¼³Á¤
+	 * ìë§‰ ì¢…ë£Œ ì  ì„¤ì •
 	 *
 	 */
 	function setEndPoint(current, syncFlag){
@@ -1318,7 +1318,7 @@ function youTubePlayerVolumeChange(volume) {
 	
 	
 	/**
-	*	Å°º¸µå ÀÎÇ²À¸·Î ÀÚ¸· »ğÀÔ¹× µğ½ºÇÃ·¹ÀÌ div ½ÃÀÛÁ¡ ¹× Á¾·áÁ¡ ¼³Á¤ÇØÁÖ±â
+	*	í‚¤ë³´ë“œ ì¸í’‹ìœ¼ë¡œ ìë§‰ ì‚½ì…ë° ë””ìŠ¤í”Œë ˆì´ div ì‹œì‘ì  ë° ì¢…ë£Œì  ì„¤ì •í•´ì£¼ê¸°
 		parameters : currentTime
 		returns : duration 
 	*/
@@ -1375,7 +1375,7 @@ function youTubePlayerVolumeChange(volume) {
 	
 	
 	/*
-	*  Div ½ÃÀÛÀ§Ä¡Á¡ Àâ´Â ÇÔ¼ö  + duration ¿¡ ¸Â°Ô ±æÀÌ ¼³Á¤ ÇØÁÖ´Â ÇÔ¼ö
+	*  Div ì‹œì‘ìœ„ì¹˜ì  ì¡ëŠ” í•¨ìˆ˜  + duration ì— ë§ê²Œ ê¸¸ì´ ì„¤ì • í•´ì£¼ëŠ” í•¨ìˆ˜
 	*/
 	
 	/* 	function setFloatDiv(startTime, duration, count){
@@ -1396,7 +1396,7 @@ function youTubePlayerVolumeChange(volume) {
 	 */
 	
 	/**
-		selected µÈ Text °ª ¸®ÅÏ
+		selected ëœ Text ê°’ ë¦¬í„´
 	*/
 	function getSelectedText() {
 	    if (window.getSelection) {
@@ -1409,7 +1409,7 @@ function youTubePlayerVolumeChange(volume) {
 	}
 	
 	/**
-	*	¼±ÅÃ¿µ¿ª <li>»èÁ¦ ÀÌº¥Æ® ¿¬°á ÇÔ¼ö
+	*	ì„ íƒì˜ì—­ <li>ì‚­ì œ ì´ë²¤íŠ¸ ì—°ê²° í•¨ìˆ˜
 	*/
 	function delListEdit(){
 		$('.delEditList').on('click', function(){
@@ -1419,7 +1419,7 @@ function youTubePlayerVolumeChange(volume) {
 	}
 	
 	/**
-	*	transcriptDiv ¹ë·ù°ª indexing ÇÏ±â
+	*	transcriptDiv ë°¸ë¥˜ê°’ indexing í•˜ê¸°
 	*/
 	function getValueOfSort(){
 		$('.transcriptDiv').click(function(){
@@ -1430,7 +1430,7 @@ function youTubePlayerVolumeChange(volume) {
 	}
 	
 	/**
-	*	ÆíÁı¿µ¿ª div ¼ø¼­ ¹Ù²Ù±â
+	*	í¸ì§‘ì˜ì—­ div ìˆœì„œ ë°”ê¾¸ê¸°
 	*/
 	
 	function sortEditDiv(){
@@ -1441,7 +1441,7 @@ function youTubePlayerVolumeChange(volume) {
 	}
 	
 	/*
-	 *	DIV »ı¼ºÇÏ±â
+	 *	DIV ìƒì„±í•˜ê¸°
 	 *
 	 **/
 	function createSubtitleDiv(numOfTranscript){
@@ -1473,7 +1473,7 @@ function youTubePlayerVolumeChange(volume) {
 	}
 	
 	/*
-	 *	 subtitle DIV ´ÙÀ½ ÀÚ¸· À§Ä¡¿¡ ´ë±â ½ÃÅ°±â
+	 *	 subtitle DIV ë‹¤ìŒ ìë§‰ ìœ„ì¹˜ì— ëŒ€ê¸° ì‹œí‚¤ê¸°
 	 */
 	
 	/*  function setPositionNextSub(){
@@ -1531,7 +1531,7 @@ function youTubePlayerVolumeChange(volume) {
 }());
 
 	/**
-	 * Å°º¸µå µ¿ÀÛ ¸ÅÄª
+	 * í‚¤ë³´ë“œ ë™ì‘ ë§¤ì¹­
 	 *
 	 */
 	$(document).keydown(function(e) {
@@ -1604,7 +1604,7 @@ function youTubePlayerVolumeChange(volume) {
 		  
 		  if(e.which == 88 & e.ctrlKey){
 
-			  //·ÎÁ÷
+			  //ë¡œì§
 			var text = getSelectedText();
 			text = text.replace(/ /gi,"");
 			if(text == ''){
@@ -1652,8 +1652,8 @@ function youTubePlayerVolumeChange(volume) {
 			break;
 		}
 		dur = dur7*1500;
-		youTubePlayer.seekTo(currentTime,true);// À¯Æ©ºê ½ÃÀÛÀ§Ä¡
-		youTubePlayer.playVideo(); //À¯Æ©ºê Àç»ı
+		youTubePlayer.seekTo(currentTime,true);// ìœ íŠœë¸Œ ì‹œì‘ìœ„ì¹˜
+		youTubePlayer.playVideo(); //ìœ íŠœë¸Œ ì¬ìƒ
 	}
 
 function setSyncIndex(){
@@ -1668,7 +1668,7 @@ function setSyncIndex(){
 	}
 	
 	/**
-	*  booleanÅ¸ÀÔÀÇ flag¸¦ ¹Ş¾Æ ÁÖ´Â ÇÔ¼ö 
+	*  booleaníƒ€ì…ì˜ flagë¥¼ ë°›ì•„ ì£¼ëŠ” í•¨ìˆ˜ 
 	*/
 function setReviewFlag(flag){
 	reviewFlag = flag;

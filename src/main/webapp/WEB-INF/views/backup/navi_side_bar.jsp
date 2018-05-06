@@ -114,7 +114,7 @@
           <img src="<c:url value="/resources/images/user.jpg"></c:url>" class="demo-avatar">
           <div class="demo-avatar-dropdown">
             <span>
-				<p>${sessionScope.loginName }(${sessionScope.loginId })님 환영합니다.</p>
+				<p>${sessionScope.loginName }(${sessionScope.loginId })様　ようこそ</p>
 			</span>
             <div class="mdl-layout-spacer"></div>
             <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">

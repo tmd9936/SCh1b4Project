@@ -15,7 +15,7 @@
 	src="<c:url value="/resources/js/jquery.js"></c:url>"></script>
 
 
-<title>[ 회원가입 ]</title>
+<title>[ 会員登録 ]</title>
 <style type="text/css">
 body {
 	text-align: center;
@@ -48,20 +48,20 @@ body {
 
 
 	<div id = "main">
-		<form action="login", method="post" onsubmit="return formCheck()">
+		<form action="login", method="post" onsubmit="return formCheck()" >
 		<div class="mdl-textfield mdl-js-textfield">
 			<input class="mdl-textfield__input" type="text" id="id" name="member_id"> <label
-				class="mdl-textfield__label" for="id">아이디</label>
+				class="mdl-textfield__label" for="id">ID</label>
 			<div id="idText"></div>
 		</div>
 		<br>
 		<div class="mdl-textfield mdl-js-textfield">
 			<input class="mdl-textfield__input" type="password" id="password1" name="member_password">
-			<label class="mdl-textfield__label" for="password1">비밀번호</label>
+			<label class="mdl-textfield__label" for="password1">パスワード</label>
 		</div>
 		<br>
 		
-		<input type="submit" id="sub" value="로그인" class="mdl-button mdl-js-button">
+		<input type="submit" id="sub" value="ログイン" class="mdl-button mdl-js-button">
 		<div id="joinDiv"></div>
 		</form>
 		<p>${msg}</p>

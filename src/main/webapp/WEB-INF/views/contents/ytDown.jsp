@@ -12,7 +12,7 @@
     
     function ytd_text() {
 		if(youtube,value == ''){
-			alert("주소를 입력해 주세요");
+			alert("アドレスを入力してください");
 			return false;
 		}
     	  
@@ -46,9 +46,10 @@
         <div class="mdl-grid demo-content">
         	<div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
         		<dialog class="mdl-dialog" id="progressDialog">
-    				<h2 class="mdl-dialog__title">잠시만 기다려 주세요!</h2>
+    				<h2 class="mdl-dialog__title">少々お待ちください</h2>
     				<div class="mdl-dialog__content">
-    						<p>자막이 있으면 최대 30초, 없으면 동영상의 길이에 따라 최대 10분 입니다.</p>
+    				<!-- 자막이 있으면 최대 30초, 없으면 동영상의 길이에 따라 최대 10분 입니다. -->
+    						<p>字幕ありの場合は最大３０秒、ない場合は動画の長さによって最大１０分かかります。</p>
     				<div id="p2" class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
     				</div>
     				
