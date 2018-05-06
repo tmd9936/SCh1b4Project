@@ -731,7 +731,7 @@ function lUP(){
  		var answers=[];
  		for(var i=1;i<temp1.length;i++){
  			if(temp1[i].length<2)continue;
- 			answers.push(temp1[i]);
+ 			answers.push(temp1[i]); 
  		}
  		console.log("sentence"+sentence);
  		console.log("answers"+answers);
@@ -1054,6 +1054,7 @@ function lUP(){
  	
  	/*단어장 리스트 종료*/
  	
+ 	
  	/*채팅 시작*/
  var GoLiveState = false;
  
@@ -1110,6 +1111,8 @@ function GoLive(){
 		str = '';
 		div.innerHTML = str;
 	    
+		
+		
 	 // stop any single stream: audio or video or screen
  		connection.streams.stop('audio');
  		connection.streams.stop('video');
@@ -1130,8 +1133,7 @@ function init3(){
 	
 	$(".user").on('click', function(){
     	var div = document.getElementById("divNewView");
-    	//var teacher_name = $(this).attr('teacher_name');
-    	
+    	var teacher_name = $(this).attr('teacher_name');
     	
     	var str = '<div id="local-Videos-Container"></div>';
     	str += '<div id="remote-Videos-Container"></div>';
@@ -1140,7 +1142,7 @@ function init3(){
     	
     	str += '<div class="msg_box" >';
     	str += '<div class="msg_head" id="msg_head">';
-    	str += '대화창';
+    	str += ''+teacher_name+'';
     	str += '<div class="close" id="close">x</div>';
     	str += '</div>';
     	
@@ -1155,10 +1157,10 @@ function init3(){
     	str += '<div class="msg_footer"><input type="text" class="msg_input" id="message" placeholder="메시지 내용"/></div>';
     	str += '<input type="hidden" id="to" value="">';
     	
-    	str += '<div class="btn-open-or-join-room" id="btn-open-or-join-room">';
-		str += 'Open Or JoinRoom';
-		str += '<div>';
-		str += '<div><input id="txt-roomid" placeholder ="Unique Room ID"><div>';
+    	//str += '<div class="btn-open-or-join-roomid="" btn-open-or-join-room">';
+		//str += 'Open Or JoinRoom';
+		//str += '<div>';
+		str += '<div><input type="hidden" id="txt-roomid" placeholder ="Unique Room ID"><div>';
 		
     	str += '</div>';
     	str += '</div>';
@@ -1177,101 +1179,49 @@ function init3(){
     			
     		});
     	
-    		
-    	
-    		
-    		
     	// 테스트 시작
         var connection = new RTCMultiConnection();
         var message = {};
+        // or a free signaling server
+        connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+     
+        // if you want audio+video conferencing
+        connection.session = {
+        	audio: true,
+        	video: true,
+        	data: true
+        };
         
         
-     // or a free signaling server
-     connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
-     
-     // if you want audio+video conferencing
-     connection.session = {
-         audio: true,
-         video: true,
-         data:true
-     };
-    
-     connection.onopen = function(event) {
-    	    connection.send('hello everyone');
-    	    
-    	    message={};
- 	        message.message = "반갑습니다.";
- 	        message.type = "one";
- 	        message.to = "all";
- 	       connection.send(JSON.stringify(message)); 
-    	    
-    	};
-
-    	connection.onmessage = function(event) {
-    		
-    		  console.log(evt);
-   	        
-    		  $("<div class ='msg_a'>"+evt.data+"</div>").insertBefore('.msg_insert');
-  	             $('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
-    		
-    	    alert(event.userid + ' said: ' + event.data);
-    	};
-    	
-    	connection.onclose = function() {
-    	    	
-    		connection.send("채팅을 종료합니다.");
-   	    }
-   	  
-    	   
-	     $("#message").keydown(function (key) {
-	         if (key.keyCode == 13) {
-	        	 var msg=$(this).val();
-	        	 $(this).val('');
-	        	 $("<div class ='msg_b'>"+msg+"</div>").insertBefore('.msg_insert');
-	             $('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
-	             
-	             message={};
- 	            message.message = msg;
- 	            message.type = "all";
- 	            message.to = "all";
- 	             
- 	            var to = $("#to").val();
- 	            if ( to != "") {
- 	                message.type = "one";
- 	                message.to = to;
- 	            }
- 	            
- 	           connection.send(JSON.stringify(message));
- 	            
-	         }
-	         
-	      });
-	  
-	    
-	    $('#user').on('click', function(){
-	    	
-	    	$('.msg_box').show();
-	    });
-    			
-    	
-     
-     connection.sdpConstraints.mandatory = {
-    		 OfferToReceiveAudio: true,
-     		 OfferToReceiveVideo:true
-     };
-     
-     var roomid = document.getElementById('txt-roomid');
-     
-     roomid.value = connection.token(); 
-    	 //(Math.random() * 1000).toString().replace('.','');
-     
-     document.getElementById('btn-open-or-join-room').onclick = function(){
-    	 this.disabled = true;
-    	 connection.openOrJoin(roomid.value || 'predefiend-roomid', function(isRoomExists, roomid) {
-          	  alert(isRoomExists ? 'You joined room' : 'You created room');
-        	});
-     }
-    
+        
+        connection.sdpConstraints.mandatory = {
+        		
+        	OfferToReceiveAudio: true,
+        	OfferToReceiveVideo: true
+        		
+        };
+        
+        
+        var roomid = document.getElementById('txt-roomid');
+        
+        roomid.value = teacher_name; 
+       // alert(teacher_name);
+        	//connection.token(); 
+       	 //(Math.random() * 1000).toString().replace('.','');  
+        
+  
+        
+       // document.getElementById('btn-open-or-join-room').onclick = function(){
+       	 
+       	 this.disabled = true;
+       	 connection.openOrJoin(roomid.value || 'predefiend-roomid', function(isRoomExists, roomid) {
+             	  alert(isRoomExists ? 'You joined room' : 'You created room');
+             	  
+           	});
+       	 
+       // }
+       
+        
      connection.onstream = function(event){
     	 var video = event.mediaElement;
     	 console.log(event);
@@ -1285,12 +1235,50 @@ function init3(){
     	 
      };
      
- 
+  
+     connection.onopen = function() {
+    	    //connection.send("初めまして.");
+    	   // sock.send(JSON.stringify(message)); 
+    	};
+
+    	connection.onmessage = function(event) {
+    	   // alert(event.userid + ' said: ' + event.data);
+    		
+    		  $("<div class ='msg_a'>"+event.data+"</div>").insertBefore('.msg_insert');
+	             $('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
+    	
+    	
+    	};
+    	  $("#message").keydown(function (key) {
+  	         if (key.keyCode == 13) {
+  	        	 var msg=$(this).val();
+  	        	 $(this).val('');
+  	        	 $("<div class ='msg_b'>"+msg+"</div>").insertBefore('.msg_insert');
+  	             $('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
+  	             
+   	       
+   	            
+   	         connection.send(msg);
+   	            
+  	         }
+  	         
+  	      });
+    	
+    	
+    
+ 	    
+ 	    $('#user').on('click', function(){
+ 	    	
+ 	    	$('.msg_box').show();
+ 	    });
+     			
+ 	
      
      
 	});
 };
-     
+
+
     
 
 
